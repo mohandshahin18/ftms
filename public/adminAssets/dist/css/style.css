@@ -1,0 +1,100 @@
+
+/*start adminLTE changes*/
+
+body:not(.sidebar-mini-md) .content-wrapper, body:not(.sidebar-mini-md) .main-footer, body:not(.sidebar-mini-md) .main-header {
+    margin-left: 0px;
+}
+@media (min-width: 768px) {
+    body:not(.sidebar-mini-md) .content-wrapper,
+    body:not(.sidebar-mini-md) .main-footer,
+    body:not(.sidebar-mini-md) .main-header {
+        margin-left: 0px;
+    }
+}
+/*change head right inndent*/
+.layout-navbar-fixed .wrapper .main-header{
+    right: 29px;
+}
+
+/*end adminLTE changes*/
+
+
+/* start setting sidebar */
+
+.settings-box{
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 260px;
+    height: 100%;
+    background-color: #343a40;
+    z-index: 9999;
+    padding: 20px;
+    transition: 0.3s;
+    line-height: 2.7;
+    text-align: right;
+    /* direction: rtl; */
+
+}
+/* style to hide setting-box */
+.hide-settings{
+    right: -260px;
+}
+
+.toggle-settings{
+    position: absolute;
+    left: -32px;
+    top: 0px;
+    background-color: #343a40;
+    color: #fff;
+    padding: 1px;
+    font-size: 20px;
+    border-radius: 3px 0 0 3px;
+    cursor: pointer;
+    padding-right: 17px;
+    padding-left: 6px;
+}
+
+.navbar-ul-most-right{
+    text-align: right;
+
+}
+.navbar-ul-right{
+    text-align: right;
+    margin-right: 30px;
+
+}
+.a-font-color{
+    color: rgba(255, 255, 255, 0.5);
+    display: block;
+}
+.a-font-color:hover{
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    padding: 3px;
+
+}
+.setting-li:hover{
+    outline: 0;
+    background: red;
+    display: block;
+    border-radius: 4px;
+    -webkit-transition: 0.5s;
+    -o-transition: 0.5s;
+    -moz-transition: 0.5s;
+    transition: 0.5s;
+}
+.li-selected{
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    outline: 0;
+    background: #337ab7;
+    display: block;
+    border-radius: 4px;
+    padding: 3px;
+}
+ul{
+    list-style-type: none;
+}
+/* end setting sidebar */
+

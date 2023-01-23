@@ -1,0 +1,135 @@
+    /* pagination2 */
+    .pagination2 {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        grid-gap: 7px;
+        margin: 0px;
+        padding: 0;
+        list-style: none;
+    }
+
+    .pagination2 li {
+        display: inline-block;
+    }
+
+    .pagination2 li a {
+        font-size: 15px;
+        font-weight: 500;
+        margin: 0;
+        color: #626262;
+        border-radius: 0px;
+        display: inline-block;
+        text-decoration: none
+    }
+
+    .pagination2>li>a,
+    .pagination2>li>span {
+        padding: 8px 16px;
+        font-size: 15px;
+        border: 1px solid #e3e3e3;
+        border-radius: 0px;
+        transition: all 0.5s ease-in-out;
+    }
+
+    .pagination2>li>span {
+        padding: 10px 16px;
+    }
+
+    .pagination2>li:last-child>a,
+    .pagination2>li:last-child>span,
+    .pagination2>li:first-child>a,
+    .pagination2>li:first-child>span {
+        border-radius: 0px;
+    }
+
+    .pagination2 li a:focus,
+    .pagination2 li a:hover,
+    .pagination2 li span:focus,
+    .pagination2 li span:hover,
+    .pagination2 li span.current {
+        background-color: #1e272f;
+        border-color: #1e272f;
+        color: #fff;
+    }
+
+    .pagination2>.active>a,
+    .pagination2>.active>a:focus,
+    .pagination2>.active>a:hover,
+    .pagination2>.active>span,
+    .pagination2>.active>span:focus,
+    .pagination2>.active>span:hover {
+        background-color: #1e272f;
+        border-color: #1e272f;
+        color: #fff;
+    }
+
+    /* Port navigation */
+
+
+    /*search */
+
+    .search-wrapper{
+        position: relative;
+    }
+    .search-wrapper input:focus{
+        /* border-right: none; */
+        /* box-shadow:none */
+
+    }
+    .search-wrapper input:focus~.btn-search{
+        border: 1px solid #86b7fe !important;
+        /* outline: 0 !important; */
+        box-shadow : 0 0 0 0.25rem rgb(13 110 253 / 25%) !important;
+    }
+
+    .search-wrapper button{
+        border: 1px solid #ced4da !important;
+    }
+
+    .search-result{
+        background: #e2e2e2;
+        position: absolute;
+        width: 100%;
+        /* height: auto; */
+        top: 38px;
+        left: 0;
+        border-radius: .375rem;
+        border-top-right-radius: 0;
+        border-top-left-radius: 0;
+        /* border: 1px solid #ced4da; */
+        border-top: none;
+        display: none;
+
+    }
+
+    .search-result ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+
+    .search-result ul li a {
+       width: 100%;
+       padding: 8px 15px;
+       display: block;
+       text-decoration: none;
+       color: #000
+    }
+    .search-result ul li a u{
+        text-decoration: none;
+        /* color: #b40000 */
+        font-weight: 600
+    }
+    .search-result ul li a:hover{
+        background: #dbdbdb
+    }
+
+
+    /* modal  */
+    .modal-body{
+        height: 450px;
+        overflow-y: scroll;
+    }
