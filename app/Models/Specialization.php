@@ -13,4 +13,17 @@ class Specialization extends Model
     public function university(){
         return $this->belongsTo(University::class)->withDefault();
     }
+
+
+    // with student
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
+
+      // with teacher
+      public function teachers()
+      {
+          return $this->hasMany(Teacher::class);
+      }
 }

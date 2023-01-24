@@ -70,10 +70,10 @@
                             </div>
 
                             {{-- University --}}
-                            <div class="col-lg-12">
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="mb-2">University</label>
-                                    <select name="company_id" class="form-control" id="">
+                                    <select name="university_id" class="form-control" id="">
                                         <option data-display="Select University">Select University</option>
                                         @foreach ($universities as $university)
                                             <option value="{{ $university->id }}">{{ $university->name }}</option>
@@ -82,8 +82,21 @@
                                 </div>
                             </div>
 
+                            {{-- specialization --}}
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="mb-2">Specialization</label>
+                                    <select name="specialization_id" class="form-control" id="">
+                                        <option data-display="Select Specialization">Select Specialization</option>
+                                        @foreach ($specializations as $specialization)
+                                            <option value="{{ $specialization->id }}">{{ $specialization->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
 
-                            {{-- address  --}}
+
+                            {{-- image  --}}
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="mb-2">Teacher Image</label>

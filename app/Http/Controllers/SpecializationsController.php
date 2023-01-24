@@ -39,7 +39,7 @@ class SpecializationsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|min:3',
+            'name' => 'required|min:2',
             'university_id'=>'required'
         ]);
 

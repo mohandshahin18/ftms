@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TeacherRequest;
+use App\Models\Specialization;
 use App\Models\Teacher;
 use App\Models\University;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        $teachers = Teacher::with('university')->latest('id')->paginate(env('PAGINATION_COUNT '));
+        $teachers = Teacher::with('university','specialization')->latest('id')->paginate(env('PAGINATION_COUNT '));
         return view('admin.teachers.index',compact('teachers'));
     }
 
@@ -30,7 +31,8 @@ class TeacherController extends Controller
     public function create()
     {
         $universities = University::get();
-        return view('admin.teachers.create',compact('universities'));
+        $specializations = Specialization::get();
+        return view('admin.teachers.create',compact('universities','specializations'));
     }
 
     /**
@@ -48,6 +50,7 @@ class TeacherController extends Controller
             'phone' => $request->phone,
             'email' => $request->email,
             'university_id' => $request->university_id,
+            'specialization_id' => $request->specialization_id,
             'password' => Hash::make($request->password),
             'image' => $path,
         ]);

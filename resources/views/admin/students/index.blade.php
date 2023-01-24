@@ -1,10 +1,9 @@
 @extends('admin.master')
 
-@section('title', 'Teachers')
-@section('sub-title', 'Teachers')
-@section('teachers-menu-open', 'menu-open')
-@section('teachers-active', 'active')
-@section('index-teacher-active', 'active')
+@section('title', 'Students')
+@section('sub-title', 'Students')
+@section('students-menu-open', 'menu-open')
+@section('students-active', 'active')
 
 @section('styles')
 
@@ -26,8 +25,8 @@
 
 
                         <div class="btn-website">
-                            <a href="{{ route('admin.teachers.create') }}" class="btn btn-primary"><i
-                                    class="fas fa-plus"></i> Add Teacher</a>
+                            <a href="{{ route('admin.students.trash') }}" class="  btn btn-outline-warning text-dark"><i
+                                class="fas fa-trash"></i> Recycle Bin</a>
                         </div>
 
 
@@ -39,9 +38,10 @@
                         <thead>
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
-                                <th>Teacher name</th>
-                                <th>Teacher email</th>
-                                <th>Teacher phone</th>
+                                <th>Student name</th>
+                                <th>Student email</th>
+                                <th>Student phone</th>
+                                <th>Student ID</th>
                                 <th>University name</th>
                                 <th>Specialization name</th>
                                 <th>Action</th>
@@ -49,17 +49,18 @@
                         </thead>
 
                         <tbody>
-                            @forelse ($teachers as $teacher)
-                                <tr id="row_{{ $teacher->id }}">
-                                    <td>{{ $teacher->id }}</td>
-                                    <td>{{ $teacher->name }}</td>
-                                    <td>{{ $teacher->email }}</td>
-                                    <td>{{ $teacher->phone }}</td>
-                                    <td>{{ $teacher->university->name }}</td>
-                                    <td>{{ $teacher->specialization->name }}</td>
+                            @forelse ($students as $student)
+                                <tr id="row_{{ $student->id }}">
+                                    <td>{{ $student->id }}</td>
+                                    <td>{{ $student->name }}</td>
+                                    <td>{{ $student->email }}</td>
+                                    <td>{{ $student->phone }}</td>
+                                    <td>{{ $student->student_id }}</td>
+                                    <td>{{ $student->university->name }}</td>
+                                    <td>{{ $student->specialization->name }}</td>
                                     <td>
                                         <form class="d-inline delete_form"
-                                            action="{{ route('admin.teachers.destroy', $teacher->id) }}" method="POST">
+                                            action="{{ route('admin.students.destroy', $student->id) }}" method="POST">
                                             @csrf
                                             @method('delete')
                                             <button class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i> </button>
@@ -79,7 +80,7 @@
             </div>
             <!-- /.card -->
             <div class="mb-3">
-                {{ $teachers->links() }}
+                {{ $students->links() }}
             </div>
         </div>
     </div>
@@ -91,47 +92,8 @@
 
 @section('scripts')
 
-    {{-- Messages Script --}}
-    @if (session('msg'))
-        <script>
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 4000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            })
-
-            @if (session('type') == 'success')
-                Toast.fire({
-                    icon: 'success',
-                    title: '{{ session('msg') }}'
-                })
-            @elseif (session('type') == 'danger')
-                Toast.fire({
-                    icon: 'warning',
-                    title: '{{ session('msg') }}'
-                })
-            @else
-                Toast.fire({
-                    icon: 'info',
-                    title: '{{ session('msg') }}'
-                })
-            @endif
-        </script>
-    @endif
 
     <script>
-
-        // to hide alert ------
-        setTimeout(() => {
-            $('.alert-success').fadeOut(3000);
-        }, 500);
-
 
         $('.delete_form').on('submit', function(e) {
             e.preventDefault();

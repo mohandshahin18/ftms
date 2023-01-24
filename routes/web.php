@@ -1,12 +1,14 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\SpecializationsController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TrainerController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UniversityController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SpecializationsController;
+use App\Http\Controllers\StudentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,5 +52,16 @@ Route::prefix('admin')->name('admin.')->group(function() {
     // teacher
     Route::resource('teachers', TeacherController::class);
 
+    //student
+    Route::get('students/trash', [StudentController::class, 'trash'])->name('students.trash');
+    Route::delete('students/{id}/forcedelete', [StudentController::class, 'forceDelete'])->name('students.forcedelete');
+    Route::post('students/{id}/restore', [StudentController::class, 'restore'])->name('students.restore');
+    Route::resource('students', StudentController::class);
+
+
 
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

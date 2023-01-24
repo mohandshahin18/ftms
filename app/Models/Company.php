@@ -19,8 +19,15 @@ class Company extends Model
         return $this->belongsTo(Category::class);
     }
 
+    //with trainers
     public function trainers()
     {
         return $this->hasMany(Trainer::class);
+    }
+
+    // with student
+    public function students()
+    {
+        return $this->hasMany(Student::class);
     }
 }

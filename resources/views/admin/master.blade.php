@@ -151,8 +151,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <img width="30" height="30" style="margin-top: -5px; object-fit: contain" src="{{ asset('adminAssets/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
           Mohanad Shahin
         </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <div class="dropdown-divider"></div>
+        <div class="dropdown-menu  dropdown-menu-right">
           <a href="#" class="dropdown-item">
             <i class="fas fa-user mr-2"></i>My Profile
           </a>
@@ -357,8 +356,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 
-          <li class="nav-item">
-            <a href="pages/gallery.html" class="nav-link">
+          <li class="nav-item @yield('students-menu-open')">
+            <a href="{{ route('admin.students.index') }}" class="nav-link @yield('students-active')">
               <i class="nav-icon fas fa-users"></i>
               <p>
               Students

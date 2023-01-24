@@ -35,6 +35,7 @@ class TeacherRequest extends FormRequest
             'phone' => ['required' , 'min:10' , 'max:20'],
             'password' => ['required'],
             'university_id' => ['required'],
+            'specialization_id' => ['required'],
             'image' => [$rule, 'mimes:png,jpg,jpeg,webp,jfif,svg', 'max:2048'],
 
         ];

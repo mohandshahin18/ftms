@@ -11,24 +11,21 @@ class University extends Model
     protected $guarded = [];
 
 
-
+    // with specialization
     public function specializations(){
         return $this->hasMany(Specialization::class);
     }
 
-
+    // with teacher
     public function teachers(){
         return $this->hasMany(Teacher::class);
     }
 
-
-    protected static function boot() {
-        parent::boot();
-
-        static::deleting(function($university) {
-            $university->specializations()->delete();
-            // $university->specializations()->delete();
-
-        });
+    // with student
+    public function students()
+    {
+        return $this->hasMany(Student::class);
     }
+
+
 }
