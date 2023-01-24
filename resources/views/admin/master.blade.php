@@ -23,6 +23,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.min.css" />
 
 
+
   @yield('styles')
   <style>
     .sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
@@ -275,6 +276,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
             </ul>
           </li>
+
+          <li class="nav-item @yield('teachers-menu-open')">
+            <a href="#" class="nav-link @yield('teachers-active')">
+              <i class="nav-icon fas fa-chalkboard-teacher"></i>
+              <p>
+                Teachers
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('admin.teachers.index') }}" class="nav-link @yield('index-teacher-active')">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>All Teachers</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('admin.teachers.create') }}" class="nav-link @yield('add-teacher-active')">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Teacher</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
 
 
           <li class="nav-item @yield('specializations-menu-open')">

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->text('address');
             $table->string('image');
             $table->text('description');
-            $table->foreignId('category_id')->on('categories')->references('id')->constrained('categories','id')->csacascadeOnDelete();
+            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->softDeletes();
             $table->timestamps();
         });

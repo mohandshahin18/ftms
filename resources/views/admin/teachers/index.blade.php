@@ -1,10 +1,10 @@
 @extends('admin.master')
 
-@section('title', 'Trainers')
-@section('sub-title', 'Trainers')
-@section('trainers-menu-open', 'menu-open')
-@section('trainers-active', 'active')
-@section('index-trainer-active', 'active')
+@section('title', 'Teachers')
+@section('sub-title', 'Teachers')
+@section('teachers-menu-open', 'menu-open')
+@section('teachers-active', 'active')
+@section('index-teacher-active', 'active')
 
 @section('styles')
 
@@ -26,8 +26,8 @@
 
 
                         <div class="btn-website">
-                            <a href="{{ route('admin.trainers.create') }}" class="btn btn-primary"><i
-                                    class="fas fa-plus"></i> Add Trainer</a>
+                            <a href="{{ route('admin.teachers.create') }}" class="btn btn-primary"><i
+                                    class="fas fa-plus"></i> Add Teacher</a>
                         </div>
 
 
@@ -39,21 +39,23 @@
                         <thead>
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
-                                <th>Trainer Name</th>
-                                <th>Company name</th>
+                                <th>Teacher name</th>
+                                <th>Teacher email</th>
+                                <th>Teacher phone</th>
+                                <th>University name</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            @forelse ($trainers as $trainer)
-                                <tr id="row_{{ $trainer->id }}">
-                                    <td>{{ $trainer->id }}</td>
-                                    <td>{{ $trainer->name }}</td>
-                                    <td>{{ $trainer->company->name }}</td>
+                            @forelse ($teachers as $teacher)
+                                <tr id="row_{{ $teacher->id }}">
+                                    <td>{{ $teacher->id }}</td>
+                                    <td>{{ $teacher->name }}</td>
+                                    <td>{{ $teacher->university->name }}</td>
                                     <td>
                                         <form class="d-inline delete_form"
-                                            action="{{ route('admin.trainers.destroy', $trainer->id) }}" method="POST">
+                                            action="{{ route('admin.teachers.destroy', $teacher->id) }}" method="POST">
                                             @csrf
                                             @method('delete')
                                             <button class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i> </button>
@@ -73,7 +75,7 @@
             </div>
             <!-- /.card -->
             <div class="mb-3">
-                {{ $trainers->links() }}
+                {{ $teachers->links() }}
             </div>
         </div>
     </div>

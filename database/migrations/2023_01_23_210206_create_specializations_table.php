@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('specializations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('university_id')->on('universiteis')->references('id')->constrained('universiteis','id')->cascadeOnDelete();
+            $table->foreignId('university_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

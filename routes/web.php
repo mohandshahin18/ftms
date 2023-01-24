@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\SpecializationsController;
+use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\UniversityController;
 use Illuminate\Support\Facades\Route;
@@ -40,7 +41,14 @@ Route::prefix('admin')->name('admin.')->group(function() {
     //university
     Route::resource('universities',UniversityController::class);
 
+    // specialization
     Route::resource('specializations', SpecializationsController::class);
+
+    // trainer
     Route::resource('trainers', TrainerController::class);
+
+    // teacher
+    Route::resource('teachers', TeacherController::class);
+
 
 });

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TrainerRequest extends FormRequest
+class TeacherRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,23 +21,22 @@ class TrainerRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-
-
-
     public function rules()
     {
         $rule = 'required';
-        
+
         if($this->method() == 'PUT') {
             $rule = 'nullable';
         }
 
         return [
-            'name' => ['required', 'min:2'],
-            'email' => ['required'],
+            'name' => ['required','min:3','string'],
+            'email' => ['required' , 'email'],
+            'phone' => ['required' , 'min:10' , 'max:20'],
             'password' => ['required'],
-            'phone' => ['required', 'min:7'],
+            'university_id' => ['required'],
             'image' => [$rule, 'mimes:png,jpg,jpeg,webp,jfif,svg', 'max:2048'],
+
         ];
     }
 }
