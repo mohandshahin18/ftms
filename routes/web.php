@@ -42,6 +42,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
     //university
     Route::resource('universities',UniversityController::class);
+    Route::get('getSpecialization/{id}', [UniversityController::class, 'getSpecialization']);
 
     // specialization
     Route::resource('specializations', SpecializationsController::class);

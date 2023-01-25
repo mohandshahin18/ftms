@@ -322,7 +322,7 @@ of Simple CSS Waves-->
                              {{-- University --}}
                              <div class="user-box">
                                 <label class="mb-2">University</label>
-                                    <select name="university_id" class="form-control" id="">
+                                    <select name="university_id" class="form-control" id="university_id">
                                         <option data-display="Select University">Select University</option>
                                         @foreach ($universities as $university)
                                             <option value="{{ $university->id }}">{{ $university->name }}</option>
@@ -332,10 +332,10 @@ of Simple CSS Waves-->
                              {{-- Specializations --}}
                              <div class="user-box">
                                 <label class="mb-2">Specialization</label>
-                                    <select name="specialization_id" class="form-control" id="">
+                                    <select name="specialization_id" class="form-control" id="specialization_id">
                                         <option data-display="Select Specialization">Select Specialization</option>
                                         @foreach ($specializations as $specialization)
-                                            <option value="{{ $specialization->id }}">{{ $specialization->name }}</option>
+                                            
                                         @endforeach
                                     </select>
                             </div>
@@ -395,8 +395,29 @@ of Simple CSS Waves-->
         </div>
     </div>
     <!--Header ends-->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 
-
+    {{-- Ajax Request --}}
+    <script>
+            $(document).ready(function() {
+                $("#university_id").on("change", function() {
+                    var uni_id = $(this).val();
+                    if(uni_id) {
+                        $.ajax({
+                            url: "admin/getSpecialization/"+ uni_id,
+                            type: "GET",
+                            dataType: "json",
+                            success: function(data) {
+                                $("#specialization_id").empty();
+                                $.each(data, function(key, value) {
+                                    $("#specialization_id").append('<option value="'+ key+ '">'+ value+ '</option>');
+                                });
+                            },
+                        });
+                    }
+                });
+            });
+    </script>
 </body>
 
 </html>

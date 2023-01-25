@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UniversityRequest;
+use App\Models\Specialization;
 use App\Models\University;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UniversityController extends Controller
 {
@@ -104,5 +106,16 @@ class UniversityController extends Controller
         $universities= University::findOrFail($id);
         $universities->delete();
         return $id;
+    }
+
+
+    /**
+     * return specialization based on university
+     *
+     */
+    public function getSpecialization($id)
+    {
+        $specializations = Specialization::where('university_id', $id)->pluck("name", 'id');
+        return json_encode($specializations);
     }
 }
