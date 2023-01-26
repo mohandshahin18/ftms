@@ -159,14 +159,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <img width="30" height="30" style="margin-top: -5px; object-fit: contain"
                             src="{{ asset('adminAssets/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2"
                             alt="User Image">
-                        {{ Auth::user()->name }}
+                        {{-- {{ Auth::user()->name }} --}}
                     </a>
                     <div class="dropdown-menu  dropdown-menu-right">
                         <a href="#" class="dropdown-item">
                             <i class="fas fa-user mr-2"></i>My Profile
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a href="{{ route('teacher.logout') }}" class="dropdown-item">
+                        <a href="{{ route('logout') }}" class="dropdown-item">
                             <i class="fas fa-sign-out-alt mr-2"></i> LogOut
                         </a>
 
@@ -209,7 +209,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </li>
 
 
-<<<<<<< HEAD
 
 
                         <li class="nav-item @yield('companies-menu-open')">
@@ -265,56 +264,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </li>
                             </ul>
                         </li>
-=======
-          <li class="nav-item @yield('companies-menu-open')">
-            <a href="#" class="nav-link @yield('companies-active')">
-              <i class="nav-icon fas fa-laptop-house"></i>
-              <p>
-                Companies
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{ route('admin.companies.index') }}" class="nav-link @yield('index-company-active')">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>All Companies</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('admin.companies.create') }}" class="nav-link @yield('add-company-active')">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Add Company</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-
-
-          <li class="nav-item @yield('categories-menu-open')">
-            <a href="#" class="nav-link @yield('categories-active')">
-              <i class="nav-icon fas fa-star"></i>
-              <p>
-                Categories
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{ route('admin.categories.index') }}" class="nav-link @yield('index-category-active')">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>All Categories</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('admin.categories.create') }}" class="nav-link @yield('add-category-active')">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Add Category</p>
-                </a>
-              </li>
-            </ul>
-          </li>
->>>>>>> 03f42c39875fa11e71a8503fed12aa833390e6c4
 
 
 
@@ -344,7 +293,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </ul>
                         </li>
 
-<<<<<<< HEAD
                         <li class="nav-item @yield('teachers-menu-open')">
                             <a href="#" class="nav-link @yield('teachers-active')">
                                 <i class="nav-icon fas fa-chalkboard-teacher"></i>
@@ -426,83 +374,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </li>
                             </ul>
                         </li>
-=======
-
-          <li class="nav-item @yield('teachers-menu-open')">
-            <a href="#" class="nav-link @yield('teachers-active')">
-              <i class="nav-icon fas fa-chalkboard-teacher"></i>
-              <p>
-                Teachers
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{ route('admin.teachers.index') }}" class="nav-link @yield('index-teacher-active')">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>All Teachers</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('admin.teachers.create') }}" class="nav-link @yield('add-teacher-active')">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Add Teacher</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-
-
-          <li class="nav-item @yield('specializations-menu-open')">
-            <a href="#" class="nav-link @yield('specializations-active')">
-              <i class="nav-icon fas fa-graduation-cap"></i>
-              <p>
-                Specializations
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{ route('admin.specializations.index') }}" class="nav-link @yield('index-specialization-active')">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>All Specializations</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('admin.specializations.create') }}" class="nav-link @yield('add-specialization-active')">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Add Specialization</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-
-
-          <li class="nav-item @yield('trainers-menu-open')">
-            <a href="#" class="nav-link @yield('trainers-active')">
-              <i class="fas fa-user-friends nav-icon"></i>
-              <p>
-                Trainers
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{ route('admin.trainers.index') }}" class="nav-link @yield('index-trainer-active')">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>All Trainers</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('admin.trainers.create') }}" class="nav-link @yield('add-trainer-active')">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Add Trainer</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          
->>>>>>> 03f42c39875fa11e71a8503fed12aa833390e6c4
 
           <li class="nav-item @yield('admins-menu-open')">
             <a href="#" class="nav-link @yield('admins-active')">
@@ -596,6 +467,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Main content -->
             <div class="content">
                 <div class="container-fluid">
+                    @dump(Auth::guard())
                     @yield('content')
                 </div><!-- /.container-fluid -->
             </div>

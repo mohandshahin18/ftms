@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 class Teacher extends Authenticatable
 {
     use HasFactory , Notifiable;
-    protected $guard = "teacher";
+    // protected $guard = "teacher";
     // protected $guarded = [];
 
      /**

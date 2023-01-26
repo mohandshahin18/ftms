@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html >
+<html>
 
 <head>
     <meta charset="UTF-8">
@@ -8,7 +8,7 @@
 
     <title>FTMS | Login</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('adminAssets/dist/img/favicon.ico') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <style>
         @font-face {
             font-family: event-reg;
@@ -55,10 +55,12 @@
             border-radius: 10px;
             z-index: 999;
         }
+
         .login-box .img-logo {
-           margin-bottom: 25px
+            margin-bottom: 25px
         }
-        .login-box .alert{
+
+        .login-box .alert {
             text-align: left
         }
 
@@ -76,7 +78,7 @@
 
         .login-box .user-box input {
             width: 100%;
-            padding: 10px ;
+            padding: 10px;
             font-size: 16px;
             color: #fff;
             border: none;
@@ -242,7 +244,8 @@
             .login-box .user-box label {
                 text-align: left
             }
-            .login-box .user-box small{
+
+            .login-box .user-box small {
                 text-align: left !important;
             }
         </style>
@@ -259,28 +262,29 @@ of Simple CSS Waves-->
             <div class="inner-header flex">
                 <div class="all">
                     <div class="login-box">
-                      <div class="img-logo">
+                        <div class="img-logo">
                             <img src="{{ asset('adminAssets/dist/img/logo/S2.png') }}" alt="">
                         </div>
                         @if (session('msg'))
-                        <div class="alert alert-{{ session('type') }} alert-dismissible fade show">{{ session('msg') }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <p aria-hidden="true">&times;</p>
-                        </div>
+                            <div class="alert alert-{{ session('type') }} alert-dismissible fade show">
+                                {{ session('msg') }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <p aria-hidden="true">&times;</p>
+                            </div>
                         @endif
-
-                        <form method="POST" action="{{ route('teacher.login') }}">
+                        {{-- @dump($guard) --}}
+                        <form method="POST" action="{{ route('teacher-login') }}">
                             @csrf
                             <div class="user-box">
                                 <label>Email</label>
-                                <input type="email"  id="email" name="email" value="{{ old('email') }}">
+                                <input type="email" id="email" name="email" value="{{ old('email') }}">
 
                             </div>
 
 
                             <div class="user-box">
                                 <label>Password</label>
-                                <input type="password"  id="password" name="password" value="{{ old('password') }}">
+                                <input type="password" id="password" name="password" value="{{ old('password') }}">
                             </div>
 
 

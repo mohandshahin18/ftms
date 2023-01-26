@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ProfileController;
@@ -8,9 +7,11 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\SpecializationsController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,13 @@ use App\Http\Controllers\SpecializationsController;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::middleware('guest:trainer,teacher')->group(function () {
+    Route::get('{guard}/login' , [UserAuthController::class , 'showLogin'])->name('showlogin');
+
+    Route::post('trainer/login' , [UserAuthController::class , 'trainerLogin'])->name('trainer-login');
+    Route::post('teacher/login' , [UserAuthController::class , 'teacherLogin'])->name('teacher-login');
 });
 
 
@@ -65,6 +73,9 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::delete('students/{id}/forcedelete', [StudentController::class, 'forceDelete'])->name('students.forcedelete');
     Route::post('students/{id}/restore', [StudentController::class, 'restore'])->name('students.restore');
     Route::resource('students', StudentController::class);
+
+    Route::resource('evaluations', EvaluationController::class);
+
 
 
 });
