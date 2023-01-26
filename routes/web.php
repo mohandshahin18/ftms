@@ -2,13 +2,13 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TeacherLogin;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\SpecializationsController;
 
@@ -56,6 +56,9 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
     // teacher
     Route::resource('teachers', TeacherController::class);
+
+    // admin
+    Route::resource('admins', AdminController::class);
 
     //student
     Route::get('students/trash', [StudentController::class, 'trash'])->name('students.trash');

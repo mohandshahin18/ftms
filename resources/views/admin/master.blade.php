@@ -209,6 +209,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </li>
 
 
+<<<<<<< HEAD
 
 
                         <li class="nav-item @yield('companies-menu-open')">
@@ -264,6 +265,56 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </li>
                             </ul>
                         </li>
+=======
+          <li class="nav-item @yield('companies-menu-open')">
+            <a href="#" class="nav-link @yield('companies-active')">
+              <i class="nav-icon fas fa-laptop-house"></i>
+              <p>
+                Companies
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('admin.companies.index') }}" class="nav-link @yield('index-company-active')">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>All Companies</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('admin.companies.create') }}" class="nav-link @yield('add-company-active')">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Company</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+
+          <li class="nav-item @yield('categories-menu-open')">
+            <a href="#" class="nav-link @yield('categories-active')">
+              <i class="nav-icon fas fa-star"></i>
+              <p>
+                Categories
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('admin.categories.index') }}" class="nav-link @yield('index-category-active')">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>All Categories</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('admin.categories.create') }}" class="nav-link @yield('add-category-active')">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Category</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+>>>>>>> 03f42c39875fa11e71a8503fed12aa833390e6c4
 
 
 
@@ -293,6 +344,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </ul>
                         </li>
 
+<<<<<<< HEAD
                         <li class="nav-item @yield('teachers-menu-open')">
                             <a href="#" class="nav-link @yield('teachers-active')">
                                 <i class="nav-icon fas fa-chalkboard-teacher"></i>
@@ -374,7 +426,133 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </li>
                             </ul>
                         </li>
+=======
 
+          <li class="nav-item @yield('teachers-menu-open')">
+            <a href="#" class="nav-link @yield('teachers-active')">
+              <i class="nav-icon fas fa-chalkboard-teacher"></i>
+              <p>
+                Teachers
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('admin.teachers.index') }}" class="nav-link @yield('index-teacher-active')">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>All Teachers</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('admin.teachers.create') }}" class="nav-link @yield('add-teacher-active')">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Teacher</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+
+          <li class="nav-item @yield('specializations-menu-open')">
+            <a href="#" class="nav-link @yield('specializations-active')">
+              <i class="nav-icon fas fa-graduation-cap"></i>
+              <p>
+                Specializations
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('admin.specializations.index') }}" class="nav-link @yield('index-specialization-active')">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>All Specializations</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('admin.specializations.create') }}" class="nav-link @yield('add-specialization-active')">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Specialization</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+
+          <li class="nav-item @yield('trainers-menu-open')">
+            <a href="#" class="nav-link @yield('trainers-active')">
+              <i class="fas fa-user-friends nav-icon"></i>
+              <p>
+                Trainers
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('admin.trainers.index') }}" class="nav-link @yield('index-trainer-active')">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>All Trainers</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('admin.trainers.create') }}" class="nav-link @yield('add-trainer-active')">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Trainer</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          
+>>>>>>> 03f42c39875fa11e71a8503fed12aa833390e6c4
+
+          <li class="nav-item @yield('admins-menu-open')">
+            <a href="#" class="nav-link @yield('admins-active')">
+              <i class="fas fa-user-shield nav-icon"></i>
+              <p>
+                Admins
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('admin.admins.index') }}" class="nav-link @yield('index-admin-active')">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>All Admins</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('admin.admins.create') }}" class="nav-link @yield('add-admin-active')">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Admin</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          
+          <li class="nav-item @yield('evaluations-menu-open')">
+            <a href="#" class="nav-link @yield('evaluations-active')">
+              {{-- <i class="fas fa-file-chart-line"></i> --}}
+              <i class="fas fa-file-signature nav-icon"></i>
+              <p>
+                Evaluations
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('admin.evaluations.index') }}" class="nav-link @yield('index-evaluation-active')">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>All evaluations</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('admin.evaluations.create') }}" class="nav-link @yield('add-evaluation-active')">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Evaluation</p>
+                </a>
+              </li>
+            </ul>
+          </li>
 
 
 

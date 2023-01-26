@@ -31,4 +31,10 @@ class Company extends Authenticatable
     {
         return $this->hasMany(Student::class);
     }
+
+    // with evaluation
+    public function evaluations()
+    {
+        return $this->hasMany(Evaluation::class);
+    }
 }

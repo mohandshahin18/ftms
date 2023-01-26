@@ -36,4 +36,10 @@ class Student extends Authenticatable
     {
         return $this->belongsTo(Company::class)->withDefault();
     }
+
+    // with evaluation
+    public function evaluations()
+    {
+        return $this->hasMany(Evaluation::class);
+    }
 }
