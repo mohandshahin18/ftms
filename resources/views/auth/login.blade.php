@@ -8,7 +8,7 @@
 
     <title>FTMS | Login</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('adminAssets/dist/img/favicon.ico') }}">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" >
     <style>
         @font-face {
             font-family: event-reg;
@@ -55,6 +55,12 @@
             border-radius: 10px;
             z-index: 999;
         }
+        .login-box .img-logo {
+           margin-bottom: 25px
+        }
+        .login-box .alert{
+            text-align: left
+        }
 
         .login-box h2 {
             margin: 0 0 30px;
@@ -70,7 +76,7 @@
 
         .login-box .user-box input {
             width: 100%;
-            padding: 10px 0;
+            padding: 10px ;
             font-size: 16px;
             color: #fff;
             border: none;
@@ -113,7 +119,7 @@
             color: #5d78ff !important;
         }
 
-        .login-box form button {
+        .login-box form .btn-login {
             position: relative;
             display: inline-block;
             padding: 10px 20px;
@@ -131,7 +137,7 @@
 
         }
 
-        .login-box button:hover {
+        .login-box .btn-login:hover {
             background: #5d78ff;
             color: #fff;
             border-radius: 5px;
@@ -141,12 +147,12 @@
                 0 0 100px #5d78ff;
         }
 
-        .login-box button span {
+        .login-box .btn-login span {
             position: absolute;
             display: block;
         }
 
-        .login-box button span:nth-child(1) {
+        .login-box .btn-login span:nth-child(1) {
             top: 0;
             left: -100%;
             width: 100%;
@@ -166,7 +172,7 @@
             }
         }
 
-        .login-box button span:nth-child(2) {
+        .login-box .btn-login span:nth-child(2) {
             top: -100%;
             right: 0;
             width: 2px;
@@ -187,7 +193,7 @@
             }
         }
 
-        .login-box button span:nth-child(3) {
+        .login-box .btn-login span:nth-child(3) {
             bottom: 0;
             right: -100%;
             width: 100%;
@@ -208,7 +214,7 @@
             }
         }
 
-        .login-box button span:nth-child(4) {
+        .login-box .btn-login span:nth-child(4) {
             bottom: -100%;
             left: 0;
             width: 2px;
@@ -256,36 +262,36 @@ of Simple CSS Waves-->
                       <div class="img-logo">
                             <img src="{{ asset('adminAssets/dist/img/logo/S2.png') }}" alt="">
                         </div>
-                        <form method="POST" action="{{ route('login') }}">
+                        @if (session('msg'))
+                        <div class="alert alert-{{ session('type') }} alert-dismissible fade show">{{ session('msg') }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <p aria-hidden="true">&times;</p>
+                        </div>
+                        @endif
+
+                        <form method="POST" action="{{ route('teacher.login') }}">
                             @csrf
                             <div class="user-box">
                                 <label>Email</label>
-                                <input type="email" class="@error('email') error @enderror" name="email"
-                                    value="{{ old('email') }}">
-                                @error('email')
-                                    <small>{{ $message }}</small>
-                                @enderror
+                                <input type="email"  id="email" name="email" value="{{ old('email') }}">
+
                             </div>
 
 
                             <div class="user-box">
                                 <label>Password</label>
-                                <input type="password" class="@error('password') error @enderror" name="password"
-                                    autocomplete="new-password">
-                                @error('password')
-                                    <small>{{ $message }}</small>
-                                @enderror
+                                <input type="password"  id="password" name="password" value="{{ old('password') }}">
                             </div>
 
 
-                            <div class="form-check " style="display: flex; justify-content: flex-end;">
-                                <input class="form-check-input" type="checkbox" name="remember" id="remember"
+                            {{-- <div class="form-check " style="display: flex; ">
+                                <input class="form-check-input" type="checkbox"  name="remember" id="remember"
                                     {{ old('remember') ? 'checked' : '' }}>
 
                                 <label class="form-check-label" for="remember">
                                     Remmeber me
                                 </label>
-                            </div>
+                            </div> --}}
 
 
 
@@ -327,7 +333,10 @@ of Simple CSS Waves-->
     </div>
     <!--Header ends-->
 
-    
+    <script src="{{ asset('adminAssets/plugins/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('adminAssets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+
 </body>
 
 </html>

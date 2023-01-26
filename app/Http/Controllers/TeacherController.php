@@ -7,6 +7,7 @@ use App\Models\Specialization;
 use App\Models\Teacher;
 use App\Models\University;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 
@@ -107,4 +108,6 @@ class TeacherController extends Controller
         $teacher->forceDelete();
         return $teacher->id;
     }
+
+
 }

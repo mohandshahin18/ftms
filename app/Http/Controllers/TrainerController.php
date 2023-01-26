@@ -6,6 +6,7 @@ use App\Http\Requests\TrainerRequest;
 use App\Models\Company;
 use App\Models\Trainer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 
@@ -107,4 +108,5 @@ class TrainerController extends Controller
         $trainer->forceDelete();
         return $trainer->id;
     }
+
 }

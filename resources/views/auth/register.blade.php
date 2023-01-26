@@ -79,7 +79,7 @@
         .login-box .user-box input ,
         .login-box .user-box select {
             width: 100%;
-            padding: 10px 0;
+            padding: 10px 0 ;
             font-size: 16px;
             color: #fff;
             border: none;
@@ -273,7 +273,7 @@ of Simple CSS Waves-->
                             {{-- name --}}
                             <div class="user-box">
                                 <label>Name</label>
-                                <input type="name" class="@error('name') error @enderror" name="name"
+                                <input type="name" class="@error('name') error @enderror" name="name" placeholder="Enter your name"
                                     value="{{ old('name') }}">
                                 @error('name')
                                     <small>{{ $message }}</small>
@@ -283,7 +283,7 @@ of Simple CSS Waves-->
                             {{-- email --}}
                             <div class="user-box">
                                 <label>Email</label>
-                                <input type="email" class="@error('email') error @enderror" name="email"
+                                <input type="email" class="@error('email') error @enderror" name="email" placeholder="Enter your email"
                                     value="{{ old('email') }}">
                                 @error('email')
                                     <small>{{ $message }}</small>
@@ -293,7 +293,7 @@ of Simple CSS Waves-->
                             {{-- phone --}}
                             <div class="user-box">
                                 <label>Phone</label>
-                                <input type="text" class="@error('phone') error @enderror" name="phone"
+                                <input type="text" class="@error('phone') error @enderror" name="phone" placeholder="Enter your phone"
                                     value="{{ old('phone') }}">
                                 @error('phone')
                                     <small>{{ $message }}</small>
@@ -303,7 +303,7 @@ of Simple CSS Waves-->
                             {{-- email --}}
                             <div class="user-box">
                                 <label>Student ID</label>
-                                <input type="text" class="@error('student_id') error @enderror" name="student_id"
+                                <input type="text" class="@error('student_id') error @enderror" name="student_id" placeholder="Enter your ID"
                                     value="{{ old('student_id') }}">
                                 @error('student_id')
                                     <small>{{ $message }}</small>
@@ -335,7 +335,7 @@ of Simple CSS Waves-->
                                     <select name="specialization_id" class="form-control" id="specialization_id">
                                         <option data-display="Select Specialization">Select Specialization</option>
                                         @foreach ($specializations as $specialization)
-                                            
+
                                         @endforeach
                                     </select>
                             </div>
@@ -345,7 +345,7 @@ of Simple CSS Waves-->
 
                             <div class="user-box">
                                 <label>Password</label>
-                                <input type="password" class="@error('password') error @enderror" name="password"
+                                <input type="password" class="@error('password') error @enderror" name="password" placeholder="Enter your password"
                                     autocomplete="new-password">
                                 @error('password')
                                     <small>{{ $message }}</small>
@@ -354,7 +354,7 @@ of Simple CSS Waves-->
 
                             <div class="user-box">
                                 <label>Confirm Password</label>
-                                <input type="password" name="password_confirmation" autocomplete="new-password">
+                                <input type="password" name="password_confirmation"  placeholder="Confirm your password" autocomplete="new-password">
 
                             </div>
 
