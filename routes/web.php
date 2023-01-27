@@ -7,11 +7,9 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\SpecializationsController;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,13 +27,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware('guest:trainer,teacher')->group(function () {
-    Route::get('{guard}/login' , [UserAuthController::class , 'showLogin'])->name('showlogin');
-
-    Route::post('trainer/login' , [UserAuthController::class , 'trainerLogin'])->name('trainer-login');
-    Route::post('teacher/login' , [UserAuthController::class , 'teacherLogin'])->name('teacher-login');
+Route::get('/selection', function () {
+    return view('auth.selection');
 });
-
 
 
 Route::prefix('admin')->name('admin.')->group(function() {
@@ -80,14 +74,4 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-require __DIR__.'/auth.php';

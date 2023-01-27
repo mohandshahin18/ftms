@@ -166,7 +166,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <i class="fas fa-user mr-2"></i>My Profile
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a href="{{ route('logout') }}" class="dropdown-item">
+                        <a href="" class="dropdown-item">
                             <i class="fas fa-sign-out-alt mr-2"></i> LogOut
                         </a>
 
@@ -399,7 +399,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </ul>
           </li>
 
-          
+
           <li class="nav-item @yield('evaluations-menu-open')">
             <a href="#" class="nav-link @yield('evaluations-active')">
               {{-- <i class="fas fa-file-chart-line"></i> --}}
@@ -467,7 +467,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Main content -->
             <div class="content">
                 <div class="container-fluid">
-                    @dump(Auth::guard())
+                    {{-- @dump(Auth::guard()) --}}
                     @yield('content')
                 </div><!-- /.container-fluid -->
             </div>
