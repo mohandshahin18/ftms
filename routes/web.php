@@ -1,14 +1,20 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\UniversityController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\SpecializationsController;
 
 /*
@@ -23,16 +29,36 @@ use App\Http\Controllers\SpecializationsController;
 */
 
 
-Route::get('/', function () {
-    return view('welcome');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+
+Route::group(['namespace' => 'Auth'] ,function() {
+    Route::get('/', [HomeController::class, 'index'])->name('selection')->middleware('guest');
+
+    Route::get('/login/{type}', [LoginController::class, 'loginForm'])->middleware('guest')->name('login.show');
+    Route::post('/login', [LoginController::class, 'login'])->name('login');
+    Route::get('/logout/{type}', [LoginController::class, 'logout'])->name('logout');
+
 });
 
-Route::get('/selection', function () {
-    return view('auth.selection');
+
+Route::group(['namespace' => 'Student'] ,function() {
+
+    Route::get('/student/register',[RegisterController::class,'showStudentRegisterForm'])->name('student.register-view');
+    Route::post('/student/register',[RegisterController::class,'createStudent'])->name('student.register');
+    Route::get('/student/getSpecialization/{id}', [RegisterController::class, 'getSpecialization']);
+
 });
 
 
-Route::prefix('admin')->name('admin.')->group(function() {
+
+
+Route::prefix('admin')->middleware('auth:trainer,teacher,company,admin' )->name('admin.')->group(function() {
+
+    //home page
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
 
     // Category
     Route::get('categories/trash', [CategoryController::class, 'trash'])->name('categories.trash');
@@ -70,8 +96,12 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
     Route::resource('evaluations', EvaluationController::class);
 
-
-
 });
 
+// Route::get('/email/verify', function () {
+//     return view('auth.verify');
+// })->middleware('guest')->name('verification.notice');
 
+// Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

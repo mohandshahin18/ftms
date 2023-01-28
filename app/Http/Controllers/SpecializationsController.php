@@ -69,9 +69,11 @@ class SpecializationsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Specialization $specialization)
     {
-
+        $specializations = Specialization::get();
+        $universities = University::get();
+        return view('admin.specializations.edit', compact('specializations', 'specialization','universities'));
     }
 
     /**
@@ -81,23 +83,20 @@ class SpecializationsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,Specialization $specialization)
     {
         $request->validate([
-            'name' => 'required|min:3',
+            'name' => 'required|min:2',
             'university_id'=>'required'
         ]);
 
-        $specializations= Specialization::findOrFail($id);
+        $specialization->update([
+            'name' => $request->name,
+            'university_id' => $request->university_id,
 
+        ]);
 
-        $specializations->name = $request->name;
-        $specializations->university_id = $request->university_id;
-
-
-        $specializations->save();
-
-        return $specializations;
+        return redirect()->route('admin.specializations.index')->with('msg', 'Specialization has been updated successfully')->with('type', 'success');
     }
 
     /**

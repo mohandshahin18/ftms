@@ -5,28 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Auth\MustVerifyEmail as MustVerifyEmailTrait;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 
-class Teacher extends Authenticatable
+class Teacher extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory , Notifiable;
-    // protected $guard = "teacher";
-    // protected $guarded = [];
+    use HasFactory , Notifiable , MustVerifyEmailTrait;
+    protected $guarded = [];
 
-     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'phone',
-        'image',
-        'university_id',
-        'specialization_id',
-        'password',
-    ];
 
     /**
      * The attributes that should be hidden for serialization.

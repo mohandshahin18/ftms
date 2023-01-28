@@ -59,10 +59,8 @@
                                     <td>{{ $specialization->name }}</td>
                                     <td>{{ $specialization->university->name }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-primary btn-sm btn-edit" data-toggle="modal"
-                                            data-target="#editspecializations" data-name="{{ $specialization->name }}"
-                                            data-url="{{ route('admin.specializations.edit', $specialization->id) }}"> <i
-                                                class="fas fa-edit"></i> </button>
+                                        <a title="Edit" href="{{ route('admin.specializations.edit', $specialization) }}" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i> </a>
+
                                         <form class="d-inline delete-form"
                                             action="{{ route('admin.specializations.destroy', $specialization->id) }}" method="POST">
                                             @csrf
@@ -91,51 +89,6 @@
     </div>
 
 
-    <!-- Modal Edit Category -->
-    <div class="modal fade" id="editspecializations" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class=" modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title fs-5" id="exampleModalLabel">Edit Specialization</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form id="edit_form" action="" method="Post">
-                    <div class="modal-body">
-
-
-                        @csrf
-                        @method('put')
-                        <div class="row">
-
-                            {{-- start name --}}
-                            <div class="col-sm-12 mb-3">
-                                <label class="mb-2">Name</label>
-                                <input type="text" class="form-control" name="name" placeholder="Name">
-                            </div>
-                            {{-- end name --}}
-
-                        </div>
-
-                        <div class="alert alert-danger d-none">
-                            <ul>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-
-                </form>
-
-
-            </div>
-        </div>
-    </div>
-
-
 
 
 
@@ -146,71 +99,6 @@
 
 @section('scripts')
     <script>
-        // get old data from edit button
-        $('.btn-edit').on('click', function() {
-            let name = $(this).data('name');
-
-            let url = $(this).data('url');
-
-            $('#editspecializations form').attr('action', url);
-            $('#editspecializations input[name=name]').val(name);
-
-
-            $('#editspecializations .alert ').addClass('d-none');
-            $('#editspecializations .alert ul').html('');
-
-        });
-
-        // send data using ajax
-        $('#edit_form').on('submit', function(e) {
-            e.preventDefault();
-
-
-            let data = $(this).serialize();
-            // send ajax request
-            $.ajax({
-
-                type: 'post',
-                url: $('#editspecializations form').attr('action'),
-                data: data,
-                success: function(res) {
-
-                    $('#row_' + res.id + " td:nth-child(2)").text(res.name);
-
-
-
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: false,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer)
-                            toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        }
-                    })
-
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'Edit is successfully'
-                    });
-                    $('#editspecializations').modal('hide');
-                },
-                error: function(err) {
-                    $('#editspecializations .alert ul').html('');
-                    $('#editspecializations .alert ').removeClass('d-none');
-                    for (const key in err.responseJSON.errors) {
-                        let li = '<li>' + err.responseJSON.errors[key] + '</li>';
-                        $('#editspecializations .alert ul').append(li);
-                    }
-                }
-
-            });
-
-        });
-
-
 
         $('.delete-form').on('submit', function(e) {
             e.preventDefault();

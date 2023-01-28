@@ -19,7 +19,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('adminAssets/dist/css/adminlte.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminAssets/dist/css/mystyle.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="icon" type="image/x-icon" href="{{ asset('adminAssets/dist/img/favicon.ico') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('adminAssets/dist/img/selection/favicon.ico') }}">
 
     <!-- Sweat Alert -->
     <link rel="stylesheet"
@@ -155,20 +155,46 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 <!-- Sidebar user panel (optional) -->
                 <li class="nav-item dropdown">
+                    @php
+                        $name = Auth::guard()->user()->name ?? '';
+                        $src = 'https://ui-avatars.com/api/?background=random&name=' . $name;
+
+                        if(Auth::guard()->user()->image) {
+                          $img = Auth::guard()->user()->image;
+                          $src = asset($img);
+                        }
+
+                    @endphp
                     <a class="nav-link" data-toggle="dropdown" href="#">
-                        <img width="30" height="30" style="margin-top: -5px; object-fit: contain"
-                            src="{{ asset('adminAssets/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2"
-                            alt="User Image">
-                        {{-- {{ Auth::user()->name }} --}}
+                        <img width="30" height="30" style="margin-top: -5px;object-fit: contain"
+                            src="{{ $src }}" class="img-circle elevation-2" alt="User Image">
+
+
+                        {{ Auth::guard()->user()->name }}
                     </a>
                     <div class="dropdown-menu  dropdown-menu-right">
                         <a href="#" class="dropdown-item">
                             <i class="fas fa-user mr-2"></i>My Profile
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a href="" class="dropdown-item">
-                            <i class="fas fa-sign-out-alt mr-2"></i> LogOut
-                        </a>
+                        {{-- @php
+
+                            $type =Auth::guard()->name;
+                        @endphp --}}
+                        @if(auth('teacher')->check())
+                            <form method="GET" action="{{ route('logout','teacher') }}"></form>
+                                <a href="{{ route('logout','teacher') }}" class="dropdown-item">
+                                    <i class="fas fa-sign-out-alt mr-2"></i> LogOut
+                                </a>
+                            </form>
+                        @elseif (auth('trainer')->check())
+                        <form method="GET" action="{{ route('logout','trainer') }}"></form>
+                            <a href="{{ route('logout','trainer') }}" class="dropdown-item">
+                                <i class="fas fa-sign-out-alt mr-2"></i> LogOut
+                            </a>
+                        </form>
+                        @endif
+
 
 
                     </div>
@@ -198,8 +224,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-                        <li class="nav-item">
-                            <a href="#" class="nav-link ">
+                        <li class="nav-item @yield('home-menu-open') ">
+                            <a href="{{ route('admin.home') }}" class="nav-link @yield('home-active')">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Home
@@ -375,55 +401,57 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </ul>
                         </li>
 
-          <li class="nav-item @yield('admins-menu-open')">
-            <a href="#" class="nav-link @yield('admins-active')">
-              <i class="fas fa-user-shield nav-icon"></i>
-              <p>
-                Admins
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{ route('admin.admins.index') }}" class="nav-link @yield('index-admin-active')">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>All Admins</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('admin.admins.create') }}" class="nav-link @yield('add-admin-active')">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Add Admin</p>
-                </a>
-              </li>
-            </ul>
-          </li>
+                        <li class="nav-item @yield('admins-menu-open')">
+                            <a href="#" class="nav-link @yield('admins-active')">
+                                <i class="fas fa-user-shield nav-icon"></i>
+                                <p>
+                                    Admins
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.admins.index') }}" class="nav-link @yield('index-admin-active')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>All Admins</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.admins.create') }}" class="nav-link @yield('add-admin-active')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Add Admin</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
 
-          <li class="nav-item @yield('evaluations-menu-open')">
-            <a href="#" class="nav-link @yield('evaluations-active')">
-              {{-- <i class="fas fa-file-chart-line"></i> --}}
-              <i class="fas fa-file-signature nav-icon"></i>
-              <p>
-                Evaluations
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{ route('admin.evaluations.index') }}" class="nav-link @yield('index-evaluation-active')">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>All evaluations</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('admin.evaluations.create') }}" class="nav-link @yield('add-evaluation-active')">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Add Evaluation</p>
-                </a>
-              </li>
-            </ul>
-          </li>
+                        <li class="nav-item @yield('evaluations-menu-open')">
+                            <a href="#" class="nav-link @yield('evaluations-active')">
+                                {{-- <i class="fas fa-file-chart-line"></i> --}}
+                                <i class="fas fa-file-signature nav-icon"></i>
+                                <p>
+                                    Evaluations
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.evaluations.index') }}"
+                                        class="nav-link @yield('index-evaluation-active')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>All evaluations</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.evaluations.create') }}"
+                                        class="nav-link @yield('add-evaluation-active')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Add Evaluation</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
 
 
