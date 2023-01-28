@@ -42,4 +42,10 @@ class Student extends Authenticatable
     {
         return $this->hasMany(Evaluation::class);
     }
+
+    // with applied evaluations
+    public function applied_evaluation()
+    {
+        return $this->hasOne(AppliedEvaluation::class)->withDefault();
+    }
 }

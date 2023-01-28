@@ -16,7 +16,8 @@ class SpecializationsController extends Controller
     public function index()
     {
         $specializations = Specialization::with('university')->latest('id')->paginate(env('PAGINATION_COUNT'));
-        return view('admin.specializations.index',compact('specializations'));
+        $universities = University::all();
+        return view('admin.specializations.index',compact('specializations', 'universities'));
     }
 
     /**

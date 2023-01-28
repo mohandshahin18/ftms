@@ -422,6 +422,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <p>Add Evaluation</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{{ route('admin.evaluations.create') }}" class="nav-link @yield('add-evaluation-active')">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Applied Evaluations</p>
+                </a>
+              </li>
             </ul>
           </li>
 
@@ -467,7 +473,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Main content -->
             <div class="content">
                 <div class="container-fluid">
-                    @dump(Auth::guard())
+                    {{-- @dump(Auth::guard()) --}}
                     @yield('content')
                 </div><!-- /.container-fluid -->
             </div>

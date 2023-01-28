@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AppliedEvaluation;
+use App\Models\Company;
 use App\Models\Evaluation;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class EvaluationController extends Controller
@@ -14,7 +17,7 @@ class EvaluationController extends Controller
      */
     public function index()
     {
-        $evaluations = Evaluation::with('student', 'company')->latest('id')->get();
+        $evaluations = Evaluation::with('student', 'company')->latest('id')->paginate(env('PAGINATION_COUNT'));
         return view('admin.evaluations.index', compact('evaluations'));
     }
 
@@ -25,7 +28,9 @@ class EvaluationController extends Controller
      */
     public function create()
     {
-        //
+        $data['students'] = Student::all();
+        $data['companies'] = Company::all();
+        return view('admin.evaluations.create', $data);
     }
 
     /**
@@ -36,7 +41,21 @@ class EvaluationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => ['required'],
+            'student_id' => ['required'],
+            'company_id' => ['required']
+        ]);
+
+        Evaluation::create([
+            'name' => $request->name,
+            'student_id' => $request->student_id,
+            'company_id' => $request->company_id
+        ]);
+
+        return redirect()->route('admin.evaluations.index')
+        ->with('msg', 'Evaluation Created Successfully')
+        ->with('type', 'success');
     }
 
     /**
@@ -58,7 +77,7 @@ class EvaluationController extends Controller
      */
     public function edit(Evaluation $evaluation)
     {
-        //
+        return view('admin.evaluations.edit', compact('evaluation'));
     }
 
     /**
@@ -70,7 +89,21 @@ class EvaluationController extends Controller
      */
     public function update(Request $request, Evaluation $evaluation)
     {
-        //
+        $request->validate([
+            'name' => ['required'],
+            'student_id' => ['required'],
+            'company_id' => ['required']
+        ]);
+
+        $evaluation->update([
+            'name' => $request->name,
+            'student_id' => $request->student_id,
+            'company_id' => $request->company_id
+        ]);
+
+        return redirect()->route('admin.evaluations.index')
+        ->with('msg', 'Evaluation Updated Successfully')
+        ->with('type', 'info');
     }
 
     /**
@@ -84,4 +117,19 @@ class EvaluationController extends Controller
         $evaluation->forceDelete();
         return $evaluation->id;
     }
+
+
+    /**
+     * Get The Applied for Evaluation.
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+     public function apply()
+     {
+        $applied = AppliedEvaluation::latest('id')
+                   ->pginate(env('PAGINATION_COUNT'));
+
+        return view('admin.appliedEvaluations.index', compact('evaluations'));
+     }
 }
