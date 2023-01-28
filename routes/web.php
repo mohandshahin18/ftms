@@ -29,14 +29,13 @@ use App\Http\Controllers\SpecializationsController;
 */
 
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('student.master');
+})->name('student.home');
 
 
 Route::group(['namespace' => 'Auth'] ,function() {
-    Route::get('/', [HomeController::class, 'index'])->name('selection')->middleware('guest');
-
+    Route::get('/selection', [HomeController::class, 'index'])->name('selection')->middleware('guest');
     Route::get('/login/{type}', [LoginController::class, 'loginForm'])->middleware('guest')->name('login.show');
     Route::post('/login', [LoginController::class, 'login'])->name('login');
     Route::get('/logout/{type}', [LoginController::class, 'logout'])->name('logout');
@@ -45,11 +44,9 @@ Route::group(['namespace' => 'Auth'] ,function() {
 
 
 Route::group(['namespace' => 'Student'] ,function() {
-
     Route::get('/student/register',[RegisterController::class,'showStudentRegisterForm'])->name('student.register-view');
     Route::post('/student/register',[RegisterController::class,'createStudent'])->name('student.register');
     Route::get('/student/getSpecialization/{id}', [RegisterController::class, 'getSpecialization']);
-
 });
 
 
