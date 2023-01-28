@@ -8,7 +8,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> {{ env('APP_NAME') }} | @yield('title') </title>
+    <title> {{ config('app.name')}} | @yield('title') </title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -509,7 +509,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <footer class="main-footer">
             <!-- To the right -->
             <div class="float-right d-none d-sm-inline">
-                {{ env('APP_NAME') }}
+                {{ config('app.name') }}
             </div>
             <!-- Default to the left -->
             <strong>Copyright &copy; {{ now()->year }} - {{ now()->year + 1 }}</strong>

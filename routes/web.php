@@ -1,11 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TrainerController;
@@ -14,8 +12,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\SpecializationsController;
+use App\Http\Controllers\WebSite\websiteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,11 +27,11 @@ use App\Http\Controllers\SpecializationsController;
 */
 
 
-Route::get('/', function () {
-    return view('student.master');
-})->name('student.home');
+// Route::get('/', function () {
+//     return view('student.master');
+// })->name('student.home');
 
-
+// login to control panle
 Route::group(['namespace' => 'Auth'] ,function() {
     Route::get('/selection', [HomeController::class, 'index'])->name('selection')->middleware('guest');
     Route::get('/login/{type}', [LoginController::class, 'loginForm'])->middleware('guest')->name('login.show');
@@ -42,7 +40,7 @@ Route::group(['namespace' => 'Auth'] ,function() {
 
 });
 
-
+// student register
 Route::group(['namespace' => 'Student'] ,function() {
     Route::get('/student/register',[RegisterController::class,'showStudentRegisterForm'])->name('student.register-view');
     Route::post('/student/register',[RegisterController::class,'createStudent'])->name('student.register');
@@ -50,8 +48,20 @@ Route::group(['namespace' => 'Student'] ,function() {
 });
 
 
+// route of website
+Route::prefix('/')->name('student.')->group(function(){
+    // home page
+    Route::get('/',[websiteController::class,'index'])->name('home');
+
+    // company page
+    Route::get('student/company',[websiteController::class,'showCompany'])->name('company');
 
 
+});
+
+
+
+// routes of control panel
 Route::prefix('admin')->middleware('auth:trainer,teacher,company,admin' )->name('admin.')->group(function() {
 
     //home page

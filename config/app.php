@@ -15,7 +15,21 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'FTMS'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Paginate Count
+    |--------------------------------------------------------------------------
+    |
+    | This value is the Paginate Count of your application. This value is used when the
+    | framework needs to place the application's Paginate Count in a notification or
+    | any other location as required by the application or its packages.
+    |
+    */
+
+    'paginate' => env('PAGINATION_COUNT'),
+
 
     /*
     |--------------------------------------------------------------------------
