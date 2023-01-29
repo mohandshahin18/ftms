@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AppliedEvaluation;
 use App\Models\Company;
 use App\Models\Evaluation;
+use App\Models\Question;
 use App\Models\Student;
 use Illuminate\Http\Request;
 
@@ -47,11 +48,20 @@ class EvaluationController extends Controller
             'company_id' => ['required']
         ]);
 
-        Evaluation::create([
+        $evaluation = Evaluation::create([
             'name' => $request->name,
             'student_id' => $request->student_id,
             'company_id' => $request->company_id
         ]);
+
+        if($request->has('questions')) {
+            foreach($request->questions as $questions) {
+                Question::create([
+                    'question' => $questions,
+                    'evaluation_id' => $evaluation->id
+                ]);
+            }
+        }
 
         return redirect()->route('admin.evaluations.index')
         ->with('msg', 'Evaluation Created Successfully')
@@ -77,7 +87,9 @@ class EvaluationController extends Controller
      */
     public function edit(Evaluation $evaluation)
     {
-        return view('admin.evaluations.edit', compact('evaluation'));
+        $companies = Company::all();
+        $students = Student::all();
+        return view('admin.evaluations.edit', compact('evaluation', 'companies', 'students'));
     }
 
     /**
@@ -101,6 +113,17 @@ class EvaluationController extends Controller
             'company_id' => $request->company_id
         ]);
 
+        if($request->has('questions')) {
+            Question::where('evaluation_id', $evaluation->id)->delete();
+
+            foreach($request->questions as $qid => $question) {
+                Question::create([
+                    'question' => $questions,
+                    'evaluation_id' => $evaluation->id
+                ]);
+            }
+        }
+
         return redirect()->route('admin.evaluations.index')
         ->with('msg', 'Evaluation Updated Successfully')
         ->with('type', 'info');
@@ -114,6 +137,7 @@ class EvaluationController extends Controller
      */
     public function destroy(Evaluation $evaluation)
     {
+        Question::where('evaluation_id', $evaluation->id)->delete();
         $evaluation->forceDelete();
         return $evaluation->id;
     }

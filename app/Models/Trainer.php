@@ -12,8 +12,6 @@ class Trainer extends Authenticatable
 
     protected $guarded = [];
 
-    protected $guard = "trainer";
-    
 
     /**
      * The attributes that should be hidden for serialization.

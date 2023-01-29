@@ -19,9 +19,12 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phone')->unique();
             $table->text('address');
-            $table->string('image');
+            $table->string('image')->nullable();
+            $table->string('password');
             $table->text('description');
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();
         });

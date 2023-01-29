@@ -74,7 +74,7 @@
                                 <div class="form-group">
                                     <label class="mb-2">Company</label>
                                     <select name="company_id" class="form-control" id="">
-                                        <option data-display="Select Company">Select Company</option>
+                                        <option value="">Select Company</option>
                                         @foreach ($companies as $company)
                                             <option value="{{ $company->id }}">{{ $company->name }}</option>
                                         @endforeach

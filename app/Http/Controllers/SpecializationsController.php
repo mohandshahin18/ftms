@@ -49,7 +49,9 @@ class SpecializationsController extends Controller
             'university_id' => $request->university_id,
         ]);
 
-        return redirect()->route('admin.specializations.index')->with('msg', 'Specialization has been addedd successfully')->with('type', 'success');
+        return redirect()->route('admin.specializations.index')
+        ->with('msg', 'Specialization has been addedd successfully')
+        ->with('type', 'success');
 
     }
 
@@ -70,9 +72,10 @@ class SpecializationsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Specialization $specialization)
     {
-
+        $universities = University::all();
+        return view('admin.specializations.edit', compact('specialization','universities'));
     }
 
     /**
@@ -82,23 +85,26 @@ class SpecializationsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,Specialization $specialization)
     {
+
+        
         $request->validate([
-            'name' => 'required|min:3',
-            'university_id'=>'required'
+            'name' => 'required',
+            'university_id' => 'required',
         ]);
 
-        $specializations= Specialization::findOrFail($id);
+        // dd($request->all());
+        $specialization->update([
+            'name' => $request->name,
+            'university_id' => $request->university_id,
 
+        ]);
 
-        $specializations->name = $request->name;
-        $specializations->university_id = $request->university_id;
-
-
-        $specializations->save();
-
-        return $specializations;
+        return redirect()->route('admin.specializations.index')
+        ->with('msg', 'Specialization has been updated successfully')
+        ->with('type', 'success');
+       
     }
 
     /**

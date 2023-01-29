@@ -70,7 +70,7 @@
                                 <div class="form-group">
                                     <label class="mb-2">Category</label>
                                     <select name="category_id" class="form-control" id="">
-                                        <option data-display="Select Category">Select Category</option>
+                                        <option value="">Select Category</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
@@ -79,6 +79,17 @@
                             </div>
                             {{-- image --}}
                             <div class="col-6">
+                                <div class="form-group">
+                                    <label class="mb-2">Password</label>
+                                    <input type="password" class="form-control @error('password') is-invalid @enderror" name="password">
+                                    @error('password')
+                                        <small class="invalid-feedback"> {{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            {{-- image --}}
+                            <div class="col-12">
                                 <div class="form-group">
                                     <label class="mb-2">Image</label>
                                     <input type="file" class="form-control @error('image') is-invalid @enderror" name="image">

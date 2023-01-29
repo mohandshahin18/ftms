@@ -74,7 +74,7 @@
                                 <div class="form-group">
                                     <label class="mb-2">University</label>
                                     <select name="university_id" class="form-control" id="">
-                                        <option data-display="Select University">Select University</option>
+                                        <option value="">Select University</option>
                                         @foreach ($universities as $university)
                                             <option value="{{ $university->id }}">{{ $university->name }}</option>
                                         @endforeach
@@ -87,7 +87,7 @@
                                 <div class="form-group">
                                     <label class="mb-2">Specialization</label>
                                     <select name="specialization_id" class="form-control" id="">
-                                        <option data-display="Select Specialization">Select Specialization</option>
+                                        <option value="">Select Specialization</option>
                                         @foreach ($specializations as $specialization)
                                             <option value="{{ $specialization->id }}">{{ $specialization->name }}</option>
                                         @endforeach

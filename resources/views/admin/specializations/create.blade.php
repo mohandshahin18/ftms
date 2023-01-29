@@ -36,7 +36,7 @@
                         <div class="form-group">
                             <label class="mb-2">University</label>
                             <select name="university_id" class="form-control" id="">
-                                <option data-display="Select University">Select University</option>
+                                <option value="">Select University</option>
                                 @foreach ($universities as $university)
                                     <option value="{{ $university->id }}">{{ $university->name }}</option>
                                 @endforeach

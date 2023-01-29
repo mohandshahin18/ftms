@@ -54,6 +54,15 @@ return [
             'provider' => 'trainers',
         ],
 
+        'company' => [
+            'driver' => 'session',
+            'provider' => 'companies',
+        ],
+
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
 
     ],
 
@@ -89,6 +98,14 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Trainer::class,
         ],
+        'companies' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Company::class,
+        ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
 
     ],
 
@@ -110,13 +127,6 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
-            'table' => 'password_resets',
-            'expire' => 60,
-            'throttle' => 60,
-        ],
-
-        'teachers' => [
-            'provider' => 'teachers',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

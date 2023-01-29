@@ -49,6 +49,7 @@ class CompanyController extends Controller
             'phone' => $request->phone,
             'address' => $request->address,
             'description' => $request->description,
+            'password' => $request->password,
             'image' => $path,
         ]);
 

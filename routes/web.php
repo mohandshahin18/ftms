@@ -1,17 +1,20 @@
 <?php
 
-use App\Http\Controllers\AdminController;
+
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\UserAuthController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\UniversityController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\SpecializationsController;
+use App\Http\Controllers\WebSite\websiteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,20 +28,45 @@ use App\Http\Controllers\SpecializationsController;
 */
 
 
-Route::get('/', function () {
-    return view('welcome');
+// Route::get('/', function () {
+//     return view('student.master');
+// })->name('student.home');
+
+// login to control panle
+Route::group(['namespace' => 'Auth'] ,function() {
+    Route::get('/selection', [HomeController::class, 'index'])->name('selection')->middleware('guest');
+    Route::get('/login/{type}', [LoginController::class, 'loginForm'])->middleware('guest')->name('login.show');
+    Route::post('/login', [LoginController::class, 'login'])->name('login');
+    Route::get('/logout/{type}', [LoginController::class, 'logout'])->name('logout');
+
 });
 
-Route::middleware('guest:trainer,teacher')->group(function () {
-    Route::get('{guard}/login' , [UserAuthController::class , 'showLogin'])->name('showlogin');
+// student register
+Route::group(['namespace' => 'Student'] ,function() {
+    Route::get('/student/register',[RegisterController::class,'showStudentRegisterForm'])->name('student.register-view');
+    Route::post('/student/register',[RegisterController::class,'createStudent'])->name('student.register');
+    Route::get('/student/get/specialization/{id}', [RegisterController::class, 'get_specialization']);
+});
 
-    Route::post('trainer/login' , [UserAuthController::class , 'trainerLogin'])->name('trainer-login');
-    Route::post('teacher/login' , [UserAuthController::class , 'teacherLogin'])->name('teacher-login');
+
+// route of website
+Route::prefix('/')->name('student.')->group(function(){
+    // home page
+    Route::get('/',[websiteController::class,'index'])->name('home');
+
+    // company page
+    Route::get('student/company',[websiteController::class,'showCompany'])->name('company');
+
+
 });
 
 
 
-Route::prefix('admin')->name('admin.')->group(function() {
+// routes of control panel
+Route::prefix('admin')->middleware('auth:trainer,teacher,company,admin' )->name('admin.')->group(function() {
+
+    //home page
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
 
     // Category
     Route::get('categories/trash', [CategoryController::class, 'trash'])->name('categories.trash');
@@ -54,7 +82,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
     //university
     Route::resource('universities',UniversityController::class);
-    Route::get('getSpecialization/{id}', [UniversityController::class, 'getSpecialization']);
+    Route::get('get/specialization/{id}', [UniversityController::class, 'get_specialization']);
 
     // specialization
     Route::resource('specializations', SpecializationsController::class);
@@ -76,16 +104,17 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
     Route::resource('evaluations', EvaluationController::class);
 
-
-
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/email/verify', function () {
+//     return view('auth.verify');
+// })->middleware('guest')->name('verification.notice');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+// Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

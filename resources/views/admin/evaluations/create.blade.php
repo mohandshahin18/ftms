@@ -6,6 +6,41 @@
 @section('evaluations-active' , 'active')
 @section('add-specialization-active' , 'active')
 
+@section('styles')
+<style>
+    .question_wrapper div {
+        position: relative;
+    }
+
+    .question_wrapper div span {
+        display: none;
+        background-color: #333;
+        width: 20px;
+        height: 20px;
+        justify-content: center;
+        font-size: 36px;
+        line-height: 14px;
+        color: #fff;
+        border-radius: 50px;
+        cursor: pointer;
+        position: absolute;
+        right: 4px;
+        top: 8px;
+        transition: all 0.1s linear;
+            
+    }
+
+    .question_wrapper div span:hover {
+        background-color: red;
+    }
+
+    .question_wrapper div:hover span {
+        display: flex;
+    }
+
+</style>
+@stop
+
 @section('content')
 
 <div class="row">
@@ -36,7 +71,7 @@
                         <div class="form-group">
                             <label class="mb-2">Student</label>
                             <select name="student_id" class="form-control" id="">
-                                <option data-display="Select Student">Select student</option>
+                                <option value="">Select student</option>
                                 @foreach ($students as $student)
                                     <option value="{{ $student->id }}">{{ $student->name }}</option>
                                 @endforeach
@@ -49,7 +84,7 @@
                         <div class="form-group">
                             <label class="mb-2">Company</label>
                             <select name="company_id" class="form-control" id="">
-                                <option data-display="Select Company">Select company</option>
+                                <option value="">Select company</option>
                                 @foreach ($companies as $company)
                                     <option value="{{ $company->id }}">{{ $company->name }}</option>
                                 @endforeach
@@ -63,7 +98,13 @@
                <hr>
                 <h4>Questions</h4>
 
-                <button class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Add</button>
+                <button id="add_question" class="btn btn-sm btn-success mb-2"><i class="fas fa-plus"></i> Add</button>
+
+                <div class="question_wrapper">
+                    
+                </div>
+
+                
               </div>
               <!-- /.card-body -->
                 
@@ -81,4 +122,24 @@
 </div>
 
 
+@stop
+
+@section('scripts')
+<script>
+    $("#add_question").click(function(e) {
+        e.preventDefault();
+
+        let q = `<div>
+                    <input type="text" name="questions[]" id="" class="form-control mb-2"      placeholder="Question">
+                    <span class="remove_question">-</span>
+                </div>`;
+
+        $('.question_wrapper').append(q);
+    })
+
+    $('.question_wrapper').on('click', '.remove_question', function() {
+        $(this).parent().remove();
+    })
+
+</script>
 @stop

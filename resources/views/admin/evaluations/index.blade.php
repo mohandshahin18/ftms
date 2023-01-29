@@ -49,17 +49,27 @@
                                 <th>Evaluations Name</th>
                                 <th>Company Name</th>
                                 <th>Student Name</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            @forelse ($evaluations as $evaluations)
-                                <tr id="row_{{ $evaluations->id }}">
-                                    <td>{{ $evaluations->id }}</td>
-                                    <td>{{ $evaluations->name }}</td>
-                                    <td>{{ $evaluations->company->name }}</td>
-                                    <td>{{ $evaluations->student->name }}</td>
-                                    
+                            @forelse ($evaluations as $evaluation)
+                                <tr id="row_{{ $evaluation->id }}">
+                                    <td>{{ $evaluation->id }}</td>
+                                    <td>{{ $evaluation->name }}</td>
+                                    <td>{{ $evaluation->company->name }}</td>
+                                    <td>{{ $evaluation->student->name }}</td>
+                                    <td>
+                                        <div style="display: flex; gap: 5px">
+                                            <a title="Edit" href="{{ route('admin.evaluations.edit', $evaluation) }}" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i> </a>
+                                            <form class="d-inline delete_form" action="{{ route('admin.evaluations.destroy', $evaluation) }}" method="POST">
+                                                @csrf
+                                                @method('delete')
+                                                <button class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i> </button>
+                                            </form>
+                                        </div>
+                                    </td>
                                 </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">
@@ -80,63 +90,12 @@
     </div>
 
 
-    <!-- Modal Edit Category -->
-    <div class="modal fade" id="editEvaluationss" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class=" modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title fs-5" id="exampleModalLabel">Edit evaluations</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form id="edit_form" action="" method="Post">
-                    <div class="modal-body">
-
-
-                        @csrf
-                        @method('put')
-                        <div class="row">
-
-                            {{-- start name --}}
-                            <div class="col-sm-12 mb-3">
-                                <label class="mb-2">Name</label>
-                                <input type="text" class="form-control" name="name" placeholder="Name">
-                            </div>
-                            {{-- end name --}}
-
-                        </div>
-
-                        <div class="alert alert-danger d-none">
-                            <ul>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-
-                </form>
-
-
-            </div>
-        </div>
-    </div>
-
-
-
-
-
-
-
-
 @stop
 
 @section('scripts')
     <script>
 
-    $('.delete-form').on('submit', function(e) {
+    $('.delete_form').on('submit', function(e) {
             e.preventDefault();
 
             let url = $(this).attr('action');
