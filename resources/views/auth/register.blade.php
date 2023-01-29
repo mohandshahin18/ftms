@@ -450,6 +450,17 @@ of Simple CSS Waves-->
             var password = document.querySelector("#password");
             var confirm_password = document.querySelector("#confirm_password");
             // confirm_password.addClass("");
+            password.onkeyup = () => {
+                if(confirm_password.value !== password.value) {
+                    confirm_password.classList.add("error");
+                    confirm_password.classList.remove("is-valid");
+                    confirm_password.classList.remove("border-success");
+                } else {
+                    confirm_password.classList.remove("error");
+                    confirm_password.classList.add("is-valid");
+                    confirm_password.classList.add("border-success");
+                }
+            }
             confirm_password.onkeyup = () => {
                 if(confirm_password.value !== password.value) {
                     confirm_password.classList.add("error");
