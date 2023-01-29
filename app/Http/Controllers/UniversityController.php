@@ -113,7 +113,7 @@ class UniversityController extends Controller
      * return specialization based on university
      *
      */
-    public function getSpecialization($id)
+    public function get_specialization($id)
     {
         $specializations = Specialization::where('university_id', $id)->pluck("name", 'id');
         return json_encode($specializations);

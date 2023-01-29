@@ -76,7 +76,7 @@
                                     <label class="mb-2">Logo</label>
                                     <input type="file" class="form-control @error('logo') is-invalid @enderror"
                                         name="logo">
-                                        <img width="70"  src="{{ asset(settings()->get('logo')) }}" alt="">
+                                        <img width="70"  class="bg-dark" src="{{ asset(settings()->get('logo')) }}" alt="">
 
                                     @error('logo')
                                         <small class="invalid-feedback"> {{ $message }}</small>

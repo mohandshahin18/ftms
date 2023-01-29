@@ -9,6 +9,10 @@
 
     <title>{{ config('app.name') }} | Register</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('adminAssets/dist/img/favicon.ico') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
+
+
 
     <style>
         @font-face {
@@ -60,7 +64,7 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px;
+            gap: 20px;
         }
 
         .login-box h2 {
@@ -79,7 +83,8 @@
         .login-box .user-box input ,
         .login-box .user-box select {
             width: 100%;
-            padding: 10px 0;
+            padding: 10px 0px;
+            padding-left: 10px;
             font-size: 16px;
             color: #fff;
             border: none;
@@ -91,8 +96,28 @@
             background-color: rgba(0, 0, 0, 0.712);
         }
 
+        
+
         .login-box .user-box input:focus {
             border-color: #5d78ff
+        }
+
+        .login-box .user-box #password {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .login-box .user-box i {
+            position: absolute;
+            right: 15px;
+            top: 49px;
+            cursor: pointer;
+        }
+
+        .login-box .user-box i.active::before {
+            color: #333;
+            content: '\f070';
         }
 
         .login-box .user-box label {
@@ -345,8 +370,9 @@ of Simple CSS Waves-->
 
                             <div class="user-box">
                                 <label>Password</label>
-                                <input type="password" class="@error('password') error @enderror" name="password"
+                                <input type="password" id="password" class="@error('password') error @enderror" name="password"
                                     autocomplete="new-password">
+                                    <i class="far fa-eye"></i>
                                 @error('password')
                                     <small>{{ $message }}</small>
                                 @enderror
@@ -354,8 +380,7 @@ of Simple CSS Waves-->
 
                             <div class="user-box">
                                 <label>Confirm Password</label>
-                                <input type="password" name="password_confirmation" autocomplete="new-password">
-
+                                <input type="password" id="confirm_password" class="" name="password_confirmation" autocomplete="new-password">
                             </div>
 
 
@@ -396,6 +421,8 @@ of Simple CSS Waves-->
     </div>
     <!--Header ends-->
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+
 
     {{-- Ajax Request --}}
     <script>
@@ -404,7 +431,7 @@ of Simple CSS Waves-->
                     var uni_id = $(this).val();
                     if(uni_id) {
                         $.ajax({
-                            url: "/student/getSpecialization/"+ uni_id,
+                            url: "/student/get/specialization/"+ uni_id,
                             type: "GET",
                             dataType: "json",
                             success: function(data) {
@@ -417,6 +444,46 @@ of Simple CSS Waves-->
                     }
                 });
             });
+
+            // Confirm Password input Check
+
+            var password = document.querySelector("#password");
+            var confirm_password = document.querySelector("#confirm_password");
+            // confirm_password.addClass("");
+            password.onkeyup = () => {
+                if(confirm_password.value !== password.value) {
+                    confirm_password.classList.add("error");
+                    confirm_password.classList.remove("is-valid");
+                    confirm_password.classList.remove("border-success");
+                } else {
+                    confirm_password.classList.remove("error");
+                    confirm_password.classList.add("is-valid");
+                    confirm_password.classList.add("border-success");
+                }
+            }
+            confirm_password.onkeyup = () => {
+                if(confirm_password.value !== password.value) {
+                    confirm_password.classList.add("error");
+                    confirm_password.classList.remove("is-valid");
+                    confirm_password.classList.remove("border-success");
+                } else {
+                    confirm_password.classList.remove("error");
+                    confirm_password.classList.add("is-valid");
+                    confirm_password.classList.add("border-success");
+                }
+            }
+
+            // Show-Hide Password
+            const toggle = document.querySelector(".user-box i");
+            toggle.onclick = () => {
+                if(password.type == 'password'){
+                    password.type = 'text';
+                    toggle.classList.add('active');
+                } else {
+                    password.type = 'password';
+                    toggle.classList.remove('active');
+                }
+            }
     </script>
 </body>
 

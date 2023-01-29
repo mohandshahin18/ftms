@@ -38,7 +38,7 @@
                                 <div class="form-group">
                                     <label class="mb-2">Email</label>
                                     <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                        name="email" placeholder="Admin email" value="{{ old('email') }}">
+                                        name="email" placeholder="Admin email" value="{{ old('email') }}" autocomplete="new-email">
                                     @error('email')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                     @enderror

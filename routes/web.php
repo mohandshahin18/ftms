@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
@@ -44,7 +45,7 @@ Route::group(['namespace' => 'Auth'] ,function() {
 Route::group(['namespace' => 'Student'] ,function() {
     Route::get('/student/register',[RegisterController::class,'showStudentRegisterForm'])->name('student.register-view');
     Route::post('/student/register',[RegisterController::class,'createStudent'])->name('student.register');
-    Route::get('/student/getSpecialization/{id}', [RegisterController::class, 'getSpecialization']);
+    Route::get('/student/get/specialization/{id}', [RegisterController::class, 'get_specialization']);
 });
 
 
@@ -81,7 +82,7 @@ Route::prefix('admin')->middleware('auth:trainer,teacher,company,admin' )->name(
 
     //university
     Route::resource('universities',UniversityController::class);
-    Route::get('getSpecialization/{id}', [UniversityController::class, 'getSpecialization']);
+    Route::get('get/specialization/{id}', [UniversityController::class, 'get_specialization']);
 
     // specialization
     Route::resource('specializations', SpecializationsController::class);
@@ -115,6 +116,11 @@ Route::prefix('admin')->middleware('auth:trainer,teacher,company,admin' )->name(
 //     return view('auth.verify');
 // })->middleware('guest')->name('verification.notice');
 
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 // Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

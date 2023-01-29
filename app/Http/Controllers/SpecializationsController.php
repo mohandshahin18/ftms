@@ -16,7 +16,8 @@ class SpecializationsController extends Controller
     public function index()
     {
         $specializations = Specialization::with('university')->latest('id')->paginate(env('PAGINATION_COUNT'));
-        return view('admin.specializations.index',compact('specializations'));
+        $universities = University::all();
+        return view('admin.specializations.index',compact('specializations', 'universities'));
     }
 
     /**
@@ -48,7 +49,9 @@ class SpecializationsController extends Controller
             'university_id' => $request->university_id,
         ]);
 
-        return redirect()->route('admin.specializations.index')->with('msg', 'Specialization has been addedd successfully')->with('type', 'success');
+        return redirect()->route('admin.specializations.index')
+        ->with('msg', 'Specialization has been addedd successfully')
+        ->with('type', 'success');
 
     }
 
@@ -71,9 +74,8 @@ class SpecializationsController extends Controller
      */
     public function edit(Specialization $specialization)
     {
-        $specializations = Specialization::get();
-        $universities = University::get();
-        return view('admin.specializations.edit', compact('specializations', 'specialization','universities'));
+        $universities = University::all();
+        return view('admin.specializations.edit', compact('specialization','universities'));
     }
 
     /**
@@ -85,18 +87,24 @@ class SpecializationsController extends Controller
      */
     public function update(Request $request,Specialization $specialization)
     {
+
+        
         $request->validate([
-            'name' => 'required|min:2',
-            'university_id'=>'required'
+            'name' => 'required',
+            'university_id' => 'required',
         ]);
 
+        // dd($request->all());
         $specialization->update([
             'name' => $request->name,
             'university_id' => $request->university_id,
 
         ]);
 
-        return redirect()->route('admin.specializations.index')->with('msg', 'Specialization has been updated successfully')->with('type', 'success');
+        return redirect()->route('admin.specializations.index')
+        ->with('msg', 'Specialization has been updated successfully')
+        ->with('type', 'success');
+       
     }
 
     /**

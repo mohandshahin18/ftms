@@ -16,7 +16,7 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form action="{{ route('admin.specializations.update', $specialization->id) }}" method="POST">
+                <form action="{{ route('admin.specializations.update', $specialization) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="card-body">
@@ -39,9 +39,9 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label class="mb-2">University</label>
-                                    <select name="category_id" class="form-control" id="">
+                                    <select name="university_id" class="form-control" id="">
                                         @foreach ($universities as $university)
-                                            <option @selected($university->university_id) value="{{ $university->id }}">
+                                            <option @selected($specialization->university_id == $university->id) value="{{ $university->id }}">
                                                 {{ $university->name }}</option>
                                         @endforeach
                                     </select>

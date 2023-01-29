@@ -4,7 +4,15 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "c41ad3f07df54b89e8b184573e6eecf4",
+=======
+<<<<<<< HEAD
+    "content-hash": "00dcb5d0afe4b28649b4d84df67de50a",
+=======
+    "content-hash": "4ad81cbddbdb9e872bee1263173d105e",
+>>>>>>> d8a0bd746db2249401b2f07d5182bc3e979380b6
+>>>>>>> aef61d08049e0e9711a6f638dbdf1834e194b08f
     "packages": [
         {
             "name": "arcanedev/laravel-settings",

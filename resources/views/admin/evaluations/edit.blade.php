@@ -1,6 +1,6 @@
 @extends('admin.master')
 
-@section('title' , 'Add New Evaluations')
+@section('title' , 'Add New Evaluation')
 @section('sub-title' , 'Evaluations')
 @section('evaluations-menu-open' , 'menu-open')
 @section('evaluations-active' , 'active')
@@ -47,44 +47,32 @@
     <div class="col-md-12">
         <div class="card card-primary">
             <div class="card-header">
-              <h3 class="card-title">Add New Evaluations</h3>
+              <h3 class="card-title">Edit Evaluation</h3>
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form action="{{ route('admin.evaluations.store') }}" method="POST" >
+            <form action="{{ route('admin.evaluations.update', $evaluation) }}" method="POST" >
                 @csrf
+                @method('PUT')
               <div class="card-body">
                <div class="row">
                  {{-- name --}}
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label class="mb-2">Evaluations name</label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"  placeholder="Evaluations name" value="{{ old('name') }}">
-                            @error('name')
-                            <small class="invalid-feedback"> {{ $message }}</small>
-                            @enderror
-                        </div>
+                 <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="mb-2">Evaluation name</label>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"  placeholder="Evaluation name" value="{{ old('name', $evaluation->name) }}">
+                        @error('name')
+                        <small class="invalid-feedback"> {{ $message }}</small>
+                        @enderror
+                    </div>
                     </div>
 
-                     {{-- student --}}
-                     <div class="col-6">
-                        <div class="form-group">
-                            <label class="mb-2">Student</label>
-                            <select name="student_id" class="form-control" id="">
-                                <option value="">Select student</option>
-                                @foreach ($students as $student)
-                                    <option value="{{ $student->id }}">{{ $student->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    
                      {{-- company --}}
                      <div class="col-6">
                         <div class="form-group">
                             <label class="mb-2">Company</label>
                             <select name="company_id" class="form-control" id="">
-                                <option value="">Select company</option>
+                                <option selected value="{{ $evaluation->company_id }}">{{ $evaluation->company->name }}</option>
                                 @foreach ($companies as $company)
                                     <option value="{{ $company->id }}">{{ $company->name }}</option>
                                 @endforeach
@@ -92,26 +80,40 @@
                         </div>
                     </div>
 
-                    
+                     {{-- university --}}
+                     <div class="col-6">
+                        <div class="form-group">
+                            <label class="mb-2">Student</label>
+                            <select name="student_id" class="form-control" id="">
+                                <option selected value="{{ $evaluation->student_id }}">{{ $evaluation->student->name }}</option>
+                                @foreach ($students as $student)
+                                    <option value="{{ $student->id }}">{{ $student->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
 
                </div>
+
                <hr>
                 <h4>Questions</h4>
 
                 <button id="add_question" class="btn btn-sm btn-success mb-2"><i class="fas fa-plus"></i> Add</button>
 
                 <div class="question_wrapper">
-                    
+                    @foreach ($evaluation->questions as $question)
+                        <div>
+                            <input type="text" name="questions[{{ $question->id }}]" value="{{ $question->question }}" id="" class="form-control mb-2"      placeholder="Question">
+                            <span class="remove_question">-</span>
+                        </div>
+                    @endforeach
                 </div>
-
-                
               </div>
               <!-- /.card-body -->
-                
-                
+
               <div class="card-footer">
                 <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Save</button>
+                    <i class="fas fa-plus"></i> Edit</button>
                 <button  class="btn btn-dark" type="button" onclick="history.back()">
                     <i class="fas fa-undo-alt"> </i> Return Back </button>
 
