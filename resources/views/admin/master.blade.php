@@ -174,7 +174,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </a>
                     <div class="dropdown-menu  dropdown-menu-right">
                         <a href="#" class="dropdown-item">
-                            <i class="fas fa-user mr-2"></i>My Profile
+                            <i class="fas fa-user mr-2"></i> Profile
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{{ route('admin.settings') }}" class="dropdown-item">
+                            <i class="fas fa-cog mr-2"></i>Stettings
                         </a>
                         <div class="dropdown-divider"></div>
                         {{-- @php
@@ -190,6 +194,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         @elseif (auth('trainer')->check())
                         <form method="GET" action="{{ route('logout','trainer') }}"></form>
                             <a href="{{ route('logout','trainer') }}" class="dropdown-item">
+                                <i class="fas fa-sign-out-alt mr-2"></i> LogOut
+                            </a>
+                        </form>
+                        @elseif (auth('admin')->check())
+                        <form method="GET" action="{{ route('logout','admin') }}"></form>
+                            <a href="{{ route('logout','admin') }}" class="dropdown-item">
+                                <i class="fas fa-sign-out-alt mr-2"></i> LogOut
+                            </a>
+                        </form>
+                        @elseif (auth('company')->check())
+                        <form method="GET" action="{{ route('logout','company') }}"></form>
+                            <a href="{{ route('logout','company') }}" class="dropdown-item">
                                 <i class="fas fa-sign-out-alt mr-2"></i> LogOut
                             </a>
                         </form>

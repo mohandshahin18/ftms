@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Http\Traits\AuthTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Providers\RouteServiceProvider;
+use App\Rules\Password;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -48,25 +51,29 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
+
+
+        // $password =Hash::make($request->password);
+        // dd(new Password($request->type));
+
         if( $request->type == 'teacher'){
             $email ='exists:teachers,email';
-            $password = 'in:teachers,password';
+            $password = 'in:teachers';
         }elseif($request->type == 'admin'){
             $email ='exists:admins,email';
-            $password = 'in:admins,password';
+            $password = 'in:admins';
         }elseif($request->type == 'company'){
             $email ='exists:companies,email';
-            $password = 'in:companies,password';
+            $password = 'in:companies';
         }elseif($request->type == 'trainer'){
             $email ='exists:trainers,email';
-            $password = 'in:trainers,password';
+            $password = 'in:trainers,';
         }
-
 
         $this->validate($request, [
 
             'email'=> 'required|email|string| '.$email,
-            'password'=>'required|string|min:3|'.$password,
+            'password'=>['required','string','min:3'],
         ]);
 
         if (Auth::guard($this->chekGuard($request))->attempt(['email' => $request->email, 'password' => $request->password])) {

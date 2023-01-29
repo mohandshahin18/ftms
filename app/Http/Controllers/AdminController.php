@@ -40,7 +40,7 @@ class AdminController extends Controller
         $request->validate([
             'name' => 'required|string|min:2',
             'email' => 'required|email|unique:admins,email',
-            'password' => 'required|min:8|regex:/[0-9]/',
+            'password' => 'required|min:8',//|regex:/[0-9]/
             'phone' => 'required|unique:admins,phone',
             'image' => ['required', 'mimes:png,jpg,jpeg,webp,jfif,svg', 'max:2048']
         ], [

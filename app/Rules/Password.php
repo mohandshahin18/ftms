@@ -2,21 +2,22 @@
 
 namespace App\Rules;
 
+use App\Models\Admin;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
-class TextLength implements Rule
+class Password implements Rule
 {
-
-    protected $len;
-
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($len = 10)
+    public function __construct(Admin $admin)
     {
-        $this->len = $len;
+
+       $this->admin = $admin;
     }
 
     /**
@@ -28,7 +29,9 @@ class TextLength implements Rule
      */
     public function passes($attribute, $value)
     {
-        return str_word_count(strip_tags($value)) >= $this->len;
+        return Hash::check($value, $this->admin->password);
+
+
     }
 
     /**
@@ -38,6 +41,6 @@ class TextLength implements Rule
      */
     public function message()
     {
-        return 'The description must be more than 10 words';
+        return 'The selected password is invalid.';
     }
 }

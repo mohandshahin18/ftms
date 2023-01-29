@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>FTMS | Register</title>
+    <title>{{ config('app.name') }} | Register</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('adminAssets/dist/img/favicon.ico') }}">
 
     <style>

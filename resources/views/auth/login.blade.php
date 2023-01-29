@@ -5,8 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    @php
+        $auth = ucfirst($type);
+     @endphp
 
-    <title>FTMS | Login</title>
+    <title> {{ config('app.name') }} | Login {{ $auth }}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link rel="icon" type="image/x-icon" href="{{ asset('adminAssets/dist/img/selection/favicon.ico') }}">
     <style>
@@ -267,10 +270,6 @@ of Simple CSS Waves-->
                         <img src="{{ asset('adminAssets/dist/img/logo/S2.png') }}" alt="">
                     </div>
 
-                    @php
-                    $auth = ucfirst($type);
-                    @endphp
-                    <h5 style="text-align: left; margin-bottom: 20px" >Login as {{ $auth }}</h5>
 
 
                     <form method="POST" action="{{route('login',$type)}}">

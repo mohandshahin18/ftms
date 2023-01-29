@@ -122,11 +122,6 @@
 
     <script>
 
-        // to hide alert ------
-        setTimeout(() => {
-            $('.alert-success').fadeOut(3000);
-        }, 500);
-
 
         $('.delete_form').on('submit', function(e) {
             e.preventDefault();

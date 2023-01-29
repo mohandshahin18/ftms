@@ -22,7 +22,9 @@
 
 <body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="70">
 
-
+@php
+    $data = json_decode(File::get(storage_path('app/settings.json')), true);
+@endphp
 
 
     <!-- BOTTOM NAV -->
@@ -72,26 +74,20 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-6 text-center">
                         <h4 class="navbar-brand">Prixima<span class="dot">.</span></h4>
-                        <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of
-                            classical Latin literature from</p>
-                        <div class="col-auto social-icons">
-                            <a href="#"><i class='bx bxl-facebook'></i></a>
-                            <a href="#"><i class='bx bxl-twitter'></i></a>
-                            <a href="#"><i class='bx bxl-instagram'></i></a>
-                            <a href="#"><i class='bx bxl-pinterest'></i></a>
-                        </div>
+                        <p>{{ $data['footer_text'] }}</p>
+
                         <div class="col-auto conditions-section">
                             <a href="#">privacy</a>
                             <a href="#">terms</a>
-                            <a href="#">disclaimer</i></a>
+                            <a href="mailto:{{ $data['email'] }}">Technical support</i></a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="footer-bottom text-center">
-            <p class="mb-0">Copyright vicpra 2022. All rights Reserved</p> Distributed By <a
-                hrefs="https://themewagon.com">ThemeWagon</a>
+            <p class="mb-0">{{ $data['copy_right'] }}</p>
+            Distributed By {{ $data['distributed_by'] }}
         </div>
     </footer>
 
