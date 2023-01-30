@@ -91,7 +91,7 @@ class LoginController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/selection-gurad');
+        return redirect('/selection-guard');
     }
 
 

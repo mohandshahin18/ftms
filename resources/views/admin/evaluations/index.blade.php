@@ -47,8 +47,7 @@
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
                                 <th>Evaluations Name</th>
-                                <th>Company Name</th>
-                                <th>Student Name</th>
+                                <th>Type</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -58,8 +57,7 @@
                                 <tr id="row_{{ $evaluation->id }}">
                                     <td>{{ $evaluation->id }}</td>
                                     <td>{{ $evaluation->name }}</td>
-                                    <td>{{ $evaluation->company->name }}</td>
-                                    <td>{{ $evaluation->student->name }}</td>
+                                    <td>{{ $evaluation->evaluation_type }}</td>
                                     <td>
                                         <div style="display: flex; gap: 5px">
                                             <a title="Edit" href="{{ route('admin.evaluations.edit', $evaluation) }}" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i> </a>
@@ -93,6 +91,41 @@
 @stop
 
 @section('scripts')
+
+   {{-- Messages Script --}}
+   @if (session('msg'))
+   <script>
+       const Toast = Swal.mixin({
+           toast: true,
+           position: 'top-end',
+           showConfirmButton: false,
+           timer: 4000,
+           timerProgressBar: true,
+           didOpen: (toast) => {
+               toast.addEventListener('mouseenter', Swal.stopTimer)
+               toast.addEventListener('mouseleave', Swal.resumeTimer)
+           }
+       })
+
+       @if (session('type') == 'success')
+           Toast.fire({
+               icon: 'success',
+               title: '{{ session('msg') }}'
+           })
+       @elseif (session('type') == 'danger')
+           Toast.fire({
+               icon: 'warning',
+               title: '{{ session('msg') }}'
+           })
+       @else
+           Toast.fire({
+               icon: 'info',
+               title: '{{ session('msg') }}'
+           })
+       @endif
+   </script>
+@endif
+
     <script>
 
     $('.delete_form').on('submit', function(e) {

@@ -28,4 +28,10 @@ class Evaluation extends Model
     {
         return $this->hasMany(Question::class);
     }
+
+    // with applied evaluation
+    public function applied_evaluations()
+    {
+        return $this->hasMany(AppliedEvaluation::class);
+    }
 }

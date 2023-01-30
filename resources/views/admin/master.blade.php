@@ -454,14 +454,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a href="{{ route('admin.evaluations.index') }}"
-                                        class="nav-link @yield('index-evaluation-active')">
+                                        class="nav-link @yield('index-evaluations-active')">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>All evaluations</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('admin.evaluations.create') }}"
-                                        class="nav-link @yield('add-evaluation-active')">
+                                        class="nav-link @yield('add-evaluations-active')">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Add Evaluation</p>
                                     </a>

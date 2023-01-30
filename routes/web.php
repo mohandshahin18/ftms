@@ -34,7 +34,7 @@ use App\Http\Controllers\WebSite\websiteController;
 
 // login to control panle
 Route::group(['namespace' => 'Auth'] ,function() {
-    Route::get('/selection-gurad', [HomeController::class, 'index'])->name('selection')->middleware('guest');
+    Route::get('/selection-guard', [HomeController::class, 'index'])->name('selection')->middleware('guest');
     Route::get('/login/{type}', [LoginController::class, 'loginForm'])->middleware('guest')->name('login.show');
     Route::post('/login', [LoginController::class, 'login'])->name('login');
     Route::get('/logout/{type}', [LoginController::class, 'logout'])->name('logout');
@@ -101,9 +101,12 @@ Route::prefix('admin')->middleware('auth:trainer,teacher,company,admin' )->name(
     Route::delete('students/{id}/forcedelete', [StudentController::class, 'forceDelete'])->name('students.forcedelete');
     Route::post('students/{id}/restore', [StudentController::class, 'restore'])->name('students.restore');
     Route::resource('students', StudentController::class);
+    // show evaluation
+    Route::get('show/evaluation/{id}', [StudentController::class, 'show_evaluation'])->name('show_evaluation');
 
     // evaluations
     Route::resource('evaluations', EvaluationController::class);
+    Route::post('apply_evaluation/{id}', [EvaluationController::class, 'apply_evaluation'])->name('apply_evaluation');
 
     //settings
     Route::get('settings', [HomeController::class, 'settings'])->name('settings');

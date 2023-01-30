@@ -16,8 +16,7 @@ return new class extends Migration
         Schema::create('evaluations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('company_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('student_id')->constrained()->cascadeOnDelete();
+            $table->enum('evaluation_type', ['company','student'])->default('company');
             $table->timestamps();
         });
     }

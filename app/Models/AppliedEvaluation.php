@@ -11,13 +11,21 @@ class AppliedEvaluation extends Model
 
     protected $guarded = [];
     
+    // with student
     public function student()
     {
-        return $this->belongsTo(Student::class);
+        return $this->belongsTo(Student::class)->withDefault();
     }
 
+    // with company
     public function company()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Company::class)->withDefault();
+    }
+
+    // with evaluation
+    public function evaluation()
+    {
+        return $this->belongsTo(Evaluation::class)->withDefault();
     }
 }

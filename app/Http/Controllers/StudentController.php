@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AppliedEvaluation;
+use App\Models\Evaluation;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StudentController extends Controller
 {
@@ -14,8 +17,10 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::with('university' , 'specialization')->latest('id')->paginate(env('PAGINATION_COUNT '));
-        return view('admin.students.index',compact('students'));
+        $students = Student::with('university' , 'specialization')->latest('id')->paginate(env('PAGINATION_COUNT'));
+        $evaluation = Evaluation::where('evaluation_type', 'student')->first();
+        // dd($applied);
+        return view('admin.students.index',compact('students', 'evaluation'));
     }
 
     /**
@@ -45,9 +50,21 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Student $student)
     {
-        //
+        $evaluation = Evaluation::where('evaluation_type', 'student')->first();
+
+        if($evaluation) {
+            // $check = Auth::guard() == 'admin';
+            // dd($check);
+            // if($evaluation->type != Auth::guard() && Auth::guard() != 'admin') {
+            //     abort(403, 'Your Not Authorized');
+            // } else {
+            return view('admin.students.evaluate', compact('evaluation', 'student'));
+            // }
+        } else {
+            abort(403, 'There Is No Evaluations Addedd');
+        }
     }
 
     /**
@@ -128,5 +145,20 @@ class StudentController extends Controller
 
 
 
+    }
+
+
+    /**
+     * Display the student evaluation.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show_evaluation($id)
+    {
+        $student = Student::findOrFail($id);
+        $applied_evaluation = AppliedEvaluation::with('evaluation')->where('student_id', $id)->first();
+        $data = json_decode($applied_evaluation->data, true);
+        return view('admin.students.evaluation_page', compact('data', 'student', 'applied_evaluation'));
     }
 }
