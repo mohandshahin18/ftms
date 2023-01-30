@@ -8,6 +8,7 @@ use App\Models\Evaluation;
 use App\Models\Question;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EvaluationController extends Controller
 {
@@ -44,14 +45,12 @@ class EvaluationController extends Controller
     {
         $request->validate([
             'name' => ['required'],
-            'student_id' => ['required'],
-            'company_id' => ['required']
+            'evaluation_type' => ['required'],
         ]);
 
         $evaluation = Evaluation::create([
             'name' => $request->name,
-            'student_id' => $request->student_id,
-            'company_id' => $request->company_id
+            'evaluation_type' => $request->evaluation_type,
         ]);
 
         if($request->has('questions')) {
@@ -118,7 +117,7 @@ class EvaluationController extends Controller
 
             foreach($request->questions as $qid => $question) {
                 Question::create([
-                    'question' => $questions,
+                    'question' => $question,
                     'evaluation_id' => $evaluation->id
                 ]);
             }
@@ -149,11 +148,37 @@ class EvaluationController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function apply()
+     public function applied_evaluations()
      {
         $applied = AppliedEvaluation::latest('id')
                    ->pginate(env('PAGINATION_COUNT'));
 
         return view('admin.appliedEvaluations.index', compact('evaluations'));
      }
+
+
+     /**
+     * Store a new evaluations of student.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function apply_evaluation(Request $request, $id)
+    {
+        $evaluation = Evaluation::findOrFail($id);
+        $student = Student::findOrFail($request->student_id);
+
+        AppliedEvaluation::create([
+            'evaluation_type' => $evaluation->evaluation_type,
+            'evaluation_id' => $id,
+            'student_id' => $request->student_id,
+            'company_id' => Auth::id(),
+            'data' => json_encode($request->answer),
+        ]);
+
+        return redirect()->route('admin.evaluations.index')
+        ->with('msg', $student->name.' has been evaluated successfully')
+        ->with('type', 'success');
+    }
+
 }

@@ -59,12 +59,23 @@
                                     <td>{{ $student->university->name }}</td>
                                     <td>{{ $student->specialization->name }}</td>
                                     <td>
-                                        <form class="d-inline delete_form"
-                                            action="{{ route('admin.students.destroy', $student->id) }}" method="POST">
-                                            @csrf
-                                            @method('delete')
-                                            <button class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i> </button>
-                                        </form>
+                                        <div>
+                                            <a href="{{ route('admin.students.show', $student) }}" class="btn btn-outline-secondary @if ($evaluation == null)
+                                                disabled
+                                            @endif" title="evaluate">تقييم</a>
+
+                                            <a href="{{ route('admin.show_evaluation', $student) }}" class="btn btn-info btn-sm 
+                                            @if ($evaluation == null)
+                                                disabled
+                                            @endif" title="show evaluation"><i class="fas fa-eye"></i></a>
+                                            
+                                            <form class="d-inline delete_form"
+                                                action="{{ route('admin.students.destroy', $student->id) }}" method="POST">
+                                                @csrf
+                                                @method('delete')
+                                                <button class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i> </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty

@@ -4,7 +4,7 @@
 @section('sub-title' , 'Evaluations')
 @section('evaluations-menu-open' , 'menu-open')
 @section('evaluations-active' , 'active')
-@section('add-specialization-active' , 'active')
+@section('add-evaluations-active' , 'active')
 
 @section('styles')
 <style>
@@ -66,32 +66,17 @@
                         </div>
                     </div>
 
-                     {{-- student --}}
+                     {{-- type --}}
                      <div class="col-6">
                         <div class="form-group">
-                            <label class="mb-2">Student</label>
-                            <select name="student_id" class="form-control" id="">
-                                <option value="">Select student</option>
-                                @foreach ($students as $student)
-                                    <option value="{{ $student->id }}">{{ $student->name }}</option>
-                                @endforeach
+                            <label class="mb-2">For</label>
+                            <select name="evaluation_type" class="form-control" id="">
+                                <option value="company">Companies</option>
+                                <option value="student">Students</option>
                             </select>
                         </div>
                     </div>
-                    
-                     {{-- company --}}
-                     <div class="col-6">
-                        <div class="form-group">
-                            <label class="mb-2">Company</label>
-                            <select name="company_id" class="form-control" id="">
-                                <option value="">Select company</option>
-                                @foreach ($companies as $company)
-                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
+                
                     
 
                </div>
