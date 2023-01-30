@@ -28,17 +28,13 @@
                 <div class="card-body table-responsive p-0">
                     <form action="{{ route('admin.apply_evaluation', $evaluation) }}" method="POST">
                         @csrf
-                        <input type="hidden" value="{{ $student->id }}" name="student_id">name="evaluation_id">
+                        <input type="hidden" value="{{ $student->id }}" name="student_id">
                         <table class="table table-striped  table-hover ">
                             <thead>
                                 <tr style="background-color: #1e272f; color: #fff;">
                                     <th>#</th>
                                     <th style="width: 40%;">Question</th>
                                      <th colspan="5" align="center">Answers</th>
-                                    {{--<th>Student phone</th>
-                                    <th>Student ID</th>
-                                    <th>University name</th>
-                                    <th>Specialization name</th> --}}
                                 </tr>
                             </thead>
     
@@ -69,7 +65,7 @@
                                         </td>
                                         <td>
                                             <label style="display: flex; align-items: center; gap: 4px; ">ضعيف
-                                                <input type="radio" name="answer[{{ $question->id }}]" value="low">
+                                                <input type="radio" name="answer[{{ $question->id }}]" value="bad">
                                             </label>
                                         </td>
                                         
@@ -78,6 +74,7 @@
                             </tbody>
                         </table>
                         <div class="text-center m-3">
+                            <p clas><i class="fas fa-info-circle text-warning"></i> Careful: <i>You <span class="text-danger">can't</span> edit this after saving</i></p>
                             <button type="submit" class="btn btn-success text-center" style="width: 200px;"><i class="fas fa-save"></i> Save</button>
                             <button type="button" class="btn btn-danger" onclick="history.back()"><i class="fas fa-times"></i> Cancel</button>
                         </div>

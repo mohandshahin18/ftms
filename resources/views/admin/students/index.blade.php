@@ -39,11 +39,11 @@
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
                                 <th>Student name</th>
-                                <th>Student email</th>
                                 <th>Student phone</th>
                                 <th>Student ID</th>
                                 <th>University name</th>
-                                <th>Specialization name</th>
+                                <th>Specialization</th>
+                                <th>Evaluation Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -53,21 +53,26 @@
                                 <tr id="row_{{ $student->id }}">
                                     <td>{{ $student->id }}</td>
                                     <td>{{ $student->name }}</td>
-                                    <td>{{ $student->email }}</td>
                                     <td>{{ $student->phone }}</td>
                                     <td>{{ $student->student_id }}</td>
                                     <td>{{ $student->university->name }}</td>
-                                    <td>{{ $student->specialization->name }}</td>
+                                    <td>{{ $student->Specialization->name }}</td>
+                                    <td>@if ($student->id == $evaluated_student->id)
+                                        <span class="text-success">Evaluated</span>
+                                    @else
+                                        <span class="text-danger">Not Evaluated yet</span>
+                                    @endif    
+                                    </td>
                                     <td>
                                         <div>
-                                            <a href="{{ route('admin.students.show', $student) }}" class="btn btn-outline-secondary @if ($evaluation == null)
+                                            <a href="{{ route('admin.students.show', $student) }}" class="btn btn-outline-secondary @if ($student->id == $evaluated_student->id )
                                                 disabled
-                                            @endif" title="evaluate">تقييم</a>
+                                            @endif" title="evaluate">Evaluate</a>
 
                                             <a href="{{ route('admin.show_evaluation', $student) }}" class="btn btn-info btn-sm 
-                                            @if ($evaluation == null)
+                                            @if ($student->id !== $evaluated_student->id)
                                                 disabled
-                                            @endif" title="show evaluation"><i class="fas fa-eye"></i></a>
+                                            @endif" title="show evaluation"><i class="fas fa-eye"></i> Show Evaluation</a>
                                             
                                             <form class="d-inline delete_form"
                                                 action="{{ route('admin.students.destroy', $student->id) }}" method="POST">

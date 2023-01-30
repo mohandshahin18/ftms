@@ -18,10 +18,19 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::with('university' , 'specialization')->latest('id')->paginate(env('PAGINATION_COUNT'));
-        $evaluation = Evaluation::where('evaluation_type', 'student')->first();
-        // dd($applied);
-        return view('admin.students.index',compact('students', 'evaluation'));
+        $students = Student::with('university', 'specialization', 'applied_evaluation')
+        ->paginate(env('PAGINATION_COUNT'));
+        
+        // $applied = AppliedEvaluation::where('evaluation_type', 'student')->first();
+
+        $evaluated_student = Student::has('applied_evaluation')->first();
+
+        $data = [
+            'students' => $students,
+            'evaluated_student' => $evaluated_student,
+        ];
+
+        return view('admin.students.index', $data);
     }
 
     /**
@@ -57,7 +66,7 @@ class StudentController extends Controller
 
         if($evaluation) {
             // $check = Auth::guard() == 'admin';
-            // dd($check);
+            dd(Auth::guard() === 'admin' ? true : false);
             // if($evaluation->type != Auth::guard() && Auth::guard() != 'admin') {
             //     abort(403, 'Your Not Authorized');
             // } else {
@@ -160,8 +169,18 @@ class StudentController extends Controller
         $student = Student::findOrFail($id);
         $applied_evaluation = AppliedEvaluation::with('evaluation')->where('student_id', $id)->first();
         $data = json_decode($applied_evaluation->data, true);
+
+        // $excellent = 0;
+        // $very_good = 0;
+        // $good = 0;
+        // $aceptable = 0;
+        // $bad = 0;
+        // $unique_ratings = [];
+        
         return view('admin.students.evaluation_page', compact('data', 'student', 'applied_evaluation'));
     }
+
+   
 
     /**
      * Export student evaluation as PDF.
@@ -180,7 +199,9 @@ class StudentController extends Controller
             'applied_evaluation' => $applied_evaluation
         ];
 
+        $name_of_pdf = str_replace(' ', '-', $student->name).'-'.$student->student_id;
+
         $pdf = Pdf::loadView('admin.students.pdf', $data);
-        return $pdf->download($student->name.'.pdf');
+        return $pdf->download($name_of_pdf.'.pdf');
     }
 }
