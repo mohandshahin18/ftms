@@ -1,6 +1,7 @@
 <?php
 
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\SpecializationsController;
 use App\Http\Controllers\WebSite\websiteController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,13 +30,10 @@ use App\Http\Controllers\WebSite\websiteController;
 */
 
 
-// Route::get('/', function () {
-//     return view('student.master');
-// })->name('student.home');
 
 // login to control panle
 Route::group(['namespace' => 'Auth'] ,function() {
-    Route::get('/selection-gurad', [HomeController::class, 'index'])->name('selection')->middleware('guest');
+    Route::get('/selection-type', [HomeController::class, 'index'])->name('selection')->middleware('guest');
     Route::get('/login/{type}', [LoginController::class, 'loginForm'])->middleware('guest')->name('login.show');
     Route::post('/login', [LoginController::class, 'login'])->name('login');
     Route::get('/logout/{type}', [LoginController::class, 'logout'])->name('logout');
@@ -67,6 +66,10 @@ Route::prefix('admin')->middleware('auth:trainer,teacher,company,admin' )->name(
 
     //home page
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
+
+    //profile
+    Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('profile');
+    Route::put('/profile/{id}', [App\Http\Controllers\HomeController::class, 'profile_edit'])->name('profile_edit');
 
     // Category
     Route::get('categories/trash', [CategoryController::class, 'trash'])->name('categories.trash');
@@ -124,3 +127,9 @@ Route::middleware('auth')->group(function () {
 // Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+
+Route::get('/student/home', function () {
+    return 'sss';
+})->middleware(['auth', 'verified:student']);

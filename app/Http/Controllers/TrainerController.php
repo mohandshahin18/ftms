@@ -43,7 +43,7 @@ class TrainerController extends Controller
     public function store(TrainerRequest $request)
     {
 
-        $path = $request->file('image')->store('/uploads', 'custom');
+        $path = $request->file('image')->store('/uploads/trainer', 'custom');
 
         Trainer::create([
             'name' => $request->name,

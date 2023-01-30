@@ -14,7 +14,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::with('university' , 'specialization')->latest('id')->paginate(env('PAGINATION_COUNT '));
+        $students = Student::with('university' , 'specialization')->latest('id')->paginate(env('PAGINATION_COUNT'));
         return view('admin.students.index',compact('students'));
     }
 

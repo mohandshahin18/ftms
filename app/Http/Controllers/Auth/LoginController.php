@@ -53,21 +53,14 @@ class LoginController extends Controller
     {
 
 
-        // $password =Hash::make($request->password);
-        // dd(new Password($request->type));
-
         if( $request->type == 'teacher'){
             $email ='exists:teachers,email';
-            $password = 'in:teachers';
         }elseif($request->type == 'admin'){
             $email ='exists:admins,email';
-            $password = 'in:admins';
         }elseif($request->type == 'company'){
             $email ='exists:companies,email';
-            $password = 'in:companies';
         }elseif($request->type == 'trainer'){
             $email ='exists:trainers,email';
-            $password = 'in:trainers,';
         }
 
         $this->validate($request, [
@@ -80,6 +73,8 @@ class LoginController extends Controller
             $type =ucfirst($this->chekGuard($request));
 
             return $this->redirect($request)->with('msg', $type.' Login successfully ')->with('type','success');
+         }else {
+            return redirect()->back()->with('msg' ,' The selected email or password is invalid. ');
          }
     }
 
@@ -91,7 +86,7 @@ class LoginController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/selection-gurad');
+        return redirect('/selection-type');
     }
 
 
