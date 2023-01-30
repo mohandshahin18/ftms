@@ -103,6 +103,8 @@ Route::prefix('admin')->middleware('auth:trainer,teacher,company,admin' )->name(
     Route::resource('students', StudentController::class);
     // show evaluation
     Route::get('show/evaluation/{id}', [StudentController::class, 'show_evaluation'])->name('show_evaluation');
+    // export evaluation as pdf
+    Route::get('export/pdf/{id}', [StudentController::class, 'export_pdf'])->name('export_pdf');
 
     // evaluations
     Route::resource('evaluations', EvaluationController::class);

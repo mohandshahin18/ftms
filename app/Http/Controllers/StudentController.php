@@ -7,6 +7,7 @@ use App\Models\Evaluation;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class StudentController extends Controller
 {
@@ -160,5 +161,26 @@ class StudentController extends Controller
         $applied_evaluation = AppliedEvaluation::with('evaluation')->where('student_id', $id)->first();
         $data = json_decode($applied_evaluation->data, true);
         return view('admin.students.evaluation_page', compact('data', 'student', 'applied_evaluation'));
+    }
+
+    /**
+     * Export student evaluation as PDF.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function export_pdf($id)
+    {
+        $student = Student::findOrFail($id);
+        $applied_evaluation = AppliedEvaluation::with('evaluation')->where('student_id', $id)->first();
+        $questions = json_decode($applied_evaluation->data, true);
+        $data = [
+            'student' => $student,
+            'questions' => $questions,
+            'applied_evaluation' => $applied_evaluation
+        ];
+
+        $pdf = Pdf::loadView('admin.students.pdf', $data);
+        return $pdf->download($student->name.'.pdf');
     }
 }

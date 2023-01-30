@@ -26,7 +26,7 @@
                             <h5>Student Name: <strong class="text-primary"> {{ $student->name }}</strong></h5>
                         </div>
                         <div>
-                            <a href="" class="btn btn-primary mb-2"><i class="fas fa-pdf"> Export as PDF</i></a>
+                            <a href="{{ route('admin.export_pdf', $student) }}" class="btn btn-primary mb-2"><i class="fas fa-pdf"> Export as PDF</i></a>
                         </div>
                     </div>
                 </div>
