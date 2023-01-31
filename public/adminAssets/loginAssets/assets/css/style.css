@@ -1,0 +1,470 @@
+/* Typography */
+:root {
+  --mainColor: #1a2e44;
+  --secondColor: #303d47;
+  --thirdColor: #00bcb3;
+  --fourthColor: #fd9a18;
+}
+
+@font-face {
+  font-family: "Lato Black";
+  src: url(../fonts/Lato-Black.ttf);
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lato Bold";
+  src: url(../fonts/Lato-Bold.ttf);
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lato Light";
+  src: url(../fonts/Lato-Light.ttf);
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lato Regular";
+  src: url(../fonts/Lato-Regular.ttf);
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DIN REGULAR";
+  src: url(../fonts/din_regular.otf);
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DIN BOLD";
+  src: url(../fonts/din_bold.otf);
+  font-display: swap;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Lato Regular";
+  color: var(--secondColor);
+  font-size: 14px;
+  transition: all 0s ease !important;
+  margin: 0;
+  line-height: 1.5;
+  background: #fafafa;
+}
+
+
+
+/* Customize the label (the checkbox-lable) */
+.checkbox-lable {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  height: 25px;
+  line-height: 27px;
+}
+
+/* Hide the browser's default checkbox */
+.checkbox-lable input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkbox-mark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.checkbox-lable:hover input ~ .checkbox-mark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+/* .checkbox-lable input:checked ~ .checkbox-mark {
+  background-color: #2196f3;
+} */
+
+/* Create the checkbox-mark/indicator (hidden when not checked) */
+.checkbox-mark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkbox-mark when checked */
+.checkbox-lable input:checked ~ .checkbox-mark:after {
+  display: block;
+}
+
+/* Style the checkbox-mark/indicator */
+.checkbox-lable .checkbox-mark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid #000;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+/* The custom-radio */
+.custom-radio {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.custom-radio input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.radio-mark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.custom-radio:hover input ~ .radio-mark {
+  background-color: rgb(226, 226, 226);
+}
+
+/* When the radio button is checked, add a blue background */
+/* .custom-radio input:checked~.radio-mark {
+  background-color: #2196F3;
+} */
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.radio-mark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.custom-radio input:checked ~ .radio-mark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.custom-radio .radio-mark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid #06ae60;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+
+
+.shadow {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.main-color {
+  color: var(--mainColor);
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.light {
+  font-family: "Lato Light";
+}
+
+.text-black {
+  color: #000;
+}
+
+.lead {
+  font-size: 1.25rem;
+  font-weight: 300;
+}
+
+a {
+  color: var(--mainColor);
+  text-decoration: none;
+}
+
+ul,
+ol {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.btn {
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: var(--mainColor);
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: var(--secondColor);
+}
+
+.bg-dark {
+  background: #212529;
+}
+
+.bg-light {
+  background: #f3f3f3;
+}
+
+.bg-white {
+  background: #fff;
+}
+
+.bg-main {
+  background: var(--mainColor);
+}
+
+.bg-second {
+  background: var(--secondColor);
+}
+
+.bg-third {
+  background: var(--thirdColor);
+}
+
+.bg-fourth {
+  background: var(--fourthColor);
+}
+
+.bg-gray {
+  background: #adadad;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+img {
+  max-width: 100%;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.w-25 {
+  width: 25%;
+}
+
+.w-30 {
+  width: 30%;
+}
+
+.w-50 {
+  width: 50%;
+}
+
+.h-100 {
+  height: 100%;
+}
+
+.h-50 {
+  height: 50%;
+}
+
+.p-10 {
+  padding: 10px !important;
+}
+
+.p-15 {
+  padding: 15px !important;
+}
+
+.p-20 {
+  padding: 20px !important;
+}
+
+.p-30 {
+  padding: 30px !important;
+}
+
+.p-40 {
+  padding: 40px !important;
+}
+
+
+
+/* ----------- Sign In Page ----------- */
+/* .signin {
+  height: 100vh;
+} */
+
+.signin .logo {
+  position: absolute;
+  left: 80px;
+  top: 60px;
+}
+/* .signin{
+  background: url('../images/1C3A5808-min.JPG')center center no-repeat !important;
+  background-size: cover !important;
+} */
+
+.signin-form {
+  width: 55%;
+  margin: 8% auto 0;
+  background: #fff;
+  padding: 50px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+}
+
+.bottom-bg {
+  height: 40%;
+  background: var(--mainColor);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  z-index: -1;
+}
+
+.bottom-bg::before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: url(../images/pattern-bg.png);
+  position: absolute;
+  opacity: 0.15;
+  top: 0;
+  left: 0;
+}
+
+.signin-form h3 {
+  font-size: 26px;
+  margin: 0;
+  font-family: "Lato Light";
+  margin-bottom: 30px;
+}
+
+.signin-form .form-control {
+  background: #f8f8f8;
+  border: 0;
+  padding: 10px 40px;
+  outline: 0;
+}
+.register .form-control {
+
+  padding: 10px !important ;
+}
+
+.signin-form form .form-group svg {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 15px;
+  width: 20px;
+}
+
+.signin-form form > div {
+  position: relative;
+}
+
+.social-media {
+  display: flex;
+  justify-content: center;
+}
+
+.signin-form p.divider {
+  margin: 20px 0;
+  position: relative;
+}
+
+.signin-form p.divider:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: #e1e1e1;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+.signin-form p.divider span {
+  background: #fff;
+  position: relative;
+  padding: 0 15px;
+}
+

@@ -39,6 +39,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
         .card-primary:not(.card-outline)>.card-header {
             background-color: #1e272f;
         }
+
+        /* .form-control {
+            background: #f8f8f8;
+            border: 1px solid #f8f8f8;
+
+            border: 0;
+            outline: 0;
+        }
+        .form-control:focus{
+           border: 1px solid #ced4da;
+        } */
+
     </style>
 
 

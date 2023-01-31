@@ -23,8 +23,6 @@ return new class extends Migration
             $table->string('password');
             $table->text('description');
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();
         });

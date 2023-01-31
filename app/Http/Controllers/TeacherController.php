@@ -44,7 +44,7 @@ class TeacherController extends Controller
      */
     public function store(TeacherRequest $request)
     {
-        $path = $request->file('image')->store('/uploads', 'custom');
+        $path = $request->file('image')->store('/uploads/teacher', 'custom');
 
         Teacher::create([
             'name' => $request->name,

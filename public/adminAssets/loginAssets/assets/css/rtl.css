@@ -1,0 +1,135 @@
+/* Typography */
+@font-face {
+  font-family: "DIN REGULAR";
+  src: url(../fonts/din_regular.otf);
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DIN BOLD";
+  src: url(../fonts/din_bold.otf);
+  font-display: swap;
+}
+
+body {
+  font-family: "DIN REGULAR";
+  direction: rtl;
+  text-align: right;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: auto;
+  bottom: 0;
+  z-index: 100;
+  /* Behind the navbar */
+  padding: 70px 0 0;
+  /* Height of navbar */
+  box-shadow: inset 1px 0 0 rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
+
+.signin .logo {
+  right: 80px;
+  left: unset;
+}
+.signin-form form .form-group svg {
+  left: 0;
+  right: 15px;
+}
+.checkbox-lable {
+  padding-right: 35px;
+  padding-left: 0;
+}
+.checkbox-mark {
+  right: 0;
+  left: auto;
+}
+
+.signin-form h3,
+.form-control,
+.btn,
+.light,
+.q-number small,
+ol.answers li {
+  font-family: "DIN REGULAR";
+}
+
+.dash-header h1,
+.learning-file h2,
+.q-number,
+.course-cards > div b {
+  font-family: 'DIN BOLD';
+}
+
+.lms-header ul.navbar-nav li.user a svg {
+  margin-right: 0;
+  margin-left: -15px;
+}
+
+ol.breadcrumb li:not(:last-child):after {
+  margin-left: 0;
+  margin-right: 10px;
+}
+.card-header button svg,
+.q-card .navigation button svg {
+  transform: rotate(180deg);
+}
+
+.lms-header ul.navbar-nav > li:not(:last-child):after {
+  right: auto;
+  left: -15px;
+}
+.q-number {
+  right: auto;
+  left: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 5px;
+}
+.q-card label .radio-mark {
+  left: auto;
+  right: 10px;
+}
+
+.me-auto {
+  margin-right: unset!important;
+  margin-left: auto!important;
+}
+.ms-3 {
+  margin-right: 1rem!important;
+}
+
+.rating svg {
+  transform: scaleX(-1);
+}
+
+.course-content .course-group .persons ul li:not(:first-child) {
+  margin-right: -8px;
+  margin-left: 0;
+}
+
+li.nav-item.has-dropdown span svg.icon {
+  right: auto;
+  left: 20px;
+  top: 22px;
+}
+
+@media (max-width: 767.98px) {
+  .sidebar.show {
+      right: 0;
+      left: auto;
+  }
+  .sidebar {
+      right: -90%;
+      left: auto;
+  }
+}
+
+@media (min-width: 576px) {
+  .ms-sm-auto {
+      margin-right: auto!important;
+      margin-left: 0!important;
+  }
+}

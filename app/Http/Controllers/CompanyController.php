@@ -41,7 +41,7 @@ class CompanyController extends Controller
      */
     public function store(CompanyRequest $request)
     {
-        $path = $request->file('image')->store('/uploads', 'custom');
+        $path = $request->file('image')->store('/uploads/company', 'custom');
 
         Company::create([
             'name' => $request->name,
@@ -93,6 +93,8 @@ class CompanyController extends Controller
         $path = $company->image;
 
         if($request->image) {
+            File::delete(public_path($company->image));
+
             $path = $request->file('image')->store('/uploads', 'custom');
         }
 

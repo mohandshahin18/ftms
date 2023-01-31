@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Auth;
 use App\Models\User;
 use App\Models\Student;
 use App\Models\Teacher;
+use App\Mail\OTPVerified;
 use Illuminate\Http\Request;
 use App\Models\Specialization;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Auth\Events\Registered;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -53,6 +56,7 @@ class RegisterController extends Controller
 
     public function createStudent(Request $request)
     {
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:students'],
@@ -63,8 +67,10 @@ class RegisterController extends Controller
             'specialization_id' => ['required'],
         ]);
 
+        $code = rand(000000, 999999);
+
         $teacher = Teacher::where('university_id',$request->university_id)->where('specialization_id', $request->specialization_id)->first();
-         Student::create([
+        $student = Student::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone' => $request->phone,
@@ -73,7 +79,11 @@ class RegisterController extends Controller
                 'university_id' => $request->university_id,
                 'specialization_id' => $request->specialization_id,
                 'password' => Hash::make($request->password),
+                'otp' => $code
             ]);
+
+            Mail::to($request->email)->send(new OTPVerified($code, $request->name));
+            // event(new Registered($student));
 
             return redirect()->route('student.home');
 

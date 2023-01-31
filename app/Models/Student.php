@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
+use Illuminate\Notifications\Notifiable;
 
 class Student extends Authenticatable
 {
-    use HasFactory , SoftDeletes;
+    use HasFactory , SoftDeletes, Notifiable;
     protected $guarded = [];
 
     //with university
@@ -37,11 +37,6 @@ class Student extends Authenticatable
         return $this->belongsTo(Company::class)->withDefault();
     }
 
-    // with evaluation
-    public function evaluations()
-    {
-        return $this->hasMany(Evaluation::class);
-    }
 
     // with applied evaluations
     public function applied_evaluation()

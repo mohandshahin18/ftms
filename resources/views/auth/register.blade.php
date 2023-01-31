@@ -1,491 +1,262 @@
 
+
+
 <!DOCTYPE html>
 <html >
-
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
     <title>{{ config('app.name') }} | Register</title>
-    <link rel="icon" type="image/x-icon" href="{{ asset('adminAssets/dist/img/favicon.ico') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('adminAssets/dist/img/selection/favicon.ico') }}">
+
+    <link rel="stylesheet" href="{{ asset('adminAssets/loginAssets/assets/css/bootstrap-grid.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminAssets/loginAssets/assets/css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
 
-
-
     <style>
-        @font-face {
-            font-family: event-reg;
-            src: url({{ asset('adminAssets/dist/fonts/JF-Flat-regular.ttf') }});
+        input.error {
+                    border: 1px solid #dc3545 !important;
+                }
+                small {
+                    color: #dc3545;
+                    /* text-align: right; */
+                    display: block;
+                    margin: 6px 0 0 0;
+                }
 
-        }
-
-        body {
-            margin: 0;
-            font-family: event-reg !important;
-        }
-
-
-        .header {
-            position: relative;
-            text-align: center;
-            color: white;
-            background: url({{ asset('adminAssets/dist/img/header/header.JPG') }}) no-repeat center center;
-            background-size: cover;
-            height: 100vh;
-        }
-
-        .overlay {
-            position: absolute;
-            background-color: rgba(0, 0, 0, 0.607);
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 100%
-        }
+                input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
 
-
-        .login-box {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 750px;
-            padding: 40px;
-            transform: translate(-50%, -50%);
-            background: rgb(0 0 0 / 80%);
-            box-sizing: border-box;
-            background: rgba(0, 0, 0, 0.548);
-            border-radius: 10px;
-            z-index: 999;
-        }
-        .login-box form{
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .login-box h2 {
-            margin: 0 0 30px;
-            padding: 0;
-            color: #fff;
-            text-align: center;
-        }
-
-        .login-box .user-box {
-            position: relative;
-            margin-bottom: 20px;
-            width: 45%;
-        }
-
-        .login-box .user-box input ,
-        .login-box .user-box select {
-            width: 100%;
-            padding: 10px 0px;
-            padding-left: 10px;
-            font-size: 16px;
-            color: #fff;
-            border: none;
-            border: 1px solid #fff;
-            outline: none;
-            background: transparent;
-        }
-        .login-box .user-box select option{
-            background-color: rgba(0, 0, 0, 0.712);
-        }
-
-        
-
-        .login-box .user-box input:focus {
-            border-color: #5d78ff
-        }
-
-        .login-box .user-box #password {
+ #password {
             display: flex;
             align-items: center;
             position: relative;
         }
-
-        .login-box .user-box i {
+        .show-pass {
             position: absolute;
-            right: 15px;
-            top: 49px;
+            left: 335px;
+            top: 196px;
             cursor: pointer;
         }
-
-        .login-box .user-box i.active::before {
+        .show-pass.active::before {
             color: #333;
             content: '\f070';
         }
 
-        .login-box .user-box label {
-            text-align: right;
-            display: block;
-            font-size: 16px;
-            color: #fff;
-            margin-bottom: 10px
-        }
 
-        .login-box .user-box input.error {
-            border: 1px solid #dc3545;
-        }
-
-        .login-box .user-box small {
-            color: #dc3545;
-            text-align: right;
-            display: block;
-            margin: 6px 0 0 0;
-        }
-
-        .login-box a {
-            color: #fff;
-            text-decoration: none;
-            transition: 0.3s ease-in-out;
-
-        }
-
-        .login-box a:hover {
-            color: #5d78ff !important;
-        }
-
-        .login-box form button {
-            position: relative;
-            display: inline-block;
-            padding: 10px 20px;
-            color: #fff;
-            font-size: 16px;
-            text-decoration: none;
-            text-transform: uppercase;
-            overflow: hidden;
-            transition: .5s;
-            margin-top: 10px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            font-family: event-reg !important;
-
-        }
-
-        .login-box button:hover {
-            background: #5d78ff;
-            color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 5px #5d78ff,
-                0 0 25px #5d78ff,
-                0 0 50px #5d78ff,
-                0 0 100px #5d78ff;
-        }
-
-        .login-box button span {
-            position: absolute;
-            display: block;
-        }
-
-        .login-box button span:nth-child(1) {
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #5d78ff);
-            animation: btn-anim1 1s linear infinite;
-        }
-
-        @keyframes btn-anim1 {
-            0% {
-                left: -100%;
-            }
-
-            50%,
-            100% {
-                left: 100%;
-            }
-        }
-
-        .login-box button span:nth-child(2) {
-            top: -100%;
-            right: 0;
-            width: 2px;
-            height: 100%;
-            background: linear-gradient(180deg, transparent, #5d78ff);
-            animation: btn-anim2 1s linear infinite;
-            animation-delay: .25s
-        }
-
-        @keyframes btn-anim2 {
-            0% {
-                top: -100%;
-            }
-
-            50%,
-            100% {
-                top: 100%;
-            }
-        }
-
-        .login-box button span:nth-child(3) {
-            bottom: 0;
-            right: -100%;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(270deg, transparent, #5d78ff);
-            animation: btn-anim3 1s linear infinite;
-            animation-delay: .5s
-        }
-
-        @keyframes btn-anim3 {
-            0% {
-                right: -100%;
-            }
-
-            50%,
-            100% {
-                right: 100%;
-            }
-        }
-
-        .login-box button span:nth-child(4) {
-            bottom: -100%;
-            left: 0;
-            width: 2px;
-            height: 100%;
-            background: linear-gradient(360deg, transparent, #5d78ff);
-            animation: btn-anim4 1s linear infinite;
-            animation-delay: .75s
-        }
-
-        @keyframes btn-anim4 {
-            0% {
-                bottom: -100%;
-            }
-
-            50%,
-            100% {
-                bottom: 100%;
-            }
-        }
     </style>
 
-
-    @if (app()->getLocale() == 'en')
-        <style>
-            .login-box .user-box label {
-                text-align: left
-            }
-            .login-box .user-box small{
-                text-align: left !important;
-            }
-        </style>
-    @endif
 </head>
-
 <body>
+    <div class="signin">
+        <div class="logo"><img src="{{ asset('adminAssets/dist/img/logo/logo-11.png') }}" alt=""></div>
+        <div class="signin-form register">
+            <div class="row">
+                <form method="POST" action="{{ route('student.register') }}" >
+                    @csrf
+                        <h3>Register</h3>
+                        <div class="row">
 
-    <!--Hey! This is the original version
-of Simple CSS Waves-->
-    <div class="header">
-        <div class="overlay">
-            <!--Content before waves-->
-            <div class="inner-header flex">
-                <div class="all">
-                    <div class="login-box">
-                      <div class="img-logo">
-                            <img src="{{ asset('adminAssets/dist/img/logo/S2.png') }}" alt="">
+                                {{-- name  --}}
+                        <div class="col-md-6">
+                        <div class="mb-3 form-group">
+                            <input type="name" class="form-control @error('name') is-invalid @enderror" name="name"
+                            value="{{ old('name') }}" placeholder="Name">
+                            @error('name')
+                                    <small  class="invalid-feedback">{{ $message }}</small>
+                            @enderror
                         </div>
-                        <form method="POST" action="{{ route('student.register') }}" >
-                            @csrf
-                            {{-- name --}}
-                            <div class="user-box">
-                                <label>Name</label>
-                                <input type="name" class="@error('name') error @enderror" name="name"
-                                    value="{{ old('name') }}">
-                                @error('name')
-                                    <small>{{ $message }}</small>
-                                @enderror
-                            </div>
+                        </div>
 
-                            {{-- email --}}
-                            <div class="user-box">
-                                <label>Email</label>
-                                <input type="email" class="@error('email') error @enderror" name="email"
-                                    value="{{ old('email') }}">
+                        {{-- email  --}}
+                        <div class="col-md-6">
+                            <div class="mb-3 form-group">
+                                <input type="email" class="form-control @error('email') error @enderror" name="email" value="{{ old('email') }}" placeholder="Email">
                                 @error('email')
                                     <small>{{ $message }}</small>
                                 @enderror
                             </div>
+                        </div>
 
-                            {{-- phone --}}
-                            <div class="user-box">
-                                <label>Phone</label>
-                                <input type="text" class="@error('phone') error @enderror" name="phone"
-                                    value="{{ old('phone') }}">
+                        {{-- phone  --}}
+                        <div class="col-md-6">
+                            <div class="mb-3 form-group">
+                                <input type="text" class="form-control @error('phone') error @enderror" name="phone"  value="{{ old('phone') }}" placeholder="Phone">
                                 @error('phone')
                                     <small>{{ $message }}</small>
                                 @enderror
                             </div>
+                        </div>
 
-                            {{-- email --}}
-                            <div class="user-box">
-                                <label>Student ID</label>
-                                <input type="text" class="@error('student_id') error @enderror" name="student_id"
-                                    value="{{ old('student_id') }}">
+                        {{-- Student ID  --}}
+                        <div class="col-md-6">
+                            <div class="mb-3 form-group">
+                                <input type="number" class="form-control @error('student_id') error @enderror" name="student_id" value="{{ old('student_id') }}" placeholder="Student ID">
                                 @error('student_id')
                                     <small>{{ $message }}</small>
                                 @enderror
                             </div>
+                        </div>
 
 
 
-                            <?php
+                        @php
                                 use App\Models\University;
                                 use App\Models\Specialization;
-
                                 $universities = University::get();
                                 $specializations = Specialization::get();
-                            ?>
-                             {{-- University --}}
-                             <div class="user-box">
-                                <label class="mb-2">University</label>
-                                    <select name="university_id" class="form-control" id="university_id">
-                                        <option data-display="Select University">Select University</option>
-                                        @foreach ($universities as $university)
-                                            <option value="{{ $university->id }}">{{ $university->name }}</option>
-                                        @endforeach
-                                    </select>
+                        @endphp
+
+
+
+                        {{-- University  --}}
+                        <div class="col-md-6">
+                            <div class="mb-3 form-group">
+                                <select name="university_id" class="form-control @error('university_id') error @enderror" id="university_id">
+                                    <option data-display="Select University">Select University</option>
+                                    @foreach ($universities as $university)
+                                        <option value="{{ $university->id }}">{{ $university->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('university_id')
+                                    <small>{{ $message }}</small>
+                                @enderror
                             </div>
-                             {{-- Specializations --}}
-                             <div class="user-box">
-                                <label class="mb-2">Specialization</label>
-                                    <select name="specialization_id" class="form-control" id="specialization_id">
-                                        <option data-display="Select Specialization">Select Specialization</option>
-                                        @foreach ($specializations as $specialization)
+                        </div>
 
-                                        @endforeach
-                                    </select>
+
+
+
+                        {{-- Specializations  --}}
+                        <div class="col-md-6">
+                            <div class="mb-3 form-group">
+                                <select name="specialization_id" class="form-control @error('specialization_id') error @enderror" id="specialization_id">
+                                    <option >Select Specialization</option>
+                                    @foreach ($specializations as $specialization)
+
+                                    @endforeach
+                                </select>
+                                @error('specialization_id')
+                                    <small>{{ $message }}</small>
+                                @enderror
                             </div>
+                        </div>
 
 
 
-
-                            <div class="user-box">
-                                <label>Password</label>
-                                <input type="password" id="password" class="@error('password') error @enderror" name="password"
-                                    autocomplete="new-password">
-                                    <i class="far fa-eye"></i>
+                        {{-- password --}}
+                        <div class="col-md-6">
+                            <div class="mb-3 form-group">
+                                <input type="password" id="password" class="form-control @error('password') error @enderror" name="password"  placeholder="Password">
+                                <i class="far fa-eye show-pass"></i>
                                 @error('password')
                                     <small>{{ $message }}</small>
                                 @enderror
                             </div>
-
-                            <div class="user-box">
-                                <label>Confirm Password</label>
-                                <input type="password" id="confirm_password" class="" name="password_confirmation" autocomplete="new-password">
-                            </div>
-
-
-
-
-                            <button type="submit" class="btn-login">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                Register
-                            </button>
-                            <br>
-                            <br>
-
-                        </form>
-                        <div style="display: flex; align-items: center; justify-content: flex-end;">
-
-                            @if (Route::has('password.request'))
-                                <a href="{{ route('login') }}">
-                                   You have account ?
-                                </a>
-                            @endif
-
-
                         </div>
+
+                        {{-- Confirm Password  --}}
+                        <div class="col-md-6">
+                            <div class="mb-3 form-group">
+                                <input  type="password" id="confirm_password" class="form-control" name="password_confirmation" placeholder="Confirm Password">
+                                @error('password_confirmation')
+                                    <small>{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary bold  py-2">Register</button>
+
+
+                    </form>
 
                     </div>
 
-
                 </div>
 
-
             </div>
-
+        </div>
+        <div class="bottom-bg">
 
         </div>
     </div>
-    <!--Header ends-->
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
 
 
-    {{-- Ajax Request --}}
-    <script>
-            $(document).ready(function() {
-                $("#university_id").on("change", function() {
-                    var uni_id = $(this).val();
-                    if(uni_id) {
-                        $.ajax({
-                            url: "/student/get/specialization/"+ uni_id,
-                            type: "GET",
-                            dataType: "json",
-                            success: function(data) {
-                                $("#specialization_id").empty();
-                                $.each(data, function(key, value) {
-                                    $("#specialization_id").append('<option value="'+ key+ '">'+ value+ '</option>');
-                                });
-                            },
-                        });
-                    }
-                });
-            });
+     <!--Header ends-->
+     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
 
-            // Confirm Password input Check
 
-            var password = document.querySelector("#password");
-            var confirm_password = document.querySelector("#confirm_password");
-            // confirm_password.addClass("");
-            password.onkeyup = () => {
-                if(confirm_password.value !== password.value) {
-                    confirm_password.classList.add("error");
-                    confirm_password.classList.remove("is-valid");
-                    confirm_password.classList.remove("border-success");
-                } else {
-                    confirm_password.classList.remove("error");
-                    confirm_password.classList.add("is-valid");
-                    confirm_password.classList.add("border-success");
-                }
-            }
-            confirm_password.onkeyup = () => {
-                if(confirm_password.value !== password.value) {
-                    confirm_password.classList.add("error");
-                    confirm_password.classList.remove("is-valid");
-                    confirm_password.classList.remove("border-success");
-                } else {
-                    confirm_password.classList.remove("error");
-                    confirm_password.classList.add("is-valid");
-                    confirm_password.classList.add("border-success");
-                }
-            }
 
-            // Show-Hide Password
-            const toggle = document.querySelector(".user-box i");
-            toggle.onclick = () => {
-                if(password.type == 'password'){
-                    password.type = 'text';
-                    toggle.classList.add('active');
-                } else {
-                    password.type = 'password';
-                    toggle.classList.remove('active');
-                }
-            }
-    </script>
+     {{-- Ajax Request --}}
+     <script>
+             $(document).ready(function() {
+                 $("#university_id").on("change", function() {
+                     var uni_id = $(this).val();
+                     if(uni_id) {
+                         $.ajax({
+                             url: "/student/get/specialization/"+ uni_id,
+                             type: "GET",
+                             dataType: "json",
+                             success: function(data) {
+                                 $("#specialization_id").empty();
+                                 $.each(data, function(key, value) {
+                                     $("#specialization_id").append('<option value="'+ key+ '">'+ value+ '</option>');
+                                 });
+                             },
+                         });
+                     }
+                 });
+             });
+
+             // Confirm Password input Check
+
+             var password = document.querySelector("#password");
+             var confirm_password = document.querySelector("#confirm_password");
+             // confirm_password.addClass("");
+             password.onkeyup = () => {
+                 if(confirm_password.value !== password.value) {
+                     confirm_password.classList.add("error");
+                     confirm_password.classList.remove("is-valid");
+                     confirm_password.classList.remove("border-success");
+                 } else {
+                     confirm_password.classList.remove("error");
+                     confirm_password.classList.add("is-valid");
+                     confirm_password.classList.add("border-success");
+                 }
+             }
+             confirm_password.onkeyup = () => {
+                 if(confirm_password.value !== password.value) {
+                     confirm_password.classList.add("error");
+                     confirm_password.classList.remove("is-valid");
+                     confirm_password.classList.remove("border-success");
+                 } else {
+                     confirm_password.classList.remove("error");
+                     confirm_password.classList.add("is-valid");
+                     confirm_password.classList.add("border-success");
+                 }
+             }
+
+             // Show-Hide Password
+             const toggle = document.querySelector(".show-pass");
+             toggle.onclick = () => {
+                 if(password.type == 'password'){
+                     password.type = 'text';
+                     toggle.classList.add('active');
+                 } else {
+                     password.type = 'password';
+                     toggle.classList.remove('active');
+                 }
+             }
+     </script>
+
+
 </body>
-
 </html>
 
