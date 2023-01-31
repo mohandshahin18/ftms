@@ -22,7 +22,8 @@
                 <div class="card-header">
                     <div class="d-flex  justify-content-between align-items-center">
                         <div>
-                            <h4>{{ $applied_evaluation->evaluation->name }}</h4>
+                            <h4>Evaluation Name: 
+                                <b>{{ $student->applied_evaluation->evaluation->name }}</b></h4>
                             <h5>Student Name: <strong class="text-primary"> {{ $student->name }}</strong></h5>
                         </div>
                         <div>

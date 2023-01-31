@@ -56,7 +56,7 @@
                                     <td>{{ $student->phone }}</td>
                                     <td>{{ $student->student_id }}</td>
                                     <td>{{ $student->university->name }}</td>
-                                    <td>{{ $student->Specialization->name }}</td>
+                                    <td>{{ $student->specialization->name }}</td>
                                     <td>@if ($student->id == $evaluated_student->id)
                                         <span class="text-success">Evaluated</span>
                                     @else
@@ -65,14 +65,14 @@
                                     </td>
                                     <td>
                                         <div>
-                                            <a href="{{ route('admin.students.show', $student) }}" class="btn btn-outline-secondary @if ($student->id == $evaluated_student->id )
-                                                disabled
-                                            @endif" title="evaluate">Evaluate</a>
+                                            @if ($student->id == $evaluated_student->id)
+                                                
+                                            <a href="{{ route('admin.show_evaluation', $student) }}" class="btn btn-info btn-sm" data-disabled="true" title="show evaluation">Evaluation</a>
+                                            @else
 
-                                            <a href="{{ route('admin.show_evaluation', $student) }}" class="btn btn-info btn-sm 
-                                            @if ($student->id !== $evaluated_student->id)
-                                                disabled
-                                            @endif" title="show evaluation"><i class="fas fa-eye"></i> Show Evaluation</a>
+                                            <a href="{{ route('admin.students.show', $student) }}" class="btn btn-outline-secondary" data-disabled="true" title="evaluate">Evaluate</a>
+                                            
+                                            @endif
                                             
                                             <form class="d-inline delete_form"
                                                 action="{{ route('admin.students.destroy', $student->id) }}" method="POST">
@@ -120,7 +120,7 @@
 
             Swal.fire({
                 title: 'Are you sure?',
-                text: "Trainer will be Deleted",
+                text: "Student will be Deleted",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
@@ -154,7 +154,7 @@
 
                     Toast.fire({
                         icon: 'warning',
-                        title: 'Trainer Deleted Successfully'
+                        title: 'Student Deleted Successfully'
                     })
                 }
             })
@@ -162,6 +162,16 @@
 
 
         });
-      </script>
+    </script>
+
+    {{-- Disabled Links  --}}
+    <script>
+        document.querySelectorAll('.disabled[data-disabled="true"]').forEach(function (el) {
+            el.addEventListener('click', function (event) {
+                event.preventDefault();
+            });
+        });
+
+    </script>
 
 @stop

@@ -18,19 +18,11 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::with('university', 'specialization', 'applied_evaluation')
-        ->paginate(env('PAGINATION_COUNT'));
-        
-        // $applied = AppliedEvaluation::where('evaluation_type', 'student')->first();
+        $students = Student::with('university', 'specialization')->paginate(env('PAGINATION_COUNT'));
 
         $evaluated_student = Student::has('applied_evaluation')->first();
 
-        $data = [
-            'students' => $students,
-            'evaluated_student' => $evaluated_student,
-        ];
-
-        return view('admin.students.index', $data);
+        return view('admin.students.index', compact('students', 'evaluated_student'));
     }
 
     /**
@@ -65,13 +57,11 @@ class StudentController extends Controller
         $evaluation = Evaluation::where('evaluation_type', 'student')->first();
 
         if($evaluation) {
-            // $check = Auth::guard() == 'admin';
-            dd(Auth::guard() === 'admin' ? true : false);
-            // if($evaluation->type != Auth::guard() && Auth::guard() != 'admin') {
-            //     abort(403, 'Your Not Authorized');
-            // } else {
+            if($evaluation->type != Auth::guard() && !Auth::guard('admin')->check()) {
+                abort(403, 'Your Not Authorized');
+            } else {
             return view('admin.students.evaluate', compact('evaluation', 'student'));
-            // }
+            }
         } else {
             abort(403, 'There Is No Evaluations Addedd');
         }
@@ -166,9 +156,8 @@ class StudentController extends Controller
      */
     public function show_evaluation($id)
     {
-        $student = Student::findOrFail($id);
-        $applied_evaluation = AppliedEvaluation::with('evaluation')->where('student_id', $id)->first();
-        $data = json_decode($applied_evaluation->data, true);
+        $student = Student::whereHas('applied_evaluation')->findOrFail($id);
+        $data = json_decode($student->applied_evaluation->data, true);
 
         // $excellent = 0;
         // $very_good = 0;
@@ -177,7 +166,7 @@ class StudentController extends Controller
         // $bad = 0;
         // $unique_ratings = [];
         
-        return view('admin.students.evaluation_page', compact('data', 'student', 'applied_evaluation'));
+        return view('admin.students.evaluation_page', compact('student', 'data'));
     }
 
    
