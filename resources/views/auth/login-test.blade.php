@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @php
+    {{-- @php
         $auth = ucfirst($type);
-    @endphp
+    @endphp --}}
 
-    <title> {{ config('app.name') }} | Login {{ $auth }}</title>
+    <title> {{ config('app.name') }} | Login </title>
 
     <link rel="icon" type="image/x-icon" href="{{ asset('adminAssets/dist/img/selection/favicon.ico') }}">
 
@@ -46,27 +46,27 @@
         <div class="signin-form">
             <div class="row">
                 <div class="col-md-6">
-                    <form method="POST" action="{{ route('login', $type) }}">
+                    <form method="POST" action="">
                         @csrf
-                        <h3>Login as {{ $auth }}</h3>
+                        <h3>Login as </h3>
 
 
-                        @if ($errors->any())
+                        {{-- @if ($errors->any())
                             <div class=" alert-danger">
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
                                 @endforeach
                             </div>
-                        @endif
+                        @endif --}}
 
-                        @if (session('msg'))
+                        {{-- @if (session('msg'))
                             <div class=" alert-danger">
                                 <li>{{ session('msg') }}</li>
                             </div>
-                        @endif
+                        @endif --}}
 
 
-                        <input type="hidden" value="{{ $type }}" name="type">
+                        {{-- <input type="hidden" value="{{ $type }}" name="type"> --}}
 
                         <div class="mb-3 form-group">
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
@@ -87,7 +87,7 @@
                                 </g>
                             </svg>
 
-                            <input type="email" class=" form-control " name="email" value="{{ old('email') }} "
+                            <input type="email" class=" form-control " name="email"
                                 placeholder="Email">
 
 
@@ -116,8 +116,8 @@
                         <div class="mb-3 form-group">
                             <label class="checkbox-lable"> Keep me signed in
                                 {{-- <input type="checkbox"> --}}
-                                <input type="checkbox" name="remember" id="remember"
-                                    {{ old('remember') ? 'checked' : '' }}>
+                                {{-- <input type="checkbox" name="remember" id="remember"
+                                    {{ old('remember') ? 'checked' : '' }}> --}}
                                 <span class="checkbox-mark"></span>
                             </label>
                         </div>

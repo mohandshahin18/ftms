@@ -468,3 +468,54 @@ img {
   padding: 0 15px;
 }
 
+/* password */
+
+.pass {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.show-pass {
+  position: absolute;
+  right: 10px;
+  top: 15px;
+  cursor: pointer;
+}
+.show-pass.active::before {
+  color: #333;
+  content: '\f070';
+}
+
+
+@media (min-width: 991px) and (max-width: 1200px) {
+  .signin-form {
+    width: 75%;
+    margin-top: 150px;
+  }
+
+}
+
+@media (min-width: 767px) and (max-width: 991px) {
+  .signin-form {
+    width: 90%;
+    margin-top: 150px;
+  }
+}
+
+@media (max-width: 767px) {
+  .signin-form {
+    width: 92%;
+    margin-top: 150px;
+    margin-bottom: 20px;
+    padding: 20px ;
+    border-radius: 8px;
+  }
+
+  .bottom-bg {
+    height: 50%;
+    bottom: -137px;
+  }
+
+
+}
+

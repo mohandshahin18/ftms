@@ -1,8 +1,6 @@
-
-
-
 <!DOCTYPE html>
-<html >
+<html>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,71 +11,56 @@
 
     <link rel="stylesheet" href="{{ asset('adminAssets/loginAssets/assets/css/bootstrap-grid.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminAssets/loginAssets/assets/css/style.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
 
     <style>
         input.error {
-                    border: 1px solid #dc3545 !important;
-                }
-                small {
-                    color: #dc3545;
-                    /* text-align: right; */
-                    display: block;
-                    margin: 6px 0 0 0;
-                }
-
-                input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-
- #password {
-            display: flex;
-            align-items: center;
-            position: relative;
-        }
-        .show-pass {
-            position: absolute;
-            left: 335px;
-            top: 196px;
-            cursor: pointer;
-        }
-        .show-pass.active::before {
-            color: #333;
-            content: '\f070';
+            border: 1px solid #dc3545 !important;
         }
 
+        small {
+            color: #dc3545;
+            /* text-align: right; */
+            display: block;
+            margin: 6px 0 0 0;
+        }
 
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
     </style>
 
 </head>
+
 <body>
     <div class="signin">
-        <div class="logo"><img src="{{ asset('adminAssets/dist/img/logo/logo-11.png') }}" alt=""></div>
+        <div class="logo"><img src="{{ asset('adminAssets/dist/img/logo/logo-11.png') }}" alt="">
+        </div>
         <div class="signin-form register">
             <div class="row">
-                <form method="POST" action="{{ route('student.register') }}" >
+                <form method="POST" action="{{ route('student.register') }}">
                     @csrf
-                        <h3>Register</h3>
-                        <div class="row">
+                    <h3>Register</h3>
+                    <div class="row">
 
-                                {{-- name  --}}
-                        <div class="col-md-6">
-                        <div class="mb-3 form-group">
-                            <input type="name" class="form-control @error('name') is-invalid @enderror" name="name"
-                            value="{{ old('name') }}" placeholder="Name">
-                            @error('name')
-                                    <small  class="invalid-feedback">{{ $message }}</small>
-                            @enderror
-                        </div>
+                        {{-- name  --}}
+                        <div iv class="col-md-6">
+                            <div class="mb-3 form-group">
+                                <input type="name" class="form-control @error('name') is-invalid @enderror"
+                                    name="name" value="{{ old('name') }}" placeholder="Name">
+                                @error('name')
+                                    <small class="invalid-feedback">{{ $message }}</small>
+                                @enderror
+                            </div>
                         </div>
 
                         {{-- email  --}}
                         <div class="col-md-6">
                             <div class="mb-3 form-group">
-                                <input type="email" class="form-control @error('email') error @enderror" name="email" value="{{ old('email') }}" placeholder="Email">
+                                <input type="email" class="form-control @error('email') error @enderror"
+                                    name="email" value="{{ old('email') }}" placeholder="Email">
                                 @error('email')
                                     <small>{{ $message }}</small>
                                 @enderror
@@ -87,7 +70,8 @@ input::-webkit-inner-spin-button {
                         {{-- phone  --}}
                         <div class="col-md-6">
                             <div class="mb-3 form-group">
-                                <input type="text" class="form-control @error('phone') error @enderror" name="phone"  value="{{ old('phone') }}" placeholder="Phone">
+                                <input type="text" class="form-control @error('phone') error @enderror"
+                                    name="phone" value="{{ old('phone') }}" placeholder="Phone">
                                 @error('phone')
                                     <small>{{ $message }}</small>
                                 @enderror
@@ -97,7 +81,8 @@ input::-webkit-inner-spin-button {
                         {{-- Student ID  --}}
                         <div class="col-md-6">
                             <div class="mb-3 form-group">
-                                <input type="number" class="form-control @error('student_id') error @enderror" name="student_id" value="{{ old('student_id') }}" placeholder="Student ID">
+                                <input type="number" class="form-control @error('student_id') error @enderror"
+                                    name="student_id" value="{{ old('student_id') }}" placeholder="Student ID">
                                 @error('student_id')
                                     <small>{{ $message }}</small>
                                 @enderror
@@ -107,18 +92,17 @@ input::-webkit-inner-spin-button {
 
 
                         @php
-                                use App\Models\University;
-                                use App\Models\Specialization;
-                                $universities = University::get();
-                                $specializations = Specialization::get();
+                            use App\Models\University;
+                            use App\Models\Specialization;
+                            $universities = University::get();
+                            $specializations = Specialization::get();
                         @endphp
-
-
 
                         {{-- University  --}}
                         <div class="col-md-6">
                             <div class="mb-3 form-group">
-                                <select name="university_id" class="form-control @error('university_id') error @enderror" id="university_id">
+                                <select name="university_id"
+                                    class="form-control @error('university_id') error @enderror" id="university_id">
                                     <option data-display="Select University">Select University</option>
                                     @foreach ($universities as $university)
                                         <option value="{{ $university->id }}">{{ $university->name }}</option>
@@ -130,16 +114,14 @@ input::-webkit-inner-spin-button {
                             </div>
                         </div>
 
-
-
-
                         {{-- Specializations  --}}
                         <div class="col-md-6">
                             <div class="mb-3 form-group">
-                                <select name="specialization_id" class="form-control @error('specialization_id') error @enderror" id="specialization_id">
-                                    <option >Select Specialization</option>
+                                <select name="specialization_id"
+                                    class="form-control @error('specialization_id') error @enderror"
+                                    id="specialization_id">
+                                    <option>Select Specialization</option>
                                     @foreach ($specializations as $specialization)
-
                                     @endforeach
                                 </select>
                                 @error('specialization_id')
@@ -149,11 +131,12 @@ input::-webkit-inner-spin-button {
                         </div>
 
 
-
                         {{-- password --}}
                         <div class="col-md-6">
-                            <div class="mb-3 form-group">
-                                <input type="password" id="password" class="form-control @error('password') error @enderror" name="password"  placeholder="Password">
+                            <div class="mb-3 form-group pass">
+                                <input type="password" id="password"
+                                    class="form-control @error('password') error @enderror" name="password"
+                                    placeholder="Password">
                                 <i class="far fa-eye show-pass"></i>
                                 @error('password')
                                     <small>{{ $message }}</small>
@@ -164,7 +147,8 @@ input::-webkit-inner-spin-button {
                         {{-- Confirm Password  --}}
                         <div class="col-md-6">
                             <div class="mb-3 form-group">
-                                <input  type="password" id="confirm_password" class="form-control" name="password_confirmation" placeholder="Confirm Password">
+                                <input type="password" id="confirm_password" class="form-control"
+                                    name="password_confirmation" placeholder="Confirm Password">
                                 @error('password_confirmation')
                                     <small>{{ $message }}</small>
                                 @enderror
@@ -174,89 +158,90 @@ input::-webkit-inner-spin-button {
                         <button type="submit" class="btn btn-primary bold  py-2">Register</button>
 
 
-                    </form>
-
-                    </div>
-
-                </div>
+                </form>
 
             </div>
-        </div>
-        <div class="bottom-bg">
+
+
 
         </div>
     </div>
+    <div class="bottom-bg">
+
+    </div>
+    </div>
 
 
-     <!--Header ends-->
-     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+    <!--Header ends-->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
 
 
 
-     {{-- Ajax Request --}}
-     <script>
-             $(document).ready(function() {
-                 $("#university_id").on("change", function() {
-                     var uni_id = $(this).val();
-                     if(uni_id) {
-                         $.ajax({
-                             url: "/student/get/specialization/"+ uni_id,
-                             type: "GET",
-                             dataType: "json",
-                             success: function(data) {
-                                 $("#specialization_id").empty();
-                                 $.each(data, function(key, value) {
-                                     $("#specialization_id").append('<option value="'+ key+ '">'+ value+ '</option>');
-                                 });
-                             },
-                         });
-                     }
-                 });
-             });
+    {{-- Ajax Request --}}
+    <script>
+        $(document).ready(function() {
+            $("#university_id").on("change", function() {
+                var uni_id = $(this).val();
+                if (uni_id) {
+                    $.ajax({
+                        url: "/student/get/specialization/" + uni_id,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            $("#specialization_id").empty();
+                            $.each(data, function(key, value) {
+                                $("#specialization_id").append('<option value="' + key +
+                                    '">' + value + '</option>');
+                            });
+                        },
+                    });
+                }
+            });
+        });
 
-             // Confirm Password input Check
+        // Confirm Password input Check
 
-             var password = document.querySelector("#password");
-             var confirm_password = document.querySelector("#confirm_password");
-             // confirm_password.addClass("");
-             password.onkeyup = () => {
-                 if(confirm_password.value !== password.value) {
-                     confirm_password.classList.add("error");
-                     confirm_password.classList.remove("is-valid");
-                     confirm_password.classList.remove("border-success");
-                 } else {
-                     confirm_password.classList.remove("error");
-                     confirm_password.classList.add("is-valid");
-                     confirm_password.classList.add("border-success");
-                 }
-             }
-             confirm_password.onkeyup = () => {
-                 if(confirm_password.value !== password.value) {
-                     confirm_password.classList.add("error");
-                     confirm_password.classList.remove("is-valid");
-                     confirm_password.classList.remove("border-success");
-                 } else {
-                     confirm_password.classList.remove("error");
-                     confirm_password.classList.add("is-valid");
-                     confirm_password.classList.add("border-success");
-                 }
-             }
+        var password = document.querySelector("#password");
+        var confirm_password = document.querySelector("#confirm_password");
+        // confirm_password.addClass("");
+        password.onkeyup = () => {
+            if (confirm_password.value !== password.value) {
+                confirm_password.classList.add("error");
+                confirm_password.classList.remove("is-valid");
+                confirm_password.classList.remove("border-success");
+            } else {
+                confirm_password.classList.remove("error");
+                confirm_password.classList.add("is-valid");
+                confirm_password.classList.add("border-success");
+            }
+        }
+        confirm_password.onkeyup = () => {
+            if (confirm_password.value !== password.value) {
+                confirm_password.classList.add("error");
+                confirm_password.classList.remove("is-valid");
+                confirm_password.classList.remove("border-success");
+            } else {
+                confirm_password.classList.remove("error");
+                confirm_password.classList.add("is-valid");
+                confirm_password.classList.add("border-success");
+            }
+        }
 
-             // Show-Hide Password
-             const toggle = document.querySelector(".show-pass");
-             toggle.onclick = () => {
-                 if(password.type == 'password'){
-                     password.type = 'text';
-                     toggle.classList.add('active');
-                 } else {
-                     password.type = 'password';
-                     toggle.classList.remove('active');
-                 }
-             }
-     </script>
+        // Show-Hide Password
+        const toggle = document.querySelector(".show-pass");
+        toggle.onclick = () => {
+            if (password.type == 'password') {
+                password.type = 'text';
+                toggle.classList.add('active');
+            } else {
+                password.type = 'password';
+                toggle.classList.remove('active');
+            }
+        }
+    </script>
 
 
 </body>
-</html>
 
+</html>
