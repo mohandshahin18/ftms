@@ -12,16 +12,16 @@ class Evaluation extends Model
     protected $guarded = [];
 
     // with student
-    public function student()
-    {
-        return $this->belongsTo(Student::class);
-    }
+    // public function student()
+    // {
+    //     return $this->belongsTo(Student::class);
+    // }
 
     // with company
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
+    // public function company()
+    // {
+    //     return $this->belongsTo(Company::class);
+    // }
 
     // with question
     public function questions()

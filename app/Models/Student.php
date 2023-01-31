@@ -16,19 +16,19 @@ class Student extends Authenticatable
     //with university
     public function university()
     {
-        return $this->belongsTo(University::class);
+        return $this->belongsTo(University::class)->withDefault();
     }
 
     //with specialization
     public function specialization()
     {
-        return $this->belongsTo(Specialization::class);
+        return $this->belongsTo(Specialization::class)->withDefault();
     }
 
     //with teacher
     public function teacher()
     {
-        return $this->belongsTo(Teacher::class);
+        return $this->belongsTo(Teacher::class)->withDefault();
     }
 
     //with company
@@ -37,11 +37,6 @@ class Student extends Authenticatable
         return $this->belongsTo(Company::class)->withDefault();
     }
 
-    // with evaluation
-    public function evaluations()
-    {
-        return $this->hasMany(Evaluation::class);
-    }
 
     // with applied evaluations
     public function applied_evaluation()

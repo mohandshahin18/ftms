@@ -39,11 +39,11 @@
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
                                 <th>Student name</th>
-                                <th>Student email</th>
                                 <th>Student phone</th>
                                 <th>Student ID</th>
                                 <th>University name</th>
-                                <th>Specialization name</th>
+                                <th>Specialization</th>
+                                <th>Evaluation Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -53,21 +53,26 @@
                                 <tr id="row_{{ $student->id }}">
                                     <td>{{ $student->id }}</td>
                                     <td>{{ $student->name }}</td>
-                                    <td>{{ $student->email }}</td>
                                     <td>{{ $student->phone }}</td>
                                     <td>{{ $student->student_id }}</td>
                                     <td>{{ $student->university->name }}</td>
                                     <td>{{ $student->specialization->name }}</td>
+                                    <td>@if ($student->id == $evaluated_student->id)
+                                        <span class="text-success">Evaluated</span>
+                                    @else
+                                        <span class="text-danger">Not Evaluated yet</span>
+                                    @endif    
+                                    </td>
                                     <td>
                                         <div>
-                                            <a href="{{ route('admin.students.show', $student) }}" class="btn btn-outline-secondary @if ($evaluation == null)
-                                                disabled
-                                            @endif" title="evaluate">تقييم</a>
+                                            @if ($student->id == $evaluated_student->id)
+                                                
+                                            <a href="{{ route('admin.show_evaluation', $student) }}" class="btn btn-info btn-sm" data-disabled="true" title="show evaluation">Evaluation</a>
+                                            @else
 
-                                            <a href="{{ route('admin.show_evaluation', $student) }}" class="btn btn-info btn-sm 
-                                            @if ($evaluation == null)
-                                                disabled
-                                            @endif" title="show evaluation"><i class="fas fa-eye"></i></a>
+                                            <a href="{{ route('admin.students.show', $student) }}" class="btn btn-outline-secondary" data-disabled="true" title="evaluate">Evaluate</a>
+                                            
+                                            @endif
                                             
                                             <form class="d-inline delete_form"
                                                 action="{{ route('admin.students.destroy', $student->id) }}" method="POST">
@@ -115,7 +120,7 @@
 
             Swal.fire({
                 title: 'Are you sure?',
-                text: "Trainer will be Deleted",
+                text: "Student will be Deleted",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
@@ -149,7 +154,7 @@
 
                     Toast.fire({
                         icon: 'warning',
-                        title: 'Trainer Deleted Successfully'
+                        title: 'Student Deleted Successfully'
                     })
                 }
             })
@@ -157,6 +162,16 @@
 
 
         });
-      </script>
+    </script>
+
+    {{-- Disabled Links  --}}
+    <script>
+        document.querySelectorAll('.disabled[data-disabled="true"]').forEach(function (el) {
+            el.addEventListener('click', function (event) {
+                event.preventDefault();
+            });
+        });
+
+    </script>
 
 @stop

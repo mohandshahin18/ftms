@@ -18,8 +18,11 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::with('university' , 'specialization')->latest('id')->paginate(env('PAGINATION_COUNT'));
-        return view('admin.students.index',compact('students'));
+        $students = Student::with('university', 'specialization')->paginate(env('PAGINATION_COUNT'));
+
+        $evaluated_student = Student::has('applied_evaluation')->first();
+
+        return view('admin.students.index', compact('students', 'evaluated_student'));
     }
 
     /**
@@ -54,13 +57,11 @@ class StudentController extends Controller
         $evaluation = Evaluation::where('evaluation_type', 'student')->first();
 
         if($evaluation) {
-            // $check = Auth::guard() == 'admin';
-            // dd($check);
-            // if($evaluation->type != Auth::guard() && Auth::guard() != 'admin') {
-            //     abort(403, 'Your Not Authorized');
-            // } else {
+            if($evaluation->type != Auth::guard() && !Auth::guard('admin')->check()) {
+                abort(403, 'Your Not Authorized');
+            } else {
             return view('admin.students.evaluate', compact('evaluation', 'student'));
-            // }
+            }
         } else {
             abort(403, 'There Is No Evaluations Addedd');
         }
@@ -155,11 +156,20 @@ class StudentController extends Controller
      */
     public function show_evaluation($id)
     {
-        $student = Student::findOrFail($id);
-        $applied_evaluation = AppliedEvaluation::with('evaluation')->where('student_id', $id)->first();
-        $data = json_decode($applied_evaluation->data, true);
-        return view('admin.students.evaluation_page', compact('data', 'student', 'applied_evaluation'));
+        $student = Student::whereHas('applied_evaluation')->findOrFail($id);
+        $data = json_decode($student->applied_evaluation->data, true);
+
+        // $excellent = 0;
+        // $very_good = 0;
+        // $good = 0;
+        // $aceptable = 0;
+        // $bad = 0;
+        // $unique_ratings = [];
+        
+        return view('admin.students.evaluation_page', compact('student', 'data'));
     }
+
+   
 
     /**
      * Export student evaluation as PDF.
@@ -178,7 +188,9 @@ class StudentController extends Controller
             'applied_evaluation' => $applied_evaluation
         ];
 
+        $name_of_pdf = str_replace(' ', '-', $student->name).'-'.$student->student_id;
+
         $pdf = Pdf::loadView('admin.students.pdf', $data);
-        return $pdf->download($student->name.'.pdf');
+        return $pdf->download($name_of_pdf.'.pdf');
     }
 }
