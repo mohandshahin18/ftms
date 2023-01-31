@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('phone')->unique();
             $table->string('student_id')->unique();
             $table->string('password');
+            $table->string('image')->nullable();
             $table->foreignId('university_id')->constrained()->cascadeOnDelete();
             $table->foreignId('specialization_id')->constrained()->cascadeOnDelete();
             $table->foreignId('teacher_id')->constrained()->cascadeOnDelete();

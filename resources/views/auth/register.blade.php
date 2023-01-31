@@ -16,7 +16,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
 
     <style>
-        input.error {
+        input.error ,
+        select.error {
                     border: 1px solid #dc3545 !important;
                 }
                 small {
@@ -66,7 +67,7 @@ input::-webkit-inner-spin-button {
                                 {{-- name  --}}
                         <div class="col-md-6">
                         <div class="mb-3 form-group">
-                            <input type="name" class="form-control @error('name') is-invalid @enderror" name="name"
+                            <input type="name" class="form-control @error('name') error @enderror" name="name"
                             value="{{ old('name') }}" placeholder="Name">
                             @error('name')
                                     <small  class="invalid-feedback">{{ $message }}</small>
@@ -119,7 +120,7 @@ input::-webkit-inner-spin-button {
                         <div class="col-md-6">
                             <div class="mb-3 form-group">
                                 <select name="university_id" class="form-control @error('university_id') error @enderror" id="university_id">
-                                    <option data-display="Select University">Select University</option>
+                                    <option value=" ">Select University</option>
                                     @foreach ($universities as $university)
                                         <option value="{{ $university->id }}">{{ $university->name }}</option>
                                     @endforeach
@@ -137,7 +138,7 @@ input::-webkit-inner-spin-button {
                         <div class="col-md-6">
                             <div class="mb-3 form-group">
                                 <select name="specialization_id" class="form-control @error('specialization_id') error @enderror" id="specialization_id">
-                                    <option >Select Specialization</option>
+                                    <option value=" ">Select Specialization</option>
                                     @foreach ($specializations as $specialization)
 
                                     @endforeach
@@ -164,7 +165,7 @@ input::-webkit-inner-spin-button {
                         {{-- Confirm Password  --}}
                         <div class="col-md-6">
                             <div class="mb-3 form-group">
-                                <input  type="password" id="confirm_password" class="form-control" name="password_confirmation" placeholder="Confirm Password">
+                                <input  type="password" id="confirm_password" class="form-control @error('password') error @enderror" name="password_confirmation" placeholder="Confirm Password">
                                 @error('password_confirmation')
                                     <small>{{ $message }}</small>
                                 @enderror

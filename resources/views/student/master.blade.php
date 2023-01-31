@@ -60,6 +60,52 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#blog">Blog</a>
                     </li>
+                    @php
+                    $name = Auth::guard()->user()->name ?? '';
+                    $src = 'https://ui-avatars.com/api/?background=random&name=' . $name;
+
+                    if(Auth::guard()->user()->image) {
+                    $img = Auth::guard()->user()->image;
+                    $src = asset($img);
+                    }
+
+                    @endphp
+
+                    <li style="display: flex; justify-content: center; align-items: center;">
+                        <div class='header-right'>
+                        <div class='avatar-wrapper' id='avatarWrapper'>
+                          <div class="img-student-logo" style="background-image: url('{{  $src }}')"></div>
+
+
+                          <svg class='avatar-dropdown-arrow' height='24' id='dropdownWrapperArrow' viewbox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'>
+                            <title>Dropdown Arrow</title>
+                            <path d='M12 14.5c-.2 0-.3-.1-.5-.2l-3.8-3.6c-.2-.2-.2-.4-.2-.5 0-.1 0-.3.2-.5.3-.3.7-.3 1 0l3.3 3.1 3.3-3.1c.2-.2.5-.2.8-.1.3.1.4.4.4.6 0 .2-.1.4-.2.5l-3.8 3.6c-.1.1-.3.2-.5.2z'></path>
+                          </svg>
+                        </div>
+                        <div class='dropdown-wrapper' id='dropdownWrapper' style='width: 256px'>
+                          <div class='dropdown-profile-details'>
+
+
+                            <div class="img-student" style="background-image: url('{{ $src }}')"></div>
+
+
+
+                            <span class='dropdown-profile-details--name mt-2'>{{ auth()->user()->name }}</span>
+
+
+                            <span class='dropdown-profile-details--email'>{{ Auth::user()->email  }}</span>
+
+                          </div>
+                          <div class='dropdown-links'>
+                            <a href=''>Profile</a>
+                            <a href=''> Edit profile</a>
+                            <a href=''> Edit password</a>
+                            <a href="{{ route('logout' , 'student') }}"> Logout</a>
+                          </div>
+                        </div>
+                      </div>
+                      </li>
+
                 </ul>
 
             </div>

@@ -37,7 +37,6 @@ Route::group(['namespace' => 'Auth'] ,function() {
     Route::get('/login/{type}', [LoginController::class, 'loginForm'])->middleware('guest')->name('login.show');
     Route::post('/login', [LoginController::class, 'login'])->name('login');
     Route::get('/logout/{type}', [LoginController::class, 'logout'])->name('logout');
-
 });
 
 // student register
@@ -48,8 +47,16 @@ Route::group(['namespace' => 'Student'] ,function() {
 });
 
 
+// login to website
+Route::group(['namespace' => 'AuthStudent'] ,function() {
+    Route::get('/students', [LoginController::class, 'loginForm_student'])->middleware('guest')->name('student.login.show');
+    Route::post('/login/student', [LoginController::class, 'login_studens'])->name('login_studens');
+
+});
+
+
 // route of website
-Route::prefix('/')->name('student.')->group(function(){
+Route::prefix('/')->middleware('auth:student')->name('student.')->group(function(){
     // home page
     Route::get('/',[websiteController::class,'index'])->name('home');
 

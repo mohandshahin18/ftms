@@ -193,33 +193,37 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <i class="fas fa-cog mr-2"></i>Stettings
                         </a>
                         <div class="dropdown-divider"></div>
-                        {{-- @php
 
-                            $type =Auth::guard()->name;
-                        @endphp --}}
                         @if(auth('teacher')->check())
                             <form method="GET" action="{{ route('logout','teacher') }}"></form>
                                 <a href="{{ route('logout','teacher') }}" class="dropdown-item">
                                     <i class="fas fa-sign-out-alt mr-2"></i> LogOut
                                 </a>
+                                <input type="hidden" name="type" value="teacher" id="">
+
                             </form>
                         @elseif (auth('trainer')->check())
                         <form method="GET" action="{{ route('logout','trainer') }}"></form>
                             <a href="{{ route('logout','trainer') }}" class="dropdown-item">
                                 <i class="fas fa-sign-out-alt mr-2"></i> LogOut
                             </a>
+                            <input type="hidden" name="type" value="trainer" id="">
+
                         </form>
                         @elseif (auth('admin')->check())
                         <form method="GET" action="{{ route('logout','admin') }}"></form>
                             <a href="{{ route('logout','admin') }}" class="dropdown-item">
                                 <i class="fas fa-sign-out-alt mr-2"></i> LogOut
                             </a>
+                            <input type="hidden" name="type" value="admin" id="">
                         </form>
                         @elseif (auth('company')->check())
                         <form method="GET" action="{{ route('logout','company') }}"></form>
                             <a href="{{ route('logout','company') }}" class="dropdown-item">
                                 <i class="fas fa-sign-out-alt mr-2"></i> LogOut
                             </a>
+                            <input type="hidden" name="type" value="company" id="">
+
                         </form>
                         @endif
 

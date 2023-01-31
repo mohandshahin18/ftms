@@ -13,6 +13,7 @@
 
 @stop
 @section('content')
+{{-- @dump(Auth::guard()) --}}
     <!-- SLIDER -->
     <div class="header">
     <div class="overlay">
