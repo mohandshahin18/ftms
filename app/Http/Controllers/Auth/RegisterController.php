@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Student;
 use App\Models\Teacher;
 use App\Mail\OTPVerified;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Specialization;
 use App\Http\Controllers\Controller;
@@ -62,6 +63,7 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:students'],
             'phone' => ['required', 'string','min:10', 'max:20', 'unique:students'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password_confirmation' => ['required'],
             'student_id' => ['required', 'digits:8', 'min:8'],
             'university_id' => ['required'],
             'specialization_id' => ['required'],
@@ -70,6 +72,14 @@ class RegisterController extends Controller
         $code = rand(000000, 999999);
 
         $teacher = Teacher::where('university_id',$request->university_id)->where('specialization_id', $request->specialization_id)->first();
+        $slug = Str::slug($request->name);
+        $slugCount = Student::where('slug' , 'like' , $slug. '%')->count();
+        $random = (rand(00000,99999));
+
+        if($slugCount > 0){
+            $slug = $slug . '-' . $random;
+        }
+
         $student = Student::create([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -79,6 +89,7 @@ class RegisterController extends Controller
                 'university_id' => $request->university_id,
                 'specialization_id' => $request->specialization_id,
                 'password' => Hash::make($request->password),
+                'slug' => $slug,
                 'otp' => $code
             ]);
 

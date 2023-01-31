@@ -57,23 +57,34 @@
                                     <td>{{ $student->student_id }}</td>
                                     <td>{{ $student->university->name }}</td>
                                     <td>{{ $student->specialization->name }}</td>
-                                    <td>@if ($student->id == $evaluated_student->id)
-                                        <span class="text-success">Evaluated</span>
-                                    @else
+                                    <td>
+                                    @if($evaluated_student)
+                                        @if ($student->id == $evaluated_student->id)
+                                            <span class="text-success">Evaluated</span>
+                                        @else
+                                            <span class="text-danger">Not Evaluated yet</span>
+                                        @endif
+                                        @else
+
                                         <span class="text-danger">Not Evaluated yet</span>
-                                    @endif    
+                                    @endif
                                     </td>
                                     <td>
                                         <div>
-                                            @if ($student->id == $evaluated_student->id)
-                                                
-                                            <a href="{{ route('admin.show_evaluation', $student) }}" class="btn btn-info btn-sm" data-disabled="true" title="show evaluation">Evaluation</a>
-                                            @else
+                                            @if($evaluated_student)
+                                                @if ($student->id == $evaluated_student->id)
 
-                                            <a href="{{ route('admin.students.show', $student) }}" class="btn btn-outline-secondary" data-disabled="true" title="evaluate">Evaluate</a>
-                                            
+                                                <a href="{{ route('admin.show_evaluation', $student) }}" class="btn btn-info btn-sm" data-disabled="true" title="show evaluation">Evaluation</a>
+                                                @else
+
+                                                <a href="{{ route('admin.students.show', $student) }}" class="btn btn-outline-secondary" data-disabled="true" title="evaluate">Evaluate</a>
+
+                                                @endif
+                                            @else
+                                                <a href="{{ route('admin.students.show', $student) }}" class="btn btn-outline-secondary" data-disabled="true" title="evaluate">Evaluate</a>
+
                                             @endif
-                                            
+
                                             <form class="d-inline delete_form"
                                                 action="{{ route('admin.students.destroy', $student->id) }}" method="POST">
                                                 @csrf

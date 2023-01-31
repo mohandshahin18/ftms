@@ -14,9 +14,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
 
     <style>
-        input.error {
-            border: 1px solid #dc3545 !important;
-        }
+        input.error ,
+        select.error {
+                    border: 1px solid #dc3545 !important;
+                }
+                small {
+                    color: #dc3545;
+                    display: block;
+                    margin: 6px 0 0 0;
+                }
+
+                input::-webkit-outer-spin-button,
+                input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+                }
+
+
 
         small {
             color: #dc3545;
@@ -45,15 +59,15 @@
                     <h3>Register</h3>
                     <div class="row">
 
-                        {{-- name  --}}
-                        <div iv class="col-md-6">
-                            <div class="mb-3 form-group">
-                                <input type="name" class="form-control @error('name') is-invalid @enderror"
-                                    name="name" value="{{ old('name') }}" placeholder="Name">
-                                @error('name')
-                                    <small class="invalid-feedback">{{ $message }}</small>
-                                @enderror
-                            </div>
+                                {{-- name  --}}
+                        <div class="col-md-6">
+                        <div class="mb-3 form-group">
+                            <input type="name" class="form-control @error('name') error @enderror" name="name"
+                            value="{{ old('name') }}" placeholder="Name">
+                            @error('name')
+                                    <small  class="invalid-feedback">{{ $message }}</small>
+                            @enderror
+                        </div>
                         </div>
 
                         {{-- email  --}}
@@ -101,9 +115,8 @@
                         {{-- University  --}}
                         <div class="col-md-6">
                             <div class="mb-3 form-group">
-                                <select name="university_id"
-                                    class="form-control @error('university_id') error @enderror" id="university_id">
-                                    <option data-display="Select University">Select University</option>
+                                <select name="university_id" class="form-control @error('university_id') error @enderror" id="university_id">
+                                    <option value=" ">Select University</option>
                                     @foreach ($universities as $university)
                                         <option value="{{ $university->id }}">{{ $university->name }}</option>
                                     @endforeach
@@ -117,10 +130,8 @@
                         {{-- Specializations  --}}
                         <div class="col-md-6">
                             <div class="mb-3 form-group">
-                                <select name="specialization_id"
-                                    class="form-control @error('specialization_id') error @enderror"
-                                    id="specialization_id">
-                                    <option>Select Specialization</option>
+                                <select name="specialization_id" class="form-control @error('specialization_id') error @enderror" id="specialization_id">
+                                    <option value=" ">Select Specialization</option>
                                     @foreach ($specializations as $specialization)
                                     @endforeach
                                 </select>
@@ -147,8 +158,7 @@
                         {{-- Confirm Password  --}}
                         <div class="col-md-6">
                             <div class="mb-3 form-group">
-                                <input type="password" id="confirm_password" class="form-control"
-                                    name="password_confirmation" placeholder="Confirm Password">
+                                <input  type="password" id="confirm_password" class="form-control @error('password') error @enderror" name="password_confirmation" placeholder="Confirm Password">
                                 @error('password_confirmation')
                                     <small>{{ $message }}</small>
                                 @enderror
@@ -159,7 +169,9 @@
 
 
                 </form>
-
+                <div class="account">
+                    <p>Do you have account ? <a href="{{ route('student.login.show') }}"> Click her </a></p>
+                </div>
             </div>
 
 

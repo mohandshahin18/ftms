@@ -56,7 +56,7 @@ $(document).ready(function () {
 
 let counters = document.querySelectorAll(".row .col-lg-2 .display-4");
 let container = document.querySelector("#milestone");
-let started = false; 
+let started = false;
 
 window.onscroll = function () {
   if (window.scrollY >= container.offsetTop -600) {
@@ -76,5 +76,37 @@ function startCount(el) {
     }
   }, 5000 / goal);
 }
+
+
+
+$(document).ready(function(){
+
+
+    var headerProfileAvatar = document.getElementById("avatarWrapper")
+    var headerProfileDropdownArrow = document.getElementById("dropdownWrapperArrow");
+    var headerProfileDropdown = document.getElementById("dropdownWrapper");
+
+    document.addEventListener("click", function(event) {
+    var headerProfileDropdownClickedWithin = headerProfileDropdown.contains(event.target);
+
+      if (!headerProfileDropdownClickedWithin) {
+        if (headerProfileDropdown.classList.contains("active")) {
+          headerProfileDropdown.classList.remove("active");
+          headerProfileDropdownArrow.classList.remove("active");
+        }
+      }
+    });
+
+    headerProfileAvatar.addEventListener("click", function(event) {
+      headerProfileDropdown.classList.toggle("active");
+      headerProfileDropdownArrow.classList.toggle("active");
+      event.stopPropagation();
+    });
+
+
+
+
+    });
+
 
 

@@ -2,15 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Http\Traits\AuthTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use App\Providers\RouteServiceProvider;
-use App\Rules\Password;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
@@ -38,7 +33,7 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-
+    // login to control panel
 
     public function loginForm($type)
     {
@@ -51,7 +46,6 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-
 
         if( $request->type == 'teacher'){
             $email ='exists:teachers,email';
@@ -78,17 +72,50 @@ class LoginController extends Controller
          }
     }
 
+    // logout from control panel
     public function logout(Request $request,$type)
     {
+        // dd();
+
         Auth::guard($type)->logout();
 
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 
-        return redirect('/selection-type');
+        if( $request->type == 'admin' ||$request->type == 'teacher' ||
+         $request->type == 'company' || $request->type == 'trainer'  ){
+
+            return redirect('selection-type');
+
+        }elseif(Auth::guard('student')){
+            return redirect('students');
+        }
+
     }
 
 
+    // login to website
+    public function loginForm_student()
+    {
+        return view('auth.login-student');
+
+    }
+
+    public function login_studens(Request $request)
+    {
+
+        $this->validate($request, [
+
+            'email'=> 'required|email|string|',
+            'password'=>['required','string','min:3'],
+        ]);
+
+        if (Auth::guard('student')->attempt(['email' => $request->email, 'password' => $request->password])) {
+            return redirect()->route('student.home')->with('msg', ' Welcome back ')->with('type','success');
+         }else {
+            return redirect()->back()->with('msg' ,' The selected email or password is invalid. ');
+         }
+    }
 
 }

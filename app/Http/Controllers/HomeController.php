@@ -207,7 +207,7 @@ class HomeController extends Controller
             'image' => 'nullable',
             'category_id' => 'required',
             'address' => 'required',
-            'description' => 'required',
+            'description' => ['required',new TextLength()],
         ]);
 
         $company->update([

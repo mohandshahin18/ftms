@@ -21,18 +21,16 @@ class RedirectIfAuthenticated
 
     public function handle(Request $request, Closure $next)
     {
-      if(Auth::guard('teacher')->check()){
+      if(Auth::guard('teacher')->check() ||
+         Auth::guard('trainer')->check() ||
+         Auth::guard('admin')->check() ||
+         Auth::guard('company')->check()){
         return redirect(RouteServiceProvider::HOME);
+      }elseif(Auth::guard('student')->check()){
+        return redirect(RouteServiceProvider::STUDENT);
+
       }
-      if(Auth::guard('trainer')->check()){
-        return redirect(RouteServiceProvider::HOME);
-      }
-      if(Auth::guard('admin')->check()){
-        return redirect(RouteServiceProvider::HOME);
-      }
-      if(Auth::guard('company')->check()){
-        return redirect(RouteServiceProvider::HOME);
-      }
+
 
         return $next($request);
     }

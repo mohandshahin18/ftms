@@ -37,7 +37,6 @@ Route::group(['namespace' => 'Auth'] ,function() {
     Route::get('/login/{type}', [LoginController::class, 'loginForm'])->middleware('guest')->name('login.show');
     Route::post('/login', [LoginController::class, 'login'])->name('login');
     Route::get('/logout/{type}', [LoginController::class, 'logout'])->name('logout');
-
 });
 
 // student register
@@ -48,13 +47,27 @@ Route::group(['namespace' => 'Student'] ,function() {
 });
 
 
+// login to website
+Route::group(['namespace' => 'AuthStudent'] ,function() {
+    Route::get('/students', [LoginController::class, 'loginForm_student'])->middleware('guest')->name('student.login.show');
+    Route::post('/login/student', [LoginController::class, 'login_studens'])->name('login_studens');
+
+});
+
+
 // route of website
-Route::prefix('/')->name('student.')->group(function(){
+Route::prefix('/')->middleware('auth:student')->name('student.')->group(function(){
     // home page
     Route::get('/',[websiteController::class,'index'])->name('home');
 
     // company page
     Route::get('student/company',[websiteController::class,'showCompany'])->name('company');
+
+    //profile
+    Route::get('/profile/{slug}',[websiteController::class,'profile'])->name('profile');
+    Route::put('/profile/{slug}', [websiteController::class, 'profile_edit'])->name('profile_edit');
+
+
 
 
 });
@@ -65,11 +78,11 @@ Route::prefix('/')->name('student.')->group(function(){
 Route::prefix('admin')->middleware('auth:trainer,teacher,company,admin' )->name('admin.')->group(function() {
 
     //home page
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
+    Route::get('/home', [HomeController::class, 'home'])->name('home');
 
     //profile
-    Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('profile');
-    Route::put('/profile/{id}', [App\Http\Controllers\HomeController::class, 'profile_edit'])->name('profile_edit');
+    Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
+    Route::put('/profile/{id}', [HomeController::class, 'profile_edit'])->name('profile_edit');
 
     // Category
     Route::get('categories/trash', [CategoryController::class, 'trash'])->name('categories.trash');
