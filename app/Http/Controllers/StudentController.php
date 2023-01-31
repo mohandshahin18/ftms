@@ -57,11 +57,8 @@ class StudentController extends Controller
         $evaluation = Evaluation::where('evaluation_type', 'student')->first();
 
         if($evaluation) {
-            if($evaluation->type != Auth::guard() && !Auth::guard('admin')->check()) {
-                abort(403, 'Your Not Authorized');
-            } else {
             return view('admin.students.evaluate', compact('evaluation', 'student'));
-            }
+
         } else {
             abort(403, 'There Is No Evaluations Addedd');
         }
@@ -159,17 +156,10 @@ class StudentController extends Controller
         $student = Student::whereHas('applied_evaluation')->findOrFail($id);
         $data = json_decode($student->applied_evaluation->data, true);
 
-        // $excellent = 0;
-        // $very_good = 0;
-        // $good = 0;
-        // $aceptable = 0;
-        // $bad = 0;
-        // $unique_ratings = [];
-        
         return view('admin.students.evaluation_page', compact('student', 'data'));
     }
 
-   
+
 
     /**
      * Export student evaluation as PDF.

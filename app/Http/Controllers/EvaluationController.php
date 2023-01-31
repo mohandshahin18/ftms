@@ -19,7 +19,7 @@ class EvaluationController extends Controller
      */
     public function index()
     {
-        $evaluations = Evaluation::with('student', 'company')->latest('id')->paginate(env('PAGINATION_COUNT'));
+        $evaluations = Evaluation::latest('id')->paginate(env('PAGINATION_COUNT'));
         return view('admin.evaluations.index', compact('evaluations'));
     }
 
@@ -30,9 +30,8 @@ class EvaluationController extends Controller
      */
     public function create()
     {
-        $data['students'] = Student::all();
-        $data['companies'] = Company::all();
-        return view('admin.evaluations.create', $data);
+
+        return view('admin.evaluations.create');
     }
 
     /**
@@ -86,9 +85,7 @@ class EvaluationController extends Controller
      */
     public function edit(Evaluation $evaluation)
     {
-        $companies = Company::all();
-        $students = Student::all();
-        return view('admin.evaluations.edit', compact('evaluation', 'companies', 'students'));
+        return view('admin.evaluations.edit', compact('evaluation'));
     }
 
     /**
@@ -102,14 +99,12 @@ class EvaluationController extends Controller
     {
         $request->validate([
             'name' => ['required'],
-            'student_id' => ['required'],
-            'company_id' => ['required']
+            'evaluation_type' => ['required'],
         ]);
 
         $evaluation->update([
             'name' => $request->name,
-            'student_id' => $request->student_id,
-            'company_id' => $request->company_id
+            'evaluation_type' => $request->evaluation_type,
         ]);
 
         if($request->has('questions')) {

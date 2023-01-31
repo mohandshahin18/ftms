@@ -63,6 +63,12 @@ Route::prefix('/')->middleware('auth:student')->name('student.')->group(function
     // company page
     Route::get('student/company',[websiteController::class,'showCompany'])->name('company');
 
+    //profile
+    Route::get('/profile/{slug}',[websiteController::class,'profile'])->name('profile');
+    Route::put('/profile/{slug}', [websiteController::class, 'profile_edit'])->name('profile_edit');
+
+
+
 
 });
 
@@ -72,11 +78,11 @@ Route::prefix('/')->middleware('auth:student')->name('student.')->group(function
 Route::prefix('admin')->middleware('auth:trainer,teacher,company,admin' )->name('admin.')->group(function() {
 
     //home page
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
+    Route::get('/home', [HomeController::class, 'home'])->name('home');
 
     //profile
-    Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('profile');
-    Route::put('/profile/{id}', [App\Http\Controllers\HomeController::class, 'profile_edit'])->name('profile_edit');
+    Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
+    Route::put('/profile/{id}', [HomeController::class, 'profile_edit'])->name('profile_edit');
 
     // Category
     Route::get('categories/trash', [CategoryController::class, 'trash'])->name('categories.trash');

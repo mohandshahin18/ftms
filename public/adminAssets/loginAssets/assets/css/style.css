@@ -471,8 +471,6 @@ img {
 /* password */
 
 .pass {
-  display: flex;
-  align-items: center;
   position: relative;
 }
 .show-pass {

@@ -27,7 +27,7 @@
         right: 4px;
         top: 8px;
         transition: all 0.1s linear;
-            
+
     }
 
     .question_wrapper div span:hover {
@@ -71,27 +71,15 @@
                      <div class="col-6">
                         <div class="form-group">
                             <label class="mb-2">Company</label>
-                            <select name="company_id" class="form-control" id="">
-                                <option selected value="{{ $evaluation->company_id }}">{{ $evaluation->company->name }}</option>
-                                @foreach ($companies as $company)
-                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
-                                @endforeach
+                            <select name="evaluation_type" class="form-control" id="">
+                                    <option @selected($evaluation->evaluation_type == 'company') value="company">Company</option>
+                                    <option @selected($evaluation->evaluation_type == 'student') value="student">Student</option>
+
                             </select>
                         </div>
                     </div>
 
-                     {{-- university --}}
-                     <div class="col-6">
-                        <div class="form-group">
-                            <label class="mb-2">Student</label>
-                            <select name="student_id" class="form-control" id="">
-                                <option selected value="{{ $evaluation->student_id }}">{{ $evaluation->student->name }}</option>
-                                @foreach ($students as $student)
-                                    <option value="{{ $student->id }}">{{ $student->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
+
 
                </div>
 

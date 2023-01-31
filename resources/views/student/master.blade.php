@@ -97,9 +97,8 @@
 
                           </div>
                           <div class='dropdown-links'>
-                            <a href=''>Profile</a>
-                            <a href=''> Edit profile</a>
-                            <a href=''> Edit password</a>
+                            <a href="{{ route('student.profile' ,Auth::user()->slug ) }}">Profile</a>
+                            <a href="https//www.google.com"> Edit password</a>
                             <a href="{{ route('logout' , 'student') }}"> Logout</a>
                           </div>
                         </div>
