@@ -141,7 +141,7 @@
                     </div>
 
 
-                    <div class="mt-5 ">
+                    <div class="mt-2 ">
                         <button class="btn btn-primary profile-button" type="submit"> Save Edit </button>
                     </div>
                 </div>
