@@ -35,6 +35,25 @@ input.error {
             margin-bottom: 20px;
 
         }
+
+        .alert-success {
+            color: #155724;
+            background-color: #d4edda;
+            border: 1px solid;
+            border-color: #c3e6cb;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        .alert-warning {
+            color: #856404;
+            background-color: #fff3cd;
+            border: 1px solid;
+            border-color: #ffeeba;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
       </style>
 </head>
 <body>
@@ -57,7 +76,7 @@ input.error {
                         @endif
 
                         @if (session('msg'))
-                            <div class=" alert-danger">
+                            <div class=" alert-{{ session('type') }}">
                                 <li>{{ session('msg') }}</li>
                             </div>
                         @endif

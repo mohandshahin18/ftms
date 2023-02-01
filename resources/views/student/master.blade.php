@@ -140,7 +140,7 @@
     </footer>
 
 
-    <script src="{{ asset('studentAssets/js/milestone.min.js') }}"></script>
+    {{-- <script src="{{ asset('studentAssets/js/milestone.min.js') }}"></script> --}}
     <script src="{{ asset('studentAssets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('studentAssets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('studentAssets/js/owl.carousel.min.js') }}"></script>

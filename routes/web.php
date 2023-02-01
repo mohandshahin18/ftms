@@ -46,6 +46,9 @@ Route::group(['namespace' => 'Student'] ,function() {
     Route::get('/student/register',[RegisterController::class,'showStudentRegisterForm'])->name('student.register-view');
     Route::post('/student/register',[RegisterController::class,'createStudent'])->name('student.register');
     Route::get('/student/get/specialization/{id}', [RegisterController::class, 'get_specialization']);
+
+    // verify email
+    Route::get('account/verify/{token}', [RegisterController::class, 'verifyAccount'])->name('student.verify');
 });
 
 
@@ -65,7 +68,7 @@ Route::group(['namespace' => 'resetPassword'] ,function() {
 
 
 // route of website
-Route::prefix('/')->middleware('auth:student')->name('student.')->group(function(){
+Route::prefix('/')->middleware('auth:student','is_verify_email')->name('student.')->group(function(){
     // home page
     Route::get('/',[websiteController::class,'index'])->name('home');
 
@@ -75,6 +78,8 @@ Route::prefix('/')->middleware('auth:student')->name('student.')->group(function
     //profile
     Route::get('/profile/{slug}',[websiteController::class,'profile'])->name('profile');
     Route::put('/profile/{slug}', [websiteController::class, 'editProfile'])->name('profile_edit');
+
+
 
 });
 

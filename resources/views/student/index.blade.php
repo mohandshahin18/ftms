@@ -167,3 +167,7 @@
 
 @stop
 
+@section('scripts')
+<script src="{{ asset('studentAssets/js/scroll-js.js') }}"></script>
+
+@stop

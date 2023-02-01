@@ -2,20 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
 use App\Models\Student;
 use App\Models\Teacher;
-use App\Mail\OTPVerified;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Specialization;
 use App\Http\Controllers\Controller;
+use App\Models\Users_Verify;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Auth\Events\Registered;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -69,7 +65,6 @@ class RegisterController extends Controller
             'specialization_id' => ['required'],
         ]);
 
-        $code = rand(000000, 999999);
 
         $teacher = Teacher::where('university_id',$request->university_id)->where('specialization_id', $request->specialization_id)->first();
         $slug = Str::slug($request->name);
@@ -84,26 +79,69 @@ class RegisterController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone' => $request->phone,
-                'teacher_id' => $teacher->id ,
+                'teacher_id' => $teacher ? $teacher->id : null,
                 'student_id' => $request->student_id,
                 'university_id' => $request->university_id,
                 'specialization_id' => $request->specialization_id,
                 'password' => Hash::make($request->password),
                 'slug' => $slug,
-                'otp' => $code
             ]);
 
-            Mail::to($request->email)->send(new OTPVerified($code, $request->name));
-            // event(new Registered($student));
 
-            return redirect()->route('student.home');
+                $token = Str::random(64);
+
+                Users_Verify::create([
+                  'student_id' => $student->id,
+                  'token' => $token
+                ]);
+
+            Mail::send('emails.virefyEmail', ['token' => $token], function($message) use($request){
+                  $message->to($request->email);
+                  $message->subject('Email Verification Mail');
+              });
+
+
+            return redirect()->route('student.login.show')
+                             ->with('msg' ,'We have sent you an activation code, please check your email.')
+                             ->with('type' , 'warning');
 
 
     }
+
 
     public function get_specialization($id)
     {
         $specializations = Specialization::where('university_id', $id)->pluck("name", 'id');
         return json_encode($specializations);
     }
+
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+    public function verifyAccount($token)
+    {
+        $verifyStudent = Users_Verify::where('token', $token)->first();
+
+        $message = 'Sorry your email cannot be identified.';
+        $type = 'danger';
+
+        if(!is_null($verifyStudent) ){
+            $student = $verifyStudent->student;
+
+            if(!$student->is_email_verified) {
+                $verifyStudent->student->is_email_verified = 1;
+                $verifyStudent->student->save();
+                $message = "Your e-mail is verified. You can now login.";
+                $type = 'success';
+            } else {
+                $message = "Your e-mail is already verified. You can now login.";
+                $type = 'success';
+            }
+        }
+
+      return redirect()->route('student.login.show')->with('msg', $message)->with('type' , $type);
+    }
+
 }

@@ -23,8 +23,6 @@ return new class extends Migration
             $table->foreignId('company_id')
             ->constrained()
             ->cascadeOnDelete();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->rememberToken();
             $table->timestamps();
         });
     }
