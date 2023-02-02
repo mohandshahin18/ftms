@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use App\Models\Student;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Models\Admin;
+use App\Models\Company;
+use App\Models\Trainer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class ResetPasswordController extends Controller
 {
@@ -31,45 +38,144 @@ class ResetPasswordController extends Controller
     // protected $redirectTo = RouteServiceProvider::HOME;
 
 
-    public function editPassword($type)
-    {
-        if($type == 'teacher' || $type == 'trainer'|| $type == 'company' || $type == 'admin'){
-            return view('admin.resetPassword' , compact('type'));
-        }elseif($type == 'student'){
-            return view('student.resetPassword' );
+     /**
+       * Write code on Method
+       *
+       * @return response()
+       */
+      public function showForgetPasswordForm($type)
+      {
+        if($type == 'teacher' || $type == 'trainer'|| $type == 'company' || $type == 'admin' || $type == 'student'){
+            return view('auth.forgetPassword',compact('type'));
         }else{
             return abort(404);
+        }
+
+      }
+
+
+      /**
+       * Write code on Method
+       *
+       * @return response()
+       */
+      public function submitForgetPasswordForm(Request $request)
+      {
+
+        if( $request->type == 'teacher'){
+            $email ='exists:teachers,email';
+        }elseif($request->type == 'admin'){
+            $email ='exists:admins,email';
+        }elseif($request->type == 'company'){
+            $email ='exists:companies,email';
+        }elseif($request->type == 'trainer'){
+            $email ='exists:trainers,email';
+        }elseif($request->type == 'student'){
+            $email ='exists:students,email';
 
         }
-    }
-
-    public function updatePassword(Request $request ){
-
-
         $request->validate([
-        'current_password'=>'required',
-        'new_password'=>'required|string|min:6|max:25|confirmed',
-        'new_password_confirmation'=>'required'
-        ], [
-        'current_password.required'=> "The current password field is required.",
+            'email' => ['required','email',$email],
+        ]);
+
+        $type = $request->type;
+        $token = Str::random(64);
+
+        DB::table('password_resets')->insert([
+            'email' => $request->email,
+            'token' => $token,
+            'type' => $type,
+            'created_at' => Carbon::now()
+          ]);
+
+        //   dd($type);
+        Mail::send('emails.forgetPassword', compact('type','token'), function($message) use($request){
+              $message->to($request->email);
+              $message->subject('Reset Password');
+          });
+
+
+
+          return back()->with('msg', 'We have e-mailed your password reset link!')->with('type','warning');
+      }
+
+      /**
+       * Write code on Method
+       *
+       * @return response()
+       */
+      public function showResetPasswordForm( $type,$token ) {
+        if($type == 'teacher' || $type == 'trainer'|| $type == 'company' || $type == 'admin' || $type == 'student'){
+            return view('auth.forgetPasswordLink', compact('type' ,'token') );
+        }else{
+            return abort(404);
+        }
+      }
+
+      /**
+       * Write code on Method
+       *
+       * @return response()
+       */
+      public function submitResetPasswordForm(Request $request)
+      {
+
+        if( $request->type == 'teacher'){
+            $email ='exists:teachers,email';
+        }elseif($request->type == 'admin'){
+            $email ='exists:admins,email';
+        }elseif($request->type == 'company'){
+            $email ='exists:companies,email';
+        }elseif($request->type == 'trainer'){
+            $email ='exists:trainers,email';
+        }elseif($request->type == 'student'){
+            $email ='exists:students,email';
+
+        }
+        $request->validate([
+            'email' => ['required','email',$email],
+            'password' => 'required|string|min:6|confirmed',
+            'password_confirmation' => 'required'
         ]);
 
 
 
-            $student = Auth::guard()->user();
 
-            //Match The current Password
-            if(!Hash::check($request->current_password, $student->password)){
-                return redirect()->back()->with('msg' , "The Current Password Doesn't match!")->with('type' , 'danger') ;
-            }
-            elseif (Hash::check($request->current_password, $student->password) && Hash::check($request->new_password, $student->password)) {
-                return redirect()->back()->with('msg' , 'The new password can not be the current password!')->with('type' , 'danger') ;
-            } //new password can not be the current password!
-            else{
-                $student->password = Hash::make($request->new_password);
-                $student->save();
-                return redirect()->back()->with('msg' , 'Updated Password is successfully')->with('type','success') ;
-            }
+
+          $updatePassword = DB::table('password_resets')
+                              ->where([
+                                'email' => $request->email,
+                                'token' => $request->token,
+                                'type' => $request->type
+                              ])
+                              ->first();
+
+        if(!$updatePassword){
+            return back()->withInput()->with('msg', 'Invalid token!')->with('type','danger');
         }
-    
+        elseif($request->type == 'student'){
+            $student = Student::where('email', $request->email)
+            ->update(['password' => Hash::make($request->password)]);
+        }elseif($request->type == 'admin'){
+            $admin = Admin::where('email', $request->email)
+            ->update(['password' => Hash::make($request->password)]);
+        }elseif($request->type == 'trainer'){
+            $trainer = Trainer::where('email', $request->email)
+            ->update(['password' => Hash::make($request->password)]);
+        }elseif($request->type == 'company'){
+            $company = Company::where('email', $request->email)
+            ->update(['password' => Hash::make($request->password)]);
+        }
+
+
+
+          DB::table('password_resets')->where(['email'=> $request->email])->delete();
+          if($request->type == 'student'){
+            return redirect()->route('student.login.show')->with('msg', 'Your password has been changed!')->with('type','success');
+
+          }else{
+            return redirect()->route('login.show',$request->type)->with('msg', 'Your password has been changed!')->with('type','success');
+
+          }
+      }
 }

@@ -125,8 +125,9 @@ input.error {
 
                     </form>
 
-                    <div class="account">
-                        <p>Dont have account ? <a href="{{ route('student.register-view') }}"> Click her </a></p>
+                    <div class="account d-flex justify-content-between">
+                        <p> <a href="{{ route('student.register-view') }}">Don't have account ?  </a></p>
+                        <p><a href="{{ route('forget.password.get' ,'student') }}">Forget Your Password ?</a></p>
                     </div>
                 </div>
                 <div class="col-md-6 text-center">

@@ -58,13 +58,22 @@ Route::group(['namespace' => 'AuthStudent'] ,function() {
     Route::post('/login/student', [LoginController::class, 'login_studens'])->name('login_studens');
 
 });
-// Reset Password
-Route::group(['namespace' => 'resetPassword'] ,function() {
+// update Password
+Route::group(['namespace' => 'updatePassword'] ,function() {
         //password
-        Route::get('edit/password/{type}', [ResetPasswordController::class , 'editPassword'])->name('edit-password')->middleware('auth:student,trainer,teacher,company,admin');
-        Route::post('update/password', [ResetPasswordController::class , 'updatePassword'])->name('update-password')->middleware('auth:student,trainer,teacher,company,admin');
-
+        Route::get('edit/password/{type}', [HomeController::class , 'editPassword'])->name('edit-password')->middleware('auth:student,trainer,teacher,company,admin');
+        Route::post('update/password', [HomeController::class , 'updatePassword'])->name('update-password')->middleware('auth:student,trainer,teacher,company,admin');
 });
+
+// reset Password
+Route::group(['namespace' => 'resetPassword'] ,function() {
+    Route::get('forget-password/{type}', [ResetPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get')->middleware('guest');
+Route::post('forget-password', [ResetPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post')->middleware('guest');
+Route::get('reset-password/{type}/{token}', [ResetPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get')->middleware('guest');
+Route::post('reset-password', [ResetPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post')->middleware('guest');
+});
+
+
 
 
 // route of website
@@ -144,21 +153,8 @@ Route::prefix('admin')->middleware('auth:trainer,teacher,company,admin' )->name(
 
 });
 
-// Route::get('/email/verify', function () {
-//     return view('auth.verify');
-// })->middleware('guest')->name('verification.notice');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-// Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
 
-Route::get('/student/home', function () {
-    return 'sss';
-})->middleware(['auth', 'verified:student']);
+
+
