@@ -110,7 +110,7 @@
                                     </g>
                                 </g>
                             </svg>
-                            <input type="password" class=" form-control " name="password" placeholder="Password">
+                                <input type="password" class=" form-control " name="password" placeholder="Password">
                         </div>
 
                         <div class="mb-3 form-group">
@@ -136,6 +136,8 @@
 
         </div>
     </div>
+
+    
 </body>
 
 </html>
