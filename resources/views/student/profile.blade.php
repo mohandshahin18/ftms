@@ -2,18 +2,25 @@
 
 @section('title', Auth::guard()->user()->name)
 @section('sub-title', 'Profile')
+@section('styles')
+<style>
+.bg-light{
+    height:100%;
+}
 
+</style>
+@stop
 @section('content')
-
-<div class="container mt-5 ">
+<div class="bg-light">
+<div class="container ">
     <div class="box-all  ">
         <form action="{{ route('student.profile_edit' ,Auth::guard()->user()->slug ) }}" method="POST"
             enctype="multipart/form-data">
             @csrf
             @method('PUT')
-        <div class="row">
-            <div class="col-md-4 mb-3">
-                <div class="info bg-white shadow  mr-3">
+        <div class="row  ">
+            <div class="col-md-4 mt-5 ">
+                <div class="info bg-white shadow  rounded mr-3  alig-content-center">
                     <div class="d-flex flex-column align-items-center text-center p-2 py-2">
 
 
@@ -44,8 +51,8 @@
                     </div>
                 </div>
             </div>
-            <div class=" col-md-8  ">
-                <div class="p-3 bg-white shadow  mb-4">
+            <div class=" col-md-8 mt-5 ">
+                <div class="p-3 bg-white shadow rounded mb-5">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                     </div>
                     <div class="row mt-3">
@@ -99,7 +106,7 @@
                     </div>
 
 
-                    <div class="mt-5 ">
+                    <div class="mt-2 ">
                         <button class="btn btn-primary profile-button"  type="submit"> Save Edit </button>
                     </div>
                 </div>
@@ -114,7 +121,7 @@
 
 
 </div>
-
+</div>
 @stop
 
 

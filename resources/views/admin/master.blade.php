@@ -175,55 +175,65 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           $img = Auth::guard()->user()->image;
                           $src = asset($img);
                         }
+                        if (auth('admin')->check()) {
+                            $type = 'admin';
+                        }elseif (auth('teacher')->check()) {
+                            $type = 'teacher';
+                        }elseif (auth('company')->check()) {
+                            $type = 'company';
+                        }elseif (auth('trainer')->check()) {
+                            $type = 'trainer';
+                        }
+
 
                     @endphp
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <img width="30" height="30" style="margin-top: -5px;object-fit: contain"
                             src="{{ $src }}" class="img-circle elevation-2" alt="User Image">
-
-
-
                     </a>
-                    <div class="dropdown-menu  dropdown-menu-right">
-                        <span class="dropdown-item text-secondary">{{ Auth::guard()->user()->name }}</span>
-                        <div class="dropdown-divider"></div>
-                        <a href="{{ route('admin.profile') }}" class="dropdown-item">
-                            <i class="fas fa-user mr-2"></i> Profile
+                    <div class="dropdown-menu dropdown-menu-right user-dropdown">
+                        <div class="dropdown-img mt-4" style="background-image: url('{{ $src }}')"></div>
+
+                        <p class=" text-center my-2" style="font-size: 17px;">{{ Auth::guard()->user()->name }}</p>
+                        <div class="dropdown-divider mb-3"></div>
+                        <a href="{{ route('admin.profile') }}" class="dropdown-item text-secondary mb-2">
+                            <i class="fas fa-user mr-2 text-secondary"></i> Profile
+                        </a>
+                        <a href="{{ route('edit-password' , $type) }}" class="dropdown-item text-secondary mb-2">
+                            <i class="fas fa-key mr-2 text-secondary"></i> Edit Password
                         </a>
 
-                        <div class="dropdown-divider"></div>
-                        <a href="{{ route('admin.settings') }}" class="dropdown-item">
-                            <i class="fas fa-cog mr-2"></i>Stettings
+                        <a href="{{ route('admin.settings') }}" class="dropdown-item text-secondary mb-2">
+                            <i class="fas fa-cog mr-2 text-secondary"></i>Stettings
                         </a>
-                        <div class="dropdown-divider"></div>
 
                         @if(auth('teacher')->check())
                             <form method="GET" action="{{ route('logout','teacher') }}"></form>
-                                <a href="{{ route('logout','teacher') }}" class="dropdown-item">
-                                    <i class="fas fa-sign-out-alt mr-2"></i> LogOut
+                                <a href="{{ route('logout','teacher') }}" class="dropdown-item text-secondary">
+                                    <i class="fas fa-sign-out-alt mr-2 text-secondary"></i> LogOut
                                 </a>
                                 <input type="hidden" name="type" value="teacher" id="">
 
                             </form>
                         @elseif (auth('trainer')->check())
                         <form method="GET" action="{{ route('logout','trainer') }}"></form>
-                            <a href="{{ route('logout','trainer') }}" class="dropdown-item">
-                                <i class="fas fa-sign-out-alt mr-2"></i> LogOut
+                            <a href="{{ route('logout','trainer') }}" class="dropdown-item text-secondary">
+                                <i class="fas fa-sign-out-alt mr-2 text-secondary"></i> LogOut
                             </a>
                             <input type="hidden" name="type" value="trainer" id="">
 
                         </form>
                         @elseif (auth('admin')->check())
                         <form method="GET" action="{{ route('logout','admin') }}"></form>
-                            <a href="{{ route('logout','admin') }}" class="dropdown-item">
-                                <i class="fas fa-sign-out-alt mr-2"></i> LogOut
+                            <a href="{{ route('logout','admin') }}" class="dropdown-item text-secondary">
+                                <i class="fas fa-sign-out-alt mr-2 text-secondary"></i> LogOut
                             </a>
                             <input type="hidden" name="type" value="admin" id="">
                         </form>
                         @elseif (auth('company')->check())
                         <form method="GET" action="{{ route('logout','company') }}"></form>
-                            <a href="{{ route('logout','company') }}" class="dropdown-item">
-                                <i class="fas fa-sign-out-alt mr-2"></i> LogOut
+                            <a href="{{ route('logout','company') }}" class="dropdown-item text-secondary">
+                                <i class="fas fa-sign-out-alt mr-2 text-secondary"></i> LogOut
                             </a>
                             <input type="hidden" name="type" value="company" id="">
 
@@ -238,14 +248,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </ul>
         </nav>
         <!-- /.navbar -->
-
+        @php
+        $data = json_decode(File::get(storage_path('app/settings.json')), true);
+        @endphp
 
 
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="index3.html" class="brand-link ">
-                <img src="{{ asset('adminAssets/dist/img/logo/S2.png') }}" style="opacity: .8 ; width: 100px;">
+                <img src="{{ asset($data['logo']) }}" style="opacity: .8 ; width: 100px;">
 
             </a>
 

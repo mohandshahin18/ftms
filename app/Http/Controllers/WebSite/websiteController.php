@@ -35,10 +35,9 @@ class websiteController extends Controller
     }
 
 
-    public function profile_edit(Request $request , $slug)
+    public function editProfile(Request $request , $slug)
     {
 
-        // dd($slug);
         $student = Student::whereSlug($slug)->firstOrFail();
 
         $path = $student->image;

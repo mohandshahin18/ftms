@@ -18,7 +18,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::with('university', 'specialization')->paginate(env('PAGINATION_COUNT'));
+        $students = Student::with('university', 'specialization')->latest('id')->paginate(env('PAGINATION_COUNT'));
 
         $evaluated_student = Student::has('applied_evaluation')->first();
 

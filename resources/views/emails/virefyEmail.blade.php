@@ -9,10 +9,10 @@
 <body style="background: #eee ; font-family: Arial, Helvetica, sans-serif">
 
     <div style="width: 600px ; background: #fff ; padding:20px; border: 2px solid #cfcfcf ; margin: 50px auto;">
-        <h4>Dear {{ $name }} ,</h4>
+        <h1>Email Verification Mail</h1>
 
-        <p>Thanks for your registration your OTP Code is:</p>
-        <h2 style="text-align: center; font-size: 50">{{ $code }}</h2>
+        Please verify your email with bellow link:
+        <a href="{{ route('student.verify', $token) }}">Verify Email</a>
         <br>
         <br>
 

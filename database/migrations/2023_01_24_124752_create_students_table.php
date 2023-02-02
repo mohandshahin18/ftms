@@ -27,8 +27,7 @@ return new class extends Migration
             $table->foreignId('teacher_id')->constrained()->cascadeOnDelete();
             $table->foreignId('company_id')->nullable()->constrained()->cascadeOnDelete();
             $table->softDeletes();
-            $table->string('otp')->nullable();
-            $table->timestamp('otp_verified_at')->nullable();
+            $table->boolean('is_email_verified')->default(0);
             $table->timestamps();
         });
     }

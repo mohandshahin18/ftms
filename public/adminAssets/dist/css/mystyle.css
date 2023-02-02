@@ -282,3 +282,16 @@
             margin: auto;
 
         }
+
+        .dropdown-img{
+            width: 70px;
+            height: 70px;
+            border-radius: 3px;
+            background-repeat: no-repeat;
+            background-size: cover;
+            border-radius: 50%;
+            margin: auto;
+            }
+.user-dropdown{
+    width: 230px;
+}

@@ -14,8 +14,10 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\SpecializationsController;
 use App\Http\Controllers\WebSite\websiteController;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
@@ -44,6 +46,9 @@ Route::group(['namespace' => 'Student'] ,function() {
     Route::get('/student/register',[RegisterController::class,'showStudentRegisterForm'])->name('student.register-view');
     Route::post('/student/register',[RegisterController::class,'createStudent'])->name('student.register');
     Route::get('/student/get/specialization/{id}', [RegisterController::class, 'get_specialization']);
+
+    // verify email
+    Route::get('account/verify/{token}', [RegisterController::class, 'verifyAccount'])->name('student.verify');
 });
 
 
@@ -53,10 +58,17 @@ Route::group(['namespace' => 'AuthStudent'] ,function() {
     Route::post('/login/student', [LoginController::class, 'login_studens'])->name('login_studens');
 
 });
+// Reset Password
+Route::group(['namespace' => 'resetPassword'] ,function() {
+        //password
+        Route::get('edit/password/{type}', [ResetPasswordController::class , 'editPassword'])->name('edit-password')->middleware('auth:student,trainer,teacher,company,admin');
+        Route::post('update/password', [ResetPasswordController::class , 'updatePassword'])->name('update-password')->middleware('auth:student,trainer,teacher,company,admin');
+
+});
 
 
 // route of website
-Route::prefix('/')->middleware('auth:student')->name('student.')->group(function(){
+Route::prefix('/')->middleware('auth:student','is_verify_email')->name('student.')->group(function(){
     // home page
     Route::get('/',[websiteController::class,'index'])->name('home');
 
@@ -65,8 +77,7 @@ Route::prefix('/')->middleware('auth:student')->name('student.')->group(function
 
     //profile
     Route::get('/profile/{slug}',[websiteController::class,'profile'])->name('profile');
-    Route::put('/profile/{slug}', [websiteController::class, 'profile_edit'])->name('profile_edit');
-
+    Route::put('/profile/{slug}', [websiteController::class, 'editProfile'])->name('profile_edit');
 
 
 

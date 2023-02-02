@@ -13,7 +13,10 @@
     <link rel="stylesheet" href="{{ asset('studentAssets/css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('studentAssets/css/owl.theme.default.min.css') }}">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+
     <link rel="stylesheet" href="{{ asset('studentAssets/css/style.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('adminAssets/dist/img/selection/favicon.ico') }}">
+
     @yield('styles')
 
 
@@ -31,7 +34,7 @@
     <nav class="navbar navbar-expand-lg navbar-light  sticky-top">
         <div class="container">
             <a class="navbar-brand" href="{{ route('student.home') }}">
-                <img src="{{ asset('adminAssets/dist/img/logo/S2.png') }}" >
+                <img src="{{ asset($data['logo']) }}" >
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,7 +101,7 @@
                           </div>
                           <div class='dropdown-links'>
                             <a href="{{ route('student.profile' ,Auth::user()->slug ) }}">Profile</a>
-                            <a href="https//www.google.com"> Edit password</a>
+                            <a href="{{ route('edit-password' , 'student') }}"> Edit password</a>
                             <a href="{{ route('logout' , 'student') }}"> Logout</a>
                           </div>
                         </div>
@@ -114,11 +117,11 @@
 
     @yield('content')
     <footer>
-        <div class="footer-top text-center">
+        <div class="footer-top text-center footer">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-6 text-center">
-                        <h4 class="navbar-brand">Prixima<span class="dot">.</span></h4>
+                        <img class="mb-4" src="{{ asset($data['logo']) }}" >
                         <p>{{ $data['footer_text'] }}</p>
 
                         <div class="col-auto conditions-section">
@@ -137,7 +140,7 @@
     </footer>
 
 
-    <script src="{{ asset('studentAssets/js/milestone.min.js') }}"></script>
+    {{-- <script src="{{ asset('studentAssets/js/milestone.min.js') }}"></script> --}}
     <script src="{{ asset('studentAssets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('studentAssets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('studentAssets/js/owl.carousel.min.js') }}"></script>

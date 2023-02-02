@@ -43,4 +43,15 @@ class Student extends Authenticatable
     {
         return $this->hasOne(AppliedEvaluation::class)->withDefault();
     }
+
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+    
 }
