@@ -34,7 +34,7 @@
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
                                 <th>Company Name</th>
-                                <th>Category</th>
+                                <th>Categories</th>
                                 <th>Email</th>
                                 <th>Phone</th>
                                 <th>Deleted at</th>
@@ -46,7 +46,7 @@
                                 <tr id="row_{{ $company->id }}">
                                     <td>{{ $company->id }}</td>
                                     <td>{{ $company->name }}</td>
-                                    <td>{{ $company->category->name }}</td>
+                                    <td>{{ $company->categories }}</td>
                                     <td>{{ $company->email }}</td>
                                     <td>{{ $company->phone }}</td>
                                     <td>{{ $company->deleted_at->toDateString() }}</td>

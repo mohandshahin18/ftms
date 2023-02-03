@@ -316,7 +316,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <a href="#" class="nav-link @yield('categories-active')">
                                 <i class="nav-icon fas fa-star"></i>
                                 <p>
-                                    Categories
+                                    Programs
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -325,14 +325,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <a href="{{ route('admin.categories.index') }}"
                                         class="nav-link @yield('index-category-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>All Categories</p>
+                                        <p>All Programs</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('admin.categories.create') }}"
                                         class="nav-link @yield('add-category-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Add Category</p>
+                                        <p>Add Program</p>
                                     </a>
                                 </li>
                             </ul>

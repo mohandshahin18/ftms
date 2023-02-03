@@ -1,17 +1,17 @@
 @extends('admin.master')
 
-@section('title', 'Programs')
-@section('sub-title', 'Programs')
-@section('categories-menu-open', 'menu-open')
-@section('categories-active', 'active')
-@section('index-category-active', 'active')
+@section('title', 'Universities')
+@section('sub-title', 'Universities')
+@section('universities-menu-open', 'menu-open')
+@section('universities-active', 'active')
+@section('index-university-active', 'active')
 
 @section('styles')
     <style>
         /* modal  */
         .modal-body {
-            height: 150px;
-            /* overflow-y: scroll; */
+            height: 220px;
+            overflow-y: scroll;
         }
     </style>
 @stop
@@ -32,10 +32,9 @@
 
 
                         <div class="btn-website">
-                            <a href="{{ route('admin.categories.create') }}" class="btn btn-primary"><i
-                                    class="fas fa-plus"></i> Add Program</a>
-                            <a href="{{ route('admin.categories.trash') }}" class="  btn btn-outline-warning text-dark"><i
-                                    class="fas fa-trash"></i> Recycle Bin</a>
+                            <a href="{{ route('admin.universities.create') }}" class="btn btn-primary"><i
+                                    class="fas fa-plus"></i> Add university</a>
+
                         </div>
 
 
@@ -47,29 +46,34 @@
                         <thead>
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
-                                <th>Program Name</th>
-                                <th>Companies no.</th>
+                                <th>University Name</th>
+                                <th>University Email</th>
+                                <th>University Phone</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            @forelse ($categories as $category)
-                                <tr id="row_{{ $category->id }}">
-                                    <td>{{ $category->id }}</td>
-                                    <td>{{ $category->name }}</td>
-                                    <td>{{ $category->companies->count() }}</td>
+                            @forelse ($universities as $university)
+                                <tr id="row_{{ $university->id }}">
+                                    <td>{{ $university->id }}</td>
+                                    <td>{{ $university->name }}</td>
+                                    <td>{{ $university->email }}</td>
+                                    <td>{{ $university->phone }}</td>
                                     <td>
                                         <button type="button" class="btn btn-primary btn-sm btn-edit" data-toggle="modal"
-                                            data-target="#editCategory" data-name="{{ $category->name }}"
-                                            data-url="{{ route('admin.categories.update', $category->id) }}"> <i
-                                                class="fas fa-edit"></i> </button>
+                                            data-target="#editUniversity" data-name="{{ $university->name }}"
+                                            data-url="{{ route('admin.universities.update', $university->id) }}"
+                                            data-email="{{ $university->email }}" data-phone="{{ $university->phone }}"
+                                            data-address="{{ $university->address }}"> <i class="fas fa-edit"></i>
+                                        </button>
                                         <form class="d-inline delete-form"
-                                            action="{{ route('admin.categories.destroy', $category->id) }}" method="POST">
+                                            action="{{ route('admin.universities.destroy', $university->id) }}"
+                                            method="POST">
                                             @csrf
                                             @method('delete')
-                                            <button class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"
-                                                    data-totalPost="{{ $categories->total() }}"></i> </button>
+                                            <button class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i>
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>
@@ -86,18 +90,18 @@
             </div>
             <!-- /.card -->
             <div class="mb-3">
-                {{ $categories->links() }}
+                {{ $universities->links() }}
             </div>
         </div>
     </div>
 
 
     <!-- Modal Edit Category -->
-    <div class="modal fade" id="editCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class=" modal-dialog modal-dialog-centered">
+    <div class="modal fade" id="editUniversity" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class=" modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title fs-5" id="exampleModalLabel">Edit Program</h4>
+                    <h4 class="modal-title fs-5" id="exampleModalLabel">Edit University</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -111,11 +115,32 @@
                         <div class="row">
 
                             {{-- start name --}}
-                            <div class="col-sm-12 mb-3">
+                            <div class="col-sm-6 mb-3">
                                 <label class="mb-2">Name</label>
                                 <input type="text" class="form-control" name="name" placeholder="Name">
                             </div>
                             {{-- end name --}}
+
+                            {{-- email --}}
+                            <div class="col-sm-6 mb-3">
+                                <label class="mb-2">Email</label>
+                                <input type="text" class="form-control" name="email" placeholder="Email">
+                            </div>
+                            {{-- email --}}
+
+                            {{-- phone  --}}
+                            <div class="col-sm-6 mb-3">
+                                <label class="mb-2">Phone</label>
+                                <input type="text" class="form-control" name="phone" placeholder="Phone">
+                            </div>
+                            {{-- phone  --}}
+
+                            {{-- address  --}}
+                            <div class="col-sm-6 mb-3">
+                                <label class="mb-2">Address</label>
+                                <input type="text" class="form-control" name="address" placeholder="Address">
+                            </div>
+                            {{-- address  --}}
 
                         </div>
 
@@ -150,15 +175,20 @@
         // get old data from edit button
         $('.btn-edit').on('click', function() {
             let name = $(this).data('name');
-
+            let phone = $(this).data('phone');
+            let email = $(this).data('email');
+            let address = $(this).data('address');
             let url = $(this).data('url');
 
-            $('#editCategory form').attr('action', url);
-            $('#editCategory input[name=name]').val(name);
+            $('#editUniversity form').attr('action', url);
+            $('#editUniversity input[name=name]').val(name);
+            $('#editUniversity input[name=email]').val(email);
+            $('#editUniversity input[name=phone]').val(phone);
+            $('#editUniversity input[name=address]').val(address);
 
 
-            $('#editCategory .alert ').addClass('d-none');
-            $('#editCategory .alert ul').html('');
+            $('#editUniversity .alert ').addClass('d-none');
+            $('#editUniversity .alert ul').html('');
 
         });
 
@@ -172,13 +202,13 @@
             $.ajax({
 
                 type: 'post',
-                url: $('#editCategory form').attr('action'),
+                url: $('#editUniversity form').attr('action'),
                 data: data,
                 success: function(res) {
 
                     $('#row_' + res.id + " td:nth-child(2)").text(res.name);
-
-
+                    $('#row_' + res.id + " td:nth-child(3)").text(res.email);
+                    $('#row_' + res.id + " td:nth-child(4)").text(res.phone);
 
                     const Toast = Swal.mixin({
                         toast: true,
@@ -196,14 +226,14 @@
                         icon: 'success',
                         title: 'Edit is successfully'
                     });
-                    $('#editCategory').modal('hide');
+                    $('#editUniversity').modal('hide');
                 },
                 error: function(err) {
-                    $('#editCategory .alert ul').html('');
-                    $('#editCategory .alert ').removeClass('d-none');
+                    $('#editUniversity .alert ul').html('');
+                    $('#editUniversity .alert ').removeClass('d-none');
                     for (const key in err.responseJSON.errors) {
                         let li = '<li>' + err.responseJSON.errors[key] + '</li>';
-                        $('#editCategory .alert ul').append(li);
+                        $('#editUniversity .alert ul').append(li);
                     }
                 }
 
@@ -211,7 +241,7 @@
 
         });
 
-
+//delete university
 
         $('.delete-form').on('submit', function(e) {
             e.preventDefault();
@@ -222,7 +252,7 @@
 
             Swal.fire({
                 title: 'Are you sure?',
-                text: "It will be moved to the Recycle Bin",
+                text: "It will be permanently deleted",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',

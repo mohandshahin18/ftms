@@ -17,6 +17,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\SpecializationsController;
 use App\Http\Controllers\WebSite\websiteController;
+use App\Models\Company;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -86,7 +87,7 @@ Route::prefix('/')->middleware('auth:student','is_verify_email')->name('student.
 
 
 // routes of control panel
-Route::prefix('admin')->middleware('auth:trainer,teacher,company,admin' )->name('admin.')->group(function() {
+Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('admin.')->group(function() {
 
     //home page
     Route::get('/home', [HomeController::class, 'home'])->name('home');

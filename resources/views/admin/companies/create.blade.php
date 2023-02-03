@@ -6,6 +6,22 @@
 @section('companies-active', 'active')
 @section('add-company-active', 'active')
 
+@section('styles')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+
+<style>
+    .select2-container--default {
+        width: 100% !important;
+    }
+
+    .select2-container--default 
+    .select2-selection--multiple 
+    .select2-selection__choice {
+        color: #333;
+    }
+</style>
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -55,6 +71,18 @@
                                 </div>
                             </div>
 
+                            {{-- Program --}}
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="mb-2">Program</label>
+                                    <select name="category_id[]" class="js-example-basic-multiple wide" multiple="multiple">
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
                             {{-- address  --}}
                             <div class=" col-lg-6">
                                 <label class="mb-2">Address</label>
@@ -65,19 +93,7 @@
                                 @enderror
                             </div>
 
-                            {{-- category --}}
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label class="mb-2">Category</label>
-                                    <select name="category_id" class="form-control" id="">
-                                        <option value="">Select Category</option>
-                                        @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            {{-- image --}}
+                            {{-- password --}}
                             <div class="col-6">
                                 <div class="form-group">
                                     <label class="mb-2">Password</label>
@@ -127,10 +143,17 @@
 
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.3.1/tinymce.min.js" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 
     <script>
         tinymce.init({
             selector: '#my-desc'
         });
+
+    // In your Javascript (external.js resource or <script> tag)
+    $(document).ready(function() {
+        $('.js-example-basic-multiple').select2();
+    });
     </script>
-@stop
+@endsection
+

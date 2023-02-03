@@ -33,8 +33,15 @@ class Trainer extends Authenticatable
     ];
 
 
+    // with company
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    // with task
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
     }
 }

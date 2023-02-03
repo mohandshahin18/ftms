@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\CompanyRequest;
+use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
@@ -18,7 +19,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = Company::withoutTrashed()->latest('id')->paginate(env('PAGINATION_COUNT '));
+        $companies = Company::withoutTrashed()->with('categories')->latest('id')->paginate(env('PAGINATION_COUNT '));
         return view('admin.companies.index', compact('companies'));
     }
 
@@ -43,9 +44,8 @@ class CompanyController extends Controller
     {
         $path = $request->file('image')->store('/uploads/company', 'custom');
 
-        Company::create([
+        $company = Company::create([
             'name' => $request->name,
-            'category_id' => $request->category_id,
             'email' => $request->email,
             'phone' => $request->phone,
             'address' => $request->address,
@@ -53,6 +53,7 @@ class CompanyController extends Controller
             'password' => Hash::make($request->password),
             'image' => $path,
         ]);
+        $company->categories()->attach($request->category_id);
 
         return redirect()->route('admin.companies.index')->with('msg', 'Company has been addedd successfully')->with('type', 'success');
     }
@@ -76,8 +77,11 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
+        $attached_categories = $company->categories()->get()->map(function($category) {
+            return $category->id;
+        })->toArray();
         $categories = Category::latest()->get();
-        return view('admin.companies.edit', compact('categories', 'company'));
+        return view('admin.companies.edit', compact('categories', 'company', 'attached_categories'));
     }
 
     /**
@@ -100,13 +104,14 @@ class CompanyController extends Controller
 
         $company->update([
             'name' => $request->name,
-            'category_id' => $request->category_id,
             'email' => $request->email,
             'phone' => $request->phone,
             'address' => $request->address,
             'description' => $request->description,
             'image' => $path,
         ]);
+
+        $company->categories()->syncWithoutDetaching($request->category_id);
 
         return redirect()->route('admin.companies.index')->with('msg', 'Company has been updated successfully')->with('type', 'success');
 
@@ -132,7 +137,7 @@ class CompanyController extends Controller
      */
     public function trash()
     {
-        $companies = Company::with('category')->onlyTrashed()->latest('id')->paginate(env('PAGINATION_COUNT '));
+        $companies = Company::with('categories')->onlyTrashed()->latest('id')->paginate(env('PAGINATION_COUNT '));
         return view('admin.companies.trash', compact('companies'));
     }
 
@@ -163,4 +168,9 @@ class CompanyController extends Controller
         return $id;
 
     }
+
+    
+    
+
+    
 }

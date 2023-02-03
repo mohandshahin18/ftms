@@ -37,7 +37,7 @@
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
                                 <th>Company Name</th>
-                                <th>Category</th>
+                                <th>Programs no.</th>
                                 <th>Email</th>
                                 <th>Phone</th>
                                 <th>Created at</th>
@@ -49,13 +49,14 @@
                                 <tr id="row_{{ $company->id }}">
                                     <td>{{ $company->id }}</td>
                                     <td>{{ $company->name }}</td>
-                                    <td>{{ $company->category->name }}</td>
+                                    <td>{{ $company->categories->count() }}</td>
                                     <td>{{ $company->email }}</td>
                                     <td>{{ $company->phone }}</td>
                                     <td>{{ $company->created_at->toDateString() }}</td>
                                     <td>
                                         <div style="display: flex; gap: 5px" class="">
                                           <a title="Edit" href="{{ route('admin.companies.edit', $company) }}" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i> </a>
+
                                           <form class="delete_form" method="POST" action="{{ route('admin.companies.destroy', $company) }}">
                                             @csrf
                                             @method('delete')

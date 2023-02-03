@@ -36,9 +36,9 @@ class Company extends Authenticatable
 
 
     // Relations
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Category::class,'category_company','company_id','category_id', 'id', 'id');
     }
 
     //with trainers

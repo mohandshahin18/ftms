@@ -13,16 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('companies', function (Blueprint $table) {
+        Schema::create('category_company', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('phone')->unique();
-            $table->text('address');
-            $table->string('image')->nullable();
-            $table->string('password');
-            $table->text('description');
-            $table->softDeletes();
+            $table->foreignId('category_id');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            
+            $table->foreignId('company_id');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -34,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('companies');
+        Schema::dropIfExists('category_companies');
     }
 };
