@@ -5,11 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @php
-        $auth = ucfirst($type);
-    @endphp
 
-    <title> {{ config('app.name') }} | Login {{ $auth }}</title>
+
+    <title> {{ config('app.name') }} | Forget Password </title>
 
     <link rel="icon" type="image/x-icon" href="{{ asset('adminAssets/dist/img/selection/favicon.ico') }}">
 
@@ -27,6 +25,16 @@
             margin: 6px 0 0 0;
         }
 
+        .alert-danger {
+            background-color: #f8d7da;
+            border: 1px solid;
+            border-color: #f5c2c7;
+            color: #842029;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+
+        }
 
         .alert-success {
             color: #155724;
@@ -46,17 +54,7 @@
             border-radius: 6px;
             margin-bottom: 20px;
         }
-        
-        .alert-danger {
-            background-color: #f8d7da;
-            border: 1px solid;
-            border-color: #f5c2c7;
-            color: #842029;
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 20px;
 
-        }
     </style>
 </head>
 
@@ -66,9 +64,9 @@
         <div class="signin-form">
             <div class="row">
                 <div class="col-md-6">
-                    <form method="POST" action="{{ route('login', $type) }}">
+                    <form method="POST" action="{{ route('forget.password.post') }}">
                         @csrf
-                        <h3>Login as {{ $auth }}</h3>
+                        <h3>Forget Password</h3>
 
 
                         @if ($errors->any())
@@ -88,7 +86,7 @@
 
                         <input type="hidden" value="{{ $type }}" name="type">
 
-                        <div class="mb-3 form-group">
+                        <div class="mb-3 form-group ">
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
                                 <g id="Icon_" data-name="Icon " transform="translate(0.176 0.486)">
                                     <rect id="Area_ICON:feather_x_SIZE:MEDIUM_STATE:DEFAULT_STYLE:STYLE2_"
@@ -113,44 +111,10 @@
 
                         </div>
 
-                        <div class="mb-3 form-group">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
-                                <g id="Icon_" data-name="Icon " transform="translate(-0.119 0.275)">
-                                    <rect id="Area_ICON:feather_x_SIZE:MEDIUM_STATE:DEFAULT_STYLE:STYLE2_"
-                                        data-name="Area [ICON:feather/x][SIZE:MEDIUM][STATE:DEFAULT][STYLE:STYLE2]"
-                                        width="22" height="22" transform="translate(0.119 -0.275)" fill="#222"
-                                        opacity="0" />
-                                    <g id="Icon" transform="translate(2.362 1.718)">
-                                        <rect id="Rect" width="16.37" height="10.004" rx="2"
-                                            transform="translate(0 8.185)" fill="none" stroke="#3d3d3d"
-                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
-                                        <path id="Path" d="M5.833,9.852V6.214a4.548,4.548,0,0,1,9.1,0V9.852"
-                                            transform="translate(-2.195 -1.667)" fill="none" stroke="#3d3d3d"
-                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
-                                    </g>
-                                </g>
-                            </svg>
-                                <input type="password" class=" form-control " name="password" placeholder="Password">
-                        </div>
-
-                        <div class="mb-3 form-group">
-                            <label class="checkbox-lable"> Keep me signed in
-                                {{-- <input type="checkbox"> --}}
-                                <input type="checkbox" name="remember" id="remember"
-                                    {{ old('remember') ? 'checked' : '' }}>
-                                <span class="checkbox-mark"></span>
-                            </label>
-                        </div>
-
-                        <button class="btn btn-primary bold w-100 py-2">Login</button>
+                        <button class="btn btn-primary bold w-100 py-2">Send Password Reset Link</button>
 
 
                     </form>
-
-                    <div class="account d-flex justify-content-between">
-                        <p><a href="{{ route('forget.password.get' , $type) }}">Forget Your Password ?</a></p>
-                    </div>
-
                 </div>
                 <div class="col-md-6 text-center">
                     <img src="{{ asset('adminAssets/loginAssets/assets/images/signin.png') }}" alt="">
@@ -161,8 +125,6 @@
 
         </div>
     </div>
-
-    
 </body>
 
 </html>

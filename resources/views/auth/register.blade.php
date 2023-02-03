@@ -165,12 +165,12 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary bold  py-2">Register</button>
+                        <button type="submit" class="btn btn-primary bold mt-2 py-2">Register</button>
 
 
                 </form>
                 <div class="account">
-                    <p>Do you have account ? <a href="{{ route('student.login.show') }}"> Click her </a></p>
+                    <p> <a href="{{ route('student.login.show') }}"> Do you have account ? </a></p>
                 </div>
             </div>
 
