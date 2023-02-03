@@ -44,4 +44,10 @@ class Trainer extends Authenticatable
     {
         return $this->hasMany(Task::class);
     }
+
+    // with category
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

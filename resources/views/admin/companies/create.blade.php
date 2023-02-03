@@ -75,7 +75,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label class="mb-2">Program</label>
-                                    <select name="category_id[]" class="js-example-basic-multiple wide" multiple="multiple">
+                                    <select name="category_id[]" class="js-example-basic-multiple wide" data-placeholder="Select Program" multiple="multiple">
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach

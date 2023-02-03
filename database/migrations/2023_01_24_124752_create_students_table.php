@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('slug')->unique()->nullable();
             $table->foreignId('university_id')->constrained()->cascadeOnDelete();
             $table->foreignId('specialization_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('teacher_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('teacher_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('company_id')->nullable()->constrained()->cascadeOnDelete();
             $table->softDeletes();
             $table->boolean('is_email_verified')->default(0);

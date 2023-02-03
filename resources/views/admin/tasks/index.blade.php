@@ -1,10 +1,10 @@
 @extends('admin.master')
 
-@section('title', 'Universities')
-@section('sub-title', 'Universities')
-@section('universities-menu-open', 'menu-open')
-@section('universities-active', 'active')
-@section('index-university-active', 'active')
+@section('title', 'Tasks')
+@section('sub-title', 'Tasks')
+@section('tasks-menu-open', 'menu-open')
+@section('tasks-active', 'active')
+@section('index-task-active', 'active')
 
 @section('styles')
     <style>
@@ -32,7 +32,7 @@
 
 
                         <div class="btn-website">
-                            <a href="{{ route('admin.universities.create') }}" class="btn btn-primary"><i
+                            <a href="{{ route('admin.tasks.create') }}" class="btn btn-primary"><i
                                     class="fas fa-plus"></i> Add university</a>
 
                         </div>
@@ -54,7 +54,7 @@
                         </thead>
 
                         <tbody>
-                            @forelse ($universities as $university)
+                            @forelse ($tasks as $university)
                                 <tr id="row_{{ $university->id }}">
                                     <td>{{ $university->id }}</td>
                                     <td>{{ $university->name }}</td>
@@ -63,7 +63,7 @@
                                     <td>
                                         <button type="button" class="btn btn-primary btn-sm btn-edit" data-toggle="modal"
                                             data-target="#editUniversity" data-name="{{ $university->name }}"
-                                            data-url="{{ route('admin.universities.update', $university->id) }}"
+                                            data-url="{{ route('admin.tasks.update', $university->id) }}"
                                             data-email="{{ $university->email }}" data-phone="{{ $university->phone }}"
                                             data-address="{{ $university->address }}"> <i class="fas fa-edit"></i>
                                         </button>

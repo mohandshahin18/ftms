@@ -16,6 +16,7 @@ use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\SpecializationsController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\WebSite\websiteController;
 use App\Models\Company;
 use Illuminate\Auth\Notifications\ResetPassword;
@@ -118,13 +119,14 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     Route::resource('companies', CompanyController::class);
 
     //university
-    Route::resource('universities',UniversityController::class);
     Route::get('get/specialization/{id}', [UniversityController::class, 'get_specialization']);
+    Route::resource('universities',UniversityController::class);
 
     // specialization
     Route::resource('specializations', SpecializationsController::class);
 
     // trainer
+    Route::get('get/category/{id}', [TrainerController::class, 'get_category']);
     Route::resource('trainers', TrainerController::class);
 
     // teacher
@@ -138,19 +140,23 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     Route::delete('students/{id}/forcedelete', [StudentController::class, 'forceDelete'])->name('students.forcedelete');
     Route::post('students/{id}/restore', [StudentController::class, 'restore'])->name('students.restore');
     Route::resource('students', StudentController::class);
+
+
     // show evaluation
     Route::get('show/evaluation/{id}', [StudentController::class, 'show_evaluation'])->name('show_evaluation');
     // export evaluation as pdf
     Route::get('export/pdf/{id}', [StudentController::class, 'export_pdf'])->name('export_pdf');
 
     // evaluations
-    Route::resource('evaluations', EvaluationController::class);
     Route::post('apply_evaluation/{id}', [EvaluationController::class, 'apply_evaluation'])->name('apply_evaluation');
+    Route::resource('evaluations', EvaluationController::class);
 
     //settings
     Route::get('settings', [HomeController::class, 'settings'])->name('settings');
     Route::post('settings', [HomeController::class, 'settings_store'])->name('settings_store');
 
+    // tasks
+    Route::resource('tasks', TaskController::class);
 
 });
 

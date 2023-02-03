@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Task;
+use App\Models\Trainer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,8 +27,11 @@ class TaskController extends Controller
      */
     public function create()
     {
-        $category = Category::where('trainer_id', Auth::id())->get();
-        return view('admin.tasks.create');
+        $trainers = Trainer::with('category')->findOrFail(Auth::user()->id);
+        // $trainer->category->name;
+        // dd( $trainer->category->name);
+        // $categories = Category::get();
+        return view('admin.tasks.create', compact('trainers'));
     }
 
     /**

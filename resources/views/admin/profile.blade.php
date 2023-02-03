@@ -3,6 +3,22 @@
 @section('title', Auth::guard()->user()->name)
 @section('sub-title', 'Profile')
 
+@section('styles')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+
+<style>
+    /* .select2-container--default {
+        width: 100% !important;
+    } */
+
+    .select2-container--default 
+    .select2-selection--multiple 
+    .select2-selection__choice {
+        color: #333;
+    }
+</style>
+@endsection
+
 @section('content')
     <div class="box-all  ">
         <form action="{{ route('admin.profile_edit' ,Auth::guard()->user()->id ) }}" method="POST"
@@ -100,13 +116,10 @@
                             <input type="text" name="" class="form-control " disabled name=""  value="{{ $company }}">
                         </div>
 
-                        @endif
-
-                        @if(Auth::guard('company')->check())
-
+                        {{-- Program --}}
                         <div class="col-md-6 mb-3">
-                            <label class="labels">Category</label>
-                            <select name="category_id" class="form-control" >
+                            <label class="labels">Program</label>
+                            <select name="category_id" class="form-control">
                                 @foreach ($categories as $category)
                                 <option @selected(Auth::guard()->user()->category_id == $category->id) value="{{ $category->id }}">
                                     {{ $category->name }}</option>
@@ -115,8 +128,11 @@
                             </select>
                         </div>
 
+                        @endif
 
-                        <div class="col-md-12 mb-3">
+                        @if(Auth::guard('company')->check())
+
+                        <div class="col-md-6 mb-3">
                             <label class="labels">Location</label>
                             <input type="text" name="address" class="form-control @error('name') is-invalid @enderror" placeholder="Phone"
                                 value="{{ Auth::guard()->user()->address }}">
@@ -124,6 +140,22 @@
                                 <small class="invalid-feedback"> {{ $message }}</small>
                                 @enderror
                         </div>
+
+                        <div class="col-md-12 mb-3">
+                            <div class="form-group">
+                                <label class="mb-2">Program</label>
+                                <select name="category_id[]" width:560px; class="form-control select2" multiple>
+                                    @foreach ($categories as $category)
+                                   
+                                            <option value="{{ $category->id }}" @foreach ($attached_categories as $key => $value)
+                                                {{ ($category->id == $value) ? 'selected' : '' }}
+                                            @endforeach>
+                                            {{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                            </div>
+                        </div>
+
 
                         <div class="col-md-12 mb-3">
                             <label for="description">Description</label>
@@ -198,11 +230,16 @@
 @if(Auth::guard('company')->check())
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.3.1/tinymce.min.js" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 
 <script>
     tinymce.init({
         selector: '#my-desc'
     });
+
+    $(document).ready(function() {
+            $('.select2').select2();
+        });
 </script>
 
 @endif

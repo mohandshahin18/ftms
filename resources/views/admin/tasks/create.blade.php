@@ -4,7 +4,7 @@
 @section('sub-title', 'Tasks')
 @section('tasks-menu-open', 'menu-open')
 @section('tasks-active', 'active')
-@section('add-university-active', 'active')
+@section('add-task-active', 'active')
 
 @section('content')
 
@@ -37,7 +37,7 @@
                                 <div class="form-group">
                                     <label class="mb-2">Sub Title</label>
                                     <input type="text" class="form-control @error('sub_title') is-invalid @enderror"
-                                        name="sub_title" placeholder="University sub_title" value="{{ old('sub_title') }}">
+                                        name="sub_title" placeholder="Task Sub Title" value="{{ old('sub_title') }}">
                                     @error('sub_title')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                     @enderror
@@ -65,8 +65,20 @@
                                 </div>
                             </div>
 
+                              {{-- Program --}}
+
+                              <div class="col-6">
+                                <div class="form-group">
+                                    <label class="mb-2">Program</label>
+                                    <input disabled type="text" class="form-control"
+                                          value="{{ $trainers->category->name }}">
+                                    
+                                </div>
+                            </div>
+
+
                             {{-- File  --}}
-                            <div class="col-lg-12">
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="mb-2">File</label><span>(Optional)</span>
                                     <input type="file" class="form-control @error('file') is-invalid @enderror" name="file">
@@ -75,10 +87,13 @@
                                     @enderror
                                 </div>
                             </div>
+                            
+                           
+                           
 
                             {{-- description --}}
                             <div class="mb-3 col-12">
-                                <label for="description">Description</label>
+                                <label for="description">Description</label><span>(Optional)</span>
                                 <textarea name="description" class="@error('description') is-invalid @enderror" id="my-desc">{{ old('description') }}</textarea>
                                 @error('description')
                                     <small class="invalid-feedback">{{ $message }}</small>

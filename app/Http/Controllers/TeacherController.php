@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TeacherRequest;
 use App\Models\Specialization;
+use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\University;
 use Illuminate\Http\Request;
@@ -46,7 +47,7 @@ class TeacherController extends Controller
     {
         $path = $request->file('image')->store('/uploads/teacher', 'custom');
 
-        Teacher::create([
+        $teacher = Teacher::create([
             'name' => $request->name,
             'phone' => $request->phone,
             'email' => $request->email,
@@ -55,6 +56,16 @@ class TeacherController extends Controller
             'password' => Hash::make($request->password),
             'image' => $path,
         ]);
+
+        $students = Student::where('university_id', $teacher->university_id)->where('specialization_id', $request->specialization_id)->get();
+
+        if($students) {
+            foreach($students as $student){
+                $student->update([
+                    'teacher_id' => $teacher->id
+                ]);
+            }
+        }
 
         return redirect()
         ->route('admin.teachers.index')

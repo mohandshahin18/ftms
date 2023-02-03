@@ -70,10 +70,10 @@
                             </div>
 
                             {{-- company --}}
-                            <div class="col-lg-12">
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="mb-2">Company</label>
-                                    <select name="company_id" class="form-control" id="">
+                                    <select name="company_id" class="form-control" id="company_id">
                                         <option value="">Select Company</option>
                                         @foreach ($companies as $company)
                                             <option value="{{ $company->id }}">{{ $company->name }}</option>
@@ -82,7 +82,21 @@
                                 </div>
                             </div>
 
+                             {{-- Program --}}
+                             <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="mb-2">Program</label>
+                                    <select name="category_id" class="form-control" id="category_id">
+                                        <option value="">Select Program</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
 
+
+                                
                             {{-- address  --}}
                             <div class="col-lg-12">
                                 <div class="form-group">
@@ -112,4 +126,30 @@
     </div>
 
 
+@stop
+
+@section('scripts')
+ {{-- Ajax Request --}}
+ {{-- <script>
+    $(document).ready(function() {
+        $("#company_id").on("change", function() {
+            var comp_id = $(this).val();
+            if (comp_id) {
+                $.ajax({
+                    url: "/get/category/" + comp_id,
+                    type: "GET",
+                    dataType: "json",
+                    success: function(data) {
+                        $("#category_id").empty();
+                        $.each(data, function(key, value) {
+                            $("#category_id").append('<option value="' + key +
+                                '">' + value + '</option>');
+                        });
+                    },
+                });
+            }
+        });
+    });
+
+    </script> --}}
 @stop

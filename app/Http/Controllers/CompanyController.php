@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\CompanyRequest;
 use Illuminate\Http\Request;
 
+use function PHPSTORM_META\type;
+
 class CompanyController extends Controller
 {
     /**
@@ -80,6 +82,7 @@ class CompanyController extends Controller
         $attached_categories = $company->categories()->get()->map(function($category) {
             return $category->id;
         })->toArray();
+        
         $categories = Category::latest()->get();
         return view('admin.companies.edit', compact('categories', 'company', 'attached_categories'));
     }

@@ -500,6 +500,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </ul>
                         </li>
 
+                        @if (Auth::guard('trainer')->check())
+                        <li class="nav-item @yield('tasks-menu-open')">
+                            <a href="#" class="nav-link @yield('tasks-active')">
+                                <i class="fas fa-user-shield nav-icon"></i>
+                                <p>
+                                    Tasks
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.tasks.index') }}" class="nav-link @yield('index-admin-active')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>All Tasks</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.tasks.create') }}" class="nav-link @yield('add-task-active')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Add Task</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        @endif
 
 
 

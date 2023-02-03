@@ -22,4 +22,11 @@ class Category extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    
+    // with tariners
+    public function tariners()
+    {
+        return $this->hasMany(Trainer::class);
+    }
 }

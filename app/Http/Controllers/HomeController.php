@@ -10,6 +10,8 @@ use App\Models\Category;
 use App\Rules\TextLength;
 use Illuminate\Http\Request;
 use App\Models\Specialization;
+use App\Models\Student;
+use App\Models\University;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
@@ -95,13 +97,21 @@ class HomeController extends Controller
             $university = $teacher->university->name;
             $specializations = Specialization::where('university_id', $teacher->university_id)->get();
             return view('admin.profile' , compact('university','specializations'));
+
         }elseif(Auth::guard('trainer')->check()){
             $trainer = Trainer::with('company')->where('id',  Auth::guard()->user()->id)->first();
             $company = $trainer->company->name;
-            return view('admin.profile' , compact('company'));
+            $companies = Company::with('categories')->where('id', $trainer->company->id)->first();
+            $categories = $companies->categories;
+            return view('admin.profile' , compact('company', 'categories'));
+
         }elseif(Auth::guard('company')->check()){
             $categories = Category::get();
-            return view('admin.profile' , compact('categories'));
+            $company = Company::findOrFail(Auth::user()->id);
+            $attached_categories = $company->categories()->get()->map(function($category) {
+                return $category->id;
+            })->toArray();
+            return view('admin.profile' , compact('categories', 'attached_categories'));
         }
         else{
             return view('admin.profile' );
@@ -158,6 +168,22 @@ class HomeController extends Controller
             'specialization_id' => 'required'
         ]);
 
+        // dd(!($request->specialization_id == $teacher->specialization_id));
+
+        if(!($request->specialization_id == $teacher->specialization_id)) {
+            dd("ok");
+            $students = Student::where('university_id', $teacher->university_id)->where('specialization_id', $request->specialization_id)->get();
+
+        
+            foreach($students as $student){
+                dd($student->teacher_id);
+                $student->update([
+                    'teacher_id' => null
+                ]);
+            }
+        
+        } 
+
         $teacher->update([
             'name' => $request->name,
             'email' => $request->email,
@@ -166,7 +192,21 @@ class HomeController extends Controller
             'image' => $path,
         ]);
 
+
+        $students = Student::where('university_id', $teacher->university_id)->where('specialization_id', $request->specialization_id)->get();
+
+        if($students) {
+            foreach($students as $student){
+                $student->update([
+                    'teacher_id' => $teacher->id
+                ]);
+            }
+        }
+
+        // if($request->specialization_id !== )
+
         return redirect()->route('admin.profile')->with('msg', 'Profile has been updated successfully')->with('type', 'success');
+
       }elseif(Auth::guard('trainer')->check() ){
             $trainer =Trainer::findOrFail($id);
             $path = $trainer->image;
@@ -180,7 +220,8 @@ class HomeController extends Controller
                 'name' => 'required',
                 'email' => 'required|email',
                 'phone' => 'required',
-                'image' => 'nullable'
+                'image' => 'nullable',
+                'category_id' => 'required'
             ]);
 
             $trainer->update([
@@ -188,9 +229,11 @@ class HomeController extends Controller
                 'email' => $request->email,
                 'phone' => $request->phone,
                 'image' => $path,
+                'category_id' => $request->category_id
             ]);
 
             return redirect()->route('admin.profile')->with('msg', 'Profile has been updated successfully')->with('type', 'success');
+
       }elseif(Auth::guard('company')->check() ){
 
         $company =Company::findOrFail($id);

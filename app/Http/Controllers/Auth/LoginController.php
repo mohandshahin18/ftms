@@ -61,6 +61,8 @@ class LoginController extends Controller
 
             'email'=> 'required|email|string| '.$email,
             'password'=>['required','string','min:3'],
+        ], [
+            'email.exists' => ' The selected email is invalid.'
         ]);
 
         if (Auth::guard($this->chekGuard($request))->attempt(['email' => $request->email, 'password' => $request->password])) {

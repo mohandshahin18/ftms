@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TrainerRequest;
+use App\Models\Category;
+use App\Models\CategoryCompany;
 use App\Models\Company;
 use App\Models\Trainer;
 use Illuminate\Http\Request;
@@ -30,8 +32,9 @@ class TrainerController extends Controller
      */
     public function create()
     {
-        $companies = Company::orderBy('id', 'asc')->get();
-        return view('admin.trainers.create', compact('companies'));
+        $companies = Company::get();
+        $categories = Category::get();
+        return view('admin.trainers.create', compact('companies','categories'));
     }
 
     /**
@@ -51,7 +54,8 @@ class TrainerController extends Controller
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
             'image' => $path,
-            'company_id' => $request->company_id
+            'company_id' => $request->company_id,
+            'category_id' => $request->category_id
         ]);
 
         return redirect()
@@ -108,5 +112,15 @@ class TrainerController extends Controller
         $trainer->forceDelete();
         return $trainer->id;
     }
+
+       /**
+     * return specialization based on university
+     *
+     */
+    // public function get_category($id)
+    // {
+    //     $company = CategoryCompany::where('company_id', $id)->get();
+    //     return json_encode($company);
+    // }
 
 }
