@@ -28,7 +28,7 @@ class websiteController extends Controller
         $student = Student::with('university' , 'specialization' ,'teacher')->where('id',  Auth::guard()->user()->id)->first();
         $university = $student->university->name;
         $specialization = $student->specialization->name;
-        $teacher = $student->teacher->name;
+        $teacher = $student->teacher->name ? $student->teacher->name : 'No teacher yet';
         // $specializations = Specialization::where('university_id', $student->university_id)->get();
         return view('student.profile' , compact('university','specialization' ,'teacher')); //,'specializations'
 

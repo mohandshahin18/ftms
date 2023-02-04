@@ -44,13 +44,21 @@
             -webkit-appearance: none;
             margin: 0;
         }
+
+        button{
+            width: 150px
+        }
+
+        .text-right{
+            text-align: right;
+        }
     </style>
 
 </head>
 
 <body>
     <div class="signin">
-        <div class="logo"><img src="{{ asset('adminAssets/dist/img/logo/logo-11.png') }}" alt="">
+        <div class="logo"><img src="{{ asset('adminAssets/dist/img/logo/logo-11.png') }}"  style="width: 115px" alt="">
         </div>
         <div class="signin-form register">
             <div class="row">
@@ -148,7 +156,6 @@
                                 <input type="password" id="password"
                                     class="form-control @error('password') error @enderror" name="password"
                                     placeholder="Password">
-                                <i class="far fa-eye show-pass"></i>
                                 @error('password')
                                     <small>{{ $message }}</small>
                                 @enderror
@@ -165,8 +172,10 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary bold mt-2 py-2">Register</button>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-primary bold mt-2 py-2">Register</button>
 
+                        </div>
 
                 </form>
                 <div class="account">
@@ -240,17 +249,7 @@
             }
         }
 
-        // Show-Hide Password
-        const toggle = document.querySelector(".show-pass");
-        toggle.onclick = () => {
-            if (password.type == 'password') {
-                password.type = 'text';
-                toggle.classList.add('active');
-            } else {
-                password.type = 'password';
-                toggle.classList.remove('active');
-            }
-        }
+
     </script>
 
 

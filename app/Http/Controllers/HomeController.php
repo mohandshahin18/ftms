@@ -168,21 +168,23 @@ class HomeController extends Controller
             'specialization_id' => 'required'
         ]);
 
-        // dd(!($request->specialization_id == $teacher->specialization_id));
 
         if(!($request->specialization_id == $teacher->specialization_id)) {
+<<<<<<< HEAD
             dd("ok");
             $students = Student::where('university_id', $teacher->university_id)->where('specialization_id', $teacher->specialization_id)->get();
+=======
+            $students = Student::where('university_id', $teacher->university_id)->where('specialization_id', $teacher->specialization_id)->get();
 
-        
+>>>>>>> c9c1bd55a3ea5987987da031ccbbf1165a1cd203
+
             foreach($students as $student){
-                dd($student->teacher_id);
                 $student->update([
                     'teacher_id' => null
                 ]);
             }
-        
-        } 
+
+        }
 
         $teacher->update([
             'name' => $request->name,
@@ -203,7 +205,6 @@ class HomeController extends Controller
             }
         }
 
-        // if($request->specialization_id !== )
 
         return redirect()->route('admin.profile')->with('msg', 'Profile has been updated successfully')->with('type', 'success');
 
