@@ -18,13 +18,6 @@
                 <div class="card-header">
                     <div class="d-flex  justify-content-between">
 
-                        <div class="card-tools">
-                            <div class="input-group input-group" style="width: 280px;">
-                                <input type="text" name="table_search" class="form-control " placeholder="Search by Name">
-                            </div>
-                        </div>
-
-
                         <div class="btn-website">
                             <a href="{{ route('admin.trainers.create') }}" class="btn btn-primary"><i
                                     class="fas fa-plus"></i> Add Trainer</a>
@@ -121,10 +114,6 @@
 
     <script>
 
-        // to hide alert ------
-        setTimeout(() => {
-            $('.alert-success').fadeOut(3000);
-        }, 500);
 
 
         $('.delete_form').on('submit', function(e) {

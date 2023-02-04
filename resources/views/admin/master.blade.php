@@ -40,6 +40,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
             background-color: #1e272f;
         }
 
+        .nav-sidebar .nav-link>.right, .nav-sidebar .nav-link>p>.right {
+        transform: rotate(180deg)
+        }
+
+    .nav-sidebar .menu-is-opening>.nav-link i.right, .nav-sidebar .menu-is-opening>.nav-link svg.right, .nav-sidebar .menu-open>.nav-link i.right, .nav-sidebar .menu-open>.nav-link svg.right {
+        -webkit-transform: rotate(270deg);
+        transform: rotate(270deg);
+    }
+
         /* .form-control {
             background: #f8f8f8;
             border: 1px solid #f8f8f8;

@@ -15,12 +15,6 @@
                 <div class="card-header">
                     <div class="d-flex  justify-content-between">
 
-                        <div class="card-tools">
-                            <div class="input-group input-group" style="width: 280px;">
-                                <input type="text" name="table_search" class="form-control " placeholder="Search by Name">
-                            </div>
-                        </div>
-
 
                         <div class="btn-website">
                             <a href="{{ route('admin.tasks.create') }}" class="btn btn-primary"><i
@@ -91,7 +85,7 @@
 
 @section('scripts')
     <script>
-   
+
 
         $('.delete-form').on('submit', function(e) {
             e.preventDefault();

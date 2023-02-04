@@ -32,7 +32,7 @@
                     </div>
 
                      {{-- university --}}
-                     <div class="col-6">
+                     <div class="col-lg-6">
                         <div class="form-group">
                             <label class="mb-2">University</label>
                             <select name="university_id" class="form-control" id="">

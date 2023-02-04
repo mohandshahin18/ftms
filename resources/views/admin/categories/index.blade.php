@@ -25,15 +25,13 @@
                     <div class="d-flex  justify-content-between">
 
                         <div class="card-tools">
-                            <div class="input-group input-group" style="width: 280px;">
-                                <input type="text" name="table_search" class="form-control " placeholder="Search by Name">
-                            </div>
+                            <a href="{{ route('admin.categories.create') }}" class="btn btn-primary"><i
+                                class="fas fa-plus"></i> Add Program</a>
                         </div>
 
 
                         <div class="btn-website">
-                            <a href="{{ route('admin.categories.create') }}" class="btn btn-primary"><i
-                                    class="fas fa-plus"></i> Add Program</a>
+
                             <a href="{{ route('admin.categories.trash') }}" class="  btn btn-outline-warning text-dark"><i
                                     class="fas fa-trash"></i> Recycle Bin</a>
                         </div>

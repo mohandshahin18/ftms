@@ -21,7 +21,7 @@
                     <div class="card-body">
                         <div class="row">
                             {{-- Main Title  --}}
-                            <div class="col-6">
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="mb-2">Main Title</label>
                                     <input type="text" class="form-control @error('main_title') is-invalid @enderror"
@@ -33,7 +33,7 @@
                             </div>
 
                             {{-- Sub Title  --}}
-                            <div class="col-6">
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="mb-2">Sub Title</label>
                                     <input type="text" class="form-control @error('sub_title') is-invalid @enderror"
@@ -45,7 +45,7 @@
                             </div>
 
                             {{-- start date --}}
-                            <div class="col-6">
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="mb-2">Start Date</label>
                                     <input type="datetime-local" class="form-control @error('start_date') is-invalid @enderror" value="{{ old('start_date') }}" name="start_date">
@@ -56,7 +56,7 @@
                             </div>
 
                             {{-- end date --}}
-                            <div class="col-6">
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="mb-2">End Date</label>
                                     <input type="datetime-local" class="datepicker form-control @error('end_date') is-invalid @enderror" value="{{ old('end_date') }}" name="end_date">
@@ -68,7 +68,7 @@
 
                               {{-- Program --}}
 
-                              <div class="col-6">
+                              <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="mb-2">Program</label>
                                     <input disabled type="text" name="category_id" class="form-control"
@@ -86,12 +86,12 @@
                                     @enderror
                                 </div>
                             </div>
-                            
-                           
-                           
+
+
+
 
                             {{-- description --}}
-                            <div class="mb-3 col-12">
+                            <div class="mb-3 col-lg-12">
                                 <label for="description">Description</label><span>(Optional)</span>
                                 <textarea name="description" class="@error('description') is-invalid @enderror" id="my-desc">{{ old('description') }}</textarea>
                                 @error('description')
@@ -100,7 +100,7 @@
                             </div>
 
                         </div>
-                        
+
                     </div>
                     <!-- /.card-body -->
 

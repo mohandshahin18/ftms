@@ -14,8 +14,8 @@
         width: 100% !important;
     }
 
-    .select2-container--default 
-    .select2-selection--multiple 
+    .select2-container--default
+    .select2-selection--multiple
     .select2-selection__choice {
         color: #333;
     }
@@ -72,7 +72,7 @@
                             </div>
 
                             {{-- Program --}}
-                            <div class="col-6">
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="mb-2">Program</label>
                                     <select name="category_id[]" class="js-example-basic-multiple wide" data-placeholder="Select Program" multiple="multiple">
@@ -94,7 +94,7 @@
                             </div>
 
                             {{-- password --}}
-                            <div class="col-6">
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="mb-2">Password</label>
                                     <input type="password" class="form-control @error('password') is-invalid @enderror" name="password">
@@ -105,7 +105,7 @@
                             </div>
 
                             {{-- image --}}
-                            <div class="col-12">
+                            <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="mb-2">Image</label>
                                     <input type="file" class="form-control @error('image') is-invalid @enderror" name="image">

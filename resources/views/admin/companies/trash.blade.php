@@ -14,10 +14,12 @@
                     <div class="d-flex  justify-content-between">
 
                         <div class="card-tools">
-                            <div class="input-group input-group" style="width: 280px;">
-                                <input type="text" name="table_search" class="form-control " placeholder="Search by Name">
-                            </div>
-                        </div>
+                            <form action="" >
+                             <div class="input-group input-group" style="width: 280px;">
+                                 <input type="text" name="keyword" value="{{ request()->keyword }}" class="form-control " placeholder="Search by Company Name">
+                             </div>
+                            </form>
+                         </div>
 
 
                         <div class="btn-website">
@@ -76,7 +78,7 @@
               </div>
               <!-- /.card -->
               <div class="mb-3">
-                {{ $companies->links() }}
+                {{ $companies->appends($_GET)->links() }}
               </div>
         </div>
     </div>
