@@ -15,12 +15,6 @@
                 <div class="card-header">
                     <div class="d-flex  justify-content-between">
 
-                        <div class="card-tools">
-                            <div class="input-group input-group" style="width: 280px;">
-                                <input type="text" name="table_search" class="form-control " placeholder="Search by Name">
-                            </div>
-                        </div>
-
 
                         <div class="btn-website">
                             <a href="{{ route('admin.tasks.create') }}" class="btn btn-primary"><i
@@ -88,3 +82,101 @@
 
 
 @stop
+<<<<<<< HEAD
+=======
+
+@section('scripts')
+    <script>
+
+
+        $('.delete-form').on('submit', function(e) {
+            e.preventDefault();
+
+            let url = $(this).attr('action');
+
+            let data = $(this).serialize();
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "It will be permanently deleted",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#000',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // send ajax request and delete post
+                    $.ajax({
+                        type: 'post',
+                        url: url,
+                        data: data,
+                        success: function(res) {
+                            $('#row_' + res).remove();
+
+                        }
+
+                    })
+
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: false,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Moved to Recycle Bin'
+                    })
+                }
+            })
+
+
+
+        });
+    </script>
+
+
+    {{-- Messages Script --}}
+    @if (session('msg'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 4000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            @if (session('type') == 'success')
+                Toast.fire({
+                    icon: 'success',
+                    title: '{{ session('msg') }}'
+                })
+            @elseif (session('type') == 'danger')
+                Toast.fire({
+                    icon: 'warning',
+                    title: '{{ session('msg') }}'
+                })
+            @else
+                Toast.fire({
+                    icon: 'info',
+                    title: '{{ session('msg') }}'
+                })
+            @endif
+        </script>
+    @endif
+
+
+@stop
+>>>>>>> 607231d400c432d5f6ffeab0d8ce0dc9d437d855

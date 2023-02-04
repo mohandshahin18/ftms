@@ -6,23 +6,40 @@
 @section('companies-active', 'active')
 @section('index-company-active', 'active')
 
+@section('styles')
+
+<style>
+
+@media(max-width:626px){
+    .btn-website {
+       margin: 10px 0;
+    }
+
+}
+</style>
+@stop
 @section('content')
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 607231d400c432d5f6ffeab0d8ce0dc9d437d855
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
 
-                    <div class="d-flex  justify-content-between align-items-center">
+                    <div class="d-flex  justify-content-between align-items-center flex-wrap">
                         <div class="card-tools">
-                            <div class="input-group input-group" style="width: 280px;">
-                                <input type="text" name="table_search" class="form-control " placeholder="Search by Name">
-                            </div>
-                        </div>
+                            <form action="" >
+                             <div class="input-group input-group" style="width: 280px;">
+                                 <input type="text" name="keyword" value="{{ request()->keyword }}" class="form-control " placeholder="Search by Company Name">
+                             </div>
+                            </form>
+                         </div>
 
 
-                        <div class="btn-website">
+                        <div class="btn-website ">
                             <a title="Create Company" href="{{ route('admin.companies.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Add company</a>
                             <a title="Trashed Companies" href="{{ route('admin.companies.trash') }}" class="btn btn-outline-secondary"><i class="fas fa-trash"></i> Recycle Bin</a>
                         </div>
@@ -78,7 +95,7 @@
               </div>
               <!-- /.card -->
               <div class="mb-3">
-                {{ $companies->links() }}
+                {{ $companies->appends($_GET)->links() }}
               </div>
         </div>
     </div>

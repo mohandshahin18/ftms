@@ -27,7 +27,7 @@
         right: 4px;
         top: 8px;
         transition: all 0.1s linear;
-            
+
     }
 
     .question_wrapper div span:hover {
@@ -67,7 +67,7 @@
                     </div>
 
                      {{-- type --}}
-                     <div class="col-6">
+                     <div class="col-lg-6">
                         <div class="form-group">
                             <label class="mb-2">For</label>
                             <select name="evaluation_type" class="form-control" id="">
@@ -76,8 +76,8 @@
                             </select>
                         </div>
                     </div>
-                
-                    
+
+
 
                </div>
                <hr>
@@ -86,14 +86,14 @@
                 <button id="add_question" class="btn btn-sm btn-success mb-2"><i class="fas fa-plus"></i> Add</button>
 
                 <div class="question_wrapper">
-                    
+
                 </div>
 
-                
+
               </div>
               <!-- /.card-body -->
-                
-                
+
+
               <div class="card-footer">
                 <button type="submit" class="btn btn-primary">
                     <i class="fas fa-plus"></i> Save</button>

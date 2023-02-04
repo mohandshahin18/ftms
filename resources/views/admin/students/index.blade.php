@@ -18,9 +18,11 @@
                     <div class="d-flex  justify-content-between">
 
                         <div class="card-tools">
+                           <form action="" >
                             <div class="input-group input-group" style="width: 280px;">
-                                <input type="text" name="table_search" class="form-control " placeholder="Search by Name">
+                                <input type="text" name="keyword" value="{{ request()->keyword }}" class="form-control " placeholder="Search by Student Name">
                             </div>
+                           </form>
                         </div>
 
 
@@ -107,7 +109,7 @@
             </div>
             <!-- /.card -->
             <div class="mb-3">
-                {{ $students->links() }}
+                {{ $students->appends($_GET)->links() }}
             </div>
         </div>
     </div>

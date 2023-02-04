@@ -18,10 +18,12 @@
                     <div class="d-flex  justify-content-between">
 
                         <div class="card-tools">
-                            <div class="input-group input-group" style="width: 280px;">
-                                <input type="text" name="table_search" class="form-control " placeholder="Search by Name">
-                            </div>
-                        </div>
+                            <form action="" >
+                             <div class="input-group input-group" style="width: 280px;">
+                                 <input type="text" name="keyword" value="{{ request()->keyword }}" class="form-control " placeholder="Search by Name">
+                             </div>
+                            </form>
+                         </div>
 
 
                         <div class="btn-website">
@@ -61,12 +63,12 @@
                                         <div style="display: flex; gap: 5px">
                                             <form action="{{ route('admin.students.restore', $student->id) }}" method="POST" class="restor_form">
                                               @csrf
-                                              <button class="btn btn-warning btn-sm btn_restore"><i class="fas fa-trash-restore"></i></button>
+                                              <button class="btn btn-warning btn-sm btn_restore" title="Restore"><i class="fas fa-trash-restore"></i></button>
                                             </form>
                                             <form action="{{ route('admin.students.forcedelete', $student->id) }}" method="POST" class="delete_form">
                                               @csrf
                                               @method('delete')
-                                              <button class="btn btn-danger btn-sm delete_btn"> <i class="fas fa-times"></i> </button>
+                                              <button class="btn btn-danger btn-sm delete_btn" title="Delete"> <i class="fas fa-times"></i> </button>
                                             </form>
                                           </div>
                                     </td>
@@ -85,7 +87,7 @@
             </div>
             <!-- /.card -->
             <div class="mb-3">
-                {{ $students->links() }}
+                {{ $students->appends($_GET)->links() }}
             </div>
         </div>
     </div>

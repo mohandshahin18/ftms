@@ -24,12 +24,7 @@
                 <div class="card-header">
                     <div class="d-flex  justify-content-between">
 
-                        <div class="card-tools">
-                            <div class="input-group input-group" style="width: 280px;">
-                                <input type="text" name="table_search" class="form-control " placeholder="Search by Name">
-                            </div>
-                        </div>
-
+ 
 
 
                     </div>
@@ -52,7 +47,7 @@
                                     <td>{{ $apply->name }}</td>
                                     <td>{{ $apply->company->name }}</td>
                                     <td>{{ $apply->student->name }}</td>
-                                    
+
                                 </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">

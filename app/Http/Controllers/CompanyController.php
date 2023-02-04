@@ -21,7 +21,12 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = Company::withoutTrashed()->with('categories')->latest('id')->paginate(env('PAGINATION_COUNT '));
+        if(request()->has('keyword')){
+            $companies = Company::where('name' , 'like' , '%' .request()->keyword.'%')
+            ->paginate(env('PAGINATION_COUNT'));
+        }else{
+        $companies = Company::with('categories')->latest('id')->paginate(env('PAGINATION_COUNT '));
+        }
         return view('admin.companies.index', compact('companies'));
     }
 
@@ -82,7 +87,7 @@ class CompanyController extends Controller
         $attached_categories = $company->categories()->get()->map(function($category) {
             return $category->id;
         })->toArray();
-        
+
         $categories = Category::latest()->get();
         return view('admin.companies.edit', compact('categories', 'company', 'attached_categories'));
     }
@@ -140,7 +145,12 @@ class CompanyController extends Controller
      */
     public function trash()
     {
+        if(request()->has('keyword')){
+            $companies = Company::onlyTrashed()->where('name' , 'like' , '%' .request()->keyword.'%')
+            ->paginate(env('PAGINATION_COUNT'));
+        }else{
         $companies = Company::with('categories')->onlyTrashed()->latest('id')->paginate(env('PAGINATION_COUNT '));
+        }
         return view('admin.companies.trash', compact('companies'));
     }
 
@@ -172,8 +182,8 @@ class CompanyController extends Controller
 
     }
 
-    
-    
 
-    
+
+
+
 }

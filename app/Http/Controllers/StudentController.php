@@ -18,7 +18,13 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::with('university', 'specialization')->latest('id')->paginate(env('PAGINATION_COUNT'));
+
+        if(request()->has('keyword')){
+            $students = Student::where('name' , 'like' , '%' .request()->keyword.'%')
+            ->paginate(env('PAGINATION_COUNT'));
+        }else{
+            $students = Student::with('university', 'specialization')->latest('id')->paginate(env('PAGINATION_COUNT'));
+        }
 
         $evaluated_student = Student::has('applied_evaluation')->first();
 
@@ -109,7 +115,13 @@ class StudentController extends Controller
      */
     public function trash()
     {
-        $students = Student::onlyTrashed()->latest('id')->paginate(env('PAGINATION_COUNT'));
+        if(request()->has('keyword')){
+            $students = Student::onlyTrashed()->where('name' , 'like' , '%' .request()->keyword.'%')
+            ->paginate(env('PAGINATION_COUNT'));
+        }else{
+            $students = Student::onlyTrashed()->latest('id')->paginate(env('PAGINATION_COUNT'));
+
+        }
         return view('admin.students.trash', compact('students'));
     }
 
