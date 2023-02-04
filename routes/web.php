@@ -156,6 +156,7 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     Route::post('settings', [HomeController::class, 'settings_store'])->name('settings_store');
 
     // tasks
+    Route::get('tasks/{slug}/edit', [TaskController::class, 'edit'])->name('task.edit');
     Route::resource('tasks', TaskController::class);
 
 });

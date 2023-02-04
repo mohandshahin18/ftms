@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Task;
 use App\Models\Trainer;
+use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Requests\TaskRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class TaskController extends Controller
 {
@@ -17,7 +20,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        
+        $tasks = Task::with('category')->where('trainer_id', Auth::user()->id)->paginate(env('PAGINATION_COUNT'));
+        return view('admin.tasks.index', compact('tasks'));
     }
 
     /**
@@ -28,9 +32,6 @@ class TaskController extends Controller
     public function create()
     {
         $trainers = Trainer::with('category')->findOrFail(Auth::user()->id);
-        // $trainer->category->name;
-        // dd( $trainer->category->name);
-        // $categories = Category::get();
         return view('admin.tasks.create', compact('trainers'));
     }
 
@@ -40,9 +41,33 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TaskRequest $request)
     {
-        //
+
+        $path = null;
+        if($request->file('file')) {
+            $path = $request->file('file')->store('/uploads/tasks-files', 'custom');
+        }
+
+        $sub_title = str_replace(' ', '-', $request->sub_title);
+
+        $slug = Str::slug($request->main_title).'-'.$sub_title.'-'.Auth::user()->id;
+
+            Task::create([
+            'main_title' => $request->main_title,
+            'sub_title' => $request->sub_title,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'file' => $path,
+            'description' => $request->description,
+            'category_id' => Auth::user()->category->id,
+            'trainer_id' => Auth::user()->id,
+            'slug' => $slug,
+        ]);
+
+        return redirect()->route('admin.tasks.create')
+        ->with('msg', 'Task has been addedd successfully')
+        ->with('type', 'success');
     }
 
     /**
@@ -62,9 +87,11 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function edit(Task $task)
+    public function edit($slug)
     {
-        //
+        $task = Task::where('slug', $slug)->first();
+        $trainer = Trainer::with('category')->findOrFail(Auth::user()->id);
+        return view('admin.tasks.edit', compact('task', 'trainer'));
     }
 
     /**
@@ -74,9 +101,32 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(TaskRequest $request, Task $task)
     {
-        //
+        $path = null;
+        if($request->file('file')) {
+            $path = $request->file('file')->store('/uploads/tasks-files', 'custom');
+        }
+
+        $sub_title = str_replace(' ', '-', $request->sub_title);
+
+        $slug = Str::slug($request->main_title).'-'.$sub_title.'-'.Auth::user()->id;
+
+        $task->update([
+            'main_title' => $request->main_title,
+            'sub_title' => $request->sub_title,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'file' => $path,
+            'description' => $request->description,
+            'category_id' => Auth::user()->category->id,
+            'trainer_id' => Auth::user()->id,
+            'slug' => $slug,
+        ]);
+
+        return redirect()->route('admin.tasks.index')
+        ->with('msg', 'Task has been updated successfully')
+        ->with('type', 'info');
     }
 
     /**
@@ -87,6 +137,10 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        if($task->file){
+            File::delete(public_path($task->file));
+        }
+        $task->destroy($task->id);
+        return $task->id;
     }
 }

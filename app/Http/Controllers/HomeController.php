@@ -172,7 +172,7 @@ class HomeController extends Controller
 
         if(!($request->specialization_id == $teacher->specialization_id)) {
             dd("ok");
-            $students = Student::where('university_id', $teacher->university_id)->where('specialization_id', $request->specialization_id)->get();
+            $students = Student::where('university_id', $teacher->university_id)->where('specialization_id', $teacher->specialization_id)->get();
 
         
             foreach($students as $student){

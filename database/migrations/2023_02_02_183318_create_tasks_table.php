@@ -22,8 +22,8 @@ return new class extends Migration
             $table->longText('description')->nullable();
             $table->foreignId('trainer_id')->constrained()->cascadeOnDelete();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
             $table->timestamps();
         });
     }

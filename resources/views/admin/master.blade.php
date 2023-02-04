@@ -511,7 +511,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ route('admin.tasks.index') }}" class="nav-link @yield('index-admin-active')">
+                                    <a href="{{ route('admin.tasks.index') }}" class="nav-link @yield('index-task-active')">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>All Tasks</p>
                                     </a>

@@ -1,6 +1,6 @@
 @extends('admin.master')
 
-@section('title', 'Add New Tasks')
+@section('title', 'Edit Tasks')
 @section('sub-title', 'Tasks')
 @section('tasks-menu-open', 'menu-open')
 @section('tasks-active', 'active')
@@ -12,12 +12,13 @@
         <div class="col-md-12">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Add New Task</h3>
+                    <h3 class="card-title">Edit Task</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form action="{{ route('admin.tasks.store') }}" method="POST">
+                <form action="{{ route('admin.tasks.update', $task->id) }}" method="POST">
                     @csrf
+                    @method('PUT')
                     <div class="card-body">
                         <div class="row">
                             {{-- Main Title  --}}
@@ -25,7 +26,7 @@
                                 <div class="form-group">
                                     <label class="mb-2">Main Title</label>
                                     <input type="text" class="form-control @error('main_title') is-invalid @enderror"
-                                    name="main_title" placeholder="Like Task 1, Task 2 ..." value="{{ old('main_title') }}">
+                                    name="main_title" placeholder="Like Task 1, Task 2 ..." value="{{ old('main_title', $task->main_title) }}">
                                     @error('main_title')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                     @enderror
@@ -37,7 +38,7 @@
                                 <div class="form-group">
                                     <label class="mb-2">Sub Title</label>
                                     <input type="text" class="form-control @error('sub_title') is-invalid @enderror"
-                                        name="sub_title" placeholder="Task Sub Title" value="{{ old('sub_title') }}">
+                                        name="sub_title" placeholder="Task Sub Title" value="{{ old('sub_title', $task->sub_title) }}">
                                     @error('sub_title')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                     @enderror
@@ -48,7 +49,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label class="mb-2">Start Date</label>
-                                    <input type="datetime-local" class="form-control @error('start_date') is-invalid @enderror" value="{{ old('start_date') }}" name="start_date">
+                                    <input type="datetime-local" class="form-control @error('start_date') is-invalid @enderror" value="{{ old('start_date', $task->start_date) }}" name="start_date">
                                     @error('start_date')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                     @enderror
@@ -59,7 +60,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label class="mb-2">End Date</label>
-                                    <input type="datetime-local" class="datepicker form-control @error('end_date') is-invalid @enderror" value="{{ old('end_date') }}" name="end_date">
+                                    <input type="datetime-local" class="datepicker form-control @error('end_date') is-invalid @enderror" value="{{ old('end_date', $task->end_date) }}" name="end_date">
                                     @error('end_date')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                     @enderror
@@ -72,7 +73,7 @@
                                 <div class="form-group">
                                     <label class="mb-2">Program</label>
                                     <input disabled type="text" name="category_id" class="form-control"
-                                          value="{{ $trainers->category->name }}">
+                                          value="{{ $trainer->category->name }}">
                                 </div>
                             </div>
 
@@ -80,7 +81,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="mb-2">File</label><span>(Optional)</span>
-                                    <input type="file" class="form-control @error('file') is-invalid @enderror" name="file">
+                                    <input type="file" class="form-control @error('file') is-invalid @enderror" value="{{ public_path($task->file) }}" name="file">
                                     @error('file')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                     @enderror
@@ -106,7 +107,7 @@
 
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-plus"></i> Add</button>
+                            <i class="fas fa-arrow-up"></i> Update</button>
                         <button class="btn btn-dark" type="button" onclick="history.back()">
                             <i class="fas fa-undo-alt"> </i> Return Back </button>
 
