@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,15 +10,20 @@
 </head>
 <body style="background: #eee ; font-family: Arial, Helvetica, sans-serif">
 
-    <div style="width: 600px ; background: #fff ; padding:20px; border: 2px solid #cfcfcf ; margin: 50px auto;">
-        <h1>Email Verification Mail</h1>
+    <div style="width: 550px ; background: #fff ; padding:20px; border: 2px solid #cfcfcf ; margin: 50px auto;">
+        <div style="text-align: center;">
+            <img style="width: 120px;" src="{{ asset('adminAssets/dist/img/logo/logo-11.png') }}" alt="">
+       </div>
+        <h1>Hello!</h1>
+        <p style="color: #959a9a; line-height: 2; margin-bottom: 30px;">You are receiving this email because we have received your confirmation email request .</p>
+        <div style="text-align: center; margin:40px auto;">
+            <a href="{{ route('student.verify', $token) }}" style="background: #1a2e44; color: #fff; text-decoration: none; padding: 12px 14px; border-radius: 5px; ">Verify Email</a>
 
-        Please verify your email with bellow link:
-        <a href="{{ route('student.verify', $token) }}">Verify Email</a>
-        <br>
-        <br>
+        </div>
 
-        <h5>Best Regards</h5>
+
+        <h5 style="margin-bottom: 5px;">Best Regards</h5>
+        <h5 style="margin-top: 10px;">FTMS</h5>
 
     </div>
 </body>

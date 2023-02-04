@@ -46,7 +46,7 @@
             border-radius: 6px;
             margin-bottom: 20px;
         }
-        
+
         .alert-danger {
             background-color: #f8d7da;
             border: 1px solid;
@@ -62,7 +62,7 @@
 
 <body>
     <div class="signin">
-        <div class="logo"><img src="{{ asset('adminAssets/dist/img/logo/logo-11.png') }}" alt=""></div>
+        <div class="logo"><img src="{{ asset('adminAssets/dist/img/logo/logo-11.png') }}" style="width: 115px" alt=""></div>
         <div class="signin-form">
             <div class="row">
                 <div class="col-md-6">
@@ -162,7 +162,7 @@
         </div>
     </div>
 
-    
+
 </body>
 
 </html>

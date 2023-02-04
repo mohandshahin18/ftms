@@ -59,7 +59,7 @@ class AdminController extends Controller
 
         return redirect()
         ->route('admin.admins.index')
-        ->with('msg', __('admin.msg'))
+        ->with('msg','Admin Has Been Addedd Successfully')
         ->with('type', 'success');
     }
 

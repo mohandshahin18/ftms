@@ -75,7 +75,7 @@ class ResetPasswordController extends Controller
 
         }
         $request->validate([
-            'email' => ['required','email',$email],
+            'email'=> 'required|email|string| '.$email
         ]);
 
         $type = $request->type;
@@ -133,7 +133,7 @@ class ResetPasswordController extends Controller
 
         }
         $request->validate([
-            'email' => ['required','email',$email],
+            'email'=> 'required|email|string| '.$email,
             'password' => 'required|string|min:6|confirmed',
             'password_confirmation' => 'required'
         ]);

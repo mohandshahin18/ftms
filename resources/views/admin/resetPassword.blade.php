@@ -16,7 +16,7 @@
                     <div class="row mt-3">
                         <div class="col-md-12 mb-3">
                             <label class="labels">Current Password</label>
-                            <input type="password" name="current_password" class="form-control @error('current_password') is-invalid @enderror" placeholder="Password" value="{{ old('current_password') }}">
+                            <input type="password" name="current_password" class="form-control @error('current_password') is-invalid @enderror" placeholder="Current Password" value="{{ old('current_password') }}">
                                 @error('current_password')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                 @enderror
@@ -24,7 +24,7 @@
 
                         <div class="col-md-12 mb-3">
                             <label class="labels">New Password</label>
-                            <input type="password" name="new_password" class="form-control @error('new_password') is-invalid @enderror" placeholder="Password" value="{{ old('new_password') }}">
+                            <input type="password" name="new_password" class="form-control @error('new_password') is-invalid @enderror" placeholder="New Password" value="{{ old('new_password') }}">
                                 @error('new_password')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                 @enderror
@@ -32,7 +32,7 @@
 
                         <div class="col-md-12 mb-3">
                             <label class="labels">New Password Confirmation</label>
-                            <input type="password" name="new_password_confirmation" class="form-control @error('new_password_confirmation') is-invalid @enderror" placeholder="Password" value="{{ old('new_password_confirmation') }}">
+                            <input type="password" name="new_password_confirmation" class="form-control @error('new_password_confirmation') is-invalid @enderror" placeholder="Confirmation New Password" value="{{ old('new_password_confirmation') }}">
                                 @error('new_password_confirmation')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                 @enderror

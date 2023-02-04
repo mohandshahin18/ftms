@@ -5,10 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Models\Student;
 use App\Models\Teacher;
 use Illuminate\Support\Str;
+use App\Models\Users_Verify;
 use Illuminate\Http\Request;
 use App\Models\Specialization;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\Users_Verify;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Providers\RouteServiceProvider;
@@ -135,6 +136,7 @@ class RegisterController extends Controller
                 $verifyStudent->student->save();
                 $message = "Your e-mail is verified. You can now login.";
                 $type = 'success';
+                DB::table('users_verifies')->where(['token'=> $token])->delete();
             } else {
                 $message = "Your e-mail is already verified. You can now login.";
                 $type = 'success';
