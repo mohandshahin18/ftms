@@ -125,7 +125,5 @@
         tinymce.init({
             selector: '#my-desc'
         });
-
-        $('.datepicker').datepicker();
     </script>
 @stop

@@ -503,7 +503,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         @if (Auth::guard('trainer')->check())
                         <li class="nav-item @yield('tasks-menu-open')">
                             <a href="#" class="nav-link @yield('tasks-active')">
-                                <i class="fas fa-user-shield nav-icon"></i>
+                                <i class="fas fa-tasks nav-icon"></i>
                                 <p>
                                     Tasks
                                     <i class="right fas fa-angle-left"></i>
@@ -597,8 +597,42 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{ asset('adminAssets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('adminAssets/dist/js/adminlte.min.js') }}"></script>
+    <script src="{{ asset('adminAssets/dist/js/custom.js') }}"></script>
     <!-- Sweat Alert -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js"></script>
+    
+@if (session('msg'))
+<script>
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 4000,
+        timerProgressBar: false,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+
+    @if (session('type') == 'success')
+        Toast.fire({
+            icon: 'success',
+            title: '{{ session('msg') }}'
+        })
+    @elseif (session('type') == 'danger')
+        Toast.fire({
+            icon: 'error',
+            title: '{{ session('msg') }}'
+        })
+    @else
+        Toast.fire({
+            icon: 'info',
+            title: '{{ session('msg') }}'
+        })
+    @endif
+</script>
+@endif
 
 
     @yield('scripts')

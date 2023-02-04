@@ -65,7 +65,7 @@ class TaskController extends Controller
             'slug' => $slug,
         ]);
 
-        return redirect()->route('admin.tasks.create')
+        return redirect()->route('admin.tasks.index')
         ->with('msg', 'Task has been addedd successfully')
         ->with('type', 'success');
     }
