@@ -8,8 +8,10 @@ use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Requests\TaskRequest;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 class TaskController extends Controller
 {
@@ -138,7 +140,11 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         if($task->file){
-            File::delete(public_path($task->file));
+            try {
+                File::delete(public_path($task->file));
+            } catch(Exception $e) {
+                Log::error($e->getMessage());
+            }
         }
         $task->destroy($task->id);
         return $task->id;

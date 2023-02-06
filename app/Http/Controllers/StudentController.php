@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\AppliedEvaluation;
 use App\Models\Evaluation;
 use App\Models\Student;
+use App\Models\University;
+use Arcanedev\LaravelSettings\Utilities\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Exception;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 class StudentController extends Controller
 {
@@ -19,16 +25,29 @@ class StudentController extends Controller
     public function index()
     {
 
+        $keyword = request()->keyword;
+
         if(request()->has('keyword')){
-            $students = Student::where('name' , 'like' , '%' .request()->keyword.'%')
+            $students = Student::where('name' , 'like' , '%' .$keyword.'%')
+            ->orWhere('student_id', 'like', '%'.$keyword.'%')
+            ->orWhereHas('university', function($query) use ($keyword) {
+                $query->where('name', 'like', '%'.$keyword.'%');
+            })
+            ->orWhereHas('specialization', function($query) use ($keyword) {
+                $query->where('name', 'like', '%'.$keyword.'%');
+            })
+            ->latest('id')
             ->paginate(env('PAGINATION_COUNT'));
-        }else{
+        }
+        else{
             $students = Student::with('university', 'specialization')->latest('id')->paginate(env('PAGINATION_COUNT'));
         }
 
-        $evaluated_student = Student::has('applied_evaluation')->first();
 
-        return view('admin.students.index', compact('students', 'evaluated_student'));
+        $evaluated_students = Student::has('applied_evaluation')->get();
+        // dd($evaluated_student);
+
+        return view('admin.students.index', compact('students', 'evaluated_students'));
     }
 
     /**
@@ -66,7 +85,9 @@ class StudentController extends Controller
             return view('admin.students.evaluate', compact('evaluation', 'student'));
 
         } else {
-            abort(403, 'There Is No Evaluations Addedd');
+            return redirect()->back()
+            ->with('msg', 'Please Add Evaluation First')
+            ->with('type', 'info');
         }
     }
 
@@ -148,6 +169,14 @@ class StudentController extends Controller
     public function forcedelete($id)
     {
         $students = Student::onlyTrashed()->findOrFail($id);
+        
+        if(public_path($students->image)) {
+            try {
+                File::delete(public_path($students->image));
+            } catch(Exception $e) {
+                Log::error($e->getMessage());
+            }
+        }
         $students->forcedelete();
         return $id;
 
@@ -167,8 +196,31 @@ class StudentController extends Controller
     {
         $student = Student::whereHas('applied_evaluation')->findOrFail($id);
         $data = json_decode($student->applied_evaluation->data, true);
+        $mapping = [
+            'excellent' => 1,
+            'very good' => 0.85,
+            'good' => 0.75,
+            'acceptable' => 0.5,
+            'bad' => 0.25
+        ];
 
-        return view('admin.students.evaluation_page', compact('student', 'data'));
+        foreach($data as $answers) {
+            $answers = $mapping[$answers];
+        }
+
+        $frequency = array_count_values($data);
+        $total = count($data);
+        $sum = 0;
+
+        foreach($frequency as $answer => $count) {
+            $ratio = $count / $total;
+            $sum += $ratio * $answers; 
+        }
+
+        $total_ratio = $sum*(100).'%';
+        
+
+        return view('admin.students.evaluation_page', compact('student', 'data', 'total_ratio'));
     }
 
 
@@ -194,5 +246,26 @@ class StudentController extends Controller
 
         $pdf = Pdf::loadView('admin.students.pdf', $data);
         return $pdf->download($name_of_pdf.'.pdf');
+    }
+
+
+    // Filter students by evaluated or not
+
+    public function filter(Request $request)
+    {
+        $filter = request()->filter;
+        $students = Student::with('applied_evaluation', 'university', 'specialization');
+
+        if($filter == 'evaluated') {
+            $students = $students->has('applied_evaluation')->latest('id')->paginate(env('PAGINATION_COUNT'));
+        } elseif($filter == 'not evaluated') {
+            $students = $students->doesntHave('applied_evaluation')->latest('id')->paginate(env('PAGINATION_COUNT'));
+        } else {
+            $students = $students->latest('id')->paginate(env('PAGINATION_COUNT'));
+        }
+
+        $evaluated_students = Student::has('applied_evaluation')->get();
+
+        return view('admin.students.index', compact('students', 'evaluated_students', 'filter'));
     }
 }

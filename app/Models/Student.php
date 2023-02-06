@@ -44,6 +44,13 @@ class Student extends Authenticatable
         return $this->hasOne(AppliedEvaluation::class)->withDefault();
     }
 
+    
+    // with applied task
+    public function applied_tasks()
+    {
+        return $this->hasMany(AppliedTasks::class);
+    }
+
 
     /**
      * The attributes that should be cast to native types.

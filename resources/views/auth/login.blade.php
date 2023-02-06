@@ -15,6 +15,7 @@
 
     <link rel="stylesheet" href="{{ asset('adminAssets/loginAssets/assets/css/bootstrap-grid.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminAssets/loginAssets/assets/css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
     <style>
         input.error {
             border: 1px solid #dc3545;
@@ -114,7 +115,7 @@
                         </div>
 
                         <div class="mb-3 form-group">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" style="z-index: 1">
                                 <g id="Icon_" data-name="Icon " transform="translate(-0.119 0.275)">
                                     <rect id="Area_ICON:feather_x_SIZE:MEDIUM_STATE:DEFAULT_STYLE:STYLE2_"
                                         data-name="Area [ICON:feather/x][SIZE:MEDIUM][STATE:DEFAULT][STYLE:STYLE2]"
@@ -130,7 +131,11 @@
                                     </g>
                                 </g>
                             </svg>
-                                <input type="password" class=" form-control " name="password" placeholder="Password">
+
+                            <div class="pass" style="z-index: 0">
+                                <input type="password" class=" form-control " name="password" id="password"  placeholder="Password">
+                                <i class="far fa-eye show-pass"></i>
+                              </div>
                         </div>
 
                         <div class="mb-3 form-group">
@@ -162,7 +167,20 @@
         </div>
     </div>
 
+<script>
+    const password = document.querySelector(".pass #password"),
+            toggle = document.querySelector(".show-pass");
 
+            toggle.onclick = () => {
+                if(password.type == 'password'){
+                    password.type = 'text';
+                    toggle.classList.add("active");
+                } else {
+                    password.type = 'password';
+                    toggle.classList.remove("active");
+                }
+            }
+</script>
 </body>
 
 </html>

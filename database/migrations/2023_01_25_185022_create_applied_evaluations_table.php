@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('student_id')->constrained()->cascadeOnDelete();
             $table->foreignId('company_id')->constrained()->cascadeOnDelete();
             $table->foreignId('evaluation_id')->constrained()->cascadeOnDelete();
-            $table->string('data');
+            $table->text('data');
             $table->timestamps();
         });
     }

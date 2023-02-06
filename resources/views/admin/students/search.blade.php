@@ -46,17 +46,16 @@
                                 <input type="text" name="keyword" value="{{ request()->keyword }}" class="form-control " placeholder="Search by Student Name">
                             </div> --}}
                            </form>
-                           <form action="{{ route('admin.filter') }}" id="filter_form" method="POST" style="display: flex; align-items: center; gap: 15px">
+                           <form action="{{ route('admin.filter') }}" style="display: flex; align-items: center; gap: 15px">
                             @csrf
                                 <div class="input-group">
                                     <select name="filter" class="form-control" id="filter">
-                                        <option value="">Select Filter</option>
-                                        <option @selected(request()->filter !== 'evaluated' && request()->filter !== 'not evaluated' ) value="all">All</option>
-                                        <option @selected(request()->filter == 'evaluated') value="evaluated">Evaluated</option>
-                                        <option @selected(request()->filter == 'not evaluated') value="not evaluated">Not Evaluated</option>
+                                        <option @selected($filter == 'all') value="all">All</option>
+                                        <option @selected($filter == 'evaluated')  value="evaluated">Evaluated</option>
+                                        <option @selected($filter == 'not evaluated')  value="not evaluated">Not Evaluated</option>
                                     </select>
                                 </div>
-                                <button type="submit" class="btn btn-outline-dark btn-sm" id="filter_btn">Result</button>
+                                <button class="btn btn-outline-dark btn-sm">Result</button>
                            </form>
                         </div>
 
@@ -96,25 +95,21 @@
                                     <td>{{ $student->university->name }}</td>
                                     <td>{{ $student->specialization->name }}</td>
                                     <td>
-                                        @php
-                                            $isEvaluated = false;
-                                        @endphp
-                                        @foreach ($evaluated_students as $evaluated_student)
-                                            @if ($student->id == $evaluated_student->id)
-                                                @php
-                                                    $isEvaluated = true;
-                                                @endphp
-                                            @endif
-                                        @endforeach
-                                        @if ($isEvaluated)
+                                    @if($evaluated_student)
+                                        @if ($student->id == $evaluated_student->id)
                                             <span class="text-success">Evaluated</span>
                                         @else
                                             <span class="text-danger">Not Evaluated yet</span>
                                         @endif
+                                        @else
+
+                                        <span class="text-danger">Not Evaluated yet</span>
+                                    @endif
                                     </td>
                                     <td>
                                         <div>
-                                                @if ($isEvaluated)
+                                            @if($evaluated_student)
+                                                @if ($student->id == $evaluated_student->id)
 
                                                 <a href="{{ route('admin.show_evaluation', $student) }}" class="btn btn-info btn-sm" data-disabled="true" title="show evaluation">Evaluation</a>
                                                 @else
@@ -122,6 +117,10 @@
                                                 <a href="{{ route('admin.students.show', $student) }}" class="btn btn-outline-secondary" data-disabled="true" title="evaluate">Evaluate</a>
 
                                                 @endif
+                                            @else
+                                                <a href="{{ route('admin.students.show', $student) }}" class="btn btn-outline-secondary" data-disabled="true" title="evaluate">Evaluate</a>
+
+                                            @endif
 
                                             <form class="d-inline delete_form"
                                                 action="{{ route('admin.students.destroy', $student->id) }}" method="POST">
@@ -164,22 +163,7 @@
             });
         });
 
-
-                
-                let form = document.getElementById('filter_form');
-                let select = document.getElementById('filter');
-
-                form.addEventListener('submit', function (event) {
-                    if(select.value === '') {
-                        event.preventDefault();
-                        alert("Please select an option")
-                    }
-                })
-            
-    
-
     </script>
-    
 
     {{-- AJAX Filter --}}
 

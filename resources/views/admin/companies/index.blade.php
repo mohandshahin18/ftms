@@ -20,10 +20,6 @@
 @stop
 @section('content')
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 607231d400c432d5f6ffeab0d8ce0dc9d437d855
     <div class="row">
         <div class="col-12">
             <div class="card">

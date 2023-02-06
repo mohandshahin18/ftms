@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -105,6 +108,15 @@ class AdminController extends Controller
      */
     public function destroy(Admin $admin)
     {
+        $path = public_path($admin->image);
+
+        if($path) {
+            try {
+                File::delete($path);
+            } catch(Exception $e) {
+                Log::error($e->getMessage());
+            }
+        }
         $admin->forceDelete();
         return $admin->id;
     }

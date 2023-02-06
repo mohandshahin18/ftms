@@ -255,12 +255,11 @@ class HomeController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'image' => $path,
-            'category_id' => $request->category_id,
             'address' => $request->address,
             'description' => $request->description,
-
-
         ]);
+
+        $company->categories()->sync($request->category_id);
 
         return redirect()->route('admin.profile')->with('msg', 'Profile has been updated successfully')->with('type', 'success');
 

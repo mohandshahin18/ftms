@@ -7,10 +7,12 @@ use App\Models\Specialization;
 use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\University;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class TeacherController extends Controller
 {
@@ -115,7 +117,16 @@ class TeacherController extends Controller
      */
     public function destroy(Teacher $teacher)
     {
-        File::delete($teacher->id);
+        $photo_path = public_path($teacher->image);
+        
+        if(File::exists($photo_path)) {
+            try {
+                File::delete($photo_path);
+            } catch(Exception $e) {
+                Log::error($e->getMessage());
+            }
+        }
+        // File::delete();
         $teacher->forceDelete();
         return $teacher->id;
     }
