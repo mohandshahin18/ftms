@@ -22,4 +22,10 @@ class Task extends Model
     {
         return $this->belongsTo(Trainer::class)->withDefault();
     }
+
+    // with applied tasks
+    public function applied_tasks()
+    {
+        return $this->hasMany(AppliedTasks::class);
+    }
 }

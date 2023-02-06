@@ -13,12 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('applied_tasks', function (Blueprint $table) {
-            $table->id();
-            $table->string('file');
-            $table->foreignId('task_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('student_id')->constrained()->cascadeOnDelete();
-            $table->timestamps();
+        Schema::table('evaluations', function (Blueprint $table) {
+            $table->date('start_date')->after('evaluation_type');
+            $table->date('end_date')->after('start_date');
         });
     }
 
@@ -29,6 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('applied_tasks');
+        Schema::table('evaluations', function (Blueprint $table) {
+            //
+        });
     }
 };

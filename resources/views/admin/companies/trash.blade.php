@@ -48,7 +48,7 @@
                                 <tr id="row_{{ $company->id }}">
                                     <td>{{ $company->id }}</td>
                                     <td>{{ $company->name }}</td>
-                                    <td>{{ $company->categories }}</td>
+                                    <td>{{ $company->categories->count() }}</td>
                                     <td>{{ $company->email }}</td>
                                     <td>{{ $company->phone }}</td>
                                     <td>{{ $company->deleted_at->toDateString() }}</td>

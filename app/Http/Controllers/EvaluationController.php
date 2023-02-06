@@ -45,11 +45,15 @@ class EvaluationController extends Controller
         $request->validate([
             'name' => ['required'],
             'evaluation_type' => ['required'],
+            'start_data' => ['required'],
+            'end_date' => ['required'],
         ]);
 
         $evaluation = Evaluation::create([
             'name' => $request->name,
             'evaluation_type' => $request->evaluation_type,
+            'start_data' => $request->start_data,
+            'end_data' => $request->end_data,
         ]);
 
         if($request->has('questions')) {
@@ -100,18 +104,22 @@ class EvaluationController extends Controller
         $request->validate([
             'name' => ['required'],
             'evaluation_type' => ['required'],
+            'start_data' => ['required'],
+            'end_data' => ['required'],
         ]);
 
         $evaluation->update([
             'name' => $request->name,
             'evaluation_type' => $request->evaluation_type,
+            'start_data' => $request->start_data,
+            'end_data' => $request->end_data
         ]);
 
         if($request->has('questions')) {
-            Question::where('evaluation_id', $evaluation->id)->delete();
 
             foreach($request->questions as $qid => $question) {
-                Question::create([
+                Question::updateOrCreate([
+                    'id' => $qid,
                     'question' => $question,
                     'evaluation_id' => $evaluation->id
                 ]);
@@ -167,7 +175,7 @@ class EvaluationController extends Controller
             'evaluation_type' => $evaluation->evaluation_type,
             'evaluation_id' => $id,
             'student_id' => $request->student_id,
-            'company_id' => Auth::id(),
+            'company_id' => Auth::user()->company_id,
             'data' => json_encode($request->answer),
         ]);
 

@@ -258,11 +258,13 @@ class HomeController extends Controller
             'address' => $request->address,
             'status' => $request->status,
             'description' => $request->description,
-
-
         ]);
 
+<<<<<<< HEAD
         $company->categories()->sync( $request->category_id);
+=======
+        $company->categories()->sync($request->category_id);
+>>>>>>> c4fe7662c632506cf79f5a43012031c7c1918be1
 
         return redirect()->route('admin.profile')->with('msg', 'Profile has been updated successfully')->with('type', 'success');
 

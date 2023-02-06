@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('company_id')->constrained()->cascadeOnDelete();
             $table->foreignId('student_id')->constrained()->cascadeOnDelete();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+            $table->text('reason')->nullable();
             $table->boolean('status')->default(0);
             $table->timestamps();
         });

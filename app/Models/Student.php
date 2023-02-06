@@ -44,9 +44,17 @@ class Student extends Authenticatable
         return $this->hasOne(AppliedEvaluation::class)->withDefault();
     }
 
+<<<<<<< HEAD
     public function applications()
     {
         return $this->hasMany(Application::class);
+=======
+    
+    // with applied task
+    public function applied_tasks()
+    {
+        return $this->hasMany(AppliedTasks::class);
+>>>>>>> c4fe7662c632506cf79f5a43012031c7c1918be1
     }
 
 

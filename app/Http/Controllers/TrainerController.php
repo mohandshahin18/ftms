@@ -7,10 +7,12 @@ use App\Models\Category;
 use App\Models\CategoryCompany;
 use App\Models\Company;
 use App\Models\Trainer;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class TrainerController extends Controller
 {
@@ -108,7 +110,13 @@ class TrainerController extends Controller
      */
     public function destroy(Trainer $trainer)
     {
-        File::delete($trainer->id);
+        if(public_path($trainer->image)) {
+            try {
+                File::delete(public_path($trainer->image));
+            } catch(Exception $e) {
+                Log::error($e->getMessage());
+            }
+        }
         $trainer->forceDelete();
         return $trainer->id;
     }

@@ -12,6 +12,14 @@ use Illuminate\Support\Facades\File;
 
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\CompanyRequest;
+<<<<<<< HEAD
+=======
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
+use function PHPSTORM_META\type;
+>>>>>>> c4fe7662c632506cf79f5a43012031c7c1918be1
 
 class CompanyController extends Controller
 {
@@ -116,7 +124,7 @@ class CompanyController extends Controller
         if($request->image) {
             File::delete(public_path($company->image));
 
-            $path = $request->file('image')->store('/uploads', 'custom');
+            $path = $request->file('image')->store('/uploads/company', 'custom');
         }
 
         $company->update([
@@ -128,7 +136,7 @@ class CompanyController extends Controller
             'image' => $path,
         ]);
 
-        $company->categories()->syncWithoutDetaching($request->category_id);
+        $company->categories()->sync($request->category_id);
 
         return redirect()->route('admin.companies.index')->with('msg', 'Company has been updated successfully')->with('type', 'success');
 
@@ -185,7 +193,15 @@ class CompanyController extends Controller
     public function forceDelete($id)
     {
         $company = Company::onlyTrashed()->findOrFail($id);
-        File::delete(public_path($company->image));
+        $path = public_path($company->image);
+        
+        if($path) {
+            try {
+                File::delete($path);
+            } catch(Exception $e) {
+                Log::error($e->getMessage());
+            }
+        }
         $company->forceDelete();
         return $id;
 

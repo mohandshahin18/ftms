@@ -148,13 +148,15 @@ input.error {
         // Show-Hide Password
         const toggle = document.querySelector(".show-pass"),
             password = document.querySelector("#password");
+            
         toggle.onclick = () => {
+            console.log(password.type);
             if (password.type == 'password') {
                 password.type = 'text';
-                toggle.classList.add('active');
+                toggle.classList.add("active");
             } else {
                 password.type = 'password';
-                toggle.classList.remove('active');
+                toggle.classList.remove("active");
             }
         }
     </script>

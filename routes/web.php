@@ -156,6 +156,7 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     Route::get('students/trash', [StudentController::class, 'trash'])->name('students.trash');
     Route::delete('students/{id}/forcedelete', [StudentController::class, 'forceDelete'])->name('students.forcedelete');
     Route::post('students/{id}/restore', [StudentController::class, 'restore'])->name('students.restore');
+    Route::post('students/filter', [StudentController::class, 'filter'])->name('filter');
     Route::resource('students', StudentController::class);
 
 
