@@ -1,7 +1,6 @@
 <?php
 
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
@@ -15,12 +14,11 @@ use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\NotifyController;
 use App\Http\Controllers\SpecializationsController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\WebSite\HomeController as WebSiteHomeController;
 use App\Http\Controllers\WebSite\websiteController;
-use App\Models\Company;
-use Illuminate\Auth\Notifications\ResetPassword;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,7 +82,14 @@ Route::prefix('/')->middleware('auth:student','is_verify_email')->name('student.
     Route::get('/',[websiteController::class,'index'])->name('home');
 
     // company page
-    Route::get('student/company',[websiteController::class,'showCompany'])->name('company');
+    Route::get('/company/{slug}/{program}',[websiteController::class,'showCompany'])->name('company');
+    Route::get('/company/{slug}',[websiteController::class,'company_apply'])->name('company_apply');
+    Route::get('/company/cancel/{id}/request', [websiteController::class, 'company_cancel'])->name('company_cancel');
+
+
+    //all company
+    Route::get('/company',[websiteController::class,'allCompany'])->name('allCompany');
+
 
     //profile
     Route::get('/profile/{slug}',[websiteController::class,'profile'])->name('profile');
@@ -93,6 +98,10 @@ Route::prefix('/')->middleware('auth:student','is_verify_email')->name('student.
 
 
 });
+
+// notification
+Route::get('send-notify', [NotifyController::class, 'send'])->middleware('auth:student');
+
 
 
 
@@ -105,6 +114,14 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     //profile
     Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
     Route::put('/profile/{id}', [HomeController::class, 'profile_edit'])->name('profile_edit');
+
+    //notifiacation
+    Route::get('/read-notify', [NotifyController::class, 'read_notify'])->name('read_notify');
+    Route::get('/mark-read/{id}', [NotifyController::class, 'mark_read'])->name('mark_read');
+
+    // accept apply
+    Route::get('/accept',[NotifyController::class,'accept_apply'])->name('accept_apply');
+
 
     // Category
     Route::get('categories/trash', [CategoryController::class, 'trash'])->name('categories.trash');

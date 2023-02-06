@@ -21,7 +21,9 @@ return new class extends Migration
             $table->text('address');
             $table->string('image')->nullable();
             $table->string('password');
+            $table->string('slug')->unique()->nullable();
             $table->text('description');
+            $table->boolean('status')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

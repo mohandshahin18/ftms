@@ -122,61 +122,6 @@
 @section('scripts')
 
 
-    <script>
-
-        $('.delete_form').on('submit', function(e) {
-            e.preventDefault();
-
-            let url = $(this).attr('action');
-
-            let data = $(this).serialize();
-
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Student will be Deleted",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#000',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // send ajax request and delete post
-                    $.ajax({
-                        type: 'post',
-                        url: url,
-                        data: data,
-                        success: function(res) {
-                            $('#row_' + res).remove();
-
-                        }
-
-                    })
-
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 2000,
-                        timerProgressBar: false,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer)
-                            toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        }
-                    })
-
-                    Toast.fire({
-                        icon: 'warning',
-                        title: 'Student Deleted Successfully'
-                    })
-                }
-            })
-
-
-
-        });
-    </script>
-
     {{-- Disabled Links  --}}
     <script>
         document.querySelectorAll('.disabled[data-disabled="true"]').forEach(function (el) {

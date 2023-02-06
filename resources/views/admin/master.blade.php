@@ -48,7 +48,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         -webkit-transform: rotate(270deg);
         transform: rotate(270deg);
     }
-
+    .unread{
+        background: #ededed;
+    }
         /* .form-control {
             background: #f8f8f8;
             border: 1px solid #f8f8f8;
@@ -146,32 +148,47 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <a href="#" class="dropdown-item dropdown-footer">عرض كل الرسائل</a>
                     </div>
                 </li>
+@php
+
+            $auth =Auth::user();
+
+@endphp
+
                 <!-- Notifications Dropdown Menu -->
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-bell"></i>
-                        <span class="badge badge-warning navbar-badge">15</span>
+                        @if($auth->unreadNotifications->count() > 0)
+                        <span class="badge badge-warning navbar-badge">{{ $auth->unreadNotifications->count()  }}</span>
+                        @else
+                        <span class="badge badge-warning navbar-badge"></span>
+
+                        @endif
                     </a>
+
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <span class="dropdown-header">15 Notifications</span>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-envelope mr-2"></i> 4 new messages
-                            <span class="float-right text-muted text-sm">3 mins</span>
+                        @foreach ($auth->notifications as $notify )
+                        <a href="{{ route('admin.mark_read',$notify->id) }}"   class="dropdown-item {{ $notify->read_at ? '' : 'unread' }}">
+                            <!-- Message Start -->
+                            <div class="media">
+                                <img src="{{ asset($notify->data['image']) }}" alt="User Avatar"
+                                    class="img-size-50 mr-3 img-circle">
+                                <div class="media-body">
+                                    <h3 class="dropdown-item-title">
+                                        {{ $notify->data['name'] }}
+                                    </h3>
+                                    <p class="text-sm">{{ $notify->data['msg']  }}</p>
+                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> {{$notify->created_at->diffForHumans()  }}</p>
+                                </div>
+                            </div>
+                            <!-- Message End -->
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-users mr-2"></i> 8 friend requests
-                            <span class="float-right text-muted text-sm">12 hours</span>
-                        </a>
+                        @endforeach
                         <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-file mr-2"></i> 3 new reports
-                            <span class="float-right text-muted text-sm">2 days</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item dropdown-footer">عرض كل الإشعارات</a>
+                        <a href="{{ route('admin.read_notify') }}" class="dropdown-item dropdown-footer">Show All Notifications</a>
                     </div>
+
                 </li>
 
                 <!-- Sidebar user panel (optional) -->
@@ -609,7 +626,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{ asset('adminAssets/dist/js/custom.js') }}"></script>
     <!-- Sweat Alert -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js"></script>
-    
+
 @if (session('msg'))
 <script>
     const Toast = Swal.mixin({

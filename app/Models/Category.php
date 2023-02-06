@@ -23,10 +23,15 @@ class Category extends Model
         return $this->hasMany(Task::class);
     }
 
-    
+
     // with tariners
     public function tariners()
     {
         return $this->hasMany(Trainer::class);
+    }
+    
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
     }
 }

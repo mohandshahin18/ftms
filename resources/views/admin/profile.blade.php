@@ -11,8 +11,8 @@
         width: 100% !important;
     } */
 
-    .select2-container--default 
-    .select2-selection--multiple 
+    .select2-container--default
+    .select2-selection--multiple
     .select2-selection__choice {
         color: #333;
     }
@@ -105,7 +105,6 @@
                                 <option @selected(Auth::guard()->user()->specialization_id == $specialization->id) value="{{ $specialization->id }}">
                                     {{ $specialization->name }}</option>
                                 @endforeach
-
                             </select>
                         </div>
 
@@ -141,12 +140,14 @@
                                 @enderror
                         </div>
 
-                        <div class="col-md-12 mb-3">
+
+
+                        <div class="col-md-6 mb-3">
                             <div class="form-group">
                                 <label class="mb-2">Program</label>
-                                <select name="category_id[]" width:560px; class="form-control select2" multiple>
+                                <select name="category_id[]" class="form-control select2" multiple>
                                     @foreach ($categories as $category)
-                                   
+
                                             <option value="{{ $category->id }}" @foreach ($attached_categories as $key => $value)
                                                 {{ ($category->id == $value) ? 'selected' : '' }}
                                             @endforeach>
@@ -157,6 +158,14 @@
                         </div>
 
 
+                        <div class="col-md-6 mb-3">
+                            <label class="labels">Status</label>
+                            <select name="status" class="form-control" >
+                                <option @selected(Auth::guard()->user()->status == 1) value="1"> Avilable</option>
+                                <option  @selected(Auth::guard()->user()->status == 0) value="0">Unavilable </option>
+                            </select>
+                        </div>
+                        
                         <div class="col-md-12 mb-3">
                             <label for="description">Description</label>
                             <textarea name="description" class="@error('description') is-invalid @enderror" id="my-desc">{{ Auth::guard()->user()->description  }}</textarea>

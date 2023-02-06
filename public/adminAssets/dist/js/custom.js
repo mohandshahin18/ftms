@@ -50,9 +50,9 @@ $('.delete_form').on('submit', function(e) {
 
 
   });
-  
 
-//   Restor 
+
+//   Restor
 $('.restor_form').on('submit', function(e) {
     e.preventDefault();
 
@@ -95,7 +95,7 @@ $('.restor_form').on('submit', function(e) {
             })
 
             Toast.fire({
-                icon: 'info',
+                icon: 'success',
                 title: 'Restored Successfully'
             })
         }

@@ -82,29 +82,21 @@
             <div class="row text-center justify-content-center gy-4">
                 <div class="col-lg-2 col-sm-6">
                     <div class="counter">
-                        <h1 class="display-4" data-goal="90">0 </h1>
-                        <h1 class="symbol">K+</h1>
+                        <h1 class="display-4" data-goal="{{ $students->count() }}">0 </h1>
                     </div>
-                    <p class="mb-0">Happy Clients</p>
+                    <p class="mb-0">Student Number</p>
                 </div>
                 <div class="col-lg-2 col-sm-6">
                     <div class="counter">
-                        <h1 class="display-4" data-goal="45">0</h1>
-                        <h1 class="symbol">M</h1>
+                        <h1 class="display-4" data-goal="{{ $company->count() }}">0</h1>
                     </div>
-                    <p class="mb-0">Lines of code</p>
+                    <p class="mb-0">Company Number</p>
                 </div>
                 <div class="col-lg-2 col-sm-6">
-                    <h1 class="display-4" data-goal="190">0</h1>
-                    <p class="mb-0">Total Downloads</p>
+                    <h1 class="display-4" data-goal="{{ $trainers->count() }}">0</h1>
+                    <p class="mb-0">trainer Number</p>
                 </div>
-                <div class="col-lg-2 col-sm-6">
-                    <div class="counter">
-                        <h1 class="display-4" data-goal="380">0</h1>
-                        <h1 class="symbol">K</h1>
-                    </div>
-                    <p class="mb-0">YouTube Subscribers</p>
-                </div>
+
             </div>
         </div>
     </section>
@@ -112,55 +104,44 @@
 
 
 
-    <section id="blog">
+    <section>
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="intro">
-                        <h6>Blog</h6>
-                        <h1>Blog Posts</h1>
+                        <h6>Company</h6>
+                        <h1>Avilable Company</h1>
                         <p class="mx-auto">Contrary to popular belief, Lorem Ipsum is not simply random text. It has
                             roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old</p>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4">
-                    <article class="blog-post">
-                        <img src="{{ asset('studentAssets/img/project5.jpg') }}" alt="">
-                        <a href="#" class="tag">Web Design</a>
-                        <div class="content">
-                            <small>01 Dec, 2022</small>
-                            <h5>Web Design trends in 2022</h5>
-                            <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a
-                                piece of classical Latin literature from</p>
-                        </div>
-                    </article>
+                @foreach ($companies as $company )
+                    @foreach ( $company->categories as $category )
+                            <div class="col-md-4">
+                                <article class="blog-post">
+                                    <img src="{{ asset($company->image) }}" alt="">
+
+                                    <span>{{ $category->name  }}</span>
+
+
+                                    <div class="content">
+                                        <h5>{{ $company->name }}</h5>
+                                        <p class="mb-4">{{ Str::words(strip_tags($company->description), 10, '...') }}</p>
+
+                                        <a href="{{ route('student.company' ,[$company->slug , $category->name]) }}" class="btn-brand">Learn More</a>
+
+
+                                    </div>
+                                </article>
+                            </div>
+                    @endforeach
+                @endforeach
+                <div class="text-center mt-4">
+                    <a href="{{ route('student.allCompany') }}" class="btn-brand">Show More</a>
                 </div>
-                <div class="col-md-4">
-                    <article class="blog-post">
-                        <img src="{{ asset('studentAssets/img/project4.jpg') }}" alt="">
-                        <a href="#" class="tag">Programming</a>
-                        <div class="content">
-                            <small>01 Dec, 2022</small>
-                            <h5>Web Design trends in 2022</h5>
-                            <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a
-                                piece of classical Latin literature from</p>
-                        </div>
-                    </article>
-                </div>
-                <div class="col-md-4">
-                    <article class="blog-post">
-                        <img src="{{ asset('studentAssets/img/project2.jpg') }}" alt="">
-                        <a href="#" class="tag">Marketing</a>
-                        <div class="content">
-                            <small>01 Dec, 2022</small>
-                            <h5>Web Design trends in 2022</h5>
-                            <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a
-                                piece of classical Latin literature from</p>
-                        </div>
-                    </article>
-                </div>
+
             </div>
         </div>
     </section>

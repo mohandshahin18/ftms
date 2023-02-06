@@ -21,6 +21,12 @@
 
 
     <title> {{ config('app.name')}} | @yield('title') </title>
+
+    <style>
+
+
+
+    </style>
 </head>
 
 <body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="70">
@@ -33,86 +39,91 @@
     <!-- BOTTOM NAV -->
     <nav class="navbar navbar-expand-lg navbar-light  sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="{{ route('student.home') }}">
-                <img src="{{ asset($data['logo']) }}" >
-            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
+            <a class="navbar-brand " href="{{ route('student.home') }}">
+                <img src="{{ asset($data['logo']) }}" >
+            </a>
+
+
+
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav mr-auto">
+
                     <li class="nav-item">
-                        <a class="nav-link" href="#home">Home</a>
+                        <a class="nav-link" href="{{ route('student.home') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#about">About</a>
+                        <a class="nav-link" href="{{ route('student.allCompany') }}">Companies</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#services">Services</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#portfolio">Portfolio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#team">Team</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#reviews">Reviews</a>
-                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="#blog">Blog</a>
                     </li>
-                    @php
-                    $name = Auth::guard()->user()->name ?? '';
-                    $src = 'https://ui-avatars.com/api/?background=random&name=' . $name;
 
-                    if(Auth::guard()->user()->image) {
-                    $img = Auth::guard()->user()->image;
-                    $src = asset($img);
-                    }
-
-                    @endphp
-
-                    <li style="display: flex; justify-content: center; align-items: center;">
-                        <div class='header-right'>
-                        <div class='avatar-wrapper' id='avatarWrapper'>
-                          <div class="img-student-logo" style="background-image: url('{{  $src }}')"></div>
-
-
-                          <svg class='avatar-dropdown-arrow' height='24' id='dropdownWrapperArrow' viewbox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'>
-                            <title>Dropdown Arrow</title>
-                            <path d='M12 14.5c-.2 0-.3-.1-.5-.2l-3.8-3.6c-.2-.2-.2-.4-.2-.5 0-.1 0-.3.2-.5.3-.3.7-.3 1 0l3.3 3.1 3.3-3.1c.2-.2.5-.2.8-.1.3.1.4.4.4.6 0 .2-.1.4-.2.5l-3.8 3.6c-.1.1-.3.2-.5.2z'></path>
-                          </svg>
-                        </div>
-                        <div class='dropdown-wrapper' id='dropdownWrapper' style='width: 256px'>
-                          <div class='dropdown-profile-details'>
-
-
-                            <div class="img-student" style="background-image: url('{{ $src }}')"></div>
-
-
-
-                            <span class='dropdown-profile-details--name mt-2'>{{ auth()->user()->name }}</span>
-
-
-                            <span class='dropdown-profile-details--email'>{{ Auth::user()->email  }}</span>
-
-                          </div>
-                          <div class='dropdown-links'>
-                            <a href="{{ route('student.profile' ,Auth::user()->slug ) }}">Profile</a>
-                            <a href="{{ route('edit-password' , 'student') }}"> Edit password</a>
-                            <a href="{{ route('logout' , 'student') }}"> Logout</a>
-                          </div>
-                        </div>
-                      </div>
-                      </li>
 
                 </ul>
 
             </div>
+
+
         </div>
+
     </nav>
+
+
+    <div class="drop-student" >
+        <ul  style="margin: 0">
+            @php
+            $name = Auth::guard()->user()->name ?? '';
+            $src = 'https://ui-avatars.com/api/?background=random&name=' . $name;
+
+            if(Auth::guard()->user()->image) {
+            $img = Auth::guard()->user()->image;
+            $src = asset($img);
+            }
+
+            @endphp
+
+            <li style="display: flex; justify-content: center; align-items: center;">
+                <div class='header-right'>
+                <div class='avatar-wrapper' id='avatarWrapper'>
+                  <div class="img-student-logo" style="background-image: url('{{  $src }}')"></div>
+
+
+                  <svg class='avatar-dropdown-arrow' height='24' id='dropdownWrapperArrow' viewbox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'>
+                    <title>Dropdown Arrow</title>
+                    <path d='M12 14.5c-.2 0-.3-.1-.5-.2l-3.8-3.6c-.2-.2-.2-.4-.2-.5 0-.1 0-.3.2-.5.3-.3.7-.3 1 0l3.3 3.1 3.3-3.1c.2-.2.5-.2.8-.1.3.1.4.4.4.6 0 .2-.1.4-.2.5l-3.8 3.6c-.1.1-.3.2-.5.2z'></path>
+                  </svg>
+                </div>
+                <div class='dropdown-wrapper' id='dropdownWrapper' style='width: 256px'>
+                  <div class='dropdown-profile-details'>
+
+
+                    <div class="img-student" style="background-image: url('{{ $src }}')"></div>
+
+
+
+                    <span class='dropdown-profile-details--name mt-2'>{{ auth()->user()->name }}</span>
+
+
+                    <span class='dropdown-profile-details--email'>{{ Auth::user()->email  }}</span>
+
+                  </div>
+                  <div class='dropdown-links'>
+                    <a href="{{ route('student.profile' ,Auth::user()->slug ) }}">Profile</a>
+                    <a href="{{ route('edit-password' , 'student') }}"> Edit password</a>
+                    <a href="{{ route('logout' , 'student') }}"> Logout</a>
+                  </div>
+                </div>
+              </div>
+            </li>
+        </ul>
+    </div>
+
 
 
     @yield('content')
@@ -124,11 +135,11 @@
                         <img class="mb-4" src="{{ asset($data['logo']) }}" >
                         <p>{{ $data['footer_text'] }}</p>
 
-                        <div class="col-auto conditions-section">
+                        {{-- <div class="col-auto conditions-section">
                             <a href="#">privacy</a>
                             <a href="#">terms</a>
                             <a href="mailto:{{ $data['email'] }}">Technical support</i></a>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>

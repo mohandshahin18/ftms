@@ -2,25 +2,84 @@
 
 namespace App\Http\Controllers\WebSite;
 
+use App\Models\Company;
 use App\Models\Student;
+use App\Models\Trainer;
+use App\Models\Application;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use App\Notifications\AppliedNotification;
 
 class websiteController extends Controller
 {
 
+
+
     public function index()
     {
-        return view('student.index' );
+        $companies = Company::with('categories')->where('status' , 1)->limit(3)->latest('id')->get();
+        $company = Company::get();
+        $students = Student::get();
+        $trainers = Trainer::get();
+        return view('student.index' , compact('companies','company','students' ,'trainers') );
     }
 
-    public function showCompany()
+
+    public function showCompany($slug , $program)
     {
-        return view('student.company');
+        $company = Company::with('categories')->whereSlug($slug)->firstOrFail();
+
+        $applied =Application::get();
+
+        return view('student.company',compact('company','program' ,'applied'));
     }
+
+    public function company_apply(Request $request){
+
+        $request->validate([
+            'reason' => 'required'
+        ]);
+
+       $category = Category::where('id',$request->category_id )->first();
+        Application::create([
+            'company_id' => $request->company_id ,
+            'student_id' => Auth::user()->id ,
+            'category_id' => $request->category_id ,
+            'reason' => $request->reason ,
+        ]);
+
+        $company = Company::where('id',$request->company_id)->first();
+
+
+        $company->notify(new AppliedNotification(Auth::user()->name ,Auth::user()->image ,
+                                                $request->reason, $category->name ,
+                                                Auth::user()->id ,$request->category_id ,
+                                                $request->company_id ));
+
+        return redirect()->back()->with('msg','Apllied is successfully')->with('type' , 'success');
+    }
+
+
+
+    public function company_cancel($id){
+        Application::destroy($id);
+        return redirect()->back()->with('msg', 'Course Canceld Successfully')->with('type','warning');
+
+    }
+
+
+
+    public function allCompany(){
+        $companies = Company::with('categories')->where('status' , 1)->limit(6)->latest('id')->paginate(6);
+        return view('student.allCompanies' ,compact('companies'));
+
+    }
+
+
 
 
     public function profile()
@@ -29,8 +88,7 @@ class websiteController extends Controller
         $university = $student->university->name;
         $specialization = $student->specialization->name;
         $teacher = $student->teacher->name ? $student->teacher->name : 'No teacher yet';
-        // $specializations = Specialization::where('university_id', $student->university_id)->get();
-        return view('student.profile' , compact('university','specialization' ,'teacher')); //,'specializations'
+        return view('student.profile' , compact('university','specialization' ,'teacher'));
 
     }
 
