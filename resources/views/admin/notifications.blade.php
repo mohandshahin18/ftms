@@ -97,13 +97,18 @@
 
 @section('content')
 
+@php
+    use App\Models\Student;
+@endphp
+
 <section class="section-50">
         <h3 class="m-b-50 heading-line">Notifications <i class="fa fa-bell text-muted"></i></h3>
 
         <div class="notification-ui_dd-content">
+
+
             @foreach ($auth->notifications as $notify )
-            {{-- @dump( $notify->data) --}}
-               {{-- @if( $notify->data['company'] == Auth::guard('company')->user()->id) --}}
+
 
 
                 <div class="notification-list {{ $notify->read_at ? '' : 'notification-list--unread' }} ">
@@ -119,14 +124,19 @@
                             <p class="text-muted"><small><i class="far fa-clock mr-1"></i>{{$notify->created_at->diffForHumans()  }}</small></p>
                         </div>
 
+                        @php
+                            $student = Student::where('id',$notify->data['student_id'] )->first();
+                        @endphp
 
 
+                        @if($student->company_id == null )
                         <div class="btns d-flex justify-content-end" >
                             <form action="{{ route('admin.accept_apply') }}">
                                 @csrf
-                                <input type="hidden" name="company_id" value="{{ $notify->data['company_id'] }}" id="">
-                                <input type="hidden" name="student_id" value="{{ $notify->data['student_id'] }}" id="">
-                                <input type="hidden" name="category_id" value="{{ $notify->data['category_id'] }}" id="">
+
+                                <input type="hidden" name="company_id" value="{{ $notify->data['company_id'] }}" >
+                                <input type="hidden" name="student_id" value="{{ $notify->data['student_id'] }}" >
+                                <input type="hidden" name="category_id" value="{{ $notify->data['category_id'] }}" >
                                 <button type="submit" class="btn btn-success">Accept</button>
                             </form>
                             <form action="">
@@ -134,7 +144,11 @@
 
                             </form>
                         </div>
-
+                        @elseif($student->company_id != Auth::user()->id)
+                            <div class="d-flex justify-content-end"><span class="text-danger">Reject</span></div>
+                        @elseif($student->company_id == Auth::user()->id)
+                            <div class="d-flex justify-content-end"><span class="text-success">Approved</span></div>
+                        @endif
                        </div>
                 </div>
                 </div>

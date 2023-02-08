@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Application;
 use App\Models\Company;
 use App\Models\Student;
-use App\Notifications\AppliedNotification;
+use App\Models\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\AppliedNotification;
+use Illuminate\Notifications\Notification;
 
 class NotifyController extends Controller
 {
@@ -31,12 +33,39 @@ class NotifyController extends Controller
 
     public function accept_apply(Request $request)
     {
+    //    $notify =notifications()->where('notifiable_id','!=' ,$request->company_id)->get();
+    //     dd($notify);
+
+    // dd($request->notify_id);
+
+
+
         $application = Application::where('company_id' ,$request->company_id )
                                     ->where('category_id' ,$request->category_id )
                                     ->where('student_id' ,$request->student_id )->first();
-        $application->update([
-            'status' => 1
-        ]);
+
+        $application->delete();
+
+        $delete_application = Application::where('company_id' ,'!=',$request->company_id )->orWhere('company_id' ,$request->company_id)
+                                        ->where('category_id', '!=',$request->category_id )
+                                        ->where('student_id' ,$request->student_id )->get();
+
+        if($delete_application){
+            foreach($delete_application  as $reject){
+                $reject->destroy($reject->id);
+            }
+        }
+
+        $delete_application2 = Application::where('company_id' ,'!=',$request->company_id )
+                                        ->where('category_id',$request->category_id )
+                                        ->where('student_id' ,$request->student_id )->get();
+
+        if($delete_application2){
+            foreach($delete_application2  as $reject){
+                $reject->destroy($reject->id);
+            }
+        }
+
 
         $student = Student::where('id',$request->student_id)->first();
         $student->update([

@@ -55,7 +55,10 @@
                 @php
                  foreach ( $company->categories as $category ){
                     if($program == $category->name){
-                    $ap = Auth::user()->applications()->where('category_id', $category->id)->where('student_id',Auth::user()->id)->first();
+                    $ap = Auth::user()->applications()->where('category_id', $category->id)
+                                                      ->where('student_id',Auth::user()->id)
+                                                      ->where('company_id', $company->id)
+                                                      ->first();
 
                     }
                 }

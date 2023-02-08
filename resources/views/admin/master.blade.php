@@ -159,9 +159,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-bell"></i>
                         @if($auth->unreadNotifications->count() > 0)
-                        <span class="badge badge-warning navbar-badge">{{ $auth->unreadNotifications->count()  }}</span>
+                        <span class="badge badge-danger navbar-badge">{{ $auth->unreadNotifications->count()  }}</span>
                         @else
-                        <span class="badge badge-warning navbar-badge"></span>
+                        <span ></span>
 
                         @endif
                     </a>
