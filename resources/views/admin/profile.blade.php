@@ -55,6 +55,10 @@
 
                         <span class="font-weight-bold mt-3">{{ Auth::guard()->user()->name }}</span>
                         <span class="text-black-50 mb-3">{{ Auth::guard()->user()->email }}</span><span> </span>
+
+                        @if (Auth::guard('company')->check())
+                        <span class="text-black-50 mb-3">Students Number: <b class="text-dark">{{ $company->students->count() }}</b></span>
+                        @endif
                     </div>
                 </div>
             </div>

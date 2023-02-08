@@ -96,7 +96,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <a href="#" class="dropdown-item">
                             <!-- Message Start -->
                             <div class="media">
-                                <img src="{{ asset('adminAssets/dist/img/user1-128x128.jpg') }}" alt="User Avatar"
+                                <img src="" alt="User Avatar"
                                     class="img-size-50 mr-3 img-circle">
                                 <div class="media-body">
                                     <h3 class="dropdown-item-title">
@@ -113,7 +113,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <a href="#" class="dropdown-item">
                             <!-- Message Start -->
                             <div class="media">
-                                <img src="{{ asset('adminAssets/dist/img/user8-128x128.jpg') }}" alt="User Avatar"
+                                <img src="" alt="User Avatar"
                                     class="img-size-50 img-circle mr-3">
                                 <div class="media-body">
                                     <h3 class="dropdown-item-title">
@@ -130,7 +130,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <a href="#" class="dropdown-item">
                             <!-- Message Start -->
                             <div class="media">
-                                <img src="{{ asset('adminAssets/dist/img/user3-128x128.jpg') }}" alt="User Avatar"
+                                <img src="" alt="User Avatar"
                                     class="img-size-50 img-circle mr-3">
                                 <div class="media-body">
                                     <h3 class="dropdown-item-title">
@@ -171,7 +171,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <a href="{{ route('admin.mark_read',$notify->id) }}"   class="dropdown-item {{ $notify->read_at ? '' : 'unread' }}">
                             <!-- Message Start -->
                             <div class="media">
-                                <img src="{{ asset($notify->data['image']) }}" alt="User Avatar"
+                                @php
+                                    $name = $notify->data['name'];
+                                    $src = 'https://ui-avatars.com/api/?background=random&name=' . $name;
+                                    @endphp
+                                    <img src="{{ asset($notify->data['image']) }}" alt="User Avatar"
                                     class="img-size-50 mr-3 img-circle">
                                 <div class="media-body">
                                     <h3 class="dropdown-item-title">

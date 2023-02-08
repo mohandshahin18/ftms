@@ -12,14 +12,11 @@ use Illuminate\Support\Facades\File;
 
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\CompanyRequest;
-<<<<<<< HEAD
-=======
 use Exception;
-use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Log;
 
-use function PHPSTORM_META\type;
->>>>>>> c4fe7662c632506cf79f5a43012031c7c1918be1
+
 
 class CompanyController extends Controller
 {

@@ -107,11 +107,11 @@ class HomeController extends Controller
 
         }elseif(Auth::guard('company')->check()){
             $categories = Category::get();
-            $company = Company::findOrFail(Auth::user()->id);
+            $company = Company::with('students')->findOrFail(Auth::user()->id);
             $attached_categories = $company->categories()->get()->map(function($category) {
                 return $category->id;
             })->toArray();
-            return view('admin.profile' , compact('categories', 'attached_categories'));
+            return view('admin.profile' , compact('categories', 'attached_categories','company'));
         }
         else{
             return view('admin.profile' );
@@ -260,11 +260,7 @@ class HomeController extends Controller
             'description' => $request->description,
         ]);
 
-<<<<<<< HEAD
         $company->categories()->sync( $request->category_id);
-=======
-        $company->categories()->sync($request->category_id);
->>>>>>> c4fe7662c632506cf79f5a43012031c7c1918be1
 
         return redirect()->route('admin.profile')->with('msg', 'Profile has been updated successfully')->with('type', 'success');
 
