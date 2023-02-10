@@ -27,25 +27,96 @@ class StudentController extends Controller
 
         $keyword = request()->keyword;
 
-        if(request()->has('keyword')){
-            $students = Student::where('name' , 'like' , '%' .$keyword.'%')
-            ->orWhere('student_id', 'like', '%'.$keyword.'%')
-            ->orWhereHas('university', function($query) use ($keyword) {
-                $query->where('name', 'like', '%'.$keyword.'%');
-            })
-            ->orWhereHas('specialization', function($query) use ($keyword) {
-                $query->where('name', 'like', '%'.$keyword.'%');
-            })
-            ->latest('id')
-            ->paginate(env('PAGINATION_COUNT'));
-        }
-        else{
-            $students = Student::with('university', 'specialization')->latest('id')->paginate(env('PAGINATION_COUNT'));
+        if(Auth::guard('teacher')->check()) {
+
+            $students = Student::with('company')->where('teacher_id', Auth::user()->id);
+
+            if(request()->has('keyword')){
+
+                $students->where('name' , 'like' , '%' .$keyword.'%')
+                ->orWhere('student_id', 'like', '%'.$keyword.'%')
+                ->latest('id')
+                ->paginate(env('PAGINATION_COUNT'));
+
+            } else {
+
+                $students->latest('id')->paginate(env('PAGINATION_COUNT'));
+
+            }
+
+        } elseif(Auth::guard('trainer')->check()) {
+
+            $students = Student::with('specialization', 'university')->where('trainer_id', Auth::user()->id);
+            
+            if(request()->has('keyword')){
+
+                $students->where('name' , 'like' , '%' .$keyword.'%')
+                ->orWhere('student_id', 'like', '%'.$keyword.'%')
+                ->orWhereHas('university', function($query) use ($keyword) {
+                    $query->where('name', 'like', '%'.$keyword.'%');
+                })
+                ->orWhereHas('specialization', function($query) use ($keyword) {
+                    $query->where('name', 'like', '%'.$keyword.'%');
+                })
+                ->latest('id')
+                ->paginate(env('PAGINATION_COUNT'));
+
+            } else {
+
+                $students->latest('id')->paginate(env('PAGINATION_COUNT'));
+
+            }
+            
+        } elseif(Auth::guard('company')->check()) {
+
+            $students = Student::with('specialization', 'university')->where('company_id', Auth::user()->id);
+            
+                if(request()->has('keyword')){
+
+                    $students->where('name' , 'like' , '%' .$keyword.'%')
+                    ->orWhere('student_id', 'like', '%'.$keyword.'%')
+                    ->orWhereHas('university', function($query) use ($keyword) {
+                        $query->where('name', 'like', '%'.$keyword.'%');
+                    })
+                    ->orWhereHas('specialization', function($query) use ($keyword) {
+                        $query->where('name', 'like', '%'.$keyword.'%');
+                    })
+                    ->latest('id')
+                    ->paginate(env('PAGINATION_COUNT'));
+    
+                } else {
+    
+                    $students->latest('id')->paginate(env('PAGINATION_COUNT'));
+                    
+                }
+           
+
+        } else {
+            $students = Student::with('company', 'specialization', 'university');
+            
+            if(request()->has('keyword')){
+
+                $students->where('name' , 'like' , '%' .$keyword.'%')
+                ->orWhere('student_id', 'like', '%'.$keyword.'%')
+                ->orWhereHas('university', function($query) use ($keyword) {
+                    $query->where('name', 'like', '%'.$keyword.'%');
+                })
+                ->orWhereHas('specialization', function($query) use ($keyword) {
+                    $query->where('name', 'like', '%'.$keyword.'%');
+                })
+                ->latest('id')
+                ->paginate(env('PAGINATION_COUNT'));
+
+            } else {
+
+                $students->latest('id')->paginate(env('PAGINATION_COUNT'));
+            }
+
+            
         }
 
-
+        
         $evaluated_students = Student::has('applied_evaluation')->get();
-        // dd($evaluated_student);
 
         return view('admin.students.index', compact('students', 'evaluated_students'));
     }

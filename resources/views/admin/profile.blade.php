@@ -7,9 +7,9 @@
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 
 <style>
-    /* .select2-container--default {
-        width: 100% !important;
-    } */
+    .colored-toast.swal2-icon-success {
+        background-color: #a5dc86 !important;
+    }
 
     .select2-container--default
     .select2-selection--multiple
@@ -22,7 +22,7 @@
 @section('content')
     <div class="box-all  ">
         <form action="{{ route('admin.profile_edit' ,Auth::guard()->user()->id ) }}" method="POST"
-            enctype="multipart/form-data">
+            enctype="multipart/form-data" class="update_form">
             @csrf
             @method('PUT')
         <div class="row">
@@ -43,18 +43,21 @@
                         @endphp
 
 
+                            {{-- <label for="img">Image</label>
+                            <input type="file" name="image" id="img"> --}}
+
                         <div class="kt-avatar kt-avatar--outline kt-avatar--circle" id="kt_user_avatar_3">
                             <div class="kt-avatar__holder" style="background-image: url({{ $src }})"></div>
                             <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="Change avatar">
                                 <i class="fas fa-pen"></i>
-                                <input type="file" name="image" id="image">
+                                <input type="file" class="img" name="image" id="image">
                             </label>
                         </div>
 
 
 
-                        <span class="font-weight-bold mt-3">{{ Auth::guard()->user()->name }}</span>
-                        <span class="text-black-50 mb-3">{{ Auth::guard()->user()->email }}</span><span> </span>
+                        <span class="font-weight-bold mt-3" id="name">{{ Auth::guard()->user()->name }}</span>
+                        <span class="text-black-50 mb-3" id="email">{{ Auth::guard()->user()->email }}</span><span> </span>
 
                         @if (Auth::guard('company')->check())
                         <span class="text-black-50 mb-3">Students Number: <b class="text-dark">{{ $company->students->count() }}</b></span>
@@ -186,8 +189,8 @@
                     </div>
 
 
-                    <div class="mt-2 ">
-                        <button class="btn btn-primary profile-button" type="submit"> Save Edit </button>
+                    <div class="mt-2 wrapper-btn">
+                        <button class="btn btn-primary profile-button" type="button"> Save Edit </button>
                     </div>
                 </div>
             </div>
@@ -207,39 +210,63 @@
 
 
 @section('scripts')
-{{-- Messages Script --}}
-@if (session('msg'))
-  <script>
-      const Toast = Swal.mixin({
-        toast: true,
-        position: 'top',
-        showConfirmButton: false,
-        timer: 4000,
-        timerProgressBar: false,
-        didOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-      })
+{{-- AJAX Reauest --}}
+    <script>
+        let form = $(".update_form")[0];
+        let btn = $(".profile-button");
+        let wrapper = $(".wrapper-btn");
+        let image;
 
-    @if (session('type') == 'success')
-      Toast.fire({
-      icon: 'success',
-      title: '{{ session('msg') }}'
-      })
-    @elseif (session('type') == 'danger')
-      Toast.fire({
-      icon: 'warning',
-      title: '{{ session('msg') }}'
-      })
-    @else
-      Toast.fire({
-        icon: 'info',
-        title: '{{ session('msg') }}'
+        form.onsubmit = (e)=> {
+            e.preventDefault();
+        }
+
+        $(".img").on("change", function(e) {
+            image = e.target.files[0];
+        });
+
+        btn.on("click", function() {
+            let formData = new FormData(form);
+            formData.append('image',image);
+            let url = form.getAttribute("action");
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: formData,
+                dataType: "json",
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    btn.attr("disabled", true);
+                    $("#name").empty();
+                    $("#name").append(data.name);
+                    $("#email").empty();
+                    $("#email").append(data.email);
+                    const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    iconColor: 'white',
+                    customClass: {
+                        popup: 'colored-toast'
+                    },
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: false,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                    })
+
+                    Toast.fire({
+                    icon: 'success',
+                    title: 'Profile Updated successfully'
+                    })
+                }
+            })
         })
-    @endif
-  </script>
-@endif
+
+    </script>
 @if(Auth::guard('company')->check())
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.3.1/tinymce.min.js" referrerpolicy="no-referrer"></script>

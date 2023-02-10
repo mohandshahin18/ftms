@@ -82,14 +82,14 @@ class websiteController extends Controller
 
 
 
-    public function profile()
+    public function profile($slug)
     {
-        $student = Student::with('university' , 'specialization' ,'teacher' ,'company')->where('id',  Auth::guard()->user()->id)->first();
-        $university = $student->university->name;
-        $specialization = $student->specialization->name;
-        $teacher = $student->teacher->name ? $student->teacher->name : 'No teacher yet';
-        $company = $student->company->name;
-        return view('student.profile' , compact('university','specialization' ,'teacher','company'));
+        $student = Student::with('university' , 'specialization' ,'teacher' ,'company')->whereSlug($slug)->first();
+        if($student) {
+            return view('student.profile' , compact('student'));
+        } else {
+            return abort(404);
+        }
 
     }
 
@@ -98,9 +98,9 @@ class websiteController extends Controller
     {
 
         $student = Student::whereSlug($slug)->firstOrFail();
-
+        
         $path = $student->image;
-        if($request->image) {
+        if($request->file('image')) {
             File::delete(public_path($student->image));
             $path = $request->file('image')->store('/uploads/student', 'custom');
         }
@@ -113,12 +113,16 @@ class websiteController extends Controller
             'image' => 'nullable'
         ]);
 
-        $slug = Str::slug($request->name);
-        $slugCount = Student::where('slug' , 'like' , $slug. '%')->count();
-        $random = (rand(00000,99999));
-        if($slugCount > 0){
-            $slug = $slug . '-' . $random;
+        
+       if($request->name != Auth::user()->name){
+            $slug = Str::slug($request->name);
+            $slugCount = Student::where('slug' , 'like' , $slug. '%')->count();
+            $random = (rand(00000,99999));
+            if($slugCount > 0){
+                $slug = $slug . '-' . $random;
         }
+
+       }
 
         $student->update([
             'name' => $request->name,
@@ -128,7 +132,7 @@ class websiteController extends Controller
             'slug' =>$slug
         ]);
 
-        return redirect()->back();
+        return json_encode(array("name"=>$student->name, "email"=>$student->email, "slug"=>$student->slug));
 
     }
 
