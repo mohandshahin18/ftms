@@ -12,7 +12,6 @@ class AppliedNotification extends Notification
     use Queueable;
 
     protected $name;
-    protected $image;
     protected $reason;
     protected $category;
     protected $student_id;
@@ -24,10 +23,9 @@ class AppliedNotification extends Notification
      *
      * @return void
      */
-    public function __construct($name , $image , $reason ,$category ,$student_id ,$category_id ,$company_id  )
+    public function __construct($name , $reason ,$category ,$student_id ,$category_id ,$company_id  )
     {
         $this->name = $name;
-        $this->image = $image;
         $this->reason = $reason;
         $this->category = $category;
         $this->student_id = $student_id;
@@ -72,7 +70,6 @@ class AppliedNotification extends Notification
         return [
             'name' => $this->name ,
             'msg' => 'Applied to your company',
-            'image' => $this->image ,
             'reason' => $this->reason,
             'category' => $this->category,
             'url' => url('/admin/read-notify'),

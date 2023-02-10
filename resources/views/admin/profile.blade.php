@@ -55,6 +55,10 @@
 
                         <span class="font-weight-bold mt-3">{{ Auth::guard()->user()->name }}</span>
                         <span class="text-black-50 mb-3">{{ Auth::guard()->user()->email }}</span><span> </span>
+
+                        @if (Auth::guard('company')->check())
+                        <span class="text-black-50 mb-3">Students Number: <b class="text-dark">{{ $company->students->count() }}</b></span>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -165,7 +169,7 @@
                                 <option  @selected(Auth::guard()->user()->status == 0) value="0">Unavilable </option>
                             </select>
                         </div>
-                        
+
                         <div class="col-md-12 mb-3">
                             <label for="description">Description</label>
                             <textarea name="description" class="@error('description') is-invalid @enderror" id="my-desc">{{ Auth::guard()->user()->description  }}</textarea>
@@ -203,39 +207,7 @@
 
 
 @section('scripts')
-{{-- Messages Script --}}
-@if (session('msg'))
-  <script>
-      const Toast = Swal.mixin({
-        toast: true,
-        position: 'top',
-        showConfirmButton: false,
-        timer: 4000,
-        timerProgressBar: false,
-        didOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-      })
 
-    @if (session('type') == 'success')
-      Toast.fire({
-      icon: 'success',
-      title: '{{ session('msg') }}'
-      })
-    @elseif (session('type') == 'danger')
-      Toast.fire({
-      icon: 'warning',
-      title: '{{ session('msg') }}'
-      })
-    @else
-      Toast.fire({
-        icon: 'info',
-        title: '{{ session('msg') }}'
-        })
-    @endif
-  </script>
-@endif
 @if(Auth::guard('company')->check())
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.3.1/tinymce.min.js" referrerpolicy="no-referrer"></script>
@@ -307,7 +279,7 @@
                         // build menu
                         Plugin.build();
 
-                        KTUtil.data(element).set('avatar', the);
+                        // KTUtil.data(element).set('avatar', the);
                     }
 
                     return the;
@@ -345,7 +317,7 @@
                             }
                             reader.readAsDataURL(the.input.files[0]);
 
-                            KTUtil.addClass(the.element, 'kt-avatar--changed');
+                            // KTUtil.addClass(the.element, 'kt-avatar--changed');
                         }
                     });
 

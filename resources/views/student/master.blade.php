@@ -22,11 +22,6 @@
 
     <title> {{ config('app.name')}} | @yield('title') </title>
 
-    <style>
-
-
-
-    </style>
 </head>
 
 <body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="70">
@@ -48,6 +43,17 @@
                 <img src="{{ asset($data['logo']) }}" >
             </a>
 
+            @php
+            use App\Models\Company;
+            $company_id = Auth::user()->company_id;
+            $company = Company::with('categories')->where('id', $company_id)->first();
+                if( $company_id){
+                foreach ( $company->categories as $category ){
+                $category = $category->name;
+                }
+                }
+            @endphp
+
 
 
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -56,9 +62,19 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('student.home') }}">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('student.allCompany') }}">Companies</a>
-                    </li>
+                    @if(Auth::user()->company_id)
+
+
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('student.company' ,[$company->slug , $category]) }}">Company</a>
+                        </li>
+                    @else
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('student.allCompany') }}">Companies</a>
+                        </li>
+                    @endif
+
 
                     <li class="nav-item">
                         <a class="nav-link" href="#blog">Blog</a>
@@ -123,6 +139,8 @@
             </li>
         </ul>
     </div>
+
+
 
 
 

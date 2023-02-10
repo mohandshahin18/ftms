@@ -55,7 +55,7 @@ class websiteController extends Controller
         $company = Company::where('id',$request->company_id)->first();
 
 
-        $company->notify(new AppliedNotification(Auth::user()->name ,Auth::user()->image ,
+        $company->notify(new AppliedNotification(Auth::user()->name  ,
                                                 $request->reason, $category->name ,
                                                 Auth::user()->id ,$request->category_id ,
                                                 $request->company_id ));
@@ -84,11 +84,12 @@ class websiteController extends Controller
 
     public function profile()
     {
-        $student = Student::with('university' , 'specialization' ,'teacher')->where('id',  Auth::guard()->user()->id)->first();
+        $student = Student::with('university' , 'specialization' ,'teacher' ,'company')->where('id',  Auth::guard()->user()->id)->first();
         $university = $student->university->name;
         $specialization = $student->specialization->name;
         $teacher = $student->teacher->name ? $student->teacher->name : 'No teacher yet';
-        return view('student.profile' , compact('university','specialization' ,'teacher'));
+        $company = $student->company->name;
+        return view('student.profile' , compact('university','specialization' ,'teacher','company'));
 
     }
 

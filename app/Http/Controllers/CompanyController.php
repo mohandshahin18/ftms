@@ -5,21 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use App\Models\Category;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use function PHPSTORM_META\type;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\File;
 
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\CompanyRequest;
-<<<<<<< HEAD
-=======
 use Exception;
-use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Log;
 
-use function PHPSTORM_META\type;
->>>>>>> c4fe7662c632506cf79f5a43012031c7c1918be1
+
 
 class CompanyController extends Controller
 {
@@ -194,7 +189,7 @@ class CompanyController extends Controller
     {
         $company = Company::onlyTrashed()->findOrFail($id);
         $path = public_path($company->image);
-        
+
         if($path) {
             try {
                 File::delete($path);

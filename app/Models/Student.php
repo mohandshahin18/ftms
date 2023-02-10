@@ -51,8 +51,11 @@ class Student extends Authenticatable
         return $this->hasMany(AppliedTasks::class);
     }
 
+    // with application
     public function applications()
     {
         return $this->hasMany(Application::class);
     }
+
+
 }

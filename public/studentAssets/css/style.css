@@ -91,8 +91,14 @@ section {
 
     .drop-student{
         position: fixed;
-        top: 27px;
+        top: 24px;
         right: 90px;
+        z-index: 1021 !important;
+    }
+    .notification{
+        position: fixed;
+        top: 27px;
+        right: 140px;
         z-index: 1021 !important;
     }
 
@@ -220,7 +226,8 @@ section {
 }
 
 .navbar-brand img {
-  width: 100px;
+  width: 90px;
+  margin-top:-10px
 }
 
 .navbar-brand .dot {

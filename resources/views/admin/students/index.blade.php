@@ -9,7 +9,7 @@
     <style>
         .search {
             position: relative;
-            
+
         }
 
         .search input {
@@ -62,7 +62,7 @@
 
 
                         <div class="btn-website">
-                            
+
                             <a href="{{ route('admin.students.trash') }}" class="  btn btn-outline-warning text-dark"><i
                                 class="fas fa-trash"></i> Recycle Bin</a>
                         </div>
@@ -156,11 +156,6 @@
 @stop
 
 @section('scripts')
-<<<<<<< HEAD
-
-
-=======
->>>>>>> c4fe7662c632506cf79f5a43012031c7c1918be1
     {{-- Disabled Links  --}}
     <script>
         document.querySelectorAll('.disabled[data-disabled="true"]').forEach(function (el) {
@@ -170,7 +165,7 @@
         });
 
 
-                
+
                 let form = document.getElementById('filter_form');
                 let select = document.getElementById('filter');
 
@@ -180,11 +175,11 @@
                         alert("Please select an option")
                     }
                 })
-            
-    
+
+
 
     </script>
-    
+
 
     {{-- AJAX Filter --}}
 
@@ -212,7 +207,7 @@
                                             <td>${student.university.name}</td>
                                             <td>${student.specialization.name}</td>
                                             <td>${value}</td>
-                                            ${value == 'Not Evaluated yet' ? 
+                                            ${value == 'Not Evaluated yet' ?
                                                 `<td>
                                                     <a href="{{ route('admin.students.show', $student) }}" class="btn btn-outline-secondary" data-disabled="true" title="evaluate">Evaluate</a>
                                                 </td>` : ''
@@ -223,7 +218,7 @@
                     }
                 })
             });
-            
+
         });
     </script> --}}
 @stop

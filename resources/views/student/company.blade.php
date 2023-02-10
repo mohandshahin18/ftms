@@ -41,7 +41,10 @@
 </section>
 
 
+@if(Auth::user()->company_id)
 
+
+@else
 <section id="services" class="text-center bg-light">
     <div class="container">
         <div class="row justify-content-center">
@@ -55,10 +58,10 @@
                 @php
                  foreach ( $company->categories as $category ){
                     if($program == $category->name){
-                    $ap = Auth::user()->applications()->where('category_id', $category->id)
-                                                      ->where('student_id',Auth::user()->id)
-                                                      ->where('company_id', $company->id)
-                                                      ->first();
+                        $ap = Auth::user()->applications()->where('category_id', $category->id)
+                            ->where('student_id',Auth::user()->id)
+                            ->where('company_id', $company->id)
+                            ->first();
 
                     }
                 }
@@ -120,6 +123,7 @@
         </div>
     </div>
 </section>
+@endif
 
 @stop
 

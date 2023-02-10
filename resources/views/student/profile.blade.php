@@ -100,8 +100,13 @@
                             <label class="labels">Your Teacher</label>
                             <input type="text" name="" class="form-control " disabled  value="{{ $teacher }}">
                         </div>
-
-
+                        @if (Auth::user()->company_id != null)
+                        <div class="col-md-6 mb-3">
+                            <label class="labels">Your Company</label>
+                            <input type="text" name="" class="form-control " disabled  value="{{ $company }}">
+                        </div>
+                        @endif
+                       
 
                     </div>
 

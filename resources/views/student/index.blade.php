@@ -102,7 +102,24 @@
     </section>
 
 
+    @if(Auth::user()->company_id)
 
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="intro">
+                        {{-- <h6>Company</h6> --}}
+                        <h1>Tasks</h1>
+                        <p class="mx-auto">Contrary to popular belief, Lorem Ipsum is not simply random text. It has
+                            roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    @else
 
     <section>
         <div class="container">
@@ -145,6 +162,8 @@
             </div>
         </div>
     </section>
+
+    @endif
 
 @stop
 
