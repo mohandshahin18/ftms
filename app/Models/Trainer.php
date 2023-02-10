@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 
 class Trainer extends Authenticatable
 {
-    use HasFactory , Notifiable;
+    use HasFactory ,Notifiable;
 
     protected $guarded = [];
 

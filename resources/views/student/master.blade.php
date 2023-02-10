@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="{{ asset('studentAssets/css/style.css') }}">
     <link rel="icon" type="image/x-icon" href="{{ asset('adminAssets/dist/img/selection/favicon.ico') }}">
 
+
+
     @yield('styles')
 
 
@@ -141,9 +143,6 @@
     </div>
 
 
-
-
-
     @yield('content')
     <footer>
         <div class="footer-top text-center footer">
@@ -174,6 +173,7 @@
     <script src="{{ asset('studentAssets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('studentAssets/js/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('studentAssets/js/app.js') }}"></script>
+
     @yield('scripts')
 </body>
 

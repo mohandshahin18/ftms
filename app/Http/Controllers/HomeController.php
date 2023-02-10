@@ -127,7 +127,7 @@ class HomeController extends Controller
       if(Auth::guard('admin')->check() ){
         $admin =Admin::findOrFail($id);
         $path = $admin->image;
-        if($request->image) {
+        if($request->file('image')) {
             File::delete(public_path($admin->image));
             $path = $request->file('image')->store('/uploads/admin', 'custom');
         }
@@ -147,13 +147,13 @@ class HomeController extends Controller
             'image' => $path,
         ]);
 
-        return redirect()->route('admin.profile')->with('msg', 'Profile has been updated successfully')->with('type', 'success');
+        return json_encode(array("email"=>$admin->email, "name"=>$admin->name));
 
       }elseif(Auth::guard('teacher')->check() ){
 
         $teacher =Teacher::findOrFail($id);
         $path = $teacher->image;
-        if($request->image) {
+        if($request->file('image')) {
             File::delete(public_path($teacher->image));
             $path = $request->file('image')->store('/uploads/teacher', 'custom');
         }
@@ -201,12 +201,12 @@ class HomeController extends Controller
         }
 
 
-        return redirect()->route('admin.profile')->with('msg', 'Profile has been updated successfully')->with('type', 'success');
+        return json_encode(array("email"=>$teacher->email, "name"=>$teacher->name));
 
       }elseif(Auth::guard('trainer')->check() ){
             $trainer =Trainer::findOrFail($id);
             $path = $trainer->image;
-            if($request->image) {
+            if($request->file('image')) {
                 File::delete(public_path($trainer->image));
                 $path = $request->file('image')->store('/uploads/trainer', 'custom');
             }
@@ -228,13 +228,14 @@ class HomeController extends Controller
                 'category_id' => $request->category_id
             ]);
 
-            return redirect()->route('admin.profile')->with('msg', 'Profile has been updated successfully')->with('type', 'success');
+            return json_encode(array("email"=>$trainer->email, "name"=>$trainer->name));
 
       }elseif(Auth::guard('company')->check() ){
 
         $company =Company::findOrFail($id);
+        // dd($request->file('image'))
         $path = $company->image;
-        if($request->image) {
+        if($request->file('image')) {
             File::delete(public_path($company->image));
             $path = $request->file('image')->store('/uploads/company', 'custom');
         }
@@ -262,7 +263,7 @@ class HomeController extends Controller
 
         $company->categories()->sync( $request->category_id);
 
-        return redirect()->route('admin.profile')->with('msg', 'Profile has been updated successfully')->with('type', 'success');
+        return json_encode(array("email"=>$company->email, "name"=>$company->name));
 
 
       }

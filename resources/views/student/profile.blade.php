@@ -1,11 +1,19 @@
 @extends('student.master')
 
-@section('title', Auth::guard()->user()->name)
+@section('title', $student->name)
 @section('sub-title', 'Profile')
 @section('styles')
+   <!-- Sweat Alert -->
+   <link rel="stylesheet"
+   href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.min.css" />
 <style>
 .bg-light{
-    height:100%;
+    height:100vh;
+}
+
+.colored-toast.swal2-icon-success {
+  background-color: #afafaf !important;
+  color: #FFF;
 }
 
 </style>
@@ -14,8 +22,8 @@
 <div class="bg-light">
 <div class="container ">
     <div class="box-all  ">
-        <form action="{{ route('student.profile_edit' ,Auth::guard()->user()->slug ) }}" method="POST"
-            enctype="multipart/form-data">
+        <form action="{{ route('student.profile_edit' ,$student->slug ) }}" method="POST"
+            enctype="multipart/form-data" class="update_form">
             @csrf
             @method('PUT')
         <div class="row  ">
@@ -26,8 +34,8 @@
 
                         @php
 
-                            if (Auth::guard()->user()->image) {
-                                $img = Auth::guard()->user()->image;
+                            if ($student->image) {
+                                $img = $student->image;
                                 $src = asset($img);
                             } else {
                                 $src = asset('adminAssets/dist/img/no-image.png');
@@ -40,14 +48,14 @@
                             <div class="kt-avatar__holder" style="background-image: url({{ $src }})"></div>
                             <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="Change avatar">
                                 <i class='bx bxs-pencil'></i>
-                                <input type="file" name="image" id="image">
+                                <input type="file" class="img" name="image" id="image">
                             </label>
                         </div>
 
 
 
-                        <span class="font-weight-bold mt-3">{{ Auth::guard()->user()->name }}</span>
-                        <span class="text-black-50 mb-3">{{ Auth::guard()->user()->email }}</span><span> </span>
+                        <span class="font-weight-bold mt-3" id="primary_name">{{ $student->name }}</span>
+                        <span class="text-black-50 mb-3" id="primary_email">{{ $student->email }}</span><span> </span>
                     </div>
                 </div>
             </div>
@@ -58,15 +66,15 @@
                     <div class="row mt-3">
                         <div class="col-md-6 mb-3">
                             <label class="labels">Name</label>
-                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Name"
-                                value="{{ Auth::guard()->user()->name }}">
+                            <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror" placeholder="Name"
+                                value="{{ $student->name }}">
                                 @error('name')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                 @enderror
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="labels">Email</label>
-                            <input type="text" name="email" class="form-control @error('name') is-invalid @enderror" value="{{ Auth::guard()->user()->email }}"
+                            <input type="text" name="email" id="email" class="form-control @error('name') is-invalid @enderror" value="{{ $student->email }}"
                                 placeholder="Email">
                                 @error('name')
                                 <small class="invalid-feedback"> {{ $message }}</small>
@@ -75,8 +83,8 @@
 
                         <div class="col-md-6 mb-3">
                             <label class="labels">Phone</label>
-                            <input type="text" name="phone" class="form-control @error('name') is-invalid @enderror" placeholder="Phone"
-                                value="{{ Auth::guard()->user()->phone }}">
+                            <input type="text" name="phone" id="phone" class="form-control @error('name') is-invalid @enderror" placeholder="Phone"
+                                value="{{ $student->phone }}">
                                 @error('name')
                                 <small class="invalid-feedback"> {{ $message }}</small>
                                 @enderror
@@ -84,26 +92,26 @@
 
                         <div class="col-md-6 mb-3">
                             <label class="labels">Student ID</label>
-                            <input type="text" name="" class="form-control " disabled  value="{{ Auth::guard()->user()->student_id }}">
+                            <input type="text" name="" class="form-control " disabled  value="{{ $student->student_id }}">
                         </div>
 
 
                         <div class="col-md-6 mb-3">
                             <label class="labels">University</label>
-                            <input type="text" name="" class="form-control " disabled  value="{{ $university }}">
+                            <input type="text" name="" class="form-control " disabled  value="{{ $student->university->name }}">
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="labels">Specialization</label>
-                            <input type="text" name="" class="form-control " disabled  value="{{ $specialization }}">
+                            <input type="text" name="" class="form-control " disabled  value="{{ $student->specialization->name }}">
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="labels">Your Teacher</label>
-                            <input type="text" name="" class="form-control " disabled  value="{{ $teacher }}">
+                            <input type="text" name="" class="form-control " disabled  value="{{ ($student->teacher->name ? $student->teacher->name : 'No teacher yet') }}">
                         </div>
-                        @if (Auth::user()->company_id != null)
+                        @if ($student->company_id)
                         <div class="col-md-6 mb-3">
                             <label class="labels">Your Company</label>
-                            <input type="text" name="" class="form-control " disabled  value="{{ $company }}">
+                            <input type="text" name="" class="form-control " disabled  value="{{ $student->company->name }}">
                         </div>
                         @endif
                        
@@ -111,8 +119,8 @@
                     </div>
 
 
-                    <div class="mt-2 ">
-                        <button class="btn btn-primary profile-button"  type="submit"> Save Edit </button>
+                    <div class="mt-2 wrapper-btn">
+                        <button class="btn btn-primary profile-button" type="button"> Save Edit</button>
                     </div>
                 </div>
             </div>
@@ -130,48 +138,72 @@
 @stop
 
 
-
 @section('scripts')
+<!-- Sweat Alert -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js"></script>
 <script>
+    let form = $(".update_form")[0];
+    let btn = $(".profile-button");
+    let image;
 
+    form.onsubmit = (e)=> {
+        e,preventDefault();
+    }
 
+    $(".img").on("change", function(e) {
+        image = e.target.files[0];
+    })
 
+    btn.on("click", function() {
+        let formData = new FormData(form);
+        formData.append('image', image);
+        let url = form.getAttribute("action");
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            dataType: "json",
+            processData: false,
+            contentType: false,
+            success: function(data) {
+                btn.attr('disabled', true);
+                window.history.pushState("localhost/", "profile", data.slug);
+                $("#primary_name").empty();
+                $("#primary_name").append(data.name);
+                $("#primary_email").empty();
+                $("#primary_email").append(data.email);
+                const Toast = Swal.mixin({
 
-   </script>
+                    toast: true,
+                    position: 'top',
+                    iconColor: 'white',
+                    customClass: {
+                        popup: 'colored-toast'
+                    },
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: false,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                    })
 
-{{-- Messages Script --}}
-@if (session('msg'))
-  <script>
-      const Toast = Swal.mixin({
-        toast: true,
-        position: 'top',
-        showConfirmButton: false,
-        timer: 4000,
-        timerProgressBar: false,
-        didOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-      })
+                    Toast.fire({
+                    icon: 'success',
+                    title: "<p style='color:#fff; margin: 0 !important'>" + 'Profile  updated successfully' + "</p>",
 
-    @if (session('type') == 'success')
-      Toast.fire({
-      icon: 'success',
-      title: '{{ session('msg') }}'
-      })
-    @elseif (session('type') == 'danger')
-      Toast.fire({
-      icon: 'warning',
-      title: '{{ session('msg') }}'
-      })
-    @else
-      Toast.fire({
-        icon: 'info',
-        title: '{{ session('msg') }}'
+                    // title: ''
+                    })
+                
+            }
         })
-    @endif
-  </script>
-@endif
+    })
+    
+
+ </script>
+
+
 
     <script>
         "use strict";
@@ -227,7 +259,7 @@
                         // build menu
                         Plugin.build();
 
-                        KTUtil.data(element).set('avatar', the);
+                        // KTUtil.data(element).set('avatar', the);
                     }
 
                     return the;
@@ -265,7 +297,7 @@
                             }
                             reader.readAsDataURL(the.input.files[0]);
 
-                            KTUtil.addClass(the.element, 'kt-avatar--changed');
+                            // KTUtil.addClass(the.element, 'kt-avatar--changed');
                         }
                     });
 
