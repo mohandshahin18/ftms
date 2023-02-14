@@ -13,8 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('tasks', function (Blueprint $table) {
-            $table->string('slug')->after('sub_title')->unique()->nullable();
+        Schema::table('students', function (Blueprint $table) {
+            $table->foreignId('category_id')->after('company_id')->nullable()->constrained()->cascadeOnDelete();
+
         });
     }
 
@@ -25,8 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('tasks', function (Blueprint $table) {
-            $table->dropColumn('slug');
+        Schema::table('students', function (Blueprint $table) {
+            $table->dropColumn('category_id');
         });
     }
 };

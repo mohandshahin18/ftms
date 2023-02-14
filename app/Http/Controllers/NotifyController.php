@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use App\Models\Student;
 use App\Models\Application;
+use App\Models\Category;
+use App\Notifications\AcceptApplyNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,12 +16,8 @@ class NotifyController extends Controller
 
     public function read_notify()
     {
-
-        // dd(notify());
-
         $auth = Auth::user();
         $application = Application::get();
-
         return view('admin.notifications' , compact('auth','application'));
     }
 
@@ -43,9 +41,7 @@ class NotifyController extends Controller
 
         $generated_hash = hash('sha256', $company_id. $student_id. $category_id);
 
-        // dd($received_hash != $generated_hash);
         if ($received_hash != $generated_hash) {
-
             return response()->json(['icon' => 'error','title'=>'The form data is not valid'],400);
         }else {
             $application = Application::where('company_id',$request->company_id )
@@ -56,7 +52,8 @@ class NotifyController extends Controller
 
             $student = Student::where('id',$request->student_id)->first();
             $student->update([
-                'company_id' => $request->company_id
+                'company_id' => $request->company_id,
+                'category_id' => $request->category_id,
             ]);
 
             $delete_application = Application::where('company_id' ,'!=',$request->company_id )
@@ -119,10 +116,35 @@ class NotifyController extends Controller
                     }
                 }
             }
+
+            $student = Student::where('id',$request->student_id)->first();
+            $studentName =$student->name;
+
+            $category = Category::where('id',$request->category_id)->first();
+            $categoryName =$category->name;
+
+            $student->notify(new AcceptApplyNotification(Auth::user()->name,Auth::user()->slug , $request->company_id ,$categoryName, $studentName ));
             return '<i class="fas fa-check text-success">Approved</i>';
         }
     }
 
+
+
+    public function read_student_notify()
+    {
+        $auth = Auth::user();
+        return view('student.notifications' , compact('auth'));
+    }
+
+
+    public function mark_student_read($id)
+    {
+       $auth = Auth::user();
+       $notify =$auth->notifications()->find($id);
+       $notify->markAsRead();
+
+       return redirect($notify->data['url']);
+    }
 
 
 }

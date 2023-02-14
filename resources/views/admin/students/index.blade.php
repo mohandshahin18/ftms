@@ -145,7 +145,7 @@
             </div>
             <!-- /.card -->
             <div class="mb-3">
-                {{-- {{ $students->links() }} --}}
+                {{ $students->links() }}
             </div>
         </div>
     </div>
@@ -156,11 +156,6 @@
 @stop
 
 @section('scripts')
-<<<<<<< HEAD
-
-
-=======
->>>>>>> c4fe7662c632506cf79f5a43012031c7c1918be1
     {{-- Disabled Links  --}}
     <script>
         document.querySelectorAll('.disabled[data-disabled="true"]').forEach(function (el) {

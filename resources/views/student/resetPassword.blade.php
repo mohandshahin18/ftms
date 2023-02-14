@@ -17,6 +17,9 @@
 </style>
 @stop
 @section('content')
+
+
+
 <div class="bg " style="background: url({{ asset('adminAssets/dist/img/profile/header.jpeg') }}) no-repeat center center;
 ">
 <div class="overlay">

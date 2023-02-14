@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\WebSite;
 
+use App\Models\Task;
 use App\Models\Company;
 use App\Models\Student;
 use App\Models\Trainer;
+use App\Models\Category;
 use App\Models\Application;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\Notifications\AppliedNotification;
@@ -25,7 +26,18 @@ class websiteController extends Controller
         $company = Company::get();
         $students = Student::get();
         $trainers = Trainer::get();
-        return view('student.index' , compact('companies','company','students' ,'trainers') );
+        $tasks = Task::where('category_id', Auth::user()->category_id)->where('company_id', Auth::user()->company_id)->get();
+
+
+
+        return view('student.index' , compact('companies','company','students' ,'trainers','tasks') );
+    }
+
+    public function task($slug )
+    {
+        $task = Task::whereSlug($slug)->firstOrFail();
+        return view('student.task',compact('task'));
+
     }
 
 
@@ -98,7 +110,7 @@ class websiteController extends Controller
     {
 
         $student = Student::whereSlug($slug)->firstOrFail();
-        
+
         $path = $student->image;
         if($request->file('image')) {
             File::delete(public_path($student->image));
@@ -113,15 +125,14 @@ class websiteController extends Controller
             'image' => 'nullable'
         ]);
 
-        
-       if($request->name != Auth::user()->name){
+
+    //    if($request->name != Auth::user()->name){
             $slug = Str::slug($request->name);
             $slugCount = Student::where('slug' , 'like' , $slug. '%')->count();
-            $random = (rand(00000,99999));
-            if($slugCount > 0){
+            $random =  $slugCount + 1;
+            if($slugCount > 1){
                 $slug = $slug . '-' . $random;
-        }
-
+        // }
        }
 
         $student->update([

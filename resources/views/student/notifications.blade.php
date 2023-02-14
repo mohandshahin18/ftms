@@ -1,8 +1,5 @@
-@php
-    use App\Models\Student;
 
-@endphp
-@extends('admin.master')
+@extends('student.master')
 
 @section('title', 'Notifications')
 
@@ -30,7 +27,7 @@
             content: "";
             height: 4px;
             width: 75px;
-            background-color: #29B6F6;
+            background-color: #1a2e44;
             position: absolute;
             bottom: 0;
             left: 0;
@@ -55,7 +52,7 @@
         }
 
         .notification-list--unread {
-            border-left: 2px solid #29B6F6;
+            border-left: 2px solid #1a2e44;
         }
 
         .notification-list .notification-list_content {
@@ -91,92 +88,75 @@
             width: 100%;
         }
 
-        /* p.text-muted{
-        width: 80%
-    }
-    @media(max-width:767px){
-        p.text-muted{
-        width: 100%
-    }
-    } */
+        a:hover{
+            text-decoration: none
+        }
+
     </style>
 @stop
+@php
+use App\Models\Company;
+use App\Models\Trainer;
 
+
+@endphp
 @section('content')
 
+
+<div class="container mt-5">
     <section class="section-50">
         <h3 class="m-b-50 heading-line">Notifications <i class="fa fa-bell text-muted"></i></h3>
 
         <div class="notification-ui_dd-content">
             @foreach ($auth->notifications as $notify)
-                {{-- @dump( $notify->data) --}}
-                {{-- @if ($notify->data['company'] == Auth::guard('company')->user()->id) --}}
 
+                <a href="{{ $notify->data['url'] }}" style="font-weight: unset">
+                    <div class="notification-list {{ $notify->read_at ? '' : 'notification-list--unread' }} ">
+                        <div class="notification-list_content">
+                            <div class="notification-list_img">
+                                @php
+                                if ($notify->data['from'] == 'apply') {
+                                    $company = Company::where('id',$notify->data['company_id'])->first();
+                                    $company = $company->image;
 
-                <div class="notification-list {{ $notify->read_at ? '' : 'notification-list--unread' }} ">
-                    <div class="notification-list_content">
-                        <div class="notification-list_img">
-                            @php
-                                $student = Student::where('id',$notify->data['student_id'])->first();
-                                    $student = $student->image;
+                                    $name = $notify->data['name'] ?? '';
+                                    $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
+                                    if($company) {
+                                        $img = $company;
+                                        $notifySrc = asset($img);
+                                    }
+                                    }elseif ($notify->data['from'] == 'task') {
+                                        $trainer = Trainer::where('id',$notify->data['trainer_id'])->first();
+                                        $trainer = $trainer->image;
 
-                                $name = $notify->data['name'] ?? '';
-                                $src = 'https://ui-avatars.com/api/?background=random&name=' . $name;
-                                if($student) {
-                                    $img = $student;
-                                    $src = asset($img);
-                                }
-                            @endphp
-
-                            <img src="{{ $src }}" alt="user">
-                        </div>
-                        <div style="width: 100%">
-                            <div class="notification-list_detail">
-                                <p><b>{{ $notify->data['name'] }}</b> {{ $notify->data['msg'] }} </p>
-                                <p>Program : {{ $notify->data['category'] }}</p>
-                                <p class="text-muted">{{ $notify->data['reason'] }}</p>
-                                <p class="text-muted"><small><i
-                                            class="far fa-clock mr-1"></i>{{ $notify->created_at->diffForHumans() }}</small>
-                                </p>
+                                        $name = $notify->data['name'] ?? '';
+                                        $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
+                                        if($trainer) {
+                                            $img = $trainer;
+                                            $notifySrc = asset($img);
+                                        }
+                                    }
+                                @endphp
+                                <img src="{{ $notifySrc }}" alt="user">
                             </div>
-
-                            @php
-                                $student = Student::where('id', $notify->data['student_id'])
-
-                                    ->first();
-                            @endphp
-                            @if ($student->company_id == Auth::user()->id)
-                                <div class="btns d-flex justify-content-end">
-                                    <i class="fas fa-check text-success">Approved</i>
+                            <div style="width: 100%">
+                                <div class="notification-list_detail">
+                                    <p><b>{{ $notify->data['name'] }}</b> {{ $notify->data['msg'] }} </p>
+                                    @if($notify->data['from'] == 'apply')
+                                        <p class="text-muted">{{ $notify->data['welcome'] }}</p>
+                                    @endif
+                                    <p class="text-muted"><small><i
+                                                class="far fa-clock mr-1"></i>{{ $notify->created_at->diffForHumans() }}</small>
+                                    </p>
                                 </div>
 
-                            @elseif($student->company_id == null)
-                            @php
-                                $company_id = $notify->data['company_id'];
-                                $student_id = $notify->data['student_id'];
-                                $category_id = $notify->data['category_id'];
 
-                                $hash = hash('sha256', $company_id. $student_id. $category_id);
-                            @endphp
-                                <div class="btns d-flex justify-content-end">
-                                    <form action="{{ route('admin.accept_apply') }}" class="accept_form" id="form-{{ $notify->data['student_id'] }}">
-                                        @csrf
-                                        <input type="hidden" name="hash" value="{{ $hash }}" id="">
-                                        <input type="hidden" name="company_id" value="{{ $notify->data['company_id'] }}" id="">
-                                        <input type="hidden" name="student_id" value="{{ $notify->data['student_id'] }}" id="">
-                                        <input type="hidden" name="category_id" value="{{ $notify->data['category_id'] }}" id="">
-                                        <button type="button" class="btn btn-success accept_btn"></i>Accept</button>
-                                    </form>
-                                    <form action="">
-                                        <button type="button" class="btn btn-danger">Reject</button>
 
-                                    </form>
-                                </div>
-                            @endif
 
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
                 {{-- @endif --}}
             @endforeach
 
@@ -188,7 +168,7 @@
 
     </section>
 
-
+</div>
 @stop
 
 @section('scripts')

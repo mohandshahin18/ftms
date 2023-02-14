@@ -43,6 +43,7 @@
 @if(Auth::user()->company_id)
 
 
+@else
 <section id="services" class="text-center bg-light">
     <div class="container">
         <div class="row justify-content-center">
@@ -125,6 +126,7 @@
     </div>
 </section>
 
+@endif
 @stop
 
 @section('scripts')
@@ -156,7 +158,7 @@
         })
     </script>
 
-    @if (session('msg'))
+    @if(session('msg'))
         <script>
             const Toast = Swal.mixin({
                 toast: true,
@@ -170,7 +172,7 @@
                 }
             })
 
-            @if (session('type') == 'success')
+            @if(session('type') == 'success')
                 Toast.fire({
                     icon: 'success',
                     title: '{{ session('msg') }}'

@@ -7,28 +7,25 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AcceptApplyNotification extends Notification
+class NewTaskNotification extends Notification
 {
+
     use Queueable;
 
     protected $name;
     protected $slug;
-    protected $company_id;
-    protected $categoryName;
-    protected $studentName;
+    protected $trainer_id;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($name ,$slug,$company_id ,$categoryName ,$studentName )
+    public function __construct($name ,$slug , $trainer_id)
     {
         $this->name = $name;
         $this->slug = $slug;
-        $this->company_id = $company_id;
-        $this->categoryName = $categoryName;
-        $this->studentName = $studentName;
-
+        $this->trainer_id = $trainer_id;
     }
 
     /**
@@ -66,12 +63,10 @@ class AcceptApplyNotification extends Notification
     {
         return [
             'name' => $this->name ,
-            'company_id' => $this->company_id ,
-            'from' => 'apply',
-            'msg' => 'Accept You to their company',
-            'url' => url('/company/'.$this->slug.'/'.$this->categoryName ),
-            'welcome' => ' Hi '. $this->studentName . ' Welcome to join to our company',
-
+            'from' => 'task',
+            'trainer_id' => $this->trainer_id ,
+            'msg' => 'There is a new task',
+            'url' => url('/task/'.$this->slug),
         ];
     }
 }

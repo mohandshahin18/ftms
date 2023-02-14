@@ -7,9 +7,7 @@
    <link rel="stylesheet"
    href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.min.css" />
 <style>
-.bg-light{
-    height:100vh;
-}
+
 
 .colored-toast.swal2-icon-success {
   background-color: #afafaf !important;
@@ -114,7 +112,7 @@
                             <input type="text" name="" class="form-control " disabled  value="{{ $student->company->name }}">
                         </div>
                         @endif
-                       
+
 
                     </div>
 
@@ -167,6 +165,10 @@
             contentType: false,
             success: function(data) {
                 btn.attr('disabled', true);
+                btn.attr("disabled", true)
+                    setTimeout(() => {
+                        btn.removeAttr("disabled");
+                    }, 5000);
                 window.history.pushState("localhost/", "profile", data.slug);
                 $("#primary_name").empty();
                 $("#primary_name").append(data.name);
@@ -191,15 +193,13 @@
 
                     Toast.fire({
                     icon: 'success',
-                    title: "<p style='color:#fff; margin: 0 !important'>" + 'Profile  updated successfully' + "</p>",
-
-                    // title: ''
+                    title: "<p style='color:#fff; margin: 0 !important ; z-index:999'>" + 'Profile  updated successfully' + "</p>",
                     })
-                
+
             }
         })
     })
-    
+
 
  </script>
 

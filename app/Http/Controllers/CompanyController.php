@@ -57,7 +57,7 @@ class CompanyController extends Controller
 
         $slug = Str::slug($request->name);
         $slugCount = Company::where('slug' , 'like' , $slug. '%')->count();
-        $random = (rand(000,999));
+        $random =  $slugCount + 1;
 
         if($slugCount > 0){
             $slug = $slug . '-' . $random;
@@ -122,6 +122,14 @@ class CompanyController extends Controller
             $path = $request->file('image')->store('/uploads/company', 'custom');
         }
 
+        $slug = Str::slug($request->name);
+        $slugCount = Company::where('slug' , 'like' , $slug. '%')->count();
+        $random =  $slugCount + 1;
+
+        if($slugCount > 1){
+            $slug = $slug . '-' . $random;
+        }
+
         $company->update([
             'name' => $request->name,
             'email' => $request->email,
@@ -129,6 +137,7 @@ class CompanyController extends Controller
             'address' => $request->address,
             'description' => $request->description,
             'image' => $path,
+            'slug' =>  $slug
         ]);
 
         $company->categories()->sync($request->category_id);
