@@ -618,6 +618,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </footer>
     </div>
     <!-- ./wrapper -->
+    
+    {{-- Loader --}}
+    {{-- <div class="loader">
+        <div class="b b1"></div>
+        <div class="b b2"></div>
+        <div class="b b3"></div>
+        <div class="b b4"></div>
+    </div> --}}
 
     <!-- REQUIRED SCRIPTS -->
 
@@ -630,6 +638,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{ asset('adminAssets/dist/js/custom.js') }}"></script>
     <!-- Sweat Alert -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js"></script>
+    <!-- Loader -->
+    {{-- <script>
+        window.onload = ()=> {
+            document.querySelector(".loader").style.display = 'none';
+        }
+    </script> --}}
 
 @if (session('msg'))
 <script>

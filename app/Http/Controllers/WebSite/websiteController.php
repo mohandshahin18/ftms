@@ -32,10 +32,19 @@ class websiteController extends Controller
     public function showCompany($slug , $program)
     {
         $company = Company::with('categories')->whereSlug($slug)->firstOrFail();
+        foreach($company->categories as $category) {
+            if($program == $category->name){
+                $ap= Auth::user()->applications->where('category_id', $category->id)
+                                ->where('student_id', Auth::user()->id)
+                                ->where('company_id', $company->id)
+                                ->first();
+            }
+        }
+        
 
         $applied =Application::get();
 
-        return view('student.company',compact('company','program' ,'applied'));
+        return view('student.company',compact('company','program' ,'applied', 'ap'));
     }
 
     public function company_apply(Request $request){
@@ -53,21 +62,37 @@ class websiteController extends Controller
         ]);
 
         $company = Company::where('id',$request->company_id)->first();
-
+       
+        foreach($company->categories as $cat) {
+            if($category->name == $cat->name){
+                $ap= Auth::user()->applications->where('category_id', $cat->id)
+                                ->where('student_id', Auth::user()->id)
+                                ->where('company_id', $company->id)
+                                ->first();
+            }
+        }
 
         $company->notify(new AppliedNotification(Auth::user()->name ,Auth::user()->image ,
                                                 $request->reason, $category->name ,
                                                 Auth::user()->id ,$request->category_id ,
                                                 $request->company_id ));
 
-        return redirect()->back()->with('msg','Apllied is successfully')->with('type' , 'success');
+        $response = array();
+        $response['content'] = '<p>Your application under review, we will send a message when we approved it</p>
+        <form action="/company/cancel/'.$ap->id.'/request" id="cancel_form" method="POST">
+            "@csrf"
+            "@method("delete")"
+            <button type="button" class="btn btn-brand" id="cancle_btn">Cancel Request</button>
+        </form>';
+
+        return response()->json($response);
     }
 
 
 
     public function company_cancel($id){
         Application::destroy($id);
-        return redirect()->back()->with('msg', 'Course Canceld Successfully')->with('type','warning');
+        return $id;
 
     }
 

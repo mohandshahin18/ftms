@@ -59,6 +59,8 @@
 
         }
     </style>
+
+    
 </head>
 
 <body>
@@ -134,7 +136,7 @@
 
                             <div class="pass" style="z-index: 0">
                                 <input type="password" class=" form-control " name="password" id="password"  placeholder="Password">
-                                <i class="far fa-eye show-pass"></i>
+                                <i class="far fa-eye show-pass activehgj0ww\ns"></i>
                               </div>
                         </div>
 
@@ -166,7 +168,7 @@
 
         </div>
     </div>
-
+    
 <script>
     const password = document.querySelector(".pass #password"),
             toggle = document.querySelector(".show-pass");
@@ -174,13 +176,14 @@
             toggle.onclick = () => {
                 if(password.type == 'password'){
                     password.type = 'text';
-                    toggle.classList.add("active");
+                    toggle.classList.remove("active");
                 } else {
                     password.type = 'password';
-                    toggle.classList.remove("active");
+                    toggle.classList.add("active");
                 }
             }
 </script>
+
 </body>
 
 </html>
