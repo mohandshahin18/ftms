@@ -24,10 +24,12 @@ class TaskRequest extends FormRequest
     public function rules()
     {
 
+        
         return [
             'main_title' => ['required', 'min:3', 'string'],
             'sub_title' => ['required', 'min:3', 'string'],
             'start_date' => ['required', 'date'],
+            // 'start_date' => ['required', 'date'],
             'end_date' => ['required', 'date', 'after:start_date'],
         ];
     }

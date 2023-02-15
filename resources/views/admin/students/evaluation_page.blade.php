@@ -17,12 +17,12 @@
 
     <div class="row">
         <div class="col-12">
-            
+
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex  justify-content-between align-items-center">
                         <div>
-                            <h4>Evaluation Name: 
+                            <h4>Evaluation Name:
                                 <b>{{ $student->applied_evaluation->evaluation->name }}</b></h4>
                             <h5>Student Name: <strong class="text-primary"> {{ $student->name }}</strong></h5>
                         </div>
@@ -31,6 +31,7 @@
                         </div>
                     </div>
                 </div>
+                <b>{{ $total_ratio }}</b>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
                     <table class="table table-striped  table-hover ">
@@ -38,7 +39,7 @@
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th style="width: 60%;">Question</th>
                                  <th>Answer</th>
-                                
+
                             </tr>
                         </thead>
 
@@ -58,7 +59,7 @@
                 </div>
             </div>
             <!-- /.card -->
-            
+
         </div>
     </div>
 

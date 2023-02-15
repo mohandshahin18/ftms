@@ -16,7 +16,7 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form action="{{ route('admin.tasks.update', $task->id) }}" method="POST">
+                <form action="{{ route('admin.tasks.update', $task->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="card-body">
@@ -87,21 +87,21 @@
                                     @enderror
                                 </div>
                             </div>
-                            
-                           
-                           
+
+
+
 
                             {{-- description --}}
                             <div class="mb-3 col-12">
                                 <label for="description">Description</label><span>(Optional)</span>
-                                <textarea name="description" class="@error('description') is-invalid @enderror" id="my-desc">{{ old('description') }}</textarea>
+                                <textarea name="description" class="@error('description') is-invalid @enderror" id="my-desc">{{ old('description', $task->description) }}</textarea>
                                 @error('description')
                                     <small class="invalid-feedback">{{ $message }}</small>
                                 @enderror
                             </div>
 
                         </div>
-                        
+
                     </div>
                     <!-- /.card-body -->
 

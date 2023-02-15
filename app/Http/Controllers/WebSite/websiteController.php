@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers\WebSite;
 
+use App\Models\Task;
 use App\Models\Company;
 use App\Models\Student;
 use App\Models\Trainer;
+use App\Models\Category;
 use App\Models\Application;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Category;
+use App\Models\AppliedTasks;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\Notifications\AppliedNotification;
+use Carbon\Carbon;
 
 class websiteController extends Controller
 {
@@ -25,7 +28,28 @@ class websiteController extends Controller
         $company = Company::get();
         $students = Student::get();
         $trainers = Trainer::get();
-        return view('student.index' , compact('companies','company','students' ,'trainers') );
+        $tasks = Task::where('category_id', Auth::user()->category_id)->where('company_id', Auth::user()->company_id)->get();
+
+
+
+        return view('student.index' , compact('companies','company','students' ,'trainers','tasks') );
+    }
+
+    public function task($slug )
+    {
+        $task = Task::with('applied_tasks')->whereSlug($slug)->firstOrFail();
+        $applied_task = null;
+        foreach($task->applied_tasks as $applied) {
+            $applied_task = $applied->where('student_id', Auth::user()->id)->first();
+        }
+        $end_date = Carbon::parse($task->end_date);
+        $remaining_seconds = $end_date->diffInSeconds(now());
+        $remaining_minutes = floor($remaining_seconds / 60);
+        $remaining_hours = floor($remaining_minutes / 60);
+        $remaining_days = floor($remaining_hours / 24);
+        $remaining_hours = $remaining_hours % 24;
+        return view('student.task',compact('task', 'remaining_days' ,'remaining_hours', 'remaining_minutes', 'applied_task'));
+
     }
 
 
@@ -72,7 +96,7 @@ class websiteController extends Controller
             }
         }
 
-        $company->notify(new AppliedNotification(Auth::user()->name ,Auth::user()->image ,
+        $company->notify(new AppliedNotification(Auth::user()->name  ,
                                                 $request->reason, $category->name ,
                                                 Auth::user()->id ,$request->category_id ,
                                                 $request->company_id ));
@@ -80,8 +104,8 @@ class websiteController extends Controller
         $response = array();
         $response['content'] = '<p>Your application under review, we will send a message when we approved it</p>
         <form action="/company/cancel/'.$ap->id.'/request" id="cancel_form" method="POST">
-            "@csrf"
-            "@method("delete")"
+            '. csrf_field(). '
+            '. method_field('DELETE'). '
             <button type="button" class="btn btn-brand" id="cancle_btn">Cancel Request</button>
         </form>';
 
@@ -123,7 +147,7 @@ class websiteController extends Controller
     {
 
         $student = Student::whereSlug($slug)->firstOrFail();
-        
+
         $path = $student->image;
         if($request->file('image')) {
             File::delete(public_path($student->image));
@@ -138,15 +162,14 @@ class websiteController extends Controller
             'image' => 'nullable'
         ]);
 
-        
-       if($request->name != Auth::user()->name){
+
+    //    if($request->name != Auth::user()->name){
             $slug = Str::slug($request->name);
             $slugCount = Student::where('slug' , 'like' , $slug. '%')->count();
-            $random = (rand(00000,99999));
-            if($slugCount > 0){
+            $random =  $slugCount + 1;
+            if($slugCount > 1){
                 $slug = $slug . '-' . $random;
-        }
-
+        // }
        }
 
         $student->update([
@@ -159,6 +182,28 @@ class websiteController extends Controller
 
         return json_encode(array("name"=>$student->name, "email"=>$student->email, "slug"=>$student->slug));
 
+    }
+
+    // Submit Task
+    public function submit_task(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|max:5120'
+        ]);
+
+        $student = Student::where('id', Auth::user()->id)->first();
+        
+
+        $file_name = $student->student_id .'-'. $request->file('file')->getClientOriginalName(); 
+        $request->file('file')->move(public_path('uploads/applied-tasks/'), $file_name);
+
+        $applied_task = AppliedTasks::create([
+            'task_id' => $request->task_id,
+            'student_id' => Auth::user()->id,
+            'file' => $file_name,
+        ]);
+
+        return response()->json($applied_task->toArray());
     }
 
 }

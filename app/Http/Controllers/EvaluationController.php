@@ -45,15 +45,15 @@ class EvaluationController extends Controller
         $request->validate([
             'name' => ['required'],
             'evaluation_type' => ['required'],
-            'start_data' => ['required'],
+            'start_date' => ['required'],
             'end_date' => ['required'],
         ]);
 
         $evaluation = Evaluation::create([
             'name' => $request->name,
             'evaluation_type' => $request->evaluation_type,
-            'start_data' => $request->start_data,
-            'end_data' => $request->end_data,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
         ]);
 
         if($request->has('questions')) {
@@ -104,15 +104,15 @@ class EvaluationController extends Controller
         $request->validate([
             'name' => ['required'],
             'evaluation_type' => ['required'],
-            'start_data' => ['required'],
-            'end_data' => ['required'],
+            'start_date' => ['required'],
+            'end_date' => ['required'],
         ]);
 
         $evaluation->update([
             'name' => $request->name,
             'evaluation_type' => $request->evaluation_type,
-            'start_data' => $request->start_data,
-            'end_data' => $request->end_data
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
         ]);
 
         if($request->has('questions')) {

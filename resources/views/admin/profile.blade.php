@@ -172,7 +172,7 @@
                                 <option  @selected(Auth::guard()->user()->status == 0) value="0">Unavilable </option>
                             </select>
                         </div>
-                        
+
                         <div class="col-md-12 mb-3">
                             <label for="description">Description</label>
                             <textarea name="description" class="@error('description') is-invalid @enderror" id="my-desc">{{ Auth::guard()->user()->description  }}</textarea>
@@ -210,13 +210,14 @@
 
 
 @section('scripts')
+
+
 {{-- AJAX Reauest --}}
     <script>
         let form = $(".update_form")[0];
         let btn = $(".profile-button");
         let wrapper = $(".wrapper-btn");
         let image;
-
         form.onsubmit = (e)=> {
             e.preventDefault();
         }
@@ -224,6 +225,7 @@
         $(".img").on("change", function(e) {
             image = e.target.files[0];
         });
+
 
         btn.on("click", function() {
             let formData = new FormData(form);
@@ -237,7 +239,12 @@
                 processData: false,
                 contentType: false,
                 success: function(data) {
-                    btn.attr("disabled", true);
+                    $('.invalid-feedback').remove();
+                    $('input').removeClass('is-invalid');
+                    btn.attr("disabled", true)
+                    setTimeout(() => {
+                        btn.removeAttr("disabled");
+                    }, 5000);
                     $("#name").empty();
                     $("#name").append(data.name);
                     $("#email").empty();
@@ -262,11 +269,19 @@
                     icon: 'success',
                     title: 'Profile Updated successfully'
                     })
-                }
+                } ,
+                error: function(data) {
+                    $('.invalid-feedback').remove();
+                    $.each(data.responseJSON.errors, function (field, error) {
+                        $("input[name='" + field + "']").addClass('is-invalid').after('<small class="invalid-feedback">' +error+ '</small>');
+                    });
+                } ,
             })
         })
 
     </script>
+
+
 @if(Auth::guard('company')->check())
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.3.1/tinymce.min.js" referrerpolicy="no-referrer"></script>
@@ -338,7 +353,7 @@
                         // build menu
                         Plugin.build();
 
-                        KTUtil.data(element).set('avatar', the);
+                        // KTUtil.data(element).set('avatar', the);
                     }
 
                     return the;
@@ -376,7 +391,7 @@
                             }
                             reader.readAsDataURL(the.input.files[0]);
 
-                            KTUtil.addClass(the.element, 'kt-avatar--changed');
+                            // KTUtil.addClass(the.element, 'kt-avatar--changed');
                         }
                     });
 

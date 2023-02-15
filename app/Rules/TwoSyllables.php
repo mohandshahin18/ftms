@@ -4,8 +4,9 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class TextLength implements Rule
+class TwoSyllables implements Rule
 {
+
 
     protected $len;
 
@@ -14,7 +15,7 @@ class TextLength implements Rule
      *
      * @return void
      */
-    public function __construct($len = 10)
+    public function __construct($len = 2)
     {
         $this->len = $len;
     }
@@ -28,7 +29,7 @@ class TextLength implements Rule
      */
     public function passes($attribute, $value)
     {
-        return str_word_count(strip_tags($value)) >= $this->len;
+        return str_word_count(strip_tags($value)) == $this->len;
     }
 
     /**
@@ -38,6 +39,6 @@ class TextLength implements Rule
      */
     public function message()
     {
-        return 'The :attribute must be more than 10 words';
+        return 'The :attribute must consist of two syllables.';
     }
 }

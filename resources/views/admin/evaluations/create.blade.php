@@ -69,7 +69,7 @@
                      {{-- type --}}
                      <div class="col-lg-6">
                         <div class="form-group">
-                            <label class="mb-2">For</label>
+                            <label class="mb-2">Evaluation Type</label>
                             <select name="evaluation_type" class="form-control" id="">
                                 <option value="company">Companies</option>
                                 <option value="student">Students</option>
@@ -81,7 +81,7 @@
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label class="mb-2">Start Date</label>
-                            <input type="datetime-local" class="datepicker form-control @error('start_date') is-invalid @enderror" value="{{ old('start_date') }}" name="start_date">
+                            <input type="date" class="datepicker form-control @error('start_date') is-invalid @enderror" value="{{ old('start_date') }}" name="start_date">
                             @error('start_date')
                                 <small class="invalid-feedback"> {{ $message }}</small>
                             @enderror
@@ -92,7 +92,7 @@
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label class="mb-2">End Date</label>
-                            <input type="datetime-local" class="datepicker form-control @error('end_date') is-invalid @enderror" value="{{ old('end_date') }}" name="end_date">
+                            <input type="date" class="datepicker form-control @error('end_date') is-invalid @enderror" value="{{ old('end_date') }}" name="end_date">
                             @error('end_date')
                                 <small class="invalid-feedback"> {{ $message }}</small>
                             @enderror

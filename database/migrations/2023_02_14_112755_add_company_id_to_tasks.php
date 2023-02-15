@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('tasks', function (Blueprint $table) {
-            $table->string('slug')->after('sub_title')->unique()->nullable();
+            $table->foreignId('company_id')->after('description')->nullable()->constrained()->cascadeOnDelete();
+
         });
     }
 
@@ -26,7 +27,8 @@ return new class extends Migration
     public function down()
     {
         Schema::table('tasks', function (Blueprint $table) {
-            $table->dropColumn('slug');
+            $table->dropColumn('company_id');
+
         });
     }
 };

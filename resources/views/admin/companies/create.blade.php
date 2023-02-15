@@ -97,7 +97,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="mb-2">Password</label>
-                                    <input type="password" class="form-control @error('password') is-invalid @enderror" name="password">
+                                    <input type="password" placeholder="password" class="form-control @error('password') is-invalid @enderror" name="password">
                                     @error('password')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                     @enderror

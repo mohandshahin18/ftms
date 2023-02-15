@@ -96,6 +96,14 @@ Route::prefix('/')->middleware('auth:student','is_verify_email')->name('student.
     Route::put('/profile/{slug}', [websiteController::class, 'editProfile'])->name('profile_edit');
 
 
+    //notifiacation
+    Route::get('/read-student-notify', [NotifyController::class, 'read_student_notify'])->name('read_notify');
+    Route::get('/mark-student-read/{id}', [NotifyController::class, 'mark_student_read'])->name('mark_read');
+
+    //task
+    Route::get('/task/{slug}',[websiteController::class,'task'])->name('task');
+    Route::post('/task/submit', [websiteController::class, 'submit_task'])->name('submit.task');
+
 
 });
 

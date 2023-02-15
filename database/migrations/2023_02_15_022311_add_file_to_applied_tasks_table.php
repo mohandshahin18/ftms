@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('tasks', function (Blueprint $table) {
-            $table->string('slug')->after('sub_title')->unique()->nullable();
+        Schema::table('applied_tasks', function (Blueprint $table) {
+            $table->string('file');
         });
     }
 
@@ -25,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('tasks', function (Blueprint $table) {
-            $table->dropColumn('slug');
+        Schema::table('applied_tasks', function (Blueprint $table) {
+            //
         });
     }
 };

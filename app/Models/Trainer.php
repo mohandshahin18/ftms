@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+
 
 class Trainer extends Authenticatable
 {
@@ -50,5 +50,11 @@ class Trainer extends Authenticatable
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    // with student
+    public function students()
+    {
+        return $this->hasMany(Student::class);
     }
 }

@@ -7,30 +7,25 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AppliedNotification extends Notification
+class NewTaskNotification extends Notification
 {
+
     use Queueable;
 
     protected $name;
-    protected $reason;
-    protected $category;
-    protected $student_id;
-    protected $category_id;
-    protected $company_id;
+    protected $slug;
+    protected $trainer_id;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($name , $reason ,$category ,$student_id ,$category_id ,$company_id  )
+    public function __construct($name ,$slug , $trainer_id)
     {
         $this->name = $name;
-        $this->reason = $reason;
-        $this->category = $category;
-        $this->student_id = $student_id;
-        $this->category_id = $category_id;
-        $this->company_id = $company_id;
+        $this->slug = $slug;
+        $this->trainer_id = $trainer_id;
     }
 
     /**
@@ -41,7 +36,6 @@ class AppliedNotification extends Notification
      */
     public function via($notifiable)
     {
-
         return ['database'];
     }
 
@@ -69,14 +63,10 @@ class AppliedNotification extends Notification
     {
         return [
             'name' => $this->name ,
-            'msg' => 'Applied to your company',
-            'reason' => $this->reason,
-            'category' => $this->category,
-            'url' => url('/admin/read-notify'),
-            'student_id' => $this->student_id,
-            'category_id' => $this->category_id,
-            'company_id' => $this->company_id,
-
+            'from' => 'task',
+            'trainer_id' => $this->trainer_id ,
+            'msg' => 'There is a new task',
+            'url' => url('/task/'.$this->slug),
         ];
     }
 }

@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\Company;
+use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\Trainer;
 use App\Models\Category;
 use App\Rules\TextLength;
+use App\Models\University;
+use App\Rules\TwoSyllables;
 use Illuminate\Http\Request;
 use App\Models\Specialization;
-use App\Models\Student;
-use App\Models\University;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
@@ -133,12 +134,13 @@ class HomeController extends Controller
         }
 
 
-        $request->validate([
-            'name' => 'required',
+        $validator = validator($request->all(),[
+            'name' => ['required',new TwoSyllables()] ,
             'email' => 'required|email',
             'phone' => 'required',
             'image' => 'nullable|max:4096'
         ]);
+
 
         $admin->update([
             'name' => $request->name,
@@ -147,7 +149,11 @@ class HomeController extends Controller
             'image' => $path,
         ]);
 
-        return json_encode(array("email"=>$admin->email, "name"=>$admin->name));
+        // if(!$validator->fails()){
+            return json_encode(array("email"=>$admin->email, "name"=>$admin->name));
+        // }else{
+            // return response()->json(['errors' => $validator->errors()], 400);
+        // }
 
       }elseif(Auth::guard('teacher')->check() ){
 
@@ -161,7 +167,7 @@ class HomeController extends Controller
 
 
         $request->validate([
-            'name' => 'required',
+            'name' => ['required',new TwoSyllables()] ,
             'email' => 'required|email',
             'phone' => 'required',
             'image' => 'nullable',
@@ -213,7 +219,7 @@ class HomeController extends Controller
 
 
             $request->validate([
-                'name' => 'required',
+                'name' => ['required',new TwoSyllables()] ,
                 'email' => 'required|email',
                 'phone' => 'required',
                 'image' => 'nullable',
@@ -242,7 +248,7 @@ class HomeController extends Controller
 
 
         $request->validate([
-            'name' => 'required',
+            'name' => ['required',new TwoSyllables()] ,
             'email' => 'required|email',
             'phone' => 'required',
             'image' => 'nullable',

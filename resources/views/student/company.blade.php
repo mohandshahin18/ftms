@@ -9,7 +9,7 @@
         }
 
         .colored-toast.swal2-icon-success {
-            background-color: #3fcf57 !important;
+            background-color: #41ae53 !important;
         }
 
         .block {
@@ -48,18 +48,21 @@
     </section>
 
 
+@if(Auth::user()->company_id)
 
-    <section id="services" class="text-center bg-light">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-12">
-                    <div class="intro">
-                        <h6>Need This?</h6>
-                        <h1>Apply To Our Company</h1>
-                    </div>
+
+@else
+<section id="services" class="text-center bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="intro">
+                    <h6>Need This?</h6>
+                    <h1>Apply To Our Company</h1>
                 </div>
-                <div class="col-md-8" id="main_content">
-
+            </div>
+            <div class="col-md-8" id="main_content">
+                
                     @if ($ap)
                         <p>Your application under review, we will send a message when we approved it</p>
                         <form action="{{ route('student.company_cancel', $ap->id) }}" id="cancel_form" method="POST">
@@ -119,11 +122,12 @@
 
                         </form>
                     @endif
-                </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
+@endif
 @stop
 
 @section('scripts')
@@ -131,14 +135,13 @@
 
     <script>
         let applay_form = $(".apply_form");
-        let applay_btn = $("#apply_btn");
         let wrapper = $("#main_content");
 
         applay_form.onsubmit = (e) => {
             e.preventDefault();
         }
 
-        applay_btn.on("click", function() {
+        $(wrapper).on("click", '#apply_btn', function() {
             let url = applay_form.attr("action");
             $.ajax({
                 url: url,
@@ -147,6 +150,55 @@
                 success: function(data) {
                     wrapper.empty();
                     wrapper.append(data.content);
+
+                    // sending another ajax for cancel the request
+                    $(wrapper).on("click", '#cancle_btn', function() {
+                        let cancel_form = $("#cancel_form");
+                        let url = cancel_form.attr('action');
+                        cancel_form.onsubmit = (e)=> {
+                            e.preventDefault();
+                        }
+                        Swal.fire({
+                            title: 'Are you sure?',
+                            text: "Your Request to join this course will be deleted",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#d33',
+                            cancelButtonColor: '#000',
+                            confirmButtonText: 'Yes, cancel it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // send ajax request and delete post
+                                $.ajax({
+                                    type: 'delete',
+                                    data: cancel_form.serialize(),
+                                    url: url,
+                                    success: function(res) {
+                                        wrapper.empty();
+                                        wrapper.append(applay_form);
+                                    }
+
+                                })
+
+                                const Toast = Swal.mixin({
+                                    toast: true,
+                                    position: 'top',
+                                    showConfirmButton: false,
+                                    timer: 2000,
+                                    timerProgressBar: false,
+                                    didOpen: (toast) => {
+                                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                    }
+                                })
+
+                                Toast.fire({
+                                    icon: 'warning',
+                                    title: 'Request Canceld Successfully'
+                                })
+                            }
+                        })
+                    })
                     const Toast = Swal.mixin({
                         toast: true,
                         position: 'top',
@@ -171,56 +223,11 @@
             })
         })
 
-        let cancel_form = $("#cancel_form");
-        let cancel_btn = $("#cancle_btn");
+        
 
-        cancel_form.onsubmit = (e)=> {
-            e.preventDefault();
-        }
+        
 
-        cancel_btn.on("click", function() {
-            let url = cancel_form.attr('action');
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Your Request to join this course will be deleted",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#000',
-                confirmButtonText: 'Yes, cancel it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // send ajax request and delete post
-                    $.ajax({
-                        type: 'post',
-                        url: url,
-                        data: cancel_form.serialize(),
-                        success: function(res) {
-                            wrapper.empty();
-                            wrapper.append(applay_form);
-                        }
-
-                    })
-
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top',
-                        showConfirmButton: false,
-                        timer: 2000,
-                        timerProgressBar: false,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer)
-                            toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        }
-                    })
-
-                    Toast.fire({
-                        icon: 'warning',
-                        title: 'Request Canceld Successfully'
-                    })
-                }
-            })
-        })
+        
     </script>
 
 

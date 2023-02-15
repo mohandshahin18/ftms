@@ -11,14 +11,24 @@ class AcceptApplyNotification extends Notification
 {
     use Queueable;
 
+    protected $name;
+    protected $slug;
+    protected $company_id;
+    protected $categoryName;
+    protected $studentName;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($name ,$slug,$company_id ,$categoryName ,$studentName )
     {
-        //
+        $this->name = $name;
+        $this->slug = $slug;
+        $this->company_id = $company_id;
+        $this->categoryName = $categoryName;
+        $this->studentName = $studentName;
+
     }
 
     /**
@@ -29,7 +39,7 @@ class AcceptApplyNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -55,7 +65,13 @@ class AcceptApplyNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'name' => $this->name ,
+            'company_id' => $this->company_id ,
+            'from' => 'apply',
+            'msg' => 'Accepted Youre request to their company',
+            'url' => url('/company/'.$this->slug.'/'.$this->categoryName ),
+            'welcome' => ' Hi '. $this->studentName . ' Welcome to join to our company',
+
         ];
     }
 }

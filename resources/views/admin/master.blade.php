@@ -62,7 +62,32 @@ scratch. This page gets rid of all links and provides the needed markup only.
            border: 1px solid #ced4da;
         } */
 
-    </style>
+        .image-avatar{
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+        }
+
+.dropdown-menu.dropdown-menu-lg.dropdown-menu-right.show{
+    overflow: scroll;
+    max-height: 391px;
+}
+.dropdown-menu.dropdown-menu-lg.dropdown-menu-right.show::-webkit-scrollbar {
+  display: none;
+}
+
+/* .all{
+    position: relative;
+}
+
+a.dropdown-item.dropdown-footer{
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+    background: #dedede
+    /* z-index: 999; */
+}  */
+ </style>
 
 
 
@@ -149,6 +174,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                 </li>
 @php
+        use App\Models\Student;
 
             $auth =Auth::user();
 
@@ -159,24 +185,32 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-bell"></i>
                         @if($auth->unreadNotifications->count() > 0)
-                        <span class="badge badge-warning navbar-badge">{{ $auth->unreadNotifications->count()  }}</span>
+                        <span class="badge badge-danger navbar-badge">{{ $auth->unreadNotifications->count()  }}</span>
                         @else
-                        <span class="badge badge-warning navbar-badge"></span>
+                        <span ></span>
 
                         @endif
                     </a>
 
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <div class="test dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         @foreach ($auth->notifications as $notify )
-                        <a href="{{ route('admin.mark_read',$notify->id) }}"   class="dropdown-item {{ $notify->read_at ? '' : 'unread' }}">
+                        <a href="{{ $notify->data['url'] }}"   class="dropdown-item {{ $notify->read_at ? '' : 'unread' }}">
                             <!-- Message Start -->
                             <div class="media">
-                                @php
-                                    $name = $notify->data['name'];
+                                     @php
+                                     $student = Student::where('id',$notify->data['student_id'])->first();
+                                     $student = $student->image;
+
+                                    $name = $notify->data['name'] ?? '';
                                     $src = 'https://ui-avatars.com/api/?background=random&name=' . $name;
+                                    if($student) {
+                                        $img = $student;
+                                        $src = asset($img);
+                                    }
+
                                     @endphp
-                                    <img src="{{ asset($notify->data['image']) }}" alt="User Avatar"
-                                    class="img-size-50 mr-3 img-circle">
+                                    <img src="{{ $src }}" alt="User Avatar"
+                                    class="img-size-50 mr-3 img-circle image-avatar">
                                 <div class="media-body">
                                     <h3 class="dropdown-item-title">
                                         {{ $notify->data['name'] }}
@@ -190,7 +224,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <div class="dropdown-divider"></div>
                         @endforeach
                         <div class="dropdown-divider"></div>
+                        <div class="all">
                         <a href="{{ route('admin.read_notify') }}" class="dropdown-item dropdown-footer">Show All Notifications</a>
+
+                        </div>
                     </div>
 
                 </li>
@@ -218,7 +255,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                     @endphp
                     <a class="nav-link" data-toggle="dropdown" href="#">
-                        <img width="30" height="30" style="margin-top: -5px;object-fit: contain"
+                        <img width="30" height="30" style="margin-top: -5px;object-fit: cover"
                             src="{{ $src }}" class="img-circle elevation-2" alt="User Image">
                     </a>
                     <div class="dropdown-menu dropdown-menu-right user-dropdown">

@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Providers\RouteServiceProvider;
+use App\Rules\TwoSyllables;
 
 class RegisterController extends Controller
 {
@@ -56,7 +57,7 @@ class RegisterController extends Controller
     {
 
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255' , new TwoSyllables()],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:students'],
             'phone' => ['required', 'string','min:10', 'max:20', 'unique:students'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -70,7 +71,7 @@ class RegisterController extends Controller
         $teacher = Teacher::where('university_id',$request->university_id)->where('specialization_id', $request->specialization_id)->first();
         $slug = Str::slug($request->name);
         $slugCount = Student::where('slug' , 'like' , $slug. '%')->count();
-        $random = (rand(00000,99999));
+        $random =  $slugCount + 1;
 
         if($slugCount > 0){
             $slug = $slug . '-' . $random;

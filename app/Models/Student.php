@@ -37,6 +37,12 @@ class Student extends Authenticatable
         return $this->belongsTo(Company::class)->withDefault();
     }
 
+    // with trainer
+    public function trainer()
+    {
+        return $this->belongsTo(Trainer::class);
+    }
+
 
     // with applied evaluations
     public function applied_evaluation()
@@ -44,7 +50,7 @@ class Student extends Authenticatable
         return $this->hasOne(AppliedEvaluation::class)->withDefault();
     }
 
-    
+
     // with applied task
     public function applied_tasks()
     {

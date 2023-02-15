@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Task;
+use App\Models\Student;
 use App\Models\Trainer;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Requests\TaskRequest;
-use Exception;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
+use App\Notifications\NewTaskNotification;
 
 class TaskController extends Controller
 {
@@ -22,7 +24,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::with('category')->where('trainer_id', Auth::user()->id)->paginate(env('PAGINATION_COUNT'));
+        $tasks = Task::with('category')->where('trainer_id', Auth::user()->id)->latest('id')->paginate(env('PAGINATION_COUNT'));
         return view('admin.tasks.index', compact('tasks'));
     }
 
@@ -45,27 +47,47 @@ class TaskController extends Controller
      */
     public function store(TaskRequest $request)
     {
+       $trainer = Trainer::with('company')->where('id',  Auth::user()->id)->first();
+        $company_id = $trainer->company->id;
 
-        $path = null;
-        if($request->file('file')) {
-            $path = $request->file('file')->store('/uploads/tasks-files', 'custom');
+        
+        
+
+
+        $slug = Str::slug($request->sub_title);
+        $slugCount = Task::where('slug' , 'like' , $slug. '%')->count();
+        $random =  $slugCount + 1;
+
+        if($slugCount > 0){
+            $slug = $slug . '-' . $random;
         }
 
-        $sub_title = str_replace(' ', '-', $request->sub_title);
-
-        $slug = Str::slug($request->main_title).'-'.$sub_title.'-'.Auth::user()->id;
+        $task_title = str_replace(' ', '-', $request->main_title);
+        $fileName =$task_title.'-'.$request->file('file')->getClientOriginalName();
+        $request->file('file')->move(public_path('uploads/tasks-files/'),$fileName);
 
             Task::create([
             'main_title' => $request->main_title,
             'sub_title' => $request->sub_title,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
-            'file' => $path,
+            'file' => $fileName,
             'description' => $request->description,
+            'company_id' =>$company_id,
             'category_id' => Auth::user()->category->id,
             'trainer_id' => Auth::user()->id,
             'slug' => $slug,
         ]);
+
+
+
+
+            $student = Student::where('category_id',Auth::user()->category->id)
+                              ->where('company_id' ,$company_id )->first();
+
+
+
+            $student->notify(new NewTaskNotification(Auth::user()->name,$slug,Auth::user()->id ));
 
         return redirect()->route('admin.tasks.index')
         ->with('msg', 'Task has been addedd successfully')
@@ -105,25 +127,39 @@ class TaskController extends Controller
      */
     public function update(TaskRequest $request, Task $task)
     {
-        $path = null;
-        if($request->file('file')) {
-            $path = $request->file('file')->store('/uploads/tasks-files', 'custom');
+        $fileName = $task->file;
+        if($request->hasFile('file')) {
+            $path = public_path($task->file);
+            if($path) {
+                try {
+                    File::delete($path);
+                } catch(Exception $e) {
+                    Log::error($e->getMessage());
+                }
+            }
+            $task_title = str_replace(' ', '-', $task->main_title);
+            $fileName =$task_title.'-'.$request->file('file')->getClientOriginalName();
+            $request->file('file')->move(public_path('uploads/tasks-files/'),$fileName);
         }
 
-        $sub_title = str_replace(' ', '-', $request->sub_title);
+        $slug = Str::slug($request->sub_title);
+        $slugCount = Task::where('slug' , 'like' , $slug. '%')->count();
+        $random =  $slugCount + 1;
 
-        $slug = Str::slug($request->main_title).'-'.$sub_title.'-'.Auth::user()->id;
+        if($slugCount > 1){
+            $slug = $slug . '-' . $random;
+        }
 
         $task->update([
             'main_title' => $request->main_title,
             'sub_title' => $request->sub_title,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
-            'file' => $path,
+            'file' => $fileName,
             'description' => $request->description,
             'category_id' => Auth::user()->category->id,
             'trainer_id' => Auth::user()->id,
-            'slug' => $slug,
+            'slug' => $slug
         ]);
 
         return redirect()->route('admin.tasks.index')
