@@ -194,7 +194,7 @@ a.dropdown-item.dropdown-footer{
 
                     <div class="test dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         @foreach ($auth->notifications as $notify )
-                        <a href="{{ $notify->data['url'] }}"   class="dropdown-item {{ $notify->read_at ? '' : 'unread' }}">
+                        <a href="{{ route('admin.mark_read',$notify->id) }}"   class="dropdown-item {{ $notify->read_at ? '' : 'unread' }}">
                             <!-- Message Start -->
                             <div class="media">
                                      @php
@@ -655,7 +655,7 @@ a.dropdown-item.dropdown-footer{
         </footer>
     </div>
     <!-- ./wrapper -->
-    
+
     {{-- Loader --}}
     {{-- <div class="loader">
         <div class="b b1"></div>

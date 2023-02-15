@@ -26,7 +26,14 @@
         a{
             font-weight: unset !important;
         }
-
+        .list-group-item.active{
+            color: #000 !important;
+            background: #ededed  !important;
+            border: 1px solid #e2e0e0
+        }
+        a.list-group-item.list-group-item-action.active .dropdown-item-title{
+            color: #000
+        }
         .dropdown-menu.dropdown-menu-right{
             padding-bottom: 0
         }
@@ -106,7 +113,7 @@
                     </a>
 
 
-                    <div class="right-links float-right mr-4">
+                    <div class="right-links float-right mr-4 d-flex justify-content-center align-items-center" style="gap:10px ">
                         {{-- <a href="{{ route('student.home') }}" class="home"><i class="fa fa-home mr-3"></i></a> --}}
 
 
@@ -129,7 +136,7 @@
                                     </a>
                                 @endif
 
-                            <div class="dropdown-menu dropdown-menu-right rounded-0 pt-0"
+                            <div class="dropdown-menu dropdown-menu-right rounded-0 pt-0 notify-msg-drop"
                                 aria-labelledby="notifications">
                                 <div class="list-group">
                                     <div class="lg">
@@ -168,8 +175,8 @@
                                                     <h3 class="dropdown-item-title">{{ $notify->data['name'] }}</h3>
                                                     <p class="text-sm">{{ $notify->data['msg'] }}</p>
 
-                                                    <p>
-                                                        {{-- <i class="fa fa-clock-o" aria-hidden="true"></i> --}}
+                                                    <p class="d-flex justify-content-start align-items-center" style="gap:4px ">
+                                                        <i class="far fa-clock " style="line-height: 1; font-size: 12px; color: #464a4c !important"></i>
                                                         {{ $notify->created_at->diffForHumans() }}
                                                     </p>
                                                 </div>
@@ -192,7 +199,7 @@
                         <div class="d-inline dropdown mr-3">
                             <a class="dropdown-toggle" id="messages" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false" href="#"><i class="fa fa-envelope"></i></a>
-                            <div class="dropdown-menu dropdown-menu-right rounded-0 pt-0" aria-labelledby="messages">
+                            <div class="dropdown-menu dropdown-menu-right rounded-0 pt-0 notify-msg-drop" aria-labelledby="messages">
                                 <!-- <a class="dropdown-item">There are no new messages</a> -->
                                 <div class="list-group">
                                     <div class="lg">
@@ -207,7 +214,6 @@
                                                     <h3 class="dropdown-item-title">Shift Company</h3>
                                                     <p class="text-sm">Call me whenever you can...</p>
                                                     <p>
-                                                        <!-- <i class="far fa-clock "></i> -->
                                                         4 hours ago
                                                     </p>
                                                 </div>

@@ -3,12 +3,12 @@
 @section('title', $student->name)
 @section('sub-title', 'Profile')
 @section('styles')
-   
+
 <style>
 
 
 .colored-toast.swal2-icon-success {
-  background-color: #E44D42 !important;
+  background-color: #59c64a !important;
   color: #FFF;
 }
 

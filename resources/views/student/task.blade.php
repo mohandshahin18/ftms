@@ -14,6 +14,10 @@
         th{
             width: 220px
         }
+        .colored-toast.swal2-icon-success {
+            background-color: #59c64a !important;
+            color: #FFF;
+        }
     </style>
 @stop
 
@@ -52,12 +56,16 @@
                         <tbody>
                           <tr>
                             <th >Submission status</th>
-                            <td id="submitted_text">@if ($applied_task)
-                                    <span class="text-success">Submitted</span>
-                                @else
-                                    <span class="text-danger">Not Submitted yet</span>
-                                @endif
+                            @if ($applied_task)
+                            <td style="background: #d1e7dd ; color: #0f5132 ;font-weight: 500;">
+                                   Submitted
                             </td>
+                            @else
+                                <td id="submitted_text" class="text-danger">
+                                    Not Submitted yet
+                                </td>
+                                @endif
+
 
                           </tr>
                           <tr>
@@ -88,7 +96,7 @@
                                             {{ $time_passed_hours.' hours ago' }}
                                         @else
                                             {{ $time_passed_minutes.' minutes ago' }}
-                                        @endif    
+                                        @endif
                                     </span>
                                     @endif
                                 @else
@@ -100,11 +108,11 @@
                                     $submission_time_hours = $submission_time_hours % 24;
                                 @endphp
                                     @if ($submission_time_days && $submission_time_hours)
-                                        <b> {{'Submitted '.$submission_time_days.' days and '.$submission_time_hours.' ago' }}</b> 
+                                        <span style="font-weight: 500"> {{'Submitted '.$submission_time_days.' days and '.$submission_time_hours.' ago' }}</span>
                                     @elseif ($submission_time_hours)
-                                        <b>{{'Submitted ' .$submission_time_hours.' hours ago' }}</b>
+                                        <span  style="font-weight: 500">{{'Submitted ' .$submission_time_hours.' hours ago' }}</span>
                                     @else
-                                        <b>{{'Submitted ' .$submission_time_minutes.' minutes ago' }}</b>
+                                        <span  style="font-weight: 500">{{'Submitted ' .$submission_time_minutes.' minutes ago' }}</span>
                                     @endif
                                     <span class="float-right text-success"><i class="fas fa-check"></i></span>
                                 @endif
@@ -112,11 +120,13 @@
 
                           </tr>
                           <tr>
-                            <th class="file_submitted">File submissions</th>
+                            <th>File submissions</th>
                             @if ($applied_task)
-                                <td><a href="{{ asset('uploads/applied-tasks/'.$applied_task->file) }}" target="_blank" download>{{ $applied_task->file }}</a></td>
+                                <td>
+                                    <a href="{{ asset('uploads/applied-tasks/'.$applied_task->file) }}" target="_blank" download>{{ $applied_task->file }}</a>
+                                </td>
                             @else
-                                <td>There is no file yet</td>
+                                <td id="file_submitted">There is no file yet</td>
                             @endif
 
                           </tr>
@@ -127,19 +137,27 @@
                 </div>
                 <div class="col-lg-12" id="form_wrapper">
                     @if (!now()->gt($end_date))
-                        <button type="button" id="show_form" class="btn btn-primary">Add Submission</button>
-                        <form action="{{ route('student.submit.task') }}" class="mt-4" method="POST" id="task_form" enctype="multipart/form-data">
-                            @csrf
-                            <input type="hidden" name="task_id" value="{{ $task->id }}">
-                            <div class="file-drop-area">
-                                <span class="fake-btn">Choose files</span>
-                                <span class="file-msg">or drag and drop files here</span>
-                                <input class="file-input" name="file" id="file_input" type="file">
-                                <span class="text-danger">{{ $errors->first('file') }}</span>
-                              </div>
-                              <button type="button" id="submit_btn" class="mt-3 btn btn-primary">Submit</button>
-                              <button type="button" id="hide_form" class="mt-3 btn btn-secondary btn-sm">Cancel</button>
-                        </form>
+                        @if ($applied_task)
+                            <form action="{{ route('student.edit.applied.task') }}" id="cancel_id" method="POST">
+                                @csrf
+                                <button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i> Edit</button>
+                            </form>
+                        @else
+                            <button type="button" id="show_form" class="btn btn-primary">Add Submission</button>
+
+                            <form action="{{ route('student.submit.task') }}" class="mt-4" method="POST" id="task_form" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="task_id" value="{{ $task->id }}">
+                                <div class="file-drop-area">
+                                    <span class="fake-btn">Choose files</span>
+                                    <span class="file-msg">or drag and drop files here</span>
+                                    <input class="file-input" name="file" id="file_input" type="file">
+                                    <span class="text-danger">{{ $errors->first('file') }}</span>
+                                </div>
+                                <button type="button" id="submit_btn" class="mt-3 btn btn-primary">Submit</button>
+                                <button type="button" id="hide_form" class="mt-3 btn btn-secondary btn-sm">Cancel</button>
+                            </form>
+                        @endif
                     @endif
                 </div>
             </div>
@@ -156,44 +174,6 @@
 
 @section('scripts')
 
-    @if(session('msg'))
-        <script>
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top',
-                showConfirmButton: false,
-                timer: 4000,
-                timerProgressBar: false,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            })
-
-            @if(session('type') == 'success')
-                Toast.fire({
-                    icon: 'success',
-                    title: '{{ session('msg') }}'
-                })
-            @elseif (session('type') == 'danger')
-                Toast.fire({
-                    icon: 'error',
-                    title: '{{ session('msg') }}'
-                })
-            @elseif (session('type') == 'warning')
-                Toast.fire({
-                    icon: 'warning',
-                    title: '{{ session('msg') }}'
-                })
-            @else
-                Toast.fire({
-                    icon: 'info',
-                    title: '{{ session('msg') }}'
-                })
-            @endif
-        </script>
-    @endif
-
     {{-- Ajax --}}
     <script>
         $(document).ready(function() {
@@ -201,7 +181,7 @@
             $("#form_wrapper").on("click", '#show_form', function() {
                 $('#task_form').show();
                 $(this).hide();
-                
+
             });
             $("#form_wrapper").on("click", '#hide_form', function() {
                 $('#task_form').hide();
@@ -210,7 +190,7 @@
 
         })
 
-        
+
         $("#form_wrapper").on("click", '#submit_btn', function() {
                     let form = $('#task_form')[0];
                     let formData = new FormData(form);
@@ -222,10 +202,21 @@
                         processData: false,
                         data: formData,
                         success:function(response) {
-                            form.hide();
+                            $('#task_form').hide();
                             $("#show_form").hide();
 
-                            var applied_task = JSON.parse(response);
+                            $("#submitted_text").removeClass('text-danger').empty();
+
+                            $("#submitted_text").css({
+                               'background': '#d1e7dd' ,
+                                'color': '#0f5132' ,
+                               'font-weight': 500
+                            }
+                            ).append('Submitted');
+
+                            $("#file_submitted").empty();
+                            let file = `<a href="{{ asset('uploads/applied-tasks/${response.file}') }}" target="_blank" download>${response.file}</a>`
+                            $("#file_submitted").append(file);
 
                             const Toast = Swal.mixin({
                                 toast: true,
@@ -245,9 +236,15 @@
 
                                 Toast.fire({
                                 icon: 'success',
-                                title: data
+                                title: 'Your file submitted successfully'
                                 })
-                        }
+                        },
+                error: function(data) {
+                    $('.invalid-feedback').remove();
+                    $.each(data.responseJSON.errors, function (field, error) {
+                        $("input[name='" + field + "']").addClass('is-invalid').after('<small class="invalid-feedback">' +error+ '</small>');
+                    });
+                } ,
                     })
                 })
     </script>

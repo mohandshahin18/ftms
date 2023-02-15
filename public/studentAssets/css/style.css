@@ -131,10 +131,13 @@ section {
 
 
   .dropdown-menu{
-    top: 35px !important;
+    top: 42px !important;
   }
 
+.notify-msg-drop{
+    top: 54px !important;
 
+}
   .wp-content {
     margin-top: 60px;
     margin-left: 75px;
@@ -270,7 +273,7 @@ section {
   }
   a.list-group-item.list-group-item-action.active .dropdown-item-title {
 
-    color:#fff !important;
+    color:#fff ;
 }
   .media-body p {
       margin: 0 !important;
@@ -1310,8 +1313,8 @@ input.form-control {
           .file-drop-area.is-active {
             background-color: rgba(255, 255, 255, 0.05);
           }
-       
-        
+
+
         .fake-btn {
           flex-shrink: 0;
           background-color: rgba(255, 255, 255, 0.04);
@@ -1322,7 +1325,7 @@ input.form-control {
           font-size: 18px;
           text-transform: uppercase;
         }
-        
+
         .file-msg {
           font-size: 20px;
           font-weight: 300;
@@ -1331,7 +1334,7 @@ input.form-control {
           overflow: hidden;
           text-overflow: ellipsis;
         }
-        
+
         .file-input {
           position: absolute;
           left: 0;
@@ -1344,4 +1347,3 @@ input.form-control {
           .file-input:focus {
             outline: none;
           }
-        

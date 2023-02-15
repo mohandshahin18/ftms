@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\Notifications\AppliedNotification;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class websiteController extends Controller
 {
@@ -65,7 +66,7 @@ class websiteController extends Controller
                                 ->first();
             }
         }
-        
+
 
         $applied =Application::get();
 
@@ -87,7 +88,7 @@ class websiteController extends Controller
         ]);
 
         $company = Company::where('id',$request->company_id)->first();
-       
+
         foreach($company->categories as $cat) {
             if($category->name == $cat->name){
                 $ap= Auth::user()->applications->where('category_id', $cat->id)
@@ -116,14 +117,25 @@ class websiteController extends Controller
 
 
     public function company_cancel($id){
+        $applied = Application::findOrFail($id);
+        $other_notifications = DB::table('notifications')
+        ->where('notifiable_id',$applied->company_id)
+        ->get();
 
-        // dd(Request()->has('category_id'));
+        foreach($other_notifications as $notification) {
+            $data = json_decode($notification->data, true);
 
-
-
+            if(($data['student_id'] == Auth::user()->id)&&
+                ($data['category_id'] == $applied->category_id) &&
+                ($data['company_id'] == $applied->company_id))
+                {
+                    DB::table('notifications')
+                        ->where('id', $notification->id)
+                        ->delete();
+                }
+        }
         Application::destroy($id);
         return $id;
-
     }
 
 
@@ -198,9 +210,9 @@ class websiteController extends Controller
         ]);
 
         $student = Student::where('id', Auth::user()->id)->first();
-        
 
-        $file_name = $student->student_id .'-'. $request->file('file')->getClientOriginalName(); 
+
+        $file_name = $student->student_id .'-'. $request->file('file')->getClientOriginalName();
         $request->file('file')->move(public_path('uploads/applied-tasks/'), $file_name);
 
         $applied_task = AppliedTasks::create([
@@ -208,6 +220,7 @@ class websiteController extends Controller
             'student_id' => Auth::user()->id,
             'file' => $file_name,
         ]);
+        
 
         return response()->json($applied_task->toArray());
     }
