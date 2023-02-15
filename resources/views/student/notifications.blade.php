@@ -98,7 +98,7 @@
 use App\Models\Company;
 use App\Models\Trainer;
 
-
+// $noti = $auth->notification->paginate(2);
 @endphp
 @section('content')
 
@@ -108,6 +108,7 @@ use App\Models\Trainer;
         <h3 class="m-b-50 heading-line">Notifications <i class="fa fa-bell text-muted"></i></h3>
 
         <div class="notification-ui_dd-content">
+            {{-- @dump($noti ); --}}
             @foreach ($auth->notifications as $notify)
 
                 <a href="{{ $notify->data['url'] }}" style="font-weight: unset">
@@ -163,7 +164,7 @@ use App\Models\Trainer;
         </div>
 
         <div class="text-center">
-            <a href="#!" class="dark-link">Load more activity</a>
+            <butaton type="button" class="btn-brand ">Load more activity</butaton>
         </div>
 
     </section>

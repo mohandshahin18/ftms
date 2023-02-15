@@ -196,7 +196,13 @@
                     title: "<p style='color:#fff; margin: 0 !important ; z-index:999'>" + 'Profile  updated successfully' + "</p>",
                     })
 
-            }
+            } ,
+                error: function(data) {
+                    $('.invalid-feedback').remove();
+                    $.each(data.responseJSON.errors, function (field, error) {
+                        $("input[name='" + field + "']").addClass('is-invalid').after('<small class="invalid-feedback">' +error+ '</small>');
+                    });
+                } ,
         })
     })
 

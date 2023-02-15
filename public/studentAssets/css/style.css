@@ -599,12 +599,15 @@ section {
     -moz-border-radius: 2px;
     -ms-border-radius: 2px;
     -o-border-radius: 2px;
+    transition: all 0.4s ease;
 }
 
 .btn-brand:hover {
     background-color: #d64022;
     border-color: #d64022;
     color: #fff;
+    text-decoration: none;
+
 }
 
 .intro {margin-bottom: 36px;

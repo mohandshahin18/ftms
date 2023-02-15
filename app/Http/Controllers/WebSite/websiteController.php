@@ -8,6 +8,7 @@ use App\Models\Student;
 use App\Models\Trainer;
 use App\Models\Category;
 use App\Models\Application;
+use App\Rules\TwoSyllables;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -78,6 +79,11 @@ class websiteController extends Controller
 
 
     public function company_cancel($id){
+
+        // dd(Request()->has('category_id'));
+
+
+
         Application::destroy($id);
         return redirect()->back()->with('msg', 'Course Canceld Successfully')->with('type','warning');
 
@@ -86,7 +92,7 @@ class websiteController extends Controller
 
 
     public function allCompany(){
-        $companies = Company::with('categories')->where('status' , 1)->limit(6)->latest('id')->paginate(6);
+        $companies = Company::with('categories')->where('status' , 1)->limit(6)->latest('id')->paginate(env('PAGINATION_COUNT'));
         return view('student.allCompanies' ,compact('companies'));
 
     }
@@ -119,7 +125,7 @@ class websiteController extends Controller
 
 
         $request->validate([
-            'name' => 'required',
+            'name' => ['required',new TwoSyllables()] ,
             'email' => 'required|email',
             'phone' => 'required|',
             'image' => 'nullable'
