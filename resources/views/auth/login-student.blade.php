@@ -112,8 +112,8 @@ input.error {
                                 </g>
                               </svg>
                               <div class="pass" style="z-index: 0">
-                                <input type="password" class=" form-control " name="password" id="password"  placeholder="Password">
-                                <i class="far fa-eye show-pass"></i>
+                                <input type="password" class="form-control" name="password" id="password"  placeholder="Password">
+                                <i class="far fa-eye show-pass active"></i>
                               </div>
                             </div>
 
@@ -135,8 +135,8 @@ input.error {
                         <p><a href="{{ route('forget.password.get' ,'student') }}">Forget Your Password ?</a></p>
                     </div>
                 </div>
-                <div class="col-md-6 text-center">
-                    <img src="{{ asset('adminAssets/loginAssets/assets/images/signin.png') }}" alt="">
+                <div class="col-md-6 text-center signin_img">
+                    <img src="{{ asset('adminAssets/loginAssets/assets/images/signin.png') }}" alt="" class="img-responsive">
                 </div>
             </div>
         </div>
@@ -153,10 +153,10 @@ input.error {
             console.log(password.type);
             if (password.type == 'password') {
                 password.type = 'text';
-                toggle.classList.add("active");
+                toggle.classList.remove("active");
             } else {
                 password.type = 'password';
-                toggle.classList.remove("active");
+                toggle.classList.add("active");
             }
         }
     </script>

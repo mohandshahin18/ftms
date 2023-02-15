@@ -10,6 +10,11 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('studentAssets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"/>
+    <!-- Sweat Alert -->
+   <link rel="stylesheet"
+   href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.min.css" />
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
 
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
@@ -312,7 +317,8 @@
 
     <script src="{{ asset('studentAssets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('studentAssets/js/bootstrap.min.js') }}"></script>
-
+    <!-- Sweat Alert -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js"></script>
 
     @yield('scripts')
 </body>

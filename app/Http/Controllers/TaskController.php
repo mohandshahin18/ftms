@@ -50,11 +50,8 @@ class TaskController extends Controller
        $trainer = Trainer::with('company')->where('id',  Auth::user()->id)->first();
         $company_id = $trainer->company->id;
 
-
-        $path = null;
-        if($request->file('file')) {
-            $path = $request->file('file')->store('/uploads/tasks-files', 'custom');
-        }
+        
+        
 
 
         $slug = Str::slug($request->sub_title);
@@ -65,12 +62,16 @@ class TaskController extends Controller
             $slug = $slug . '-' . $random;
         }
 
+        $task_title = str_replace(' ', '-', $request->main_title);
+        $fileName =$task_title.'-'.$request->file('file')->getClientOriginalName();
+        $request->file('file')->move(public_path('uploads/tasks-files/'),$fileName);
+
             Task::create([
             'main_title' => $request->main_title,
             'sub_title' => $request->sub_title,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
-            'file' => $path,
+            'file' => $fileName,
             'description' => $request->description,
             'company_id' =>$company_id,
             'category_id' => Auth::user()->category->id,
@@ -126,9 +127,19 @@ class TaskController extends Controller
      */
     public function update(TaskRequest $request, Task $task)
     {
-        $path = null;
-        if($request->file('file')) {
-            $path = $request->file('file')->store('/uploads/tasks-files', 'custom');
+        $fileName = $task->file;
+        if($request->hasFile('file')) {
+            $path = public_path($task->file);
+            if($path) {
+                try {
+                    File::delete($path);
+                } catch(Exception $e) {
+                    Log::error($e->getMessage());
+                }
+            }
+            $task_title = str_replace(' ', '-', $task->main_title);
+            $fileName =$task_title.'-'.$request->file('file')->getClientOriginalName();
+            $request->file('file')->move(public_path('uploads/tasks-files/'),$fileName);
         }
 
         $slug = Str::slug($request->sub_title);
@@ -144,7 +155,7 @@ class TaskController extends Controller
             'sub_title' => $request->sub_title,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
-            'file' => $path,
+            'file' => $fileName,
             'description' => $request->description,
             'category_id' => Auth::user()->category->id,
             'trainer_id' => Auth::user()->id,

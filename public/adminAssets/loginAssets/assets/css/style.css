@@ -479,6 +479,7 @@ img {
   top: 15px;
   cursor: pointer;
 }
+
 .show-pass.active::before {
   color: #333;
   content: '\f070';
@@ -511,7 +512,10 @@ img {
 
   .bottom-bg {
     height: 50%;
-    bottom: -137px;
+  }
+
+  .signin_img {
+    display: none;
   }
 
 

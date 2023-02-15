@@ -124,7 +124,7 @@ class HomeController extends Controller
     public function profile_edit(Request $request , $id)
     {
 
-
+       
       if(Auth::guard('admin')->check() ){
         $admin =Admin::findOrFail($id);
         $path = $admin->image;
@@ -138,7 +138,7 @@ class HomeController extends Controller
             'name' => ['required',new TwoSyllables()] ,
             'email' => 'required|email',
             'phone' => 'required',
-            'image' => 'nullable'
+            'image' => 'nullable|max:4096'
         ]);
 
 

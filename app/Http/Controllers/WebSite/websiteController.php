@@ -12,9 +12,11 @@ use App\Rules\TwoSyllables;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AppliedTasks;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\Notifications\AppliedNotification;
+use Carbon\Carbon;
 
 class websiteController extends Controller
 {
@@ -36,8 +38,18 @@ class websiteController extends Controller
 
     public function task($slug )
     {
-        $task = Task::whereSlug($slug)->firstOrFail();
-        return view('student.task',compact('task'));
+        $task = Task::with('applied_tasks')->whereSlug($slug)->firstOrFail();
+        $applied_task = null;
+        foreach($task->applied_tasks as $applied) {
+            $applied_task = $applied->where('student_id', Auth::user()->id)->first();
+        }
+        $end_date = Carbon::parse($task->end_date);
+        $remaining_seconds = $end_date->diffInSeconds(now());
+        $remaining_minutes = floor($remaining_seconds / 60);
+        $remaining_hours = floor($remaining_minutes / 60);
+        $remaining_days = floor($remaining_hours / 24);
+        $remaining_hours = $remaining_hours % 24;
+        return view('student.task',compact('task', 'remaining_days' ,'remaining_hours', 'remaining_minutes', 'applied_task'));
 
     }
 
@@ -45,10 +57,19 @@ class websiteController extends Controller
     public function showCompany($slug , $program)
     {
         $company = Company::with('categories')->whereSlug($slug)->firstOrFail();
+        foreach($company->categories as $category) {
+            if($program == $category->name){
+                $ap= Auth::user()->applications->where('category_id', $category->id)
+                                ->where('student_id', Auth::user()->id)
+                                ->where('company_id', $company->id)
+                                ->first();
+            }
+        }
+        
 
         $applied =Application::get();
 
-        return view('student.company',compact('company','program' ,'applied'));
+        return view('student.company',compact('company','program' ,'applied', 'ap'));
     }
 
     public function company_apply(Request $request){
@@ -66,14 +87,30 @@ class websiteController extends Controller
         ]);
 
         $company = Company::where('id',$request->company_id)->first();
-
+       
+        foreach($company->categories as $cat) {
+            if($category->name == $cat->name){
+                $ap= Auth::user()->applications->where('category_id', $cat->id)
+                                ->where('student_id', Auth::user()->id)
+                                ->where('company_id', $company->id)
+                                ->first();
+            }
+        }
 
         $company->notify(new AppliedNotification(Auth::user()->name  ,
                                                 $request->reason, $category->name ,
                                                 Auth::user()->id ,$request->category_id ,
                                                 $request->company_id ));
 
-        return redirect()->back()->with('msg','Apllied is successfully')->with('type' , 'success');
+        $response = array();
+        $response['content'] = '<p>Your application under review, we will send a message when we approved it</p>
+        <form action="/company/cancel/'.$ap->id.'/request" id="cancel_form" method="POST">
+            '. csrf_field(). '
+            '. method_field('DELETE'). '
+            <button type="button" class="btn btn-brand" id="cancle_btn">Cancel Request</button>
+        </form>';
+
+        return response()->json($response);
     }
 
 
@@ -85,7 +122,7 @@ class websiteController extends Controller
 
 
         Application::destroy($id);
-        return redirect()->back()->with('msg', 'Course Canceld Successfully')->with('type','warning');
+        return $id;
 
     }
 
@@ -151,6 +188,28 @@ class websiteController extends Controller
 
         return json_encode(array("name"=>$student->name, "email"=>$student->email, "slug"=>$student->slug));
 
+    }
+
+    // Submit Task
+    public function submit_task(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|max:5120'
+        ]);
+
+        $student = Student::where('id', Auth::user()->id)->first();
+        
+
+        $file_name = $student->student_id .'-'. $request->file('file')->getClientOriginalName(); 
+        $request->file('file')->move(public_path('uploads/applied-tasks/'), $file_name);
+
+        $applied_task = AppliedTasks::create([
+            'task_id' => $request->task_id,
+            'student_id' => Auth::user()->id,
+            'file' => $file_name,
+        ]);
+
+        return response()->json($applied_task->toArray());
     }
 
 }

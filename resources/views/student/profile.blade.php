@@ -3,14 +3,12 @@
 @section('title', $student->name)
 @section('sub-title', 'Profile')
 @section('styles')
-   <!-- Sweat Alert -->
-   <link rel="stylesheet"
-   href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.min.css" />
+   
 <style>
 
 
 .colored-toast.swal2-icon-success {
-  background-color: #afafaf !important;
+  background-color: #E44D42 !important;
   color: #FFF;
 }
 
@@ -137,8 +135,8 @@
 
 
 @section('scripts')
-<!-- Sweat Alert -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js"></script>
+
+
 <script>
     let form = $(".update_form")[0];
     let btn = $(".profile-button");

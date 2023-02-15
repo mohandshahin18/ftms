@@ -51,4 +51,10 @@ class Trainer extends Authenticatable
     {
         return $this->belongsTo(Category::class);
     }
+
+    // with student
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
 }

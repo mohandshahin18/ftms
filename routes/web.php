@@ -84,7 +84,7 @@ Route::prefix('/')->middleware('auth:student','is_verify_email')->name('student.
     // company page
     Route::get('/company/{slug}/{program}',[websiteController::class,'showCompany'])->name('company');
     Route::get('/company/{slug}',[websiteController::class,'company_apply'])->name('company_apply');
-    Route::get('/company/cancel/{id}/request', [websiteController::class, 'company_cancel'])->name('company_cancel');
+    Route::delete('/company/cancel/{id}/request', [websiteController::class, 'company_cancel'])->name('company_cancel');
 
 
     //all company
@@ -102,6 +102,7 @@ Route::prefix('/')->middleware('auth:student','is_verify_email')->name('student.
 
     //task
     Route::get('/task/{slug}',[websiteController::class,'task'])->name('task');
+    Route::post('/task/submit', [websiteController::class, 'submit_task'])->name('submit.task');
 
 
 });
