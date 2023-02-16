@@ -124,7 +124,7 @@ class HomeController extends Controller
     public function profile_edit(Request $request , $id)
     {
 
-       
+
       if(Auth::guard('admin')->check() ){
         $admin =Admin::findOrFail($id);
         $path = $admin->image;
@@ -149,11 +149,7 @@ class HomeController extends Controller
             'image' => $path,
         ]);
 
-        // if(!$validator->fails()){
             return json_encode(array("email"=>$admin->email, "name"=>$admin->name));
-        // }else{
-            // return response()->json(['errors' => $validator->errors()], 400);
-        // }
 
       }elseif(Auth::guard('teacher')->check() ){
 

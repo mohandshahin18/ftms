@@ -118,9 +118,12 @@ class websiteController extends Controller
 
     public function company_cancel($id){
         $applied = Application::findOrFail($id);
+
         $other_notifications = DB::table('notifications')
-        ->where('notifiable_id',$applied->company_id)
-        ->get();
+                    ->where('type','App\Notifications\AppliedNotification')
+                    ->where('notifiable_type','App\Models\Company')
+                    // ->where('notifiable_id',$applied->company_id)
+                    ->get();
 
         foreach($other_notifications as $notification) {
             $data = json_decode($notification->data, true);
@@ -134,6 +137,7 @@ class websiteController extends Controller
                         ->delete();
                 }
         }
+
         Application::destroy($id);
         return $id;
     }
@@ -220,7 +224,7 @@ class websiteController extends Controller
             'student_id' => Auth::user()->id,
             'file' => $file_name,
         ]);
-        
+
 
         return response()->json($applied_task->toArray());
     }

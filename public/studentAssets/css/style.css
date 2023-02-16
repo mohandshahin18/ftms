@@ -131,13 +131,10 @@ section {
 
 
   .dropdown-menu{
-    top: 42px !important;
+    top: 35px !important;
   }
 
-.notify-msg-drop{
-    top: 54px !important;
 
-}
   .wp-content {
     margin-top: 60px;
     margin-left: 75px;
@@ -1035,14 +1032,19 @@ input.form-control {
   .dropdown-links {
     display: flex;
     flex-direction: column;
-    padding-top: 1.5rem;
   }
   .dropdown-links a {
     color: #000 !important;
     text-decoration: none;
-    padding-bottom: 1rem;
+    padding-bottom: 7px;
     transition: all 0.1s linear;
-  }
+    -webkit-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    -ms-transition: all 0.1s linear;
+    -o-transition: all 0.1s linear;
+    font-weight: 500 !important;
+
+}
   .dropdown-links a:hover {
     color: #E44D42 !important;
   }

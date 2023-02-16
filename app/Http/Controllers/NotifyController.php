@@ -88,6 +88,8 @@ class NotifyController extends Controller
 
 
             $other_notifications = DB::table('notifications')
+                            ->where('type','App\Notifications\AppliedNotification')
+                            ->where('notifiable_type','App\Models\Company')
                             ->where('notifiable_id', '!=', $request->company_id)
                             ->get();
 
@@ -105,6 +107,8 @@ class NotifyController extends Controller
             }
 
             $other_notifications_diff_cat = DB::table('notifications')
+                                            ->where('type','App\Notifications\AppliedNotification')
+                                            ->where('notifiable_type','App\Models\Company')
                                             ->where('notifiable_id', $request->company_id)
                                             ->get();
 
@@ -112,15 +116,17 @@ class NotifyController extends Controller
                 foreach($other_notifications_diff_cat as $other_notif) {
                     $data2 = json_decode($other_notif->data, true);
                     if($data2['category_id'] !== $request->category_id) {
-                        DB::table('notifications')->where('id', $other_notif->id)->delete();
+                            DB::table('notifications')
+                               ->where('id', $other_notif->id)
+                               ->delete();
                     }
                 }
             }
 
-            $student = Student::where('id',$request->student_id)->first();
+            $student = Student::where('id',$student_id)->first();
             $studentName =$student->name;
 
-            $category = Category::where('id',$request->category_id)->first();
+            $category = Category::where('id',$category_id)->first();
             $categoryName =$category->name;
 
             $student->notify(new AcceptApplyNotification(Auth::user()->name,Auth::user()->slug , $request->company_id ,$categoryName, $studentName ));

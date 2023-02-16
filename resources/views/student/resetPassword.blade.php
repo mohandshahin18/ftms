@@ -4,14 +4,21 @@
 @section('styles')
 <style>
 .bg{
-    background-size: cover;
-    height:100%;
-}
-.bg .overlay{
 
+    height: 100%;
+      background: url('{{ asset('adminAssets/dist/img/selection/bg.png') }}') no-repeat center center;
+      font-family: "Barlow", sans-serif;
+      background-size: cover !important;
+      backdrop-filter: blur(5px);
+
+}
+
+
+.bg .overlay{
+/*
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.188);
+    background-color: rgba(0, 0, 0, 0.188); */
 
     }
 </style>
@@ -20,8 +27,7 @@
 
 
 
-<div class="bg " style="background: url({{ asset('adminAssets/dist/img/profile/header.jpeg') }}) no-repeat center center;
-">
+<div class="bg " >
 <div class="overlay">
 <div class="container ">
     <div class="box-all   ">
@@ -29,7 +35,7 @@
             @csrf
         <div class="row justify-content-center ">
 
-            <div class="   col-md-5 mt-5">
+            <div class=" col-md-6 mt-5">
                 <div class="p-3 bg-white rounded shadow  mb-5">
                     @if (session('msg'))
                     <div class="alert alert-{{ session('type') }}">
@@ -38,7 +44,7 @@
                 @endif
 
 
-                    <div class="row mt-3">
+                    <div class="row mt-3 px-2">
                         <div class="col-md-12 mb-3">
                             <label class="labels">Current Password</label>
                             <input type="password" name="current_password" class="form-control @error('current_password') is-invalid @enderror" placeholder="Password" value="{{ old('current_password') }}">
@@ -73,7 +79,7 @@
                     </div>
 
 
-                    <div class="mt-3 ">
+                    <div class="mt-3 text-end">
                         <button class="btn btn-primary profile-button"  type="submit"> Save Edit </button>
                     </div>
                 </div>

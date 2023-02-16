@@ -66,6 +66,7 @@ class NewTaskNotification extends Notification
             'from' => 'task',
             'trainer_id' => $this->trainer_id ,
             'msg' => 'There is a new task',
+            'slug'=> $this->slug ,
             'url' => url('/task/'.$this->slug),
         ];
     }

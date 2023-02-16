@@ -135,7 +135,7 @@
 
 
                 </div>
-                <div class="col-lg-12" id="form_wrapper">
+                <div class="col-lg-12 text-end" id="form_wrapper">
                     @if (!now()->gt($end_date))
                         @if ($applied_task)
                             <form action="{{ route('student.edit.applied.task') }}" id="cancel_id" method="POST">

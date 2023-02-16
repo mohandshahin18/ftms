@@ -113,7 +113,7 @@
                     </a>
 
 
-                    <div class="right-links float-right mr-4 d-flex justify-content-center align-items-center" style="gap:10px ">
+                    <div class="right-links float-right mr-4">
                         {{-- <a href="{{ route('student.home') }}" class="home"><i class="fa fa-home mr-3"></i></a> --}}
 
 
@@ -125,23 +125,23 @@
                                 aria-expanded="false" href="#">
                                 <span class="badge badge-danger navbar-badge"></span>
 
-                                <span>{{ $auth->unreadNotifications->count()  }}</span><i class="fa fa-bell"></i>
+                                <span>{{ $auth->unreadNotifications->count()  }}</span><i class="far fa-bell"></i>
                                     </a>
                                 @else
 
                                 <a class="dropdown-toggle" id="notifications" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false" href="#">
-                                <i class="fa fa-bell"></i>
+                                <i class="far fa-bell"></i>
 
                                     </a>
                                 @endif
 
-                            <div class="dropdown-menu dropdown-menu-right rounded-0 pt-0 notify-msg-drop"
+                            <div class="dropdown-menu dropdown-menu-right rounded-0 pt-0"
                                 aria-labelledby="notifications">
                                 <div class="list-group">
                                     <div class="lg">
 
-                                        @foreach ($auth->notifications as $notify)
+                                        @forelse ($auth->notifications as $notify)
                                         @php
                                         if ($notify->data['from'] == 'apply') {
                                             $company = Company::where('id',$notify->data['company_id'])->first();
@@ -164,6 +164,7 @@
                                                     $notifySrc = asset($img);
                                                 }
                                             }
+
                                         @endphp
 
                                         <div class="media">
@@ -183,7 +184,9 @@
 
                                             </a>
                                         </div>
-                                        @endforeach
+                                        @empty
+                                        <p class=" mt-3 mb-5 text-center">There are no Notifications yet</p>
+                                        @endforelse
 
 
 
@@ -198,8 +201,8 @@
 
                         <div class="d-inline dropdown mr-3">
                             <a class="dropdown-toggle" id="messages" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false" href="#"><i class="fa fa-envelope"></i></a>
-                            <div class="dropdown-menu dropdown-menu-right rounded-0 pt-0 notify-msg-drop" aria-labelledby="messages">
+                                aria-expanded="false" href="#"><i class="far fa-envelope"></i></a>
+                            <div class="dropdown-menu dropdown-menu-right rounded-0 pt-0" aria-labelledby="messages">
                                 <!-- <a class="dropdown-item">There are no new messages</a> -->
                                 <div class="list-group">
                                     <div class="lg">
@@ -234,13 +237,13 @@
                                 aria-expanded="false" href="#">
                                 <img src="{{ $src }}">
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right rounded-0 profile" style="width: 240px;"
+                            <div class="dropdown-menu dropdown-menu-right rounded-0 profile" style="width: 220px;"
                                 aria-labelledby="messages">
                                 <img src="{{ $src }}">
-                                <p class=" text-center my-2" style="font-size: 17px;">{{ auth()->user()->name }}</p>
+                                <p class=" text-center mb-2" style="font-size: 17px;">{{ auth()->user()->name }}</p>
 
                                 <div class="dropdown-divider mb-1"></div>
-                                <div class="dropdown-links">
+                                <div class="dropdown-links pl-3">
                                     <a href="{{ route('student.profile', Auth::user()->slug) }}">Profile</a>
                                     <a href="{{ route('edit-password', 'student') }}"> Edit password</a>
                                     <a href="{{ route('logout', 'student') }}"> Logout</a>
