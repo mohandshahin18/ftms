@@ -62,9 +62,12 @@ class TaskController extends Controller
             $slug = $slug . '-' . $random;
         }
 
-        $task_title = str_replace(' ', '-', $request->main_title);
-        $fileName =$task_title.'-'.$request->file('file')->getClientOriginalName();
-        $request->file('file')->move(public_path('uploads/tasks-files/'),$fileName);
+        $fileName = null;
+        if($request->hasFile('file')) {
+            $task_title = str_replace(' ', '-', $request->main_title);
+            $fileName =$task_title.'-'.$request->file('file')->getClientOriginalName();
+            $request->file('file')->move(public_path('uploads/tasks-files/'),$fileName);
+        }
 
             Task::create([
             'main_title' => $request->main_title,

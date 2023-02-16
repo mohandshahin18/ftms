@@ -77,7 +77,8 @@
 
 </head>
 
-<body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="70">
+<body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="70" >
+    {{-- oncontextmenu="return false;" --}}
 
     @php
     use App\Models\Company;
@@ -113,7 +114,7 @@
                     </a>
 
 
-                    <div class="right-links float-right mr-4 d-flex justify-content-center align-items-center" style="gap:10px ">
+                    <div class="right-links float-right mr-4">
                         {{-- <a href="{{ route('student.home') }}" class="home"><i class="fa fa-home mr-3"></i></a> --}}
 
 
@@ -135,7 +136,7 @@
 
                                     </a>
                                 @endif
-
+                                    {{-- notification --}}
                             <div class="dropdown-menu dropdown-menu-right rounded-0 pt-0 notify-msg-drop"
                                 aria-labelledby="notifications">
                                 <div class="list-group">
@@ -169,16 +170,24 @@
                                         <div class="media">
                                             <a href="{{ route('student.mark_read' ,$notify->id) }}" class="list-group-item list-group-item-action {{ $notify->read_at ? '' : 'active' }}" style="font-weight: unset">
 
-                                                <img src="{{ $notifySrc }}">
-
-                                                <div class="media-body">
-                                                    <h3 class="dropdown-item-title">{{ $notify->data['name'] }}</h3>
+                                                <div class="main-info">
+                                                    <div class="d-flex align-items-center" style="gap:
+                                                    8px !important;">
+                                                        <img src="{{ $notifySrc }}">
+                                                        <h3 class="dropdown-item-title">{{ $notify->data['name'] }}</h3>
+                                                    </div>
+                                                    <div>
+                                                        <p class="d-flex justify-content-start align-items-center float-right" style="gap:4px; font-size: 12px; margin:0 ">
+                                                            <i class="far fa-clock " style="line-height: 1; font-size: 12px; color: #464a4c !important"></i>
+                                                            {{ $notify->created_at->diffForHumans() }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="media-body mt-2">
+                                                    
                                                     <p class="text-sm">{{ $notify->data['msg'] }}</p>
 
-                                                    <p class="d-flex justify-content-start align-items-center" style="gap:4px ">
-                                                        <i class="far fa-clock " style="line-height: 1; font-size: 12px; color: #464a4c !important"></i>
-                                                        {{ $notify->created_at->diffForHumans() }}
-                                                    </p>
+                                                    
                                                 </div>
 
                                             </a>
@@ -207,15 +216,24 @@
                                         <div class="media">
 
                                             <a href="#" class="list-group-item list-group-item-action active">
-                                                <img
-                                                    src="http://1.gravatar.com/avatar/47db31bd2e0b161008607d84c74305b5?s=96&d=mm&r=g">
+                                                <div class="main-info">
+                                                    <div class="d-flex align-items-center" style="gap: 8px">
+                                                        <img
+                                                        src="http://1.gravatar.com/avatar/47db31bd2e0b161008607d84c74305b5?s=96&d=mm&r=g">
+                                                        <h3 class="dropdown-item-title">Shift Company</h3>
+                                                    </div>
+                                                    <div>
+                                                        <p class="d-flex justify-content-start align-items-center float-right" style="gap:4px; font-size: 12px; margin:0 ">
+                                                            <i class="far fa-clock " style="line-height: 1; font-size: 12px; color: #464a4c !important"></i>
+                                                            4 hours ago
+                                                        </p>
+                                                    </div>
+                                                </div>
 
-                                                <div class="media-body">
-                                                    <h3 class="dropdown-item-title">Shift Company</h3>
+                                                <div class="media-body mt-2">
+                                                    
                                                     <p class="text-sm">Call me whenever you can...</p>
-                                                    <p>
-                                                        4 hours ago
-                                                    </p>
+                                                    
                                                 </div>
 
                                             </a>
@@ -325,7 +343,26 @@
     <script src="{{ asset('studentAssets/js/bootstrap.min.js') }}"></script>
     <!-- Sweat Alert -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js"></script>
-
+    {{-- cancel inspecting --}}
+    {{-- <script>
+        document.onkeydown = function(e) {
+            if(event.keyCode == 123) {
+                return false;
+            }
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)){
+                return false;
+            }
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)){
+                return false;
+            }
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)){
+                return false;
+            }
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)){
+                return false;
+            }
+        }
+    </script> --}}
     @yield('scripts')
 </body>
 
