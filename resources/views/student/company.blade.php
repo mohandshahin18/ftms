@@ -8,10 +8,6 @@
             width: 100%;
         }
 
-        .colored-toast.swal2-icon-success {
-            background-color: #41ae53 !important;
-        }
-
         .block {
             display: none;
         }
@@ -62,14 +58,15 @@
                 </div>
             </div>
             <div class="col-md-8" id="main_content">
-                
+
                     @if ($ap)
                         <p>Your application under review, we will send a message when we approved it</p>
-                        <form action="{{ route('student.company_cancel', $ap->id) }}" id="cancel_form" method="POST">
-                            @csrf
-                            @method('delete')
-                            <button type="button" class="btn btn-brand" id="cancle_btn">Cancel Request</button>
-                        </form>
+                        {{-- <form action="{{ route('student.company_cancel', $ap->id) }}" id="cancel_form" method="POST"> --}}
+                            {{-- @csrf --}}
+                            {{-- @method('delete') --}}
+
+                            <a href="{{ route('student.company_cancel', $ap->id) }}" class="btn btn-brand" id="cancle_btn">Cancel Request</a>
+                        {{-- </form> --}}
                     @else
                         <form action="{{ route('student.company_apply', $company->id) }}" class="apply_form">
                             @csrf
@@ -134,7 +131,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js"></script>
 
     <script>
-        let applay_form = $(".apply_form");
+        let applay_form = $("form.apply_form");
         let wrapper = $("#main_content");
 
         applay_form.onsubmit = (e) => {
@@ -151,58 +148,11 @@
                     wrapper.empty();
                     wrapper.append(data.content);
 
-                    // sending another ajax for cancel the request
-                    $(wrapper).on("click", '#cancle_btn', function() {
-                        let cancel_form = $("#cancel_form");
-                        let url = cancel_form.attr('action');
-                        cancel_form.onsubmit = (e)=> {
-                            e.preventDefault();
-                        }
-                        Swal.fire({
-                            title: 'Are you sure?',
-                            text: "Your Request to join this course will be deleted",
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#d33',
-                            cancelButtonColor: '#000',
-                            confirmButtonText: 'Yes, cancel it!'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                // send ajax request and delete post
-                                $.ajax({
-                                    type: 'delete',
-                                    data: cancel_form.serialize(),
-                                    url: url,
-                                    success: function(res) {
-                                        wrapper.empty();
-                                        wrapper.append(applay_form);
-                                    }
 
-                                })
-
-                                const Toast = Swal.mixin({
-                                    toast: true,
-                                    position: 'top',
-                                    showConfirmButton: false,
-                                    timer: 2000,
-                                    timerProgressBar: false,
-                                    didOpen: (toast) => {
-                                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                    }
-                                })
-
-                                Toast.fire({
-                                    icon: 'warning',
-                                    title: 'Request Canceld Successfully'
-                                })
-                            }
-                        })
-                    })
                     const Toast = Swal.mixin({
                         toast: true,
                         position: 'top',
-                        iconColor: 'white',
+                        iconColor: '#90da98',
                         customClass: {
                             popup: 'colored-toast'
                         },
@@ -214,20 +164,75 @@
                             toast.addEventListener('mouseleave', Swal.resumeTimer)
                         }
                         })
-
                         Toast.fire({
                         icon: 'success',
-                        title: '<span style="color: #fff !important">Applied to Course successfully</span>',
+                        title: '<p style="color: #000; margin:0">Your edit has been saved</p>'
                         })
-                }
+                },
+                error: function(data) {
+                    $('.invalid-feedback').remove();
+                    $.each(data.responseJSON.errors, function (field, error) {
+                        $("textarea").addClass('is-invalid').after('<small class="invalid-feedback">' +error+ '</small>');
+                    });
+                } ,
             })
         })
 
-        
+        // sending another ajax for cancel the request
+        // $(wrapper).on("click", '#cancle_btn', function() {
+        //     // console.log('test');
+        //     let cancel_form = $("#cancel_form");
+        //     let url = cancel_form.attr('action');
+        //     cancel_form.onsubmit = (e)=> {
+        //         e.preventDefault();
+        //     }
+        //     Swal.fire({
+        //         title: 'Are you sure?',
+        //         text: "Your Request to join this course will be deleted",
+        //         icon: 'warning',
+        //         showCancelButton: true,
+        //         confirmButtonColor: '#d33',
+        //         cancelButtonColor: '#000',
+        //         confirmButtonText: 'Yes, cancel it!'
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             $.ajax({
+        //                 type: 'delete',
+        //                 data: cancel_form.serialize(),
+        //                 url: url,
+        //                 success: function(res) {
+        //                     console.log(applay_form);
+        //                     // wrapper.empty();
+        //                     wrapper.append(applay_form);
+        //                 }
 
-        
+        //             })
 
-        
+        //             const Toast = Swal.mixin({
+        //                 toast: true,
+        //                 position: 'top',
+        //                 showConfirmButton: false,
+        //                 timer: 2000,
+        //                 timerProgressBar: false,
+        //                 didOpen: (toast) => {
+        //                     toast.addEventListener('mouseenter', Swal.stopTimer)
+        //                     toast.addEventListener('mouseleave', Swal.resumeTimer)
+        //                 }
+        //             })
+
+        //             Toast.fire({
+        //                 icon: 'warning',
+        //                 title: 'Request Canceld Successfully'
+        //             })
+        //         }
+        //     })
+        // })
+
+
+
+
+
+
     </script>
 
 

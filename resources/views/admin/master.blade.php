@@ -675,6 +675,12 @@ a.dropdown-item.dropdown-footer{
     <script src="{{ asset('adminAssets/dist/js/custom.js') }}"></script>
     <!-- Sweat Alert -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js"></script>
+    {{-- <script src="{{ asset('js/app.js') }}"></script> --}}
+    <script>
+        let companyId = '{{ Auth::id() }}';
+    </script>
+    @vite(['resources/js/app.js'])
+
     <!-- Loader -->
     {{-- <script>
         window.onload = ()=> {

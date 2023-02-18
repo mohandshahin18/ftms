@@ -7,11 +7,6 @@
 <style>
 
 
-.colored-toast.swal2-icon-success {
-  background-color: #59c64a !important;
-  color: #FFF;
-}
-
 </style>
 @stop
 @section('content')
@@ -116,7 +111,7 @@
 
 
                     <div class="mt-2 wrapper-btn">
-                        <button class="btn btn-primary profile-button" type="button"> Save Edit</button>
+                        <button class="btn btn-brand profile-button" type="button"> Save Edit</button>
                     </div>
                 </div>
             </div>
@@ -176,7 +171,7 @@
 
                     toast: true,
                     position: 'top',
-                    iconColor: 'white',
+                    iconColor: '#90da98',
                     customClass: {
                         popup: 'colored-toast'
                     },
@@ -191,7 +186,7 @@
 
                     Toast.fire({
                     icon: 'success',
-                    title: "<p style='color:#fff; margin: 0 !important ; z-index:999'>" + 'Profile  updated successfully' + "</p>",
+                    title: "<p style='color:#000; margin: 0 !important ; z-index:999'>" + 'Profile  updated successfully' + "</p>",
                     })
 
             } ,

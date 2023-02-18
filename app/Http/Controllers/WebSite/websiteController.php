@@ -17,7 +17,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\Notifications\AppliedNotification;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class websiteController extends Controller
 {
@@ -30,9 +32,7 @@ class websiteController extends Controller
         $company = Company::get();
         $students = Student::get();
         $trainers = Trainer::get();
-        $tasks = Task::where('category_id', Auth::user()->category_id)->where('company_id', Auth::user()->company_id)->get();
-
-
+        $tasks = Task::with('applied_tasks')->where('category_id', Auth::user()->category_id)->where('company_id', Auth::user()->company_id)->get();
 
         return view('student.index' , compact('companies','company','students' ,'trainers','tasks') );
     }
@@ -105,11 +105,9 @@ class websiteController extends Controller
 
         $response = array();
         $response['content'] = '<p>Your application under review, we will send a message when we approved it</p>
-        <form action="/company/cancel/'.$ap->id.'/request" id="cancel_form" method="POST">
-            '. csrf_field(). '
-            '. method_field('DELETE'). '
-            <button type="button" class="btn btn-brand" id="cancle_btn">Cancel Request</button>
-        </form>';
+
+        <a href="/company/cancel/'.$ap->id.'/request" class="btn btn-brand" id="cancle_btn">Cancel Request</a>
+        ';
 
         return response()->json($response);
     }
@@ -119,27 +117,30 @@ class websiteController extends Controller
     public function company_cancel($id){
         $applied = Application::findOrFail($id);
 
-        $other_notifications = DB::table('notifications')
+        $notifications = DB::table('notifications')
                     ->where('type','App\Notifications\AppliedNotification')
                     ->where('notifiable_type','App\Models\Company')
-                    // ->where('notifiable_id',$applied->company_id)
+                    ->where('notifiable_id',$applied->company_id)
                     ->get();
 
-        foreach($other_notifications as $notification) {
-            $data = json_decode($notification->data, true);
+        if($notifications) {
+            foreach($notifications as $notification) {
 
-            if(($data['student_id'] == Auth::user()->id)&&
-                ($data['category_id'] == $applied->category_id) &&
-                ($data['company_id'] == $applied->company_id))
-                {
-                    DB::table('notifications')
-                        ->where('id', $notification->id)
-                        ->delete();
-                }
+                $data = json_decode($notification->data, true);
+                if(($data['student_id'] == Auth::user()->id)&&
+                    ($data['category_id'] == $applied->category_id) &&
+                    ($data['company_id'] == $applied->company_id))
+                    {
+                        DB::table('notifications')
+                            ->where('id', $notification->id)
+                            ->delete();
+                    }
+            }
         }
 
+
         Application::destroy($id);
-        return $id;
+        return redirect()->back();
     }
 
 
@@ -216,7 +217,8 @@ class websiteController extends Controller
         $student = Student::where('id', Auth::user()->id)->first();
 
 
-        $file_name = $student->student_id .'-'. $request->file('file')->getClientOriginalName();
+        $file_name = $request->file('file')->getClientOriginalName();
+        $file_name = str_replace(' ', '-', $file_name);
         $request->file('file')->move(public_path('uploads/applied-tasks/'), $file_name);
 
         $applied_task = AppliedTasks::create([
@@ -227,6 +229,33 @@ class websiteController extends Controller
 
 
         return response()->json($applied_task->toArray());
+    }
+
+    // Edit task
+    public function edit_applied_task(Request $request, $id)
+    {
+        $applied_task = AppliedTasks::findOrFail($id);
+        // $file = $applied_task->file;
+        $request->validate([
+            'file' => 'required|file|max:5120'
+        ]);
+        if($request->file('file')) {
+
+            File::delete(public_path('uploads/applied-tasks/' . $applied_task->file));
+
+            $file = $request->file('file')->getClientOriginalName();
+            $file = str_replace(' ', '-', $file);
+            $request->file('file')->move(public_path('uploads/applied-tasks/'), $file);
+
+        }
+
+        $applied_task->update([
+            'file' => $file,
+        ]);
+
+        return response()->json($applied_task->toArray());
+
+
     }
 
 }

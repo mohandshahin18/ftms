@@ -20,8 +20,13 @@
     height: 100%;
     background-color: rgba(0, 0, 0, 0.188); */
 
-    }
-</style>
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0);
+            -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(4px);
+        }
+    </style>
 @stop
 @section('content')
 
@@ -85,15 +90,7 @@
                 </div>
             </div>
         </div>
-    </form>
     </div>
-
-
-
-
-
-
-</div>
-</div>
 </div>
 @stop
+

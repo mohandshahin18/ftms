@@ -16,7 +16,6 @@
       font-family: "Barlow", sans-serif;
       background-size: cover !important;
       backdrop-filter: blur(5px); 
-
       padding-bottom: 40px;
     }
 

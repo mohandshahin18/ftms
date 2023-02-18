@@ -1,7 +1,7 @@
 import './bootstrap';
 
-import Alpine from 'alpinejs';
+Echo.private('App.Models.Company.' + companyId)
+    .notification((notification) => {
+        console.log(notification);
+     });
 
-window.Alpine = Alpine;
-
-Alpine.start();
