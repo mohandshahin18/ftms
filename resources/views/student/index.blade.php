@@ -456,17 +456,17 @@
                     <div class="counter">
                         <h1 class="display-4" data-goal="{{ $students->count() }}">0 </h1>
                     </div>
-                    <p class="mb-0">Student Number</p>
+                    <p class="mb-0">Students Number</p>
                 </div>
                 <div class="col-lg-2 col-sm-6">
                     <div class="counter">
                         <h1 class="display-4" data-goal="{{ $company->count() }}">0</h1>
                     </div>
-                    <p class="mb-0">Company Number</p>
+                    <p class="mb-0">Companies Number</p>
                 </div>
                 <div class="col-lg-2 col-sm-6">
                     <h1 class="display-4" data-goal="{{ $trainers->count() }}">0</h1>
-                    <p class="mb-0">trainer Number</p>
+                    <p class="mb-0">trainers Number</p>
                 </div>
 
             </div>
@@ -505,7 +505,11 @@
                                                     </div>
                                                     <div class="time">
                                                         <div class="date">
-                                                            {{ Carbon::parse($task->end_date)->locale(config('app.locale'))->format('j F') }}
+                                                          @if ($task->applied_tasks->count() > 0)
+                                                              <p class="done_btn">Done <i class="fas fa-check text-success"></i></p>
+                                                          @else
+                                                            Due {{ Carbon::parse($task->end_date)->locale(config('app.locale'))->format('j F') }}
+                                                          @endif
                                                         </div>
                                                         <div> {{ $task->created_at->diffForHumans() }}</div>
                                                     </div>

@@ -2,6 +2,33 @@
 
 @section('title' , 'Not Found')
 
+@section('styles')
+  <style>
+    .home_route {
+      text-decoration: none;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      margin-top: 15px;
+      text-shadow: 0 0 1rem #fefefe;
+      animation: text 4s forwards infinite ease-in-out;
+      transition: all 0.3s ease-in-out;
+    }
+
+    @keyframes text {
+      0% {
+        text-shadow: 0 0 1rem #fefefe00;
+      }
+      50% {
+        text-shadow: 0 0 1rem #fff;
+      }
+      100% {
+        text-shadow: 0 0 1rem #fefefe00;
+      }
+    }
+  </style>
+@endsection
+
 @section('content')
 
 <div class="background">
@@ -12,6 +39,7 @@
 		<div class="inner-content">
 			<h1 class="heading">404</h1>
 			<p class="subheading">Not Found</p>
+      <a class="home_route" href="{{ route('student.home') }}">Return home</a>
 		</div>
 	</div>
 	<div class="right-section">

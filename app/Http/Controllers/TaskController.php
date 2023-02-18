@@ -62,19 +62,38 @@ class TaskController extends Controller
             $slug = $slug . '-' . $random;
         }
 
-        $fileName = null;
+        $file_name = null;
         if($request->hasFile('file')) {
-            $task_title = str_replace(' ', '-', $request->main_title);
-            $fileName =$task_title.'-'.$request->file('file')->getClientOriginalName();
-            $request->file('file')->move(public_path('uploads/tasks-files/'),$fileName);
+            $file = $request->file('file')->getClientMimeType();
+            $allowed_types = ['application/pdf', 'application/zip', 'application/octet-stream', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'];
+
+            try{
+                if(in_array($file, $allowed_types)) {
+
+                    $task_title = str_replace(' ', '-', $request->main_title);
+                    $file_name = $task_title.'-'.$request->file('file')->getClientOriginalName();
+                    $request->file('file')->move(public_path('uploads/tasks-files/'),     $file_name);
+                } else {
+                    return response()->json(['errors' => ['file' => ['File type is invalid']]], 422);
+                }
+            } catch(Exception $e) {
+                Log::error($e->getMessage());
+            }
         }
+
+        // $fileName = null;
+        // if($request->hasFile('file')) {
+        //     $task_title = str_replace(' ', '-', $request->main_title);
+        //     $fileName =$task_title.'-'.$request->file('file')->getClientOriginalName();
+        //     $request->file('file')->move(public_path('uploads/tasks-files/'),$fileName);
+        // }
 
             Task::create([
             'main_title' => $request->main_title,
             'sub_title' => $request->sub_title,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
-            'file' => $fileName,
+            'file' => $file_name,
             'description' => $request->description,
             'company_id' =>$company_id,
             'category_id' => Auth::user()->category->id,

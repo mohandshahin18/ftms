@@ -26,6 +26,13 @@
             position: absolute;
             bottom: 0;
         }
+
+        .task_img {
+            display: inline-block;
+            filter: invert(56%) sepia(52%) saturate(282%) hue-rotate(169deg) brightness(83%) contrast(100%);
+            width: 44px;
+            margin-right: 8px;
+        }
     </style>
 @stop
 
@@ -34,7 +41,7 @@
 
     <section id="reviews">
         <div class="container">
-            <h1 class="text-white">{{ $task->main_title }} - {{ $task->sub_title }}</h1>
+            <h1 class="text-white"><img class="task_img" src="{{ asset('studentAssets/img/task.svg') }}" alt="" >{{ $task->main_title }} - {{ $task->sub_title }}</h1>
         </div>
     </section>
 
@@ -53,7 +60,7 @@
 
                         </div>
                         {{-- <a href="{{ asset('files/example.pdf') }}" download>Download Example PDF</a> --}}
-
+                        
                         <a target="_blank" href="{{ asset('uploads/tasks-files/' . $task->file) }}"
                             download>{{ $task->file }}</a>
                     </div>
@@ -145,8 +152,8 @@
                                     <span class="fake-btn">Choose files</span>
                                     <span class="file-msg">or drag and drop files here</span>
                                     <input class="file-input" name="file" id="file_input" type="file" required>
-                                    <span class="validaition">Supported file types: doc, docs, pdf, pptx | 
-                                        Max. file size: 5 MB</span>
+                                    <span class="validaition">Supported file types: doc, docs, pdf, pptx, zip, rar <b>|</b> 
+                                        Max file size: 5 MB</span>
                                     <span class="text-danger">{{ $errors->first('file') }}</span>
                                 </div>
 
@@ -169,8 +176,8 @@
                                     <span class="fake-btn">Choose files</span>
                                     <span class="file-msg">or drag and drop files here</span>
                                     <input class="file-input" name="file" id="file_input" type="file" required>
-                                    <span class="validaition">Supported file types: doc, docs, pdf, pptx | 
-                                        Max. file size: 5 MB</span>
+                                    <span class="validaition">Supported file types: doc, docs, pdf, pptx, zip, rar <b>|</b> 
+                                        Max file size: 5 MB</span>
                                     <span class="text-danger">{{ $errors->first('file') }}</span>
                                 </div>
 
@@ -293,9 +300,9 @@
                                 title: '<p style="color: #000; margin:0">Your file submitted successfully</p>'
                             })
                         },
-                        error: function(data) {
+                        error: function(response) {
                             $('.invalid-feedback').remove();
-                            $.each(data.responseJSON.errors, function(field, error) {
+                            $.each(response.responseJSON.errors, function(field, error) {
                                 $("input[name='" + field + "']").addClass('is-invalid')
                                     .after('<small class="invalid-feedback">' + error +
                                         '</small>');

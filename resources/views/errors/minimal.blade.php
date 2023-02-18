@@ -183,7 +183,7 @@
       }
     }
     </style>
-
+@yield('styles')
 </head>
 <body>
 @yield('content')

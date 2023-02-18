@@ -12,6 +12,7 @@ use App\Rules\TwoSyllables;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\FileRequest;
 use App\Models\AppliedTasks;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -28,7 +29,7 @@ class websiteController extends Controller
 
     public function index()
     {
-        $companies = Company::with('categories')->where('status' , 1)->limit(3)->latest('id')->get();
+        $companies = Company::with('categories')->where('status', 1)->limit(3)->latest('id')->get();
         $company = Company::get();
         $students = Student::get();
         $trainers = Trainer::get();
@@ -208,35 +209,49 @@ class websiteController extends Controller
     // Submit Task
     public function submit_task(Request $request)
     {
+
         $request->validate([
-            'file' => 'required|file|max:5120'
+            'file' => 'required|max:5120 '
+        ], [
+            'file.max' => 'File size have to be 5MB or less',
         ]);
+        $file = $request->file('file')->getClientMimeType();
+        $allowed_types = ['application/pdf', 'application/zip', 'application/octet-stream', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'];
+        
+       
+        if(in_array($file, $allowed_types)) {
+                $file = $request->file('file');
+                if($file->isValid()) {
+                    $file_name = $request->file('file')->getClientOriginalName();
+                    $file_name = str_replace(' ', '-', $file_name);
+                    $request->file('file')->move(public_path('uploads/applied-tasks/'),     $file_name);
 
-        $student = Student::where('id', Auth::user()->id)->first();
-
-
-        $file_name = $request->file('file')->getClientOriginalName();
-        $file_name = str_replace(' ', '-', $file_name);
-        $request->file('file')->move(public_path('uploads/applied-tasks/'), $file_name);
-
-        $applied_task = AppliedTasks::create([
-            'task_id' => $request->task_id,
-            'student_id' => Auth::user()->id,
-            'file' => $file_name,
-        ]);
+                    $applied_task = AppliedTasks::create([
+                        'task_id' => $request->task_id,
+                        'student_id' => Auth::user()->id,
+                        'file' => $file_name,
+                    ]);
+                    
+            
+                    return response()->json($applied_task->toArray());
+                } else {
+                    return response()->json(['errors' => ['file' => ['File type is invalid']]], 422);
+                }
+            } else {
+                return response()->json(['errors' => ['file' => ['File type is invalid']]], 422);
+            }
         
 
-        return response()->json($applied_task->toArray());
+        
+
+        
     }
 
     // Edit task
     public function edit_applied_task(Request $request, $id)
     {
         $applied_task = AppliedTasks::findOrFail($id);
-        // $file = $applied_task->file;
-        $request->validate([
-            'file' => 'required|file|max:5120'
-        ]);
+       
         if($request->file('file')) {
             
             File::delete(public_path('uploads/applied-tasks/' . $applied_task->file));

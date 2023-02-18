@@ -381,7 +381,7 @@ a.dropdown-item.dropdown-footer{
 
                         <li class="nav-item @yield('categories-menu-open')">
                             <a href="#" class="nav-link @yield('categories-active')">
-                                <i class="nav-icon fas fa-star"></i>
+                                <i class="nav-icon fas fa-book"></i>
                                 <p>
                                     Programs
                                     <i class="right fas fa-angle-left"></i>
