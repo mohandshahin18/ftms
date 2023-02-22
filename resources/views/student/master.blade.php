@@ -10,12 +10,16 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('studentAssets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"/>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
     <!-- Sweat Alert -->
-   <link rel="stylesheet"
-   href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.min.css" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
 
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
 
@@ -23,21 +27,34 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('adminAssets/dist/img/selection/favicon.ico') }}">
 
     <style>
-        a{
+        #toast-container>.toast-success {
+            background-image: unset !important;
+        }
+
+        #toast-container>div {
+            padding: 15px !important;
+            background: #516171 !important;
+        }
+
+        a {
             font-weight: unset !important;
         }
-        .list-group-item.active{
+
+        .list-group-item.active {
             color: #000 !important;
-            background: #ededed  !important;
+            background: #ededed !important;
             border: 1px solid #e2e0e0
         }
-        a.list-group-item.list-group-item-action.active .dropdown-item-title{
+
+        a.list-group-item.list-group-item-action.active .dropdown-item-title {
             color: #000
         }
-        .dropdown-menu.dropdown-menu-right{
+
+        .dropdown-menu.dropdown-menu-right {
             padding-bottom: 0
         }
-        .all-notify{
+
+        .all-notify {
             text-align: center;
             background: #dedede;
             position: absolute;
@@ -48,23 +65,27 @@
             z-index: 999;
             transition: all .2s ease-in-out;
         }
-        .all-notify p{
-            margin: 3px ;
+
+        .all-notify p {
+            margin: 3px;
             font-size: 14px;
         }
-        .all-notify p a{
-           display: inline-block;
-           width: 100%
-        }
-        .all-notify p a:hover{
-           text-decoration: none
+
+        .all-notify p a {
+            display: inline-block;
+            width: 100%
         }
 
-        .all-notify:hover{
+        .all-notify p a:hover {
+            text-decoration: none
+        }
+
+        .all-notify:hover {
             background: #d3d3d3;
 
         }
-         .media:last-child{
+
+        .media:last-child {
             /* background: #000; */
             margin-bottom: 35px;
         }
@@ -77,14 +98,21 @@
 
 </head>
 
-<body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="70" >
+<body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="70">
     {{-- oncontextmenu="return false;" --}}
 
     @php
+<<<<<<< HEAD
     use App\Models\Company;
     use App\Models\Trainer;
     use App\Models\Category;
     $auth =Auth::user();
+=======
+        use App\Models\Company;
+        use App\Models\Trainer;
+        use App\Models\Category;
+        $auth = Auth::user();
+>>>>>>> f305488a507c4922415f503b533e3ca92cf0e3b8
 
         $data = json_decode(File::get(storage_path('app/settings.json')), true);
     @endphp
@@ -122,28 +150,22 @@
 
                         <div class="d-inline dropdown ml-3 mr-3">
 
-                                @if($auth->unreadNotifications->count() > 0)
-                                <a class="dropdown-toggle" id="notifications" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false" href="#">
-                                <span class="badge badge-danger navbar-badge"></span>
-
-                                <span>{{ $auth->unreadNotifications->count()  }}</span><i class="far fa-bell"></i>
-                                    </a>
-                                @else
-
-                                <a class="dropdown-toggle" id="notifications" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false" href="#">
-                                <i class="far fa-bell"></i>
-
-                                    </a>
+                            <a class="dropdown-toggle notify" id="notifications" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false" href="#">
+                                <span class="badge badge-danger navbar-badge"></span><i class="far fa-bell"></i>
+                                @if ($auth->unreadNotifications->count() > 0)
+                                    <span class="notify-number">{{ $auth->unreadNotifications->count() }}</span>
                                 @endif
+                            </a>
+
 
                             <div class="dropdown-menu dropdown-menu-right rounded-0 pt-0"
                                 aria-labelledby="notifications">
                                 <div class="list-group">
-                                    <div class="lg">
+                                    <div class="lg" id="dropNotification">
 
                                         @forelse ($auth->notifications as $notify)
+<<<<<<< HEAD
                                         @php
                                         if ($notify->data['from'] == 'apply') {
                                             $company = Company::where('id',$notify->data['company_id'])->first();
@@ -170,31 +192,67 @@
                                         @endphp
                                         <div class="media">
                                             <a href="{{ route('student.mark_read' ,$notify->id) }}" class="list-group-item list-group-item-action {{ $notify->read_at ? '' : 'active' }}" style="font-weight: unset">
+=======
+                                            @php
+                                                if ($notify->data['from'] == 'apply') {
+                                                    $company = Company::where('id', $notify->data['company_id'])->first();
+                                                    $company = $company->image;
 
-                                                <div class="main-info">
-                                                    <div class="d-flex align-items-center" style="gap:
+                                                    $name = $notify->data['name'] ?? '';
+                                                    $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
+                                                    if ($company) {
+                                                        $img = $company;
+                                                        $notifySrc = asset($img);
+                                                    }
+                                                } elseif ($notify->data['from'] == 'task') {
+                                                    $trainer = Trainer::where('id', $notify->data['trainer_id'])->first();
+                                                    $trainer = $trainer->image;
+
+                                                    $name = $notify->data['name'] ?? '';
+                                                    $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
+                                                    if ($trainer) {
+                                                        $img = $trainer;
+                                                        $notifySrc = asset($img);
+                                                    }
+                                                }
+
+                                            @endphp
+
+                                            <div class="media">
+                                                <a href="{{ route('student.mark_read', $notify->id) }}"
+                                                    class="list-group-item list-group-item-action {{ $notify->read_at ? '' : 'active' }}"
+                                                    style="font-weight: unset">
+>>>>>>> f305488a507c4922415f503b533e3ca92cf0e3b8
+
+                                                    <div class="main-info">
+                                                        <div class="d-flex align-items-center"
+                                                            style="gap:
                                                     8px !important;">
-                                                        <img src="{{ $notifySrc }}">
-                                                        <h3 class="dropdown-item-title">{{ $notify->data['name'] }}</h3>
+                                                            <img src="{{ $notifySrc }}">
+                                                            <h3 class="dropdown-item-title">{{ $notify->data['name'] }}
+                                                            </h3>
+                                                        </div>
+                                                        <div>
+                                                            <p class="d-flex justify-content-start align-items-center float-right"
+                                                                style="gap:4px; font-size: 12px; margin:0 ">
+                                                                <i class="far fa-clock "
+                                                                    style="line-height: 1; font-size: 12px; color: #464a4c !important"></i>
+                                                                {{ $notify->created_at->diffForHumans() }}
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                    <div>
-                                                        <p class="d-flex justify-content-start align-items-center float-right" style="gap:4px; font-size: 12px; margin:0 ">
-                                                            <i class="far fa-clock " style="line-height: 1; font-size: 12px; color: #464a4c !important"></i>
-                                                            {{ $notify->created_at->diffForHumans() }}
-                                                        </p>
+                                                    <div class="media-body mt-2">
+
+                                                        <p class="text-sm">{{ $notify->data['msg'] }}</p>
+
+
                                                     </div>
-                                                </div>
-                                                <div class="media-body mt-2">
 
-                                                    <p class="text-sm">{{ $notify->data['msg'] }}</p>
-
-
-                                                </div>
-
-                                            </a>
-                                        </div>
+                                                </a>
+                                            </div>
                                         @empty
-                                        <p class=" mt-3 mb-5 text-center">There are no Notifications yet</p>
+                                            <p class=" mt-3 mb-5 text-center " id="no_notification">There are no
+                                                Notifications yet</p>
                                         @endforelse
 
 
@@ -222,12 +280,14 @@
                                                 <div class="main-info">
                                                     <div class="d-flex align-items-center" style="gap: 8px">
                                                         <img
-                                                        src="http://1.gravatar.com/avatar/47db31bd2e0b161008607d84c74305b5?s=96&d=mm&r=g">
+                                                            src="http://1.gravatar.com/avatar/47db31bd2e0b161008607d84c74305b5?s=96&d=mm&r=g">
                                                         <h3 class="dropdown-item-title">Shift Company</h3>
                                                     </div>
                                                     <div>
-                                                        <p class="d-flex justify-content-start align-items-center float-right" style="gap:4px; font-size: 12px; margin:0 ">
-                                                            <i class="far fa-clock " style="line-height: 1; font-size: 12px; color: #464a4c !important"></i>
+                                                        <p class="d-flex justify-content-start align-items-center float-right"
+                                                            style="gap:4px; font-size: 12px; margin:0 ">
+                                                            <i class="far fa-clock "
+                                                                style="line-height: 1; font-size: 12px; color: #464a4c !important"></i>
                                                             4 hours ago
                                                         </p>
                                                     </div>
@@ -277,11 +337,19 @@
 
                 @php
                     $company_id = Auth::user()->company_id;
-                    $company = Company::with('categories')
+                    $category_id = Auth::user()->category_id;
+                    $company2 = Company::with('categories')
                         ->where('id', $company_id)
                         ->first();
+<<<<<<< HEAD
                     $category_id = Auth::user()->category_id;
                     $category = Category::where('id', $category_id)->first();
+=======
+
+                    $category = Category::where('id', $category_id)
+                    ->first();
+
+>>>>>>> f305488a507c4922415f503b533e3ca92cf0e3b8
                 @endphp
 
                 <div class="megamenu w-100">
@@ -291,7 +359,11 @@
                                 <div class="col-md-2 px-0">
                                     @if (Auth::user()->company_id)
                                         <a class="btn rounded-0 border-0 d-flex w-100 justify-content-between p-3 pl-5"
+<<<<<<< HEAD
                                             href="{{ route('student.company', [$company->slug, $category->name]) }}">
+=======
+                                            href="{{ route('student.company', [$company2->slug, $category->name]) }}">
+>>>>>>> f305488a507c4922415f503b533e3ca92cf0e3b8
                                             Company
                                         </a>
                                     @else
@@ -344,6 +416,8 @@
     <script src="{{ asset('studentAssets/js/bootstrap.min.js') }}"></script>
     <!-- Sweat Alert -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
     {{-- cancel inspecting --}}
     {{-- <script>
         document.onkeydown = function(e) {
@@ -364,6 +438,7 @@
             }
         }
     </script> --}}
+<<<<<<< HEAD
 @if (session('msg'))
     <script>
         const Toast = Swal.mixin({
@@ -398,6 +473,15 @@
 @endif
 
     
+=======
+    <script>
+        let from = 'student';
+        let studentId = {{ Auth::id() }};
+    </script>
+    @vite(['resources/js/app.js'])
+
+
+>>>>>>> f305488a507c4922415f503b533e3ca92cf0e3b8
     @yield('scripts')
 </body>
 

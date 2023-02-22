@@ -15,17 +15,21 @@ class NewTaskNotification extends Notification implements ShouldQueue
     protected $name;
     protected $slug;
     protected $trainer_id;
+    protected $image;
+
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($name ,$slug , $trainer_id)
+    public function __construct($name ,$slug , $trainer_id ,$image )
     {
         $this->name = $name;
         $this->slug = $slug;
         $this->trainer_id = $trainer_id;
+        $this->image = $image;
+
     }
 
     /**
@@ -36,7 +40,7 @@ class NewTaskNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database','broadcast'];
     }
 
     /**
@@ -65,9 +69,14 @@ class NewTaskNotification extends Notification implements ShouldQueue
             'name' => $this->name ,
             'from' => 'task',
             'trainer_id' => $this->trainer_id ,
-            'msg' => 'There is a new task',
+            'msg' => 'A new task has been assigned to you',
             'slug'=> $this->slug ,
             'url' => url('/task/'.$this->slug),
+            'image'=> $this->image ,
+
+
         ];
     }
+
+
 }

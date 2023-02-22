@@ -133,7 +133,9 @@ class NotifyController extends Controller
             $category = Category::where('id',$category_id)->first();
             $categoryName =$category->name;
 
-            $student->notify(new AcceptApplyNotification(Auth::user()->name,Auth::user()->slug , $request->company_id ,$categoryName, $studentName ));
+            $student->notify(new AcceptApplyNotification(Auth::user()->name,
+                                                        Auth::user()->slug , $request->company_id ,
+                                                        $categoryName, $studentName , Auth::user()->image ));
             return '<i class="fas fa-check text-success"> Approved</i>';
         }
     }

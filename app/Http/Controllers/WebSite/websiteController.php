@@ -100,7 +100,15 @@ class websiteController extends Controller
             return view('student.company',compact('company','program', 'ap'));
         }
 
+<<<<<<< HEAD
+=======
+        $applied =Application::get();
+
+        return view('student.company',compact('company','program' ,'applied', 'ap'));
+>>>>>>> f305488a507c4922415f503b533e3ca92cf0e3b8
     }
+
+
 
     public function company_apply(Request $request){
 
@@ -130,7 +138,7 @@ class websiteController extends Controller
         $company->notify(new AppliedNotification(Auth::user()->name  ,
                                                 $request->reason, $category->name ,
                                                 Auth::user()->id ,$request->category_id ,
-                                                $request->company_id ));
+                                                $request->company_id , Auth::user()->image ));
 
         $response = array();
         $response['content'] = '<p>Your application under review, we will send a message when we approved it</p>
@@ -140,6 +148,10 @@ class websiteController extends Controller
 
         return response()->json($response);
     }
+
+
+
+
 
 
 
@@ -174,8 +186,15 @@ class websiteController extends Controller
 
 
 
+<<<<<<< HEAD
     public function allCompanies(){
         $companies = Company::with('categories')->where('status' , 1)->latest('id')->take(3)->get();
+=======
+
+
+    public function allCompany(){
+        $companies = Company::with('categories')->where('status' , 1)->limit(6)->latest('id')->paginate(env('PAGINATION_COUNT'));
+>>>>>>> f305488a507c4922415f503b533e3ca92cf0e3b8
         return view('student.allCompanies' ,compact('companies'));
 
     }

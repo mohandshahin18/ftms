@@ -38,6 +38,6 @@ class TextLength implements Rule
      */
     public function message()
     {
-        return 'The :attribute must be more than 10 words';
+        return __('admin.The :attribute must be more than 10 words');
     }
 }

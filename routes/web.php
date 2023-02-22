@@ -3,7 +3,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\NotifyController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
@@ -13,12 +15,11 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\NotifyController;
 use App\Http\Controllers\SpecializationsController;
-use App\Http\Controllers\TaskController;
-use App\Http\Controllers\WebSite\HomeController as WebSiteHomeController;
 use App\Http\Controllers\WebSite\websiteController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use App\Http\Controllers\WebSite\HomeController as WebSiteHomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,8 @@ use App\Http\Controllers\WebSite\websiteController;
 |
 */
 
+Route::group(['prefix' => LaravelLocalization::setLocale()], function()
+{
 
 
 // login to control panle
@@ -112,11 +115,6 @@ Route::prefix('/')->middleware('auth:student','is_verify_email')->name('student.
 
 });
 
-// notification
-Route::get('send-notify', [NotifyController::class, 'send'])->middleware('auth:student');
-
-
-
 
 // routes of control panel
 Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('admin.')->group(function() {
@@ -170,7 +168,7 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     Route::get('students/trash', [StudentController::class, 'trash'])->name('students.trash');
     Route::delete('students/{id}/forcedelete', [StudentController::class, 'forceDelete'])->name('students.forcedelete');
     Route::post('students/{id}/restore', [StudentController::class, 'restore'])->name('students.restore');
-    Route::post('students/filter', [StudentController::class, 'filter'])->name('filter');
+    Route::delete('students/{slug}/delete/company', [StudentController::class, 'delete_company_student'])->name('students.delete.from.company');
     Route::resource('students', StudentController::class);
 
 
@@ -194,7 +192,7 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
 });
 
 
-
+});
 
 
 

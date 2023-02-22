@@ -1,4 +1,3 @@
-
 @extends('student.master')
 
 @section('title', 'Notifications')
@@ -88,143 +87,85 @@
             width: 100%;
         }
 
-        a:hover{
+        a:hover {
             text-decoration: none
         }
-
     </style>
 @stop
 @php
-use App\Models\Company;
-use App\Models\Trainer;
+    use App\Models\Company;
+    use App\Models\Trainer;
 
-// $noti = $auth->notification->paginate(2);
 @endphp
 @section('content')
 
 
-<div class="container mt-5">
-    <section class="section-50">
-        <h3 class="m-b-50 heading-line">Notifications <i class="fa fa-bell text-muted"></i></h3>
+    <div class="container mt-5">
+        <section class="section-50">
+            <h3 class="m-b-50 heading-line">Notifications <i class="fa fa-bell text-muted"></i></h3>
 
-        <div class="notification-ui_dd-content">
-            {{-- @dump($noti ); --}}
-            @forelse ($auth->notifications as $notify)
+            <div class="notification-ui_dd-content">
+                {{-- @dump($noti ); --}}
+                @forelse ($auth->notifications as $notify)
+                    <a href="{{ $notify->data['url'] }}" style="font-weight: unset">
+                        <div class="notification-list {{ $notify->read_at ? '' : 'notification-list--unread' }} ">
+                            <div class="notification-list_content">
+                                <div class="notification-list_img">
+                                    @php
+                                        if ($notify->data['from'] == 'apply') {
+                                            $company = Company::where('id', $notify->data['company_id'])->first();
+                                            $company = $company->image;
 
-                <a href="{{ $notify->data['url'] }}" style="font-weight: unset">
-                    <div class="notification-list {{ $notify->read_at ? '' : 'notification-list--unread' }} ">
-                        <div class="notification-list_content">
-                            <div class="notification-list_img">
-                                @php
-                                if ($notify->data['from'] == 'apply') {
-                                    $company = Company::where('id',$notify->data['company_id'])->first();
-                                    $company = $company->image;
+                                            $name = $notify->data['name'] ?? '';
+                                            $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
+                                            if ($company) {
+                                                $img = $company;
+                                                $notifySrc = asset($img);
+                                            }
+                                        } elseif ($notify->data['from'] == 'task') {
+                                            $trainer = Trainer::where('id', $notify->data['trainer_id'])->first();
+                                            $trainer = $trainer->image;
 
-                                    $name = $notify->data['name'] ?? '';
-                                    $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
-                                    if($company) {
-                                        $img = $company;
-                                        $notifySrc = asset($img);
-                                    }
-                                    }elseif ($notify->data['from'] == 'task') {
-                                        $trainer = Trainer::where('id',$notify->data['trainer_id'])->first();
-                                        $trainer = $trainer->image;
-
-                                        $name = $notify->data['name'] ?? '';
-                                        $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
-                                        if($trainer) {
-                                            $img = $trainer;
-                                            $notifySrc = asset($img);
+                                            $name = $notify->data['name'] ?? '';
+                                            $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
+                                            if ($trainer) {
+                                                $img = $trainer;
+                                                $notifySrc = asset($img);
+                                            }
                                         }
-                                    }
-                                @endphp
-                                <img src="{{ $notifySrc }}" alt="user">
-                            </div>
-                            <div style="width: 100%">
-                                <div class="notification-list_detail">
-                                    <p><b>{{ $notify->data['name'] }}</b> {{ $notify->data['msg'] }} </p>
-                                    @if($notify->data['from'] == 'apply')
-                                        <p class="text-muted">{{ $notify->data['welcome'] }}</p>
-                                    @endif
-                                    <p class="text-muted"><small><i
-                                                class="far fa-clock mr-1"></i>{{ $notify->created_at->diffForHumans() }}</small>
-                                    </p>
+                                    @endphp
+                                    <img src="{{ $notifySrc }}" alt="user">
                                 </div>
+                                <div style="width: 100%">
+                                    <div class="notification-list_detail">
+                                        <p><b>{{ $notify->data['name'] }}</b> {{ $notify->data['msg'] }} </p>
+                                        @if ($notify->data['from'] == 'apply')
+                                            <p class="text-muted">{{ $notify->data['welcome'] }}</p>
+                                        @endif
+                                        <p class="text-muted"><small><i
+                                                    class="far fa-clock mr-1"></i>{{ $notify->created_at->diffForHumans() }}</small>
+                                        </p>
+                                    </div>
 
 
 
 
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
                 @empty
-                <p class=" mt-3 mb-5 text-center">There are no Notifications yet</p>
+                    <p class=" mt-3 mb-5 text-center">There are no Notifications yet</p>
                 @endforelse
 
-        </div>
-
-        <div class="text-center">
-            <butaton type="button" class="btn-brand ">Load more activity</butaton>
-        </div>
-
-    </section>
-
-</div>
-@stop
-
-@section('scripts')
-    <script>
-        // let form = $("#form-");
-        let accept_btn = $(".accept_btn");
-        // let content_div = $(".btns");
-
-        // let url = accept_btn.parent().attr("action");
-
-        accept_btn.parent().onsubmit = (e) => {
-            e.preventDefault();
-        }
+            </div>
 
 
+            <div class="text-center">
+                <button type="button" class="btn-brand ">Load more activity</button>
+            </div>
 
-        accept_btn.on("click", function() {
-            let url = $(this).parent().attr("action");
-            let wrapper = $(this).parents().eq(1);
-            $.ajax({
-                type: "GET",
-                url: url,
-                data: $(this).parent().serialize(),
-                success: function(data) {
-                    wrapper.empty();
-                    wrapper.append(data);
-                } ,
-                error: function(data) {
-                        // console.log(data.title);
-                    const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: false,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    }
-                    })
+        </section>
 
-                    Toast.fire({
-                    icon: data.responseJSON.icon,
-                    title: data.responseJSON.title
-                    })
-                } ,
-            })
-        })
-
-
-
-        function showMessage(data) {
-
-}
-    </script>
-
+    </div>
 @stop
