@@ -1,7 +1,7 @@
 @extends('admin.master')
 
-@section('title', 'Programs')
-@section('sub-title', 'Programs')
+@section('title', __('admin.Programs'))
+@section('sub-title', __('admin.Programs'))
 @section('categories-menu-open', 'menu-open')
 @section('categories-active', 'active')
 @section('index-category-active', 'active')
@@ -11,7 +11,6 @@
         /* modal  */
         .modal-body {
             height: 150px;
-            /* overflow-y: scroll; */
         }
     </style>
 @stop
@@ -25,15 +24,15 @@
                     <div class="d-flex  justify-content-between">
 
                         <div class="card-tools">
-                            <a href="{{ route('admin.categories.create') }}" class="btn btn-primary"><i
-                                class="fas fa-plus"></i> Add Program</a>
+                            <a title="{{ __('admin.Add Program') }}" href="{{ route('admin.categories.create') }}" class="btn btn-primary"><i
+                                class="fas fa-plus"></i> {{ __('admin.Add Program') }}</a>
                         </div>
 
 
                         <div class="btn-website">
 
-                            <a href="{{ route('admin.categories.trash') }}" class="  btn btn-outline-warning text-dark"><i
-                                    class="fas fa-trash"></i> Recycle Bin</a>
+                            <a title="{{ __('admin.Recycle Bin') }}" href="{{ route('admin.categories.trash') }}" class="btn btn-outline-secondary"><i
+                                    class="fas fa-trash"></i> {{ __('admin.Recycle Bin') }}</a>
                         </div>
 
 
@@ -45,9 +44,9 @@
                         <thead>
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
-                                <th>Program Name</th>
-                                <th>Companies no.</th>
-                                <th>Action</th>
+                                <th>{{ __('admin.Program Name') }}</th>
+                                <th>{{ __('admin.Companies no.') }}</th>
+                                <th>{{ __('admin.Actions') }}</th>
                             </tr>
                         </thead>
 
@@ -58,7 +57,7 @@
                                     <td>{{ $category->name }}</td>
                                     <td>{{ $category->companies->count() }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-primary btn-sm btn-edit" data-toggle="modal"
+                                        <button title="{{ __('admin.Edit') }}" type="button" class="btn btn-primary btn-sm btn-edit" data-toggle="modal"
                                             data-target="#editCategory" data-name="{{ $category->name }}"
                                             data-url="{{ route('admin.categories.update', $category->id) }}"> <i
                                                 class="fas fa-edit"></i> </button>
@@ -66,14 +65,14 @@
                                             action="{{ route('admin.categories.destroy', $category->id) }}" method="POST">
                                             @csrf
                                             @method('delete')
-                                            <button class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"
+                                            <button title="{{ __('admin.Move to recycle bin') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"
                                                     data-totalPost="{{ $categories->total() }}"></i> </button>
                                         </form>
                                     </td>
                                 </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">
-                                    NO Data Selected
+                                    {{ __('admin.NO Data Selected') }}
                                 </td>
                             @endforelse
                         </tbody>
@@ -95,7 +94,7 @@
         <div class=" modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title fs-5" id="exampleModalLabel">Edit Program</h4>
+                    <h4 class="modal-title fs-5" id="exampleModalLabel">{{ __('admin.Edit Program') }}</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -110,7 +109,7 @@
 
                             {{-- start name --}}
                             <div class="col-sm-12 mb-3">
-                                <label class="mb-2">Name</label>
+                                <label class="mb-2">{{ __('admin.Program Name') }}</label>
                                 <input type="text" class="form-control" name="name" placeholder="Name">
                             </div>
                             {{-- end name --}}
@@ -123,8 +122,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('admin.Close') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('admin.Save Edit') }}</button>
                     </div>
 
                 </form>
@@ -177,10 +176,11 @@
                     $('#row_' + res.id + " td:nth-child(2)").text(res.name);
 
 
+                    $('#editCategory').modal('hide');
 
                     const Toast = Swal.mixin({
                         toast: true,
-                        position: 'top-end',
+                        position: 'top',
                         showConfirmButton: false,
                         timer: 3000,
                         timerProgressBar: false,
@@ -192,7 +192,7 @@
 
                     Toast.fire({
                         icon: 'success',
-                        title: 'Edit is successfully'
+                        title: '{{ __('admin.Program has been updated successfully') }}'
                     });
                     $('#editCategory').modal('hide');
                 },

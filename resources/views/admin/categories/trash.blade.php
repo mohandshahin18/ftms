@@ -1,7 +1,7 @@
 @extends('admin.master')
 
-@section('title', 'Recycle Bin')
-@section('sub-title', 'Categories')
+@section('title', __('admin.Recycle Bin'))
+@section('sub-title', __('admin.Programs'))
 @section('categories-active', 'active')
 
 
@@ -18,7 +18,7 @@
 
 
                         <div class="btn-website">
-                            <a href="{{ route('admin.categories.index') }}" class="btn btn-primary"> All Categories</a>
+                            <a href="{{ route('admin.categories.index') }}" class="btn btn-primary"> {{ __('admin.All Programs') }}</a>
                         </div>
 
 
@@ -30,8 +30,8 @@
                         <thead>
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
-                                <th>Category Name</th>
-                                <th>Action</th>
+                                <th>{{ __('admin.Program Name') }}</th>
+                                <th>{{ __('admin.Actions') }}</th>
                             </tr>
                         </thead>
 
@@ -57,7 +57,7 @@
                                 </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">
-                                    NO Data Selected
+                                    {{ __('admin.NO Data Selected') }}
                                 </td>
                             @endforelse
                         </tbody>

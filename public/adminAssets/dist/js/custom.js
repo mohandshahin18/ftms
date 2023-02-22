@@ -7,13 +7,14 @@ $('.delete_form').on('submit', function(e) {
       let data = $(this).serialize();
 
       Swal.fire({
-          title: 'Are you sure?',
-          text: "It will be deleted",
+          title: title,
+          text: text,
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#d33',
           cancelButtonColor: '#000',
-          confirmButtonText: 'Yes, delete it!'
+          confirmButtonText: confirmButtonText,
+          cancelButtonText: cancel
       }).then((result) => {
           if (result.isConfirmed) {
               // send ajax request and delete post
@@ -30,7 +31,7 @@ $('.delete_form').on('submit', function(e) {
 
               const Toast = Swal.mixin({
                   toast: true,
-                  position: 'top-end',
+                  position: 'top',
                   showConfirmButton: false,
                   timer: 2000,
                   timerProgressBar: false,
@@ -42,7 +43,7 @@ $('.delete_form').on('submit', function(e) {
 
               Toast.fire({
                   icon: 'error',
-                  title: 'Delete Completed'
+                  title: deleteCompalete
               })
           }
       })
@@ -61,13 +62,15 @@ $('.restor_form').on('submit', function(e) {
     let data = $(this).serialize();
 
     Swal.fire({
-        title: 'Are you sure?',
-        text: "It will be Restored",
+        title: title,
+        text: text2,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#d33',
         cancelButtonColor: '#000',
-        confirmButtonText: 'Yes, restore it!'
+        confirmButtonText: confirmButtonText2 ,
+        cancelButtonText: cancel
+
     }).then((result) => {
         if (result.isConfirmed) {
             // send ajax request and resotre
@@ -84,7 +87,7 @@ $('.restor_form').on('submit', function(e) {
 
             const Toast = Swal.mixin({
                 toast: true,
-                position: 'top-end',
+                position: 'top',
                 showConfirmButton: false,
                 timer: 2000,
                 timerProgressBar: false,
@@ -96,7 +99,7 @@ $('.restor_form').on('submit', function(e) {
 
             Toast.fire({
                 icon: 'success',
-                title: 'Restored Successfully'
+                title: restoreComplete
             })
         }
     })

@@ -206,6 +206,8 @@ return [
         "copy_right"            => "حقوق الطبع والنشر",
         "distributed_by"        => "نُشر بواسطة",
         "logo"                  => "اللوقو",
+        "image"                 => "الصورة",
+        "category_id"           => "البرنامج",
 
     ],
 

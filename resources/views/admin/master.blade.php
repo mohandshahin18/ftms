@@ -683,6 +683,19 @@ html {
     </script>
     @vite(['resources/js/app.js'])
 
+    <script>
+
+        let text =  '{{ __('admin.It will be deleted') }}';
+        let title =  '{{ __("admin.Are you sure?") }}';
+        let confirmButtonText =  '{{ __('admin.Yes, delete it!') }}';
+        let cancel =  '{{ __('admin.Cancel') }}';
+        let deleteCompalete =  '{{ __('admin.Delete Completed') }}';
+        let text2 =  '{{ __('admin.It will be Restored') }}';
+        let restoreComplete =  '{{ __('admin.Restored Successfully') }}';
+        let confirmButtonText2 =  '{{ __('admin.Yes, restore it!') }}';
+
+
+    </script>
     <!-- Loader -->
     <script>
         window.onload = ()=> {

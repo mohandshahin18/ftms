@@ -102,17 +102,10 @@
     {{-- oncontextmenu="return false;" --}}
 
     @php
-<<<<<<< HEAD
     use App\Models\Company;
     use App\Models\Trainer;
     use App\Models\Category;
     $auth =Auth::user();
-=======
-        use App\Models\Company;
-        use App\Models\Trainer;
-        use App\Models\Category;
-        $auth = Auth::user();
->>>>>>> f305488a507c4922415f503b533e3ca92cf0e3b8
 
         $data = json_decode(File::get(storage_path('app/settings.json')), true);
     @endphp
@@ -165,34 +158,6 @@
                                     <div class="lg" id="dropNotification">
 
                                         @forelse ($auth->notifications as $notify)
-<<<<<<< HEAD
-                                        @php
-                                        if ($notify->data['from'] == 'apply') {
-                                            $company = Company::where('id',$notify->data['company_id'])->first();
-                                            $company = $company->image;
-
-                                            $name = $notify->data['name'] ?? '';
-                                            $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
-                                            if($company) {
-                                                $img = $company;
-                                                $notifySrc = asset($img);
-                                            }
-                                            }elseif ($notify->data['from'] == 'task') {
-                                                $trainer = $auth->trainer;
-                                                $trainer = $trainer->image;
-
-                                                $name = $notify->data['name'] ?? '';
-                                                $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
-                                                if($trainer) {
-                                                    $img = $trainer;
-                                                    $notifySrc = asset($img);
-                                                }
-                                            }
-                                            
-                                        @endphp
-                                        <div class="media">
-                                            <a href="{{ route('student.mark_read' ,$notify->id) }}" class="list-group-item list-group-item-action {{ $notify->read_at ? '' : 'active' }}" style="font-weight: unset">
-=======
                                             @php
                                                 if ($notify->data['from'] == 'apply') {
                                                     $company = Company::where('id', $notify->data['company_id'])->first();
@@ -222,7 +187,6 @@
                                                 <a href="{{ route('student.mark_read', $notify->id) }}"
                                                     class="list-group-item list-group-item-action {{ $notify->read_at ? '' : 'active' }}"
                                                     style="font-weight: unset">
->>>>>>> f305488a507c4922415f503b533e3ca92cf0e3b8
 
                                                     <div class="main-info">
                                                         <div class="d-flex align-items-center"
@@ -322,7 +286,7 @@
 
                                 <div class="dropdown-divider mb-1"></div>
                                 <div class="dropdown-links pl-3">
-                                    
+
                                     <a href="{{ route('student.profile', Auth::user()->slug) }}"><i class="fas fa-user mr-2"></i>Profile</a>
                                     <a href="{{ route('edit-password', 'student') }}"><i class="fas fa-key mr-2"></i> Edit password</a>
                                     <a href="{{ route('logout', 'student') }}"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a>
@@ -341,15 +305,8 @@
                     $company2 = Company::with('categories')
                         ->where('id', $company_id)
                         ->first();
-<<<<<<< HEAD
                     $category_id = Auth::user()->category_id;
                     $category = Category::where('id', $category_id)->first();
-=======
-
-                    $category = Category::where('id', $category_id)
-                    ->first();
-
->>>>>>> f305488a507c4922415f503b533e3ca92cf0e3b8
                 @endphp
 
                 <div class="megamenu w-100">
@@ -359,11 +316,7 @@
                                 <div class="col-md-2 px-0">
                                     @if (Auth::user()->company_id)
                                         <a class="btn rounded-0 border-0 d-flex w-100 justify-content-between p-3 pl-5"
-<<<<<<< HEAD
-                                            href="{{ route('student.company', [$company->slug, $category->name]) }}">
-=======
                                             href="{{ route('student.company', [$company2->slug, $category->name]) }}">
->>>>>>> f305488a507c4922415f503b533e3ca92cf0e3b8
                                             Company
                                         </a>
                                     @else
@@ -438,42 +391,6 @@
             }
         }
     </script> --}}
-<<<<<<< HEAD
-@if (session('msg'))
-    <script>
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top',
-            showConfirmButton: false,
-            timer: 4000,
-            timerProgressBar: false,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
-
-        @if (session('type') == 'success')
-            Toast.fire({
-                icon: 'success',
-                title: '{{ session('msg') }}'
-            })
-        @elseif (session('type') == 'danger')
-            Toast.fire({
-                icon: 'error',
-                title: '{{ session('msg') }}'
-            })
-        @else
-            Toast.fire({
-                icon: 'info',
-                title: '{{ session('msg') }}'
-            })
-        @endif
-    </script>
-@endif
-
-    
-=======
     <script>
         let from = 'student';
         let studentId = {{ Auth::id() }};
@@ -481,7 +398,6 @@
     @vite(['resources/js/app.js'])
 
 
->>>>>>> f305488a507c4922415f503b533e3ca92cf0e3b8
     @yield('scripts')
 </body>
 

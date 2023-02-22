@@ -517,7 +517,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
 
@@ -539,7 +539,7 @@
                 <div class="row">
                     @foreach ($companies as $company)
                         @php
-                           $category= $company->categories->first(); 
+                           $category= $company->categories->first();
                         @endphp
                         <div class="col-md-4">
                             <article class="blog-post">
@@ -550,7 +550,7 @@
 
                                 <div class="content">
                                     <h5>{{ $company->name }}</h5>
-                                    <p class="mb-4">{{ Str::words(strip_tags($company->description), 10, '...') }}
+                                    <p class="mb-4">{{ Str::words(strip_tags(html_entity_decode($company->description)), 6, '...') }}
                                     </p>
 
                                     <a href="{{ route('student.company', [$company->slug, $category->name]) }}"
@@ -560,7 +560,7 @@
                                 </div>
                             </article>
                         </div>
-                    
+
                     @endforeach
                     <div class="text-center mt-4">
                         <a href="{{ route('student.allCompanies') }}" class="btn-brand">Show More</a>

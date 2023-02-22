@@ -81,28 +81,22 @@ class StudentController extends Controller
             }
         }
 
-        $evaluated_students = Student::has('applied_evaluation')->get();
+        $applied_evaluations = Student::has('applied_evaluation')->get();
 
-        return view('admin.students.index', compact('students', 'evaluated_students'));
+        return view('admin.students.index', compact('students', 'applied_evaluations'));
     }
 
     public function delete_company_student($id)
     {
         $student= Student::where('id',$id)->first();
 
-<<<<<<< HEAD
-        $applied_evaluations = AppliedEvaluation::where('evaluation_type', 'student')
-        ->get();
-
-        return view('admin.students.index', compact('students', 'applied_evaluations'));
-=======
         $student->update([
             'company_id'=> null ,
             'category_id'=> null ,
+            'trainer_id'=> null ,
         ]);
 
         return $id ;
->>>>>>> f305488a507c4922415f503b533e3ca92cf0e3b8
     }
 
 
@@ -272,7 +266,7 @@ class StudentController extends Controller
 
         $average_score = $total_score / $count;
         $average_score = floor($average_score);
-        
+
         return view('admin.students.evaluation_page', compact('student', 'data', 'average_score'));
     }
 

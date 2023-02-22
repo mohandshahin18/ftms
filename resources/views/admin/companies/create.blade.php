@@ -1,7 +1,7 @@
 @extends('admin.master')
 
-@section('title', 'Add New Company')
-@section('sub-title', 'Companies')
+@section('title', __('admin.Add New Company'))
+@section('sub-title', __('admin.Companies'))
 @section('companies-menu-open', 'menu-open')
 @section('companies-active', 'active')
 @section('add-company-active', 'active')
@@ -27,7 +27,7 @@
         <div class="col-md-12">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Add New Company</h3>
+                    <h3 class="card-title" style="float: unset">{{ __('admin.Add New Company') }}</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
@@ -38,9 +38,9 @@
                         <div class="row">
                             <div class=" col-lg-6">
                                 <div class="form-group">
-                                    <label class="mb-2">Company name</label>
+                                    <label class="mb-2">{{ __('admin.Company Name') }}</label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                        name="name" placeholder="Company name" value="{{ old('name') }}">
+                                        name="name" placeholder="{{ __('admin.Company Name') }}" value="{{ old('name') }}">
                                     @error('name')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                     @enderror
@@ -50,9 +50,9 @@
                             {{-- email --}}
                             <div class=" col-lg-6">
                                 <div class="form-group">
-                                    <label class="mb-2">Email</label>
+                                    <label class="mb-2">{{ __('admin.Email') }}</label>
                                     <input type="text" class="form-control @error('email') is-invalid @enderror"
-                                        name="email" placeholder="Email" value="{{ old('email') }}">
+                                        name="email" placeholder="{{ __('admin.Email') }}" value="{{ old('email') }}">
                                     @error('email')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                     @enderror
@@ -62,9 +62,9 @@
                             {{-- phone  --}}
                             <div class=" col-lg-6">
                                 <div class="form-group">
-                                    <label class="mb-2">Phone</label>
+                                    <label class="mb-2">{{ __('admin.Phone') }}</label>
                                     <input type="text" class="form-control @error('phone') is-invalid @enderror"
-                                        name="phone" placeholder="Company phone" value="{{ old('phone') }}">
+                                        name="phone" placeholder="{{ __('admin.Phone') }}" value="{{ old('phone') }}">
                                     @error('phone')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                     @enderror
@@ -74,20 +74,23 @@
                             {{-- Program --}}
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="mb-2">Program</label>
-                                    <select name="category_id[]" class="js-example-basic-multiple wide" data-placeholder="Select Program" multiple="multiple">
+                                    <label class="mb-2">{{ __('admin.Program') }}</label>
+                                    <select name="category_id[]" class="js-example-basic-multiple wide @error('category_id') is-invalid @enderror"  data-placeholder="{{ __('admin.Select Program') }}" multiple="multiple">
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
                                     </select>
+                                    @error('category_id')
+                                    <small class="invalid-feedback"> {{ $message }}</small>
+                                @enderror
                                 </div>
                             </div>
 
                             {{-- address  --}}
                             <div class=" col-lg-6">
-                                <label class="mb-2">Address</label>
+                                <label class="mb-2">{{ __('admin.Location') }}</label>
                                 <input type="text" class="form-control @error('address') is-invalid @enderror"
-                                    name="address" placeholder="address" value="{{ old('address') }}">
+                                    name="address" placeholder="{{ __('admin.Location') }}" value="{{ old('address') }}">
                                 @error('address')
                                     <small class="invalid-feedback"> {{ $message }}</small>
                                 @enderror
@@ -96,8 +99,8 @@
                             {{-- password --}}
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="mb-2">Password</label>
-                                    <input type="password" placeholder="password" class="form-control @error('password') is-invalid @enderror" name="password">
+                                    <label class="mb-2">{{ __('admin.Password') }}</label>
+                                    <input type="password" placeholder="{{ __('admin.Password') }}" class="form-control @error('password') is-invalid @enderror" name="password">
                                     @error('password')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                     @enderror
@@ -107,7 +110,7 @@
                             {{-- image --}}
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label class="mb-2">Image</label>
+                                    <label class="mb-2">{{ __('admin.Image') }}</label>
                                     <input type="file" class="form-control @error('image') is-invalid @enderror" name="image">
                                     @error('image')
                                         <small class="invalid-feedback"> {{ $message }}</small>
@@ -117,7 +120,7 @@
 
                             {{-- description --}}
                             <div class="mb-3 col-12">
-                                <label for="description">Description</label>
+                                <label for="description">{{ __('admin.Description') }}</label>
                                 <textarea name="description" class="@error('description') is-invalid @enderror" id="my-desc">{{ old('description') }}</textarea>
                                 @error('description')
                                     <small class="invalid-feedback">{{ $message }}</small>
@@ -128,10 +131,10 @@
                     <!-- /.card-body -->
 
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-plus"></i> Add</button>
                         <button class="btn btn-dark" type="button" onclick="history.back()">
-                            <i class="fas fa-undo-alt"> </i> Return Back </button>
+                            <i class="fas fa-undo-alt"> </i> {{ __('admin.Return Back') }} </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> {{ __('admin.Add') }}</button>
 
                     </div>
                 </form>

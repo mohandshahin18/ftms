@@ -15,9 +15,6 @@ use Illuminate\Support\Facades\Broadcast;
 
 Broadcast::channel('App.Models.Company.{id}', function ($company, $id) {
     return (int) $company->id === (int) $id;
-<<<<<<< HEAD
-});
-=======
 },['guards'=>['company']]);
 
 Broadcast::channel('App.Models.Student.{id}', function ($student, $id) {
@@ -27,4 +24,3 @@ Broadcast::channel('App.Models.Student.{id}', function ($student, $id) {
 Broadcast::channel('App.Models.Trainer.{id}', function ($trainer, $id) {
     return (int) $trainer->id === (int) $id;
 },['guards'=>['trainer']]);
->>>>>>> f305488a507c4922415f503b533e3ca92cf0e3b8

@@ -1,7 +1,7 @@
 @extends('admin.master')
 
-@section('title', 'Universities')
-@section('sub-title', 'Universities')
+@section('title', __('admin.Universities'))
+@section('sub-title', __('admin.Universities'))
 @section('universities-menu-open', 'menu-open')
 @section('universities-active', 'active')
 @section('index-university-active', 'active')
@@ -24,11 +24,11 @@
                 <div class="card-header">
                     <div class="d-flex  justify-content-between">
 
-   
+
 
                         <div class="btn-website">
-                            <a href="{{ route('admin.universities.create') }}" class="btn btn-primary"><i
-                                    class="fas fa-plus"></i> Add university</a>
+                            <a title="{{ __('admin.Add University') }}" href="{{ route('admin.universities.create') }}" class="btn btn-primary"><i
+                                    class="fas fa-plus"></i> {{ __('admin.Add University') }}</a>
 
                         </div>
 
@@ -41,10 +41,10 @@
                         <thead>
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
-                                <th>University Name</th>
-                                <th>University Email</th>
-                                <th>University Phone</th>
-                                <th>Action</th>
+                                <th>{{ __('admin.University Name') }}</th>
+                                <th>{{ __('admin.Email') }}</th>
+                                <th>{{ __('admin.Phone') }}</th>
+                                <th>{{ __('admin.Actions') }}</th>
                             </tr>
                         </thead>
 
@@ -56,7 +56,7 @@
                                     <td>{{ $university->email }}</td>
                                     <td>{{ $university->phone }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-primary btn-sm btn-edit" data-toggle="modal"
+                                        <button title="{{ __('admin.Edit') }}" type="button" class="btn btn-primary btn-sm btn-edit" data-toggle="modal"
                                             data-target="#editUniversity" data-name="{{ $university->name }}"
                                             data-url="{{ route('admin.universities.update', $university->id) }}"
                                             data-email="{{ $university->email }}" data-phone="{{ $university->phone }}"
@@ -67,14 +67,14 @@
                                             method="POST">
                                             @csrf
                                             @method('delete')
-                                            <button class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i>
+                                            <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
                                     </td>
                                 </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">
-                                    NO Data Selected
+                                    {{ __('admin.NO Data Selected') }}
                                 </td>
                             @endforelse
                         </tbody>
@@ -96,7 +96,7 @@
         <div class=" modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title fs-5" id="exampleModalLabel">Edit University</h4>
+                    <h4 class="modal-title fs-5" id="exampleModalLabel">{{ __('admin.Edit University') }}</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -111,29 +111,29 @@
 
                             {{-- start name --}}
                             <div class="col-sm-6 mb-3">
-                                <label class="mb-2">Name</label>
-                                <input type="text" class="form-control" name="name" placeholder="Name">
+                                <label class="mb-2">{{ __('admin.Name') }}</label>
+                                <input type="text" class="form-control" name="name" placeholder="{{ __('admin.Name') }}">
                             </div>
                             {{-- end name --}}
 
                             {{-- email --}}
                             <div class="col-sm-6 mb-3">
-                                <label class="mb-2">Email</label>
-                                <input type="text" class="form-control" name="email" placeholder="Email">
+                                <label class="mb-2">{{ __('admin.Email') }}</label>
+                                <input type="text" class="form-control" name="email" placeholder="{{ __('admin.Email') }}">
                             </div>
                             {{-- email --}}
 
                             {{-- phone  --}}
                             <div class="col-sm-6 mb-3">
-                                <label class="mb-2">Phone</label>
-                                <input type="text" class="form-control" name="phone" placeholder="Phone">
+                                <label class="mb-2">{{ __('admin.Phone') }}</label>
+                                <input type="text" class="form-control" name="phone" placeholder="{{ __('admin.Phone') }}">
                             </div>
                             {{-- phone  --}}
 
                             {{-- address  --}}
                             <div class="col-sm-6 mb-3">
-                                <label class="mb-2">Address</label>
-                                <input type="text" class="form-control" name="address" placeholder="Address">
+                                <label class="mb-2">{{ __('admin.Location') }}</label>
+                                <input type="text" class="form-control" name="address" placeholder="{{ __('admin.Location') }}">
                             </div>
                             {{-- address  --}}
 
@@ -145,8 +145,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('admin.Close') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('admin.Save Edit') }}</button>
                     </div>
 
                 </form>
@@ -207,7 +207,7 @@
 
                     const Toast = Swal.mixin({
                         toast: true,
-                        position: 'top-end',
+                        position: 'top',
                         showConfirmButton: false,
                         timer: 3000,
                         timerProgressBar: false,
@@ -219,7 +219,7 @@
 
                     Toast.fire({
                         icon: 'success',
-                        title: 'Edit is successfully'
+                        title:' {{ __('admin.University has been updated successfully') }}'
                     });
                     $('#editUniversity').modal('hide');
                 },
@@ -236,7 +236,7 @@
 
         });
 
-       
+
     </script>
 
 
