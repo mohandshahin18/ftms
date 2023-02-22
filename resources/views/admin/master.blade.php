@@ -222,7 +222,7 @@ html {
                         @endforeach
                         <div class="dropdown-divider"></div>
                         <div class="all">
-                        <a href="{{ route('admin.read_notify') }}" class="dropdown-item dropdown-footer">{{ __('admin.Show All Notifications') }}</a>
+                        <a href="{{ route('admin.read_notify') }}" class="dropdown-item dropdown-footer text-center">{{ __('admin.Show All Notifications') }}</a>
 
                         </div>
                     </div>
