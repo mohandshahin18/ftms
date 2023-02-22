@@ -1,7 +1,7 @@
 @extends('admin.master')
 <?php $name = $student->name ?>
-@section('title', 'Evaluation Page')
-@section('sub-title', 'Student Evaluation ')
+@section('title', __('admin.Evaluation Page'))
+@section('sub-title', __('admin.Student Evaluation'))
 @section('students-menu-open', 'menu-open')
 @section('students-active', 'active')
 
@@ -20,14 +20,19 @@
 
             <div class="card">
                 <div class="card-header">
-                    <div><button class="btn btn-secondary btn-sm mb-3" onclick="history.back()"><i class="fas fa-arrow-left"></i></button></div>
+                    <div><button class="btn btn-secondary btn-sm mb-3" onclick="history.back()">@if (app()->getLocale()=='ar')
+                            <i class="fas fa-arrow-right"></i></button></div>
+                        @else
+                            <i class="fas fa-arrow-left"></i></button></div>
+                        @endif
+                        
                     <div class="d-flex  justify-content-between align-items-center">
                         <div>
-                            <h5>Student Name: <strong class="text-primary"> {{ $student->name }}</strong></h5>
-                            <h6>Total rate: <b>{{ $average_score }}%</b></h6>
+                            <h5>{{ __('admin.Student Name') }}: <strong style="color: #22486a;"> {{ $student->name }}</strong></h5>
+                            <h6>{{ __('admin.Total rate') }}: <b>{{ $average_score }}%</b></h6>
                         </div>
                         <div>
-                            <a href="{{ route('admin.export_pdf', $student) }}" class="btn btn-primary mb-2"><i class="fas fa-pdf"> Export as PDF</i></a>
+                            <a href="{{ route('admin.export_pdf', $student) }}" class="btn btn-primary mb-2"><i class="fas fa-pdf"> {{ __('admin.Export as PDF') }}</i></a>
                         </div>
                     </div>
                 </div>
@@ -55,7 +60,13 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="m-3 text-center">
-                    <button class="btn btn-outline-secondary" onclick="history.back()"><i class="fas fa-arrow-left"></i> Return Back</button>
+                    <button class="btn btn-outline-secondary" onclick="history.back()">
+                        @if (app()->getLocale() == 'ar')
+                            <i class="fas fa-arrow-right"></i>
+                        @else
+                            <i class="fas fa-arrow-left"></i>
+                        @endif
+                         {{ __('admin.Return Back') }}</button>
                 </div>
             </div>
             <!-- /.card -->

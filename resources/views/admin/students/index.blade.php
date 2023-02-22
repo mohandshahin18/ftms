@@ -1,13 +1,21 @@
 @extends('admin.master')
 
-@section('title', 'Students')
-@section('sub-title', 'Students')
+@section('title', __('admin.Students'))
+@section('sub-title', __('admin.Students'))
 @section('students-menu-open', 'menu-open')
 @section('students-active', 'active')
 
 @section('styles')
 
     <style>
+        a {
+            color: #000;
+            text-decoration: none !important;
+        }
+        a:hover {
+            color: #000;
+            text-decoration: none !important;
+        }
         .search-wrapper {
             position: relative;
         }
@@ -66,6 +74,39 @@
         .search-result ul li a:hover {
             background: #dbdbdb
         }
+
+        #search_input {
+            position: relative;
+        }
+
+        #students_names {
+            position: absolute;
+            left: 0;
+            top: 38px;
+            width: 100%;
+            padding: 8px 0;
+            padding-bottom: 2px;
+            background-color: #fff;
+            list-style-type: none;
+            box-shadow: 0 19px 25px 3px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+        }
+        #students_names li {
+            height: 30px;
+            transition: all 0.1s ease-in-out;
+            display: flex;
+            align-items: center;
+        }
+
+        #students_names li:hover {
+            background-color: #eeeeeeb1;
+        }
+
+        #students_names a {
+            display: inline-block;
+            width: 100%;
+            padding: 0 10px;
+        }
     </style>
 @stop
 
@@ -81,10 +122,13 @@
 
 
                         <div class="card-tools col-6" style="display: flex; align-items: center; gap: 10px">
-                            <form action="">
+                            <form action="" id="search_form">
                                 <div class="input-group input-group" style="width: 280px;">
-                                    <input type="text" name="keyword" value="{{ request()->keyword }}"
-                                        class="form-control " placeholder="Search by Student Name">
+                                    <input type="text" name="keyword" id="search_input" value="{{ request()->keyword }}"
+                                        class="form-control " placeholder="{{ __('admin.Search by Student Name') }}" autocomplete="off">
+                                    <ul id="students_names">
+                                        
+                                    </ul>
                                 </div>
                             </form>
 
@@ -95,7 +139,7 @@
                         <div class="btn-website">
 
                             <a href="{{ route('admin.students.trash') }}" class="  btn btn-outline-warning text-dark"><i
-                                    class="fas fa-trash"></i> Recycle Bin</a>
+                                    class="fas fa-trash"></i> {{ __('admin.Recycle Bin') }}</a>
                         </div>
 
 
@@ -107,13 +151,13 @@
                         <thead>
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
-                                <th>Student name</th>
-                                <th>Student phone</th>
-                                <th>Student ID</th>
-                                <th>University name</th>
-                                <th>Specialization</th>
-                                <th>Evaluation Status</th>
-                                <th>Action</th>
+                                <th>{{ __('admin.Student Name') }}</th>
+                                <th>{{ __('admin.Student phone') }}</th>
+                                <th>{{ __('admin.Student ID') }}</th>
+                                <th>{{ __('admin.University name') }}</th>
+                                <th>{{ __('admin.Specialization') }}</th>
+                                <th>{{ __('admin.Evaluation Status') }}</th>
+                                <th>{{ __('admin.Actions') }}</th>
                             </tr>
                         </thead>
 
@@ -131,28 +175,28 @@
                                             $isEvaluated = false;
                                         @endphp
                                         @foreach ($applied_evaluations as $applied_evaluation)
-                                            @if ($student->id == $applied_evaluation->student_id )
+                                            @if ($student->id == $applied_evaluation->student_id)
                                                 @php
                                                     $isEvaluated = true;
                                                 @endphp
                                             @endif
                                         @endforeach
                                         @if ($isEvaluated)
-                                            <span class="text-success">Evaluated</span>
+                                            <span class="text-success">{{ __('admin.Evaluated') }}</span>
                                         @else
-                                            <span class="text-danger">Not Evaluated yet</span>
+                                            <span class="text-danger">{{ __('admin.Not Evaluated yet') }}</span>
                                         @endif
                                     </td>
                                     <td>
                                         <div>
                                             @if ($isEvaluated)
-                                                <a href="{{ route('admin.show_evaluation', $student) }}"
+                                                <a href="{{ route('admin.show_evaluation', $student->slug) }}"
                                                     class="btn btn-info btn-sm" data-disabled="true"
-                                                    title="show evaluation">Evaluation</a>
+                                                    title="show evaluation">{{ __('admin.Evaluation') }}</a>
                                             @else
                                                 <a href="{{ route('admin.students.show', $student) }}"
                                                     class="btn btn-sm  btn-outline-secondary" data-disabled="true"
-                                                    title="evaluate">Evaluate</a>
+                                                    title="evaluate">{{ __('admin.Evaluate') }}</a>
                                             @endif
                                             @if (Auth::guard('company')->check())
                                                 <form class="d-inline delete_company"
@@ -258,5 +302,45 @@
 
 
         });
+
+        $(document).ready(function() {
+            let input = $("#search_input");
+            $("#students_names").hide();
+            input.on("keyup", function() {
+                let search = input.val();
+
+                $.ajax({
+                    type: "get",
+                    url: 'search/students',
+                    data: {search: search},
+                    success:function(response) {
+                        if(response.message) {
+                            $("#students_names").show();
+                            $("#students_names").empty();
+                            let msg = `<p style="padding: 10px;">there is no result for<b><i>${search}</i></b></p>`;
+                            $("#students_names").append(msg);
+                        } else {
+                            $("#students_names").empty();
+                            $.each(response.students, function(key, student){
+                                let row = `<li><a href="#" id="dropdown_item" data-name="${student}">${student}</a></li>`
+                                $("#students_names").show();
+                                $("#students_names").append(row);
+                            });
+                            
+                        }
+                    }
+                })
+            });
+        });
+
+        $(document).on("click", "#dropdown_item", function(event) {
+            event.preventDefault()
+            let name = $(this).data("name");
+            $("#search_input").val(name);
+            $("#students_names").hide();
+            $("#search_form").submit();
+
+
+        })
     </script>
 @stop
