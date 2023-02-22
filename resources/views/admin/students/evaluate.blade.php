@@ -1,7 +1,7 @@
 @extends('admin.master')
 <?php $name = $student->name ?>
-@section('title', 'Students-Evaluation')
-@section('sub-title', 'Evaluate '.$name)
+@section('title', __('admin.Student Evaluation'))
+@section('sub-title', __('admin.Evaluate').' '.$name)
 @section('students-menu-open', 'menu-open')
 @section('students-active', 'active')
 
@@ -32,39 +32,37 @@
                         <table class="table table-striped  table-hover ">
                             <thead>
                                 <tr style="background-color: #1e272f; color: #fff;">
-                                    <th>#</th>
-                                    <th style="width: 40%;">Question</th>
-                                     <th colspan="5" align="center">Answers</th>
+                                    <th style="width: 40%;">{{ __('admin.Question') }}</th>
+                                     <th colspan="5" style="text-align: center;">{{ __('admin.Answers') }}</th>
                                 </tr>
                             </thead>
     
                             <tbody>
                                 @foreach ($evaluation->questions as $question)
                                     <tr>
-                                        <td>{{ $question->id }}</td>
                                         <td>{{ $question->question }}</td>
                                         <td>
-                                            <label style="display: flex; align-items: center; gap: 4px; ">ممتاز
+                                            <label style="display: flex; align-items: center; gap: 4px; ">{{ __('admin.Excellent') }}
                                                 <input type="radio" name="answer[{{ $question->id }}]" value="excellent">
                                             </label>
                                         </td>
                                         <td>
-                                            <label style="display: flex; align-items: center; gap: 4px; ">جيد جداً
+                                            <label style="display: flex; align-items: center; gap: 4px; ">{{ __('admin.Very Good') }}
                                                 <input type="radio" name="answer[{{ $question->id }}]" value="very good">
                                             </label>
                                         </td>
                                         <td>
-                                            <label style="display: flex; align-items: center; gap: 4px; ">جيد
+                                            <label style="display: flex; align-items: center; gap: 4px; ">{{ __('admin.Good') }}
                                                 <input type="radio" name="answer[{{ $question->id }}]" value="good">
                                             </label>
                                         </td>
                                         <td>
-                                            <label style="display: flex; align-items: center; gap: 4px; ">مقبول
+                                            <label style="display: flex; align-items: center; gap: 4px; ">{{ __('admin.Acceptance') }}
                                                 <input type="radio" name="answer[{{ $question->id }}]" value="acceptable">
                                             </label>
                                         </td>
                                         <td>
-                                            <label style="display: flex; align-items: center; gap: 4px; ">ضعيف
+                                            <label style="display: flex; align-items: center; gap: 4px; ">{{ __('admin.Bad') }}
                                                 <input type="radio" name="answer[{{ $question->id }}]" value="bad">
                                             </label>
                                         </td>
@@ -74,9 +72,9 @@
                             </tbody>
                         </table>
                         <div class="text-center m-3">
-                            <p clas><i class="fas fa-info-circle text-warning"></i> Careful: <i>You <span class="text-danger">can't</span> edit this after saving</i></p>
-                            <button type="submit" class="btn btn-success text-center" style="width: 200px;"><i class="fas fa-save"></i> Save</button>
-                            <button type="button" class="btn btn-danger" onclick="history.back()"><i class="fas fa-times"></i> Cancel</button>
+                            <p clas><i class="fas fa-info-circle text-warning"></i> Careful: <i>you <span class="text-danger">can't</span> edit this after saving</i></p>
+                            <button type="submit" class="btn btn-success text-center" style="width: 200px;"><i class="fas fa-save"></i> {{ __('admin.Save') }}</button>
+                            <a href="{{ route('admin.students.index') }}" class="btn btn-danger" ><i class="fas fa-times"></i> {{ __('admin.Cancel') }}</a>
                         </div>
                     </form>
                 </div>

@@ -20,6 +20,7 @@ use App\Http\Controllers\WebSite\websiteController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use App\Http\Controllers\WebSite\HomeController as WebSiteHomeController;
+use App\Models\Student;
 
 /*
 |--------------------------------------------------------------------------
@@ -170,6 +171,7 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     Route::post('students/{id}/restore', [StudentController::class, 'restore'])->name('students.restore');
     Route::delete('students/{slug}/delete/company', [StudentController::class, 'delete_company_student'])->name('students.delete.from.company');
     Route::resource('students', StudentController::class);
+    Route::get('search/students', [StudentController::class, 'search']);
 
 
     // show evaluation

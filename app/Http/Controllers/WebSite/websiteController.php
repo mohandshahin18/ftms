@@ -21,8 +21,6 @@ use App\Notifications\AppliedNotification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
-use function Termwind\render;
-
 class websiteController extends Controller
 {
 
@@ -100,12 +98,6 @@ class websiteController extends Controller
             return view('student.company',compact('company','program', 'ap'));
         }
 
-<<<<<<< HEAD
-=======
-        $applied =Application::get();
-
-        return view('student.company',compact('company','program' ,'applied', 'ap'));
->>>>>>> f305488a507c4922415f503b533e3ca92cf0e3b8
     }
 
 
@@ -186,15 +178,8 @@ class websiteController extends Controller
 
 
 
-<<<<<<< HEAD
     public function allCompanies(){
         $companies = Company::with('categories')->where('status' , 1)->latest('id')->take(3)->get();
-=======
-
-
-    public function allCompany(){
-        $companies = Company::with('categories')->where('status' , 1)->limit(6)->latest('id')->paginate(env('PAGINATION_COUNT'));
->>>>>>> f305488a507c4922415f503b533e3ca92cf0e3b8
         return view('student.allCompanies' ,compact('companies'));
 
     }

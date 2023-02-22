@@ -57,13 +57,13 @@ class StudentController extends Controller
 
             if(request()->has('keyword')){
                 $students = Student::with('specialization', 'university')
-                ->where('company_id', Auth::user()->id)
+                ->where('trainer', Auth::user()->id)
                 ->where('name' , 'like' , '%' .request()->keyword.'%')
                 ->latest('id')
                 ->paginate(env('PAGINATION_COUNT'));
             }else{
                 $students = Student::with('specialization', 'university')
-                ->where('company_id', Auth::user()->id)
+                ->where('trainer', Auth::user()->id)
                 ->latest('id')
                 ->paginate(env('PAGINATION_COUNT'));
             }
@@ -81,28 +81,67 @@ class StudentController extends Controller
             }
         }
 
-        $evaluated_students = Student::has('applied_evaluation')->get();
+        $applied_evaluations = AppliedEvaluation::where('evaluation_type', 'student')->get();
 
-        return view('admin.students.index', compact('students', 'evaluated_students'));
+        return view('admin.students.index', compact('students', 'applied_evaluations'));
+    }
+
+    // search and return students names 
+    public function search(Request $request)
+    {
+        $search = $request->search;
+
+        if($search != null) {
+            if(Auth::guard('company')->check()) {
+                $students = Student::where('company_id', Auth::user()->id)
+                ->where(function($query) use ($search) {
+                    $query->where('name', 'like', '%'.$search.'%')
+                          ->orWhere('student_id', 'like', '%'.$search.'%');
+                })
+                ->pluck('name');
+    
+            } elseif(Auth::guard('trainer')->check()) {
+                $students = Student::where('trainer_id', Auth::user()->id)
+                ->where(function($query) use ($search) {
+                    $query->where('name', 'like', '%'.$search.'%')
+                          ->orWhere('student_id', 'like', '%'.$search.'%');
+                })
+                ->pluck('name');
+    
+            } elseif(Auth::guard('teacher')->check()) {
+                $students = Student::where('teacher_id', Auth::user()->id)
+                ->where(function($query) use ($search) {
+                    $query->where('name', 'like', '%'.$search.'%')
+                          ->orWhere('student_id', 'like', '%'.$search.'%');
+                })
+                ->pluck('name');
+    
+            } else {
+                $students = Student::where(function($query) use ($search) {
+                    $query->where('name', 'like', '%'.$search.'%')
+                          ->orWhere('student_id', 'like', '%'.$search.'%');
+                })
+                ->pluck('name');
+            }
+    
+            if($students) {
+                return response()->json(["students" => $students]);
+            } else {
+                return response()->json(["message"=> "meg"]);
+            }
+        } 
     }
 
     public function delete_company_student($id)
     {
         $student= Student::where('id',$id)->first();
 
-<<<<<<< HEAD
-        $applied_evaluations = AppliedEvaluation::where('evaluation_type', 'student')
-        ->get();
-
-        return view('admin.students.index', compact('students', 'applied_evaluations'));
-=======
         $student->update([
             'company_id'=> null ,
             'category_id'=> null ,
         ]);
 
         return $id ;
->>>>>>> f305488a507c4922415f503b533e3ca92cf0e3b8
     }
 
 
@@ -248,12 +287,11 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show_evaluation($id)
+    public function show_evaluation($slug)
     {
-        $student = Student::whereHas('applied_evaluation')->findOrFail($id);
-        $evaluation = AppliedEvaluation::where('student_id', $id)
+        $student = Student::whereHas('applied_evaluation')->whereSlug($slug)->first();
+        $evaluation = AppliedEvaluation::where('student_id', $student->id)
         ->where('evaluation_type', 'student')
-        ->where('company_id', Auth::user()->company_id)
         ->first();
         $data = json_decode($evaluation->data, true);
         $scores = [

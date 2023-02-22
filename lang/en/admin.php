@@ -68,8 +68,33 @@ return [
     "The :attribute must consist of two syllables." => "The :attribute must consist of two syllables.",
     "Welcome back" => "Welcome back ",
     "The selected email or password is invalid." => "The selected email or password is invalid. ",
-
-
-
-
+    "Student Name" => "Student Name",
+    "Total rate" => "Total rate",
+    "Export as PDF" => "Export as PDF",
+    "Return Back" => "Return Back",
+    "Student Evaluation" => "Student Evaluation",
+    "Evaluation Page" => "Evaluation Page",
+    "Students" => "Students",
+    "Recycle Bin" => "Recycle Bin",
+    "Search by Student Name" => "Search by Student Name",
+    "Evaluated" => "Evaluated",
+    "Not Evaluated yet" => "Not Evaluated yet",
+    "Evaluation" => "Evaluation",
+    "Evaluate" => "Evaluate",
+    "Student phone" => "Student phone",
+    "Student ID" => "Student ID",
+    "University name" => "University name",
+    "Specialization" => "Specialization",
+    "Evaluation Status" => "Evaluation Status",
+    "Action" => "Action",
+    "Question" => "Question",
+    "Answers" => "Answers",
+    "Excellent" => "Excellent",
+    "Very Good" => "Very Good",
+    "Good" => "Good",
+    "Acceptance" => "Acceptance",
+    "Bad" => "Bad",
+    "Save" => "Save",
+    "Cancel" => "Cancel",
+    
 ];
