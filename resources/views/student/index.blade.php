@@ -473,11 +473,6 @@
         </div>
     </section>
 
-    {{-- @php
-    use App\Models\Company;
-        $company = Company::where('id',Auth::user()->company_id)->first();
-        $companySlug = $company->slug;
-    @endphp --}}
     @if (Auth::user()->company_id)
         <section>
             <div class="container">
@@ -505,11 +500,11 @@
                                                     </div>
                                                     <div class="time">
                                                         <div class="date">
-                                                          @if ($task->applied_tasks->count() > 0)
+                                                          {{-- @if ($task->applied_tasks->count() > 0)
                                                               <p class="done_btn">Done <i class="fas fa-check text-success"></i></p>
-                                                          @else
+                                                          @else --}}
                                                             Due {{ Carbon::parse($task->end_date)->locale(config('app.locale'))->format('j F') }}
-                                                          @endif
+                                                          {{-- @endif --}}
                                                         </div>
                                                         <div> {{ $task->created_at->diffForHumans() }}</div>
                                                     </div>
@@ -522,7 +517,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        
                     </div>
                 </div>
 
@@ -543,30 +538,32 @@
                 </div>
                 <div class="row">
                     @foreach ($companies as $company)
-                        @foreach ($company->categories as $category)
-                            <div class="col-md-4">
-                                <article class="blog-post">
-                                    <img src="{{ asset($company->image) }}" alt="">
+                        @php
+                           $category= $company->categories->first(); 
+                        @endphp
+                        <div class="col-md-4">
+                            <article class="blog-post">
+                                <img src="{{ asset($company->image) }}" alt="">
 
-                                    <span>{{ $category->name }}</span>
-
-
-                                    <div class="content">
-                                        <h5>{{ $company->name }}</h5>
-                                        <p class="mb-4">{{ Str::words(strip_tags($company->description), 10, '...') }}
-                                        </p>
-
-                                        <a href="{{ route('student.company', [$company->slug, $category->name]) }}"
-                                            class="btn-brand">Learn More</a>
+                                <span>{{ $category->name }}</span>
 
 
-                                    </div>
-                                </article>
-                            </div>
-                        @endforeach
+                                <div class="content">
+                                    <h5>{{ $company->name }}</h5>
+                                    <p class="mb-4">{{ Str::words(strip_tags($company->description), 10, '...') }}
+                                    </p>
+
+                                    <a href="{{ route('student.company', [$company->slug, $category->name]) }}"
+                                        class="btn-brand">Learn More</a>
+
+
+                                </div>
+                            </article>
+                        </div>
+                    
                     @endforeach
                     <div class="text-center mt-4">
-                        <a href="{{ route('student.allCompany') }}" class="btn-brand">Show More</a>
+                        <a href="{{ route('student.allCompanies') }}" class="btn-brand">Show More</a>
                     </div>
 
                 </div>

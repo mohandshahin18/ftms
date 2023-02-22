@@ -117,9 +117,10 @@ class StudentController extends Controller
 
         $students = Student::latest('id')->paginate(env('PAGINATION_COUNT'));
 
-        $evaluated_students = Student::has('applied_evaluation')->get();
+        $applied_evaluations = AppliedEvaluation::where('evaluation_type', 'student')
+        ->get();
 
-        return view('admin.students.index', compact('students', 'evaluated_students'));
+        return view('admin.students.index', compact('students', 'applied_evaluations'));
     }
 
     /**
@@ -267,32 +268,29 @@ class StudentController extends Controller
     public function show_evaluation($id)
     {
         $student = Student::whereHas('applied_evaluation')->findOrFail($id);
-        $data = json_decode($student->applied_evaluation->data, true);
-        $mapping = [
-            'excellent' => 1,
-            'very good' => 0.85,
-            'good' => 0.75,
-            'acceptable' => 0.5,
-            'bad' => 0.25
+        $evaluation = AppliedEvaluation::where('student_id', $id)
+        ->where('evaluation_type', 'student')
+        ->where('company_id', Auth::user()->company_id)
+        ->first();
+        $data = json_decode($evaluation->data, true);
+        $scores = [
+            'bad' => 20,
+            'acceptable' => 40,
+            'good' => 60,
+            'very good' => 80,
+            'excellent' => 100,
         ];
 
-        foreach($data as $answers) {
-            $answers = $mapping[$answers];
+        $total_score = 0;
+        $count = count($data);
+        foreach ($data as $response) {
+            $total_score += $scores[$response];
         }
 
-        $frequency = array_count_values($data);
-        $total = count($data);
-        $sum = 0;
-
-        foreach($frequency as $answer => $count) {
-            $ratio = $count / $total;
-            $sum += $ratio * $answers;
-        }
-
-        $total_ratio = $sum*(100).'%';
-
-
-        return view('admin.students.evaluation_page', compact('student', 'data', 'total_ratio'));
+        $average_score = $total_score / $count;
+        $average_score = floor($average_score);
+        
+        return view('admin.students.evaluation_page', compact('student', 'data', 'average_score'));
     }
 
 

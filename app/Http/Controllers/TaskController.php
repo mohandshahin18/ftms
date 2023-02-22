@@ -10,10 +10,12 @@ use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Requests\TaskRequest;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\Notifications\NewTaskNotification;
+use Carbon\Carbon;
 
 class TaskController extends Controller
 {
@@ -50,8 +52,8 @@ class TaskController extends Controller
        $trainer = Trainer::with('company')->where('id',  Auth::user()->id)->first();
         $company_id = $trainer->company->id;
 
-        
-        
+
+
 
 
         $slug = Str::slug($request->sub_title);
@@ -88,7 +90,7 @@ class TaskController extends Controller
         //     $request->file('file')->move(public_path('uploads/tasks-files/'),$fileName);
         // }
 
-            Task::create([
+            $task = Task::create([
             'main_title' => $request->main_title,
             'sub_title' => $request->sub_title,
             'start_date' => $request->start_date,
@@ -104,12 +106,18 @@ class TaskController extends Controller
 
 
 
-            $student = Student::where('category_id',Auth::user()->category->id)
-                              ->where('company_id' ,$company_id )->first();
+            $students = Student::where('category_id',Auth::user()->category->id)
+                              ->where('company_id' ,$company_id )->get();
+            // $start_date = now()->diffInMinutes($task->start_date) + 1;
+            // $delay = now()->addMinutes($start_date);
+            $delay = Carbon::parse($task->start_date)->startOfDay();
+            foreach($students as $student){
+                // $student->notify(new NewTaskNotification(Auth::user()->name,$slug,Auth::user()->id));
+                $student->notify((new NewTaskNotification(Auth::user()->name, $slug, Auth::user()->id)));
 
 
+            }
 
-            $student->notify(new NewTaskNotification(Auth::user()->name,$slug,Auth::user()->id ));
 
         return redirect()->route('admin.tasks.index')
         ->with('msg', 'Task has been addedd successfully')
@@ -197,6 +205,31 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
+        $students = Student::where('category_id',Auth::user()->category->id)
+                            ->where('company_id',$task->company_id )->get();
+
+
+       foreach($students as $student){
+            $other_notifications = DB::table('notifications')
+            ->where('type','App\Notifications\NewTaskNotification')
+            ->where('notifiable_type','App\Models\Student')
+            ->where('notifiable_id',$student->id)
+            ->get();
+
+            foreach($other_notifications as $notification) {
+                $data = json_decode($notification->data, true);
+
+                if(($data['slug'] == $task->slug) )
+                    {
+                        DB::table('notifications')
+                            ->where('id', $notification->id)
+                            ->delete();
+                    }
+            }
+        }
+
+
+
         if($task->file){
             try {
                 File::delete(public_path($task->file));

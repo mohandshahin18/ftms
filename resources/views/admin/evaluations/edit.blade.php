@@ -1,6 +1,6 @@
 @extends('admin.master')
 
-@section('title' , 'Add New Evaluation')
+@section('title' , 'Edit Evaluation')
 @section('sub-title' , 'Evaluations')
 @section('evaluations-menu-open' , 'menu-open')
 @section('evaluations-active' , 'active')
@@ -70,15 +70,36 @@
                      {{-- company --}}
                      <div class="col-6">
                         <div class="form-group">
-                            <label class="mb-2">Company</label>
+                            <label class="mb-2">For</label>
                             <select name="evaluation_type" class="form-control" id="">
                                     <option @selected($evaluation->evaluation_type == 'company') value="company">Company</option>
-                                    <option @selected($evaluation->evaluation_type == 'student') value="student">Student</option>
+                                    <option @selected($evaluation->evaluation_type == 'student') value="student">Students</option>
 
                             </select>
                         </div>
                     </div>
 
+                    {{-- start date --}}
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="mb-2">Start Date</label>
+                            <input type="date" class="datepicker form-control @error('start_date') is-invalid @enderror" value="{{ old('start_date', $evaluation->start_date) }}" name="start_date">
+                            @error('start_date')
+                                <small class="invalid-feedback"> {{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
+                    {{-- end date --}}
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="mb-2">End Date</label>
+                            <input type="date" class="datepicker form-control @error('end_date') is-invalid @enderror" value="{{ old('end_date', $evaluation->end_date) }}" name="end_date">
+                            @error('end_date')
+                                <small class="invalid-feedback"> {{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
 
 
                </div>

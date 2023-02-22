@@ -179,7 +179,7 @@ class EvaluationController extends Controller
             'data' => json_encode($request->answer),
         ]);
 
-        return redirect()->route('admin.evaluations.index')
+        return redirect()->route('admin.students.index')
         ->with('msg', $student->name.' has been evaluated successfully')
         ->with('type', 'success');
     }

@@ -165,8 +165,12 @@
                 window.history.pushState("localhost/", "profile", data.slug);
                 $("#primary_name").empty();
                 $("#primary_name").append(data.name);
+                $("#dropdown_name").empty();
+                $("#dropdown_name").append(data.name);
                 $("#primary_email").empty();
                 $("#primary_email").append(data.email);
+                $("#student_img").attr("src", "http://127.0.0.1:8000/"+ data.image);
+                $("#dropdown_img").attr("src", "http://127.0.0.1:8000/"+ data.image);
                 const Toast = Swal.mixin({
 
                     toast: true,

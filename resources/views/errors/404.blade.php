@@ -39,7 +39,11 @@
 		<div class="inner-content">
 			<h1 class="heading">404</h1>
 			<p class="subheading">Not Found</p>
-      <a class="home_route" href="{{ route('student.home') }}">Return home</a>
+      @if (Auth::guard('student')->check())
+        <a class="home_route" href="{{ route('student.home') }}">Return home</a>
+      @else
+        <a class="home_route" href="{{ route('admin.home') }}">Return home</a>
+      @endif
 		</div>
 	</div>
 	<div class="right-section">

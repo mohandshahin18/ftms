@@ -109,7 +109,7 @@ use App\Models\Trainer;
 
         <div class="notification-ui_dd-content">
             {{-- @dump($noti ); --}}
-            @foreach ($auth->notifications as $notify)
+            @forelse ($auth->notifications as $notify)
 
                 <a href="{{ $notify->data['url'] }}" style="font-weight: unset">
                     <div class="notification-list {{ $notify->read_at ? '' : 'notification-list--unread' }} ">
@@ -158,8 +158,9 @@ use App\Models\Trainer;
                         </div>
                     </div>
                 </a>
-                {{-- @endif --}}
-            @endforeach
+                @empty
+                <p class=" mt-3 mb-5 text-center">There are no Notifications yet</p>
+                @endforelse
 
         </div>
 

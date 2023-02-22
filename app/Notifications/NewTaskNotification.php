@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewTaskNotification extends Notification
+class NewTaskNotification extends Notification implements ShouldQueue
 {
 
     use Queueable;
@@ -66,6 +66,7 @@ class NewTaskNotification extends Notification
             'from' => 'task',
             'trainer_id' => $this->trainer_id ,
             'msg' => 'There is a new task',
+            'slug'=> $this->slug ,
             'url' => url('/task/'.$this->slug),
         ];
     }

@@ -124,7 +124,7 @@ class HomeController extends Controller
     public function profile_edit(Request $request , $id)
     {
 
-       
+
       if(Auth::guard('admin')->check() ){
         $admin =Admin::findOrFail($id);
         $path = $admin->image;
@@ -149,11 +149,7 @@ class HomeController extends Controller
             'image' => $path,
         ]);
 
-        // if(!$validator->fails()){
-            return json_encode(array("email"=>$admin->email, "name"=>$admin->name));
-        // }else{
-            // return response()->json(['errors' => $validator->errors()], 400);
-        // }
+            return json_encode(array("email"=>$admin->email, "name"=>$admin->name, "image" =>$admin->image));
 
       }elseif(Auth::guard('teacher')->check() ){
 
@@ -207,7 +203,7 @@ class HomeController extends Controller
         }
 
 
-        return json_encode(array("email"=>$teacher->email, "name"=>$teacher->name));
+        return json_encode(array("email"=>$teacher->email, "name"=>$teacher->name, "image" =>$teacher->image));
 
       }elseif(Auth::guard('trainer')->check() ){
             $trainer =Trainer::findOrFail($id);
@@ -234,7 +230,7 @@ class HomeController extends Controller
                 'category_id' => $request->category_id
             ]);
 
-            return json_encode(array("email"=>$trainer->email, "name"=>$trainer->name));
+            return json_encode(array("email"=>$trainer->email, "name"=>$trainer->name, "image" =>$trainer->image));
 
       }elseif(Auth::guard('company')->check() ){
 
@@ -269,7 +265,7 @@ class HomeController extends Controller
 
         $company->categories()->sync( $request->category_id);
 
-        return json_encode(array("email"=>$company->email, "name"=>$company->name));
+        return json_encode(array("email"=>$company->email, "name"=>$company->name, "image" =>$company->image));
 
 
       }

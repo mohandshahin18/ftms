@@ -256,12 +256,12 @@ a.dropdown-item.dropdown-footer{
                     @endphp
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <img width="30" height="30" style="margin-top: -5px;object-fit: cover"
-                            src="{{ $src }}" class="img-circle elevation-2" alt="User Image">
+                            src="{{ $src }}" class="img-circle elevation-2" id="nav_img" alt="User Image">
                     </a>
                     <div class="dropdown-menu dropdown-menu-right user-dropdown">
-                        <div class="dropdown-img mt-4" style="background-image: url('{{ $src }}')"></div>
+                        <div class="dropdown-img mt-4" id="dropdown_image" style="background-image: url('{{ $src }}')"></div>
 
-                        <p class=" text-center my-2" style="font-size: 17px;">{{ Auth::guard()->user()->name }}</p>
+                        <p class=" text-center my-2" id="dropdown_name" style="font-size: 17px;">{{ Auth::guard()->user()->name }}</p>
                         <div class="dropdown-divider mb-3"></div>
                         <a href="{{ route('admin.profile') }}" class="dropdown-item text-secondary mb-2">
                             <i class="fas fa-user mr-2 text-secondary"></i> Profile
@@ -675,6 +675,12 @@ a.dropdown-item.dropdown-footer{
     <script src="{{ asset('adminAssets/dist/js/custom.js') }}"></script>
     <!-- Sweat Alert -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js"></script>
+    {{-- <script src="{{ asset('js/app.js') }}"></script> --}}
+    <script>
+        let companyId = '{{ Auth::id() }}';
+    </script>
+    @vite(['resources/js/app.js'])
+
     <!-- Loader -->
     {{-- <script>
         window.onload = ()=> {

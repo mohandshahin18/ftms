@@ -7,9 +7,6 @@
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 
 <style>
-    .colored-toast.swal2-icon-success {
-        background-color: #a5dc86 !important;
-    }
 
     .select2-container--default
     .select2-selection--multiple
@@ -198,13 +195,6 @@
     </form>
     </div>
 
-
-
-
-
-
-
-
 @stop
 
 
@@ -247,12 +237,17 @@
                     }, 5000);
                     $("#name").empty();
                     $("#name").append(data.name);
+                    $("#dropdown_name").empty();
+                    $("#dropdown_name").append(data.name);
                     $("#email").empty();
                     $("#email").append(data.email);
+                    $("#nav_img").attr("src", "http://127.0.0.1:8000/"+data.image);
+                    $("#dropdown_image").css({
+                        'background-image': 'url('+'http://127.0.0.1:8000/'+data.image+')'
+                    });
                     const Toast = Swal.mixin({
                     toast: true,
                     position: 'top',
-                    iconColor: 'white',
                     customClass: {
                         popup: 'colored-toast'
                     },

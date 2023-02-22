@@ -83,6 +83,7 @@
     @php
     use App\Models\Company;
     use App\Models\Trainer;
+    use App\Models\Category;
     $auth =Auth::user();
 
         $data = json_decode(File::get(storage_path('app/settings.json')), true);
@@ -126,23 +127,23 @@
                                 aria-expanded="false" href="#">
                                 <span class="badge badge-danger navbar-badge"></span>
 
-                                <span>{{ $auth->unreadNotifications->count()  }}</span><i class="fa fa-bell"></i>
+                                <span>{{ $auth->unreadNotifications->count()  }}</span><i class="far fa-bell"></i>
                                     </a>
                                 @else
 
                                 <a class="dropdown-toggle" id="notifications" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false" href="#">
-                                <i class="fa fa-bell"></i>
+                                <i class="far fa-bell"></i>
 
                                     </a>
                                 @endif
-                                    {{-- notification --}}
-                            <div class="dropdown-menu dropdown-menu-right rounded-0 pt-0 notify-msg-drop"
+
+                            <div class="dropdown-menu dropdown-menu-right rounded-0 pt-0"
                                 aria-labelledby="notifications">
                                 <div class="list-group">
                                     <div class="lg">
 
-                                        @foreach ($auth->notifications as $notify)
+                                        @forelse ($auth->notifications as $notify)
                                         @php
                                         if ($notify->data['from'] == 'apply') {
                                             $company = Company::where('id',$notify->data['company_id'])->first();
@@ -155,7 +156,7 @@
                                                 $notifySrc = asset($img);
                                             }
                                             }elseif ($notify->data['from'] == 'task') {
-                                                $trainer = Trainer::where('id',$notify->data['trainer_id'])->first();
+                                                $trainer = $auth->trainer;
                                                 $trainer = $trainer->image;
 
                                                 $name = $notify->data['name'] ?? '';
@@ -165,8 +166,8 @@
                                                     $notifySrc = asset($img);
                                                 }
                                             }
+                                            
                                         @endphp
-
                                         <div class="media">
                                             <a href="{{ route('student.mark_read' ,$notify->id) }}" class="list-group-item list-group-item-action {{ $notify->read_at ? '' : 'active' }}" style="font-weight: unset">
 
@@ -184,15 +185,17 @@
                                                     </div>
                                                 </div>
                                                 <div class="media-body mt-2">
-                                                    
+
                                                     <p class="text-sm">{{ $notify->data['msg'] }}</p>
 
-                                                    
+
                                                 </div>
 
                                             </a>
                                         </div>
-                                        @endforeach
+                                        @empty
+                                        <p class=" mt-3 mb-5 text-center">There are no Notifications yet</p>
+                                        @endforelse
 
 
 
@@ -207,8 +210,8 @@
 
                         <div class="d-inline dropdown mr-3">
                             <a class="dropdown-toggle" id="messages" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false" href="#"><i class="fa fa-envelope"></i></a>
-                            <div class="dropdown-menu dropdown-menu-right rounded-0 pt-0 notify-msg-drop" aria-labelledby="messages">
+                                aria-expanded="false" href="#"><i class="far fa-envelope"></i></a>
+                            <div class="dropdown-menu dropdown-menu-right rounded-0 pt-0" aria-labelledby="messages">
                                 <!-- <a class="dropdown-item">There are no new messages</a> -->
                                 <div class="list-group">
                                     <div class="lg">
@@ -231,9 +234,9 @@
                                                 </div>
 
                                                 <div class="media-body mt-2">
-                                                    
+
                                                     <p class="text-sm">Call me whenever you can...</p>
-                                                    
+
                                                 </div>
 
                                             </a>
@@ -250,18 +253,19 @@
                         <div class="d-inline dropdown">
                             <a class="dropdown-toggle" id="messages" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false" href="#">
-                                <img src="{{ $src }}">
+                                <img src="{{ $src }}" id="student_img">
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right rounded-0 profile" style="width: 240px;"
+                            <div class="dropdown-menu dropdown-menu-right rounded-0 profile" style="width: 220px;"
                                 aria-labelledby="messages">
-                                <img src="{{ $src }}">
-                                <p class=" text-center my-2" style="font-size: 17px;">{{ auth()->user()->name }}</p>
+                                <img src="{{ $src }}" id="dropdown_img">
+                                <p class=" text-center mb-2" id="dropdown_name" style="font-size: 17px;">{{ auth()->user()->name }}</p>
 
                                 <div class="dropdown-divider mb-1"></div>
-                                <div class="dropdown-links">
-                                    <a href="{{ route('student.profile', Auth::user()->slug) }}">Profile</a>
-                                    <a href="{{ route('edit-password', 'student') }}"> Edit password</a>
-                                    <a href="{{ route('logout', 'student') }}"> Logout</a>
+                                <div class="dropdown-links pl-3">
+                                    
+                                    <a href="{{ route('student.profile', Auth::user()->slug) }}"><i class="fas fa-user mr-2"></i>Profile</a>
+                                    <a href="{{ route('edit-password', 'student') }}"><i class="fas fa-key mr-2"></i> Edit password</a>
+                                    <a href="{{ route('logout', 'student') }}"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a>
                                 </div>
                             </div> <!-- /.dropdown-menu -->
                         </div> <!-- /.dropdown -->
@@ -276,11 +280,8 @@
                     $company = Company::with('categories')
                         ->where('id', $company_id)
                         ->first();
-                    if ($company_id) {
-                        foreach ($company->categories as $category) {
-                            $category = $category->name;
-                        }
-                    }
+                    $category_id = Auth::user()->category_id;
+                    $category = Category::where('id', $category_id)->first();
                 @endphp
 
                 <div class="megamenu w-100">
@@ -290,12 +291,12 @@
                                 <div class="col-md-2 px-0">
                                     @if (Auth::user()->company_id)
                                         <a class="btn rounded-0 border-0 d-flex w-100 justify-content-between p-3 pl-5"
-                                            href="{{ route('student.company', [$company->slug, $category]) }}">
+                                            href="{{ route('student.company', [$company->slug, $category->name]) }}">
                                             Company
                                         </a>
                                     @else
                                         <a class="btn rounded-0 border-0 d-flex w-100 justify-content-between p-3 pl-5"
-                                            href="{{ route('student.allCompany') }}">
+                                            href="{{ route('student.allCompanies') }}">
                                             Companies
                                         </a>
                                     @endif
@@ -363,6 +364,40 @@
             }
         }
     </script> --}}
+@if (session('msg'))
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top',
+            showConfirmButton: false,
+            timer: 4000,
+            timerProgressBar: false,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+
+        @if (session('type') == 'success')
+            Toast.fire({
+                icon: 'success',
+                title: '{{ session('msg') }}'
+            })
+        @elseif (session('type') == 'danger')
+            Toast.fire({
+                icon: 'error',
+                title: '{{ session('msg') }}'
+            })
+        @else
+            Toast.fire({
+                icon: 'info',
+                title: '{{ session('msg') }}'
+            })
+        @endif
+    </script>
+@endif
+
+    
     @yield('scripts')
 </body>
 

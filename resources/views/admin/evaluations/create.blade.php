@@ -69,7 +69,7 @@
                      {{-- type --}}
                      <div class="col-lg-6">
                         <div class="form-group">
-                            <label class="mb-2">Evaluation Type</label>
+                            <label class="mb-2">Evaluation for</label>
                             <select name="evaluation_type" class="form-control" id="">
                                 <option value="company">Companies</option>
                                 <option value="student">Students</option>

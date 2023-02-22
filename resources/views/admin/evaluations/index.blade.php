@@ -43,7 +43,7 @@
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
                                 <th>Evaluations Name</th>
-                                <th>Type</th>
+                                <th>For</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -53,7 +53,7 @@
                                 <tr id="row_{{ $evaluation->id }}">
                                     <td>{{ $evaluation->id }}</td>
                                     <td>{{ $evaluation->name }}</td>
-                                    <td>{{ $evaluation->evaluation_type }}</td>
+                                    <td>{{ $evaluation->evaluation_type == 'company' ? 'Company' : 'Students' }}</td>
                                     <td>
                                         <div style="display: flex; gap: 5px">
                                             <a title="Edit" href="{{ route('admin.evaluations.edit', $evaluation) }}" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i> </a>

@@ -12,15 +12,16 @@ use App\Rules\TwoSyllables;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\FileRequest;
+use App\Models\AppliedEvaluation;
 use App\Models\AppliedTasks;
+use App\Models\Evaluation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\Notifications\AppliedNotification;
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+
+use function Termwind\render;
 
 class websiteController extends Controller
 {
@@ -29,7 +30,7 @@ class websiteController extends Controller
 
     public function index()
     {
-        $companies = Company::with('categories')->where('status', 1)->limit(3)->latest('id')->get();
+        $companies = Company::with('categories')->where('status', 1)->inRandomOrder()->limit(3)->latest('id')->get();
         $company = Company::get();
         $students = Student::get();
         $trainers = Trainer::get();
@@ -59,19 +60,46 @@ class websiteController extends Controller
     public function showCompany($slug , $program)
     {
         $company = Company::with('categories')->whereSlug($slug)->firstOrFail();
-        foreach($company->categories as $category) {
-            if($program == $category->name){
-                $ap= Auth::user()->applications->where('category_id', $category->id)
-                                ->where('student_id', Auth::user()->id)
-                                ->where('company_id', $company->id)
-                                ->first();
+        
+        if(Auth::user()->company_id) {
+            $evaluated = AppliedEvaluation::where('evaluation_type', 'company')
+                                          ->where('student_id', Auth::user()->id)
+                                          ->where('company_id', Auth::user()->company_id)
+                                          ->first();
+            $applied = DB::table('applied_evaluations')->where('student_id', Auth::user()->id)
+            ->where('company_id', $company->id)->first();
+            if($applied) {
+                $evaluations = json_decode($applied->data, true);
+                $scores = [
+                    'bad' => 20,
+                    'acceptable' => 40,
+                    'good' => 60,
+                    'very good' => 80,
+                    'excellent' => 100,
+                ];
+    
+                $total_score = 0;
+                $count = count($evaluations);
+                foreach ($evaluations as $response) {
+                    $total_score += $scores[$response];
+                }
+    
+                $average_score = $total_score / $count;
+                $average_score = floor($average_score);
             }
+            return view('student.company',compact('company','program', 'evaluated'));
+        } else {
+            foreach($company->categories as $category) {
+                if($program == $category->name){
+                    $ap= Auth::user()->applications->where('category_id', $category->id)
+                                    ->where('student_id', Auth::user()->id)
+                                    ->where('company_id', $company->id)
+                                    ->first();
+                }
+            }    
+            return view('student.company',compact('company','program', 'ap'));
         }
 
-
-        $applied =Application::get();
-
-        return view('student.company',compact('company','program' ,'applied', 'ap'));
     }
 
     public function company_apply(Request $request){
@@ -106,11 +134,9 @@ class websiteController extends Controller
 
         $response = array();
         $response['content'] = '<p>Your application under review, we will send a message when we approved it</p>
-        <form action="/company/cancel/'.$ap->id.'/request" id="cancel_form" method="POST">
-            '. csrf_field(). '
-            '. method_field('DELETE'). '
-            <button type="button" class="btn btn-brand" id="cancle_btn">Cancel Request</button>
-        </form>';
+
+        <a href="/company/cancel/'.$ap->id.'/request" class="btn btn-brand" id="cancle_btn">Cancel Request</a>
+        ';
 
         return response()->json($response);
     }
@@ -119,14 +145,16 @@ class websiteController extends Controller
 
     public function company_cancel($id){
         $applied = Application::findOrFail($id);
+
         $notifications = DB::table('notifications')
-        ->where('notifiable_id',$applied->company_id)
-        ->where('notifiable_type', 'App\Models\Company')
-        ->get();
+                    ->where('type','App\Notifications\AppliedNotification')
+                    ->where('notifiable_type','App\Models\Company')
+                    ->where('notifiable_id',$applied->company_id)
+                    ->get();
 
         if($notifications) {
             foreach($notifications as $notification) {
-                
+
                 $data = json_decode($notification->data, true);
                 if(($data['student_id'] == Auth::user()->id)&&
                     ($data['category_id'] == $applied->category_id) &&
@@ -138,14 +166,16 @@ class websiteController extends Controller
                     }
             }
         }
+
+
         Application::destroy($id);
-        return $id;
+        return redirect()->back();
     }
 
 
 
-    public function allCompany(){
-        $companies = Company::with('categories')->where('status' , 1)->limit(6)->latest('id')->paginate(env('PAGINATION_COUNT'));
+    public function allCompanies(){
+        $companies = Company::with('categories')->where('status' , 1)->latest('id')->take(3)->get();
         return view('student.allCompanies' ,compact('companies'));
 
     }
@@ -202,23 +232,24 @@ class websiteController extends Controller
             'slug' =>$slug
         ]);
 
-        return json_encode(array("name"=>$student->name, "email"=>$student->email, "slug"=>$student->slug));
+        return json_encode(array("name"=>$student->name, "email"=>$student->email, "slug"=>$student->slug, "image" => $student->image));
 
     }
 
     // Submit Task
     public function submit_task(Request $request)
     {
-
         $request->validate([
-            'file' => 'required|max:5120 '
+            'file' => 'required|max:5120' 
         ], [
-            'file.max' => 'File size have to be 5MB or less',
+            'file.max' => 'The file size must be less than 5MB.'
         ]);
+        
+        
         $file = $request->file('file')->getClientMimeType();
         $allowed_types = ['application/pdf', 'application/zip', 'application/octet-stream', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'];
-        
        
+        
         if(in_array($file, $allowed_types)) {
                 $file = $request->file('file');
                 if($file->isValid()) {
@@ -234,12 +265,8 @@ class websiteController extends Controller
                     
             
                     return response()->json($applied_task->toArray());
-                } else {
-                    return response()->json(['errors' => ['file' => ['File type is invalid']]], 422);
-                }
-            } else {
-                return response()->json(['errors' => ['file' => ['File type is invalid']]], 422);
-            }
+                } 
+            } 
         
 
         
@@ -253,22 +280,111 @@ class websiteController extends Controller
         $applied_task = AppliedTasks::findOrFail($id);
        
         if($request->file('file')) {
-            
+
             File::delete(public_path('uploads/applied-tasks/' . $applied_task->file));
 
             $file = $request->file('file')->getClientOriginalName();
             $file = str_replace(' ', '-', $file);
             $request->file('file')->move(public_path('uploads/applied-tasks/'), $file);
-            
+
         }
 
         $applied_task->update([
             'file' => $file,
         ]);
 
-        return response()->json($applied_task->toArray()); 
+        return response()->json($applied_task->toArray());
 
-        
+
     }
 
+    // load more categories
+    public function load_more_categories(Request $request)
+    {
+        $page = $request->page;
+        $offset = $page * 3;
+        $companies = Company::with('categories')
+                ->where('status', 1)
+                ->orderBy('id', 'desc')
+                ->offset($offset)
+                ->take(3)
+                ->get();
+        return view('student.load_more_categories' ,compact('companies'));
+    }
+
+
+    // get companies names for dropdown
+    public function get_companies_names(Request $request)
+    {
+        $search = $request->search;
+        if($search != null && strlen($search) > 1) {
+            $companies = Company::where('name', 'like', '%'.$search.'%')->where('status', 1)->pluck('name', 'id');
+            
+            if(!$companies->isEmpty()) {
+                return response()->json(['companies' => $companies]);
+            } else {
+                return response()->json(['message' => 'empty']);
+            }
+           
+        } else {
+            $companies = Company::with('categories')->where('status' , 1)->latest('id')->take(3)->get();
+            $content = view('student.companies_content', compact('companies'))->render();
+            
+            return response()->json(['content' => $content]);
+        }
+    }
+
+    // content for ajax 
+    public function companies_content(){
+        $companies = Company::with('categories')->where('status' , 1)->latest('id')->take(3)->get();
+        return view('student.companies_content' ,compact('companies'));
+
+    }
+
+
+
+    // AJAX search
+    public function ajax_search(Request $request)
+    {
+        $company = Company::with('categories')->findOrFail($request->company_id);
+        
+        return view('student.search_result', compact('company'));
+
+    }
+
+
+
+    // evaluate company
+    public function evaluate_company($slug)  
+    {
+        $company = Company::whereSlug($slug)->first();
+        $evaluation = Evaluation::where('evaluation_type', 'company')->first();
+        return view('student.evaluate', compact('company', 'evaluation'));
+    }
+
+
+      /**
+     * Store a new evaluations of company.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function apply_evaluation(Request $request, $id)
+    {
+        $evaluation = Evaluation::findOrFail($id);
+        $company = Company::findOrFail($request->company_id);
+        $program = Category::where('id', Auth::user()->category_id)->first();
+
+        AppliedEvaluation::create([
+            'evaluation_type' => $evaluation->evaluation_type,
+            'evaluation_id' => $id,
+            'student_id' => Auth::user()->id,
+            'company_id' => $request->company_id,
+            'data' => json_encode($request->answer),
+        ]);
+
+        return redirect()->route('student.company', [$company->slug, $program])
+        ->with('msg', $company->name.' has been evaluated successfully')
+        ->with('type', 'success');
+    }
 }

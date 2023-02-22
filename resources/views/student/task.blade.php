@@ -139,7 +139,7 @@
 
 
                 </div>
-                <div class="col-lg-12" id="form_wrapper">
+                <div class="col-lg-12 text-end" id="form_wrapper">
                     @if (!now()->gt($end_date))
                         @if ($applied_task)
                             <button type="button" id="show_edit_form"  value="edit-btn" class="btn btn-brand">Edit submission</button>
@@ -252,6 +252,10 @@
                         contentType: false,
                         processData: false,
                         data: formData,
+                        beforeSend: function() {
+                            $('#task_form').empty();
+                            $('#task_form').html('<div class="text-center" style="font-size: 36px; width: 100%;"><i class="fa fa-spin fa-spinner"></i> Loading...</div>');
+                        },
                         success: function(response) {
                             $('#task_form').hide();
                             $("#show_form").hide();

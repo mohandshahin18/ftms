@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Models\Student;
 use App\Models\Application;
 use App\Models\Category;
+use App\Models\Trainer;
 use App\Notifications\AcceptApplyNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -49,11 +50,14 @@ class NotifyController extends Controller
                                         ->where('student_id' ,$request->student_id )->first();
             $application->delete();
 
-
+            $trainer = Trainer::where('company_id', $request->company_id)
+            ->where('category_id', $request->category_id)
+            ->first();
             $student = Student::where('id',$request->student_id)->first();
             $student->update([
                 'company_id' => $request->company_id,
                 'category_id' => $request->category_id,
+                'trainer_id' => $trainer->id
             ]);
 
             $delete_application = Application::where('company_id' ,'!=',$request->company_id )
@@ -88,6 +92,8 @@ class NotifyController extends Controller
 
 
             $other_notifications = DB::table('notifications')
+                            ->where('type','App\Notifications\AppliedNotification')
+                            ->where('notifiable_type','App\Models\Company')
                             ->where('notifiable_id', '!=', $request->company_id)
                             ->get();
 
@@ -105,6 +111,8 @@ class NotifyController extends Controller
             }
 
             $other_notifications_diff_cat = DB::table('notifications')
+                                            ->where('type','App\Notifications\AppliedNotification')
+                                            ->where('notifiable_type','App\Models\Company')
                                             ->where('notifiable_id', $request->company_id)
                                             ->get();
 
@@ -112,22 +120,45 @@ class NotifyController extends Controller
                 foreach($other_notifications_diff_cat as $other_notif) {
                     $data2 = json_decode($other_notif->data, true);
                     if($data2['category_id'] !== $request->category_id) {
-                        DB::table('notifications')->where('id', $other_notif->id)->delete();
+                            DB::table('notifications')
+                               ->where('id', $other_notif->id)
+                               ->delete();
                     }
                 }
             }
 
-            $student = Student::where('id',$request->student_id)->first();
+            $student = Student::where('id',$student_id)->first();
             $studentName =$student->name;
 
-            $category = Category::where('id',$request->category_id)->first();
+            $category = Category::where('id',$category_id)->first();
             $categoryName =$category->name;
 
             $student->notify(new AcceptApplyNotification(Auth::user()->name,Auth::user()->slug , $request->company_id ,$categoryName, $studentName ));
-            return '<i class="fas fa-check text-success">Approved</i>';
+            return '<i class="fas fa-check text-success"> Approved</i>';
         }
     }
 
+    public function reject_apply(Request $request ,$id)
+    {
+        $received_hash = $request->hash;
+        $student_id = $request->input('student_id');
+        $company_id = $request->input('company_id');
+        $category_id = $request->input('category_id');
+
+        $generated_hash = hash('sha256', $company_id. $student_id. $category_id);
+
+        if ($received_hash != $generated_hash) {
+            return response()->json(['icon' => 'error','title'=>'The form data is not valid'],400);
+        }else {
+             Application::where('company_id' , $company_id)
+                        ->where('student_id',$student_id)
+                        ->where('category_id',$category_id)->delete();
+
+            DB::table('notifications')->where('id',$id)->delete();
+            return  response()->json(['reject' =>'<i class="fas fa-times text-danger"> Rejected</i>' ,'id'=>$id]);
+        }
+
+    }
 
 
     public function read_student_notify()

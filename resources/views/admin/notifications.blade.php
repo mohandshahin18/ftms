@@ -113,7 +113,7 @@
                 {{-- @if ($notify->data['company'] == Auth::guard('company')->user()->id) --}}
 
 
-                <div class="notification-list {{ $notify->read_at ? '' : 'notification-list--unread' }} ">
+                <div class="notification-list {{ $notify->read_at ? '' : 'notification-list--unread' }} "  id="notify_{{ $notify->id }}">
                     <div class="notification-list_content">
                         <div class="notification-list_img">
                             @php
@@ -167,8 +167,14 @@
                                         <input type="hidden" name="category_id" value="{{ $notify->data['category_id'] }}" id="">
                                         <button type="button" class="btn btn-success accept_btn"></i>Accept</button>
                                     </form>
-                                    <form action="">
-                                        <button type="button" class="btn btn-danger">Reject</button>
+                                    <form action="{{ route('admin.reject_apply',$notify->id) }}" method="POST">
+                                        @csrf
+                                        @method('delete')
+                                        <input type="hidden" name="hash" value="{{ $hash }}" id="">
+                                        <input type="hidden" name="company_id" value="{{ $notify->data['company_id'] }}" id="">
+                                        <input type="hidden" name="student_id" value="{{ $notify->data['student_id'] }}" id="">
+                                        <input type="hidden" name="category_id" value="{{ $notify->data['category_id'] }}" id="">
+                                        <button type="button" class="btn btn-danger reject_btn">Reject</button>
 
                                     </form>
                                 </div>
@@ -193,15 +199,14 @@
 
 @section('scripts')
     <script>
-        // let form = $("#form-");
         let accept_btn = $(".accept_btn");
-        // let content_div = $(".btns");
+        let reject_btn = $(".reject_btn");
 
-        // let url = accept_btn.parent().attr("action");
 
         accept_btn.parent().onsubmit = (e) => {
             e.preventDefault();
         }
+
 
 
 
@@ -217,7 +222,6 @@
                     wrapper.append(data);
                 } ,
                 error: function(data) {
-                        // console.log(data.title);
                     const Toast = Swal.mixin({
                     toast: true,
                     position: 'top',
@@ -238,6 +242,46 @@
             })
         })
 
+
+        reject_btn.parent().onsubmit = (e) => {
+            e.preventDefault();
+        }
+
+        reject_btn.on("click", function() {
+            let url = $(this).parent().attr("action");
+            let wrapper = $(this).parents().eq(1);
+            $.ajax({
+                type: "Delete",
+                url: url,
+                data: $(this).parent().serialize(),
+                success: function(data) {
+                    wrapper.empty();
+                    wrapper.append(data.reject);
+                    setTimeout(() => {
+                        $('#notify_'+data.id).remove();
+                    }, 3000);
+
+                },
+                error: function(data) {
+                    const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: false,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                    })
+
+                    Toast.fire({
+                    icon: data.responseJSON.icon,
+                    title: data.responseJSON.title
+                    })
+                } ,
+            })
+        })
 
 
         function showMessage(data) {

@@ -99,8 +99,8 @@
                                         @php
                                             $isEvaluated = false;
                                         @endphp
-                                        @foreach ($evaluated_students as $evaluated_student)
-                                            @if ($student->id == $evaluated_student->id)
+                                        @foreach ($applied_evaluations as $applied_evaluation)
+                                            @if ($student->id == $applied_evaluation->student_id )
                                                 @php
                                                     $isEvaluated = true;
                                                 @endphp
@@ -180,45 +180,4 @@
 
     </script>
 
-
-    {{-- AJAX Filter --}}
-
-    {{-- <script>
-        $(document).ready(function() {
-            $("#filter").on("change", function() {
-                let filter = $("#filter").val();
-
-                $.ajax({
-                    url: '/admin/students/filter',
-                    type: "GET",
-                    data: {filter: filter},
-                    success:function(data) {
-                        let student = data.students;
-                        // let res = Array.isArray(student) ? student : [student];
-                        let value = data.value;
-                        $("#students_list").empty();
-                        student.forEach(function(student) {
-
-                            let row = `<tr>
-                                            <td>${student.id}</td>
-                                            <td>${student.name}</td>
-                                            <td>${student.phone}</td>
-                                            <td>${student.student_id}</td>
-                                            <td>${student.university.name}</td>
-                                            <td>${student.specialization.name}</td>
-                                            <td>${value}</td>
-                                            ${value == 'Not Evaluated yet' ?
-                                                `<td>
-                                                    <a href="{{ route('admin.students.show', $student) }}" class="btn btn-outline-secondary" data-disabled="true" title="evaluate">Evaluate</a>
-                                                </td>` : ''
-                                            }
-                                        </tr>`;
-                                        $("#students_list").append(row);
-                        })
-                    }
-                })
-            });
-
-        });
-    </script> --}}
 @stop
