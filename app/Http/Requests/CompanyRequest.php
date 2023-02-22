@@ -35,6 +35,8 @@ class CompanyRequest extends FormRequest
             'email' => ['required'],
             'phone' => ['required'],
             'address' => ['required'],
+            'category_id' => ['required'],
+            'password' => [$rule],
             'image' => [$rule,'image','mimes:png,jpg,jpeg,svg,jfif,webp','max:2048'],
             'description' => ['required', new TextLength()],
         ];

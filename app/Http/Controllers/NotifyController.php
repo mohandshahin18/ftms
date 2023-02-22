@@ -48,7 +48,7 @@ class NotifyController extends Controller
             $application = Application::where('company_id',$request->company_id )
                                         ->where('category_id' ,$request->category_id )
                                         ->where('student_id' ,$request->student_id )->first();
-            $application->delete();
+
 
             $trainer = Trainer::where('company_id', $request->company_id)
             ->where('category_id', $request->category_id)
@@ -127,6 +127,8 @@ class NotifyController extends Controller
                 }
             }
 
+            $application->delete();
+            
             $student = Student::where('id',$student_id)->first();
             $studentName =$student->name;
 

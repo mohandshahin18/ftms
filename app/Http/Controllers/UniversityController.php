@@ -47,7 +47,7 @@ class UniversityController extends Controller
             'address' => $request->address,
         ]);
 
-        return redirect()->route('admin.universities.index')->with('msg', 'University has been addedd successfully')->with('type', 'success');
+        return redirect()->route('admin.universities.index')->with('msg', __('admin.University has been addedd successfully'))->with('type', 'success');
     }
 
     /**

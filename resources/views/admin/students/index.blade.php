@@ -157,7 +157,7 @@
                                 <th>{{ __('admin.University name') }}</th>
                                 <th>{{ __('admin.Specialization') }}</th>
                                 <th>{{ __('admin.Evaluation Status') }}</th>
-                                <th>{{ __('admin.Action') }}</th>
+                                <th>{{ __('admin.Actions') }}</th>
                             </tr>
                         </thead>
 

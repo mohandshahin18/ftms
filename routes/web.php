@@ -19,8 +19,6 @@ use App\Http\Controllers\SpecializationsController;
 use App\Http\Controllers\WebSite\websiteController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
-use App\Http\Controllers\WebSite\HomeController as WebSiteHomeController;
-use App\Models\Student;
 
 /*
 |--------------------------------------------------------------------------

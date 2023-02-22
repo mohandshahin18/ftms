@@ -134,7 +134,7 @@
 <section>
     <div class="container">
         <div class="search_wrapper mb-5">
-            
+
             <div class="input-box">
                 <input type="text" placeholder="Search by Company name..."  id="search_input" autocomplete="off"/>
                 <span><i class="fas fa-times" id="clear_input"></i></span>
@@ -147,8 +147,8 @@
                 </ul>
             </div>
         </div>
-          
-           
+
+
         <div class="row" id="categories_wrapper">
             @foreach ($companies as $company )
                 @foreach ( $company->categories as $category )
@@ -161,7 +161,7 @@
 
                                 <div class="content">
                                     <h5>{{ $company->name }}</h5>
-                                    <p class="mb-4">{{ Str::words(strip_tags(html_entity_decode($company->description)), 10, '...') }}</p>
+                                    <p class="mb-4">{{ Str::words(strip_tags(html_entity_decode($company->description)), 6, '...') }}</p>
 
                                     <a href="{{ route('student.company' ,[$company->slug , $category->name]) }}" class="btn-brand">Learn More</a>
                                 </div>
@@ -182,7 +182,7 @@
     $(document).ready(function() {
         var wrapper = $("#categories_wrapper");
         var url = 'load/more/categories';
-        
+
 
         $(document).on("click", '#load_more_btn', function() {
             let page = $(this).data("page");
@@ -249,7 +249,7 @@
                             $("#companies_dropdown").empty();
                             let msg = `<p style="padding: 10px;">there is no result for<b><i>${search}</i></b></p>`;
                             $("#companies_dropdown").append(msg);
-                        } 
+                        }
                         else {
                             $("#companies_dropdown").empty();
                             $.each(response.companies, function(index, value) {
@@ -257,7 +257,7 @@
                                 $("#companies_dropdown").show();
                                 $("#companies_dropdown").append(row);
                             })
-                            
+
                         }
                     }, error:function(response) {
                         console.log(response.errors);
@@ -265,7 +265,7 @@
                 })
             }
         })
-    
+
     })
     $(document).on("click", '#dropdown_item', function(event) {
         event.preventDefault();
@@ -315,8 +315,8 @@
     closeIcon.addEventListener('click', () => {
         inputBox.classList.remove('open');
     });
-        
-       
+
+
 </script>
 
 @endsection

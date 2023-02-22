@@ -139,6 +139,7 @@ class StudentController extends Controller
         $student->update([
             'company_id'=> null ,
             'category_id'=> null ,
+            'trainer_id'=> null ,
         ]);
 
         return $id ;
@@ -310,7 +311,7 @@ class StudentController extends Controller
 
         $average_score = $total_score / $count;
         $average_score = floor($average_score);
-        
+
         return view('admin.students.evaluation_page', compact('student', 'data', 'average_score'));
     }
 

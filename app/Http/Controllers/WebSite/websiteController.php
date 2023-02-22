@@ -58,7 +58,7 @@ class websiteController extends Controller
     public function showCompany($slug , $program)
     {
         $company = Company::with('categories')->whereSlug($slug)->firstOrFail();
-        
+
         if(Auth::user()->company_id) {
             $evaluated = AppliedEvaluation::where('evaluation_type', 'company')
                                           ->where('student_id', Auth::user()->id)
@@ -75,13 +75,13 @@ class websiteController extends Controller
                     'very good' => 80,
                     'excellent' => 100,
                 ];
-    
+
                 $total_score = 0;
                 $count = count($evaluations);
                 foreach ($evaluations as $response) {
                     $total_score += $scores[$response];
                 }
-    
+
                 $average_score = $total_score / $count;
                 $average_score = floor($average_score);
             }
@@ -94,10 +94,16 @@ class websiteController extends Controller
                                     ->where('company_id', $company->id)
                                     ->first();
                 }
-            }    
+            }
             return view('student.company',compact('company','program', 'ap'));
         }
 
+<<<<<<< HEAD
+=======
+        $applied =Application::get();
+
+        return view('student.company',compact('company','program' ,'applied', 'ap'));
+>>>>>>> 955655bc9fadb8368d9d2a1f6613cd8a59166eca
     }
 
 
@@ -244,16 +250,16 @@ class websiteController extends Controller
     public function submit_task(Request $request)
     {
         $request->validate([
-            'file' => 'required|max:5120' 
+            'file' => 'required|max:5120'
         ], [
             'file.max' => 'The file size must be less than 5MB.'
         ]);
-        
-        
+
+
         $file = $request->file('file')->getClientMimeType();
         $allowed_types = ['application/pdf', 'application/zip', 'application/octet-stream', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'];
-       
-        
+
+
         if(in_array($file, $allowed_types)) {
                 $file = $request->file('file');
                 if($file->isValid()) {
@@ -266,23 +272,23 @@ class websiteController extends Controller
                         'student_id' => Auth::user()->id,
                         'file' => $file_name,
                     ]);
-                    
-            
+
+
                     return response()->json($applied_task->toArray());
-                } 
-            } 
-        
+                }
+            }
 
-        
 
-        
+
+
+
     }
 
     // Edit task
     public function edit_applied_task(Request $request, $id)
     {
         $applied_task = AppliedTasks::findOrFail($id);
-       
+
         if($request->file('file')) {
 
             File::delete(public_path('uploads/applied-tasks/' . $applied_task->file));
@@ -323,22 +329,22 @@ class websiteController extends Controller
         $search = $request->search;
         if($search != null && strlen($search) > 1) {
             $companies = Company::where('name', 'like', '%'.$search.'%')->where('status', 1)->pluck('name', 'id');
-            
+
             if(!$companies->isEmpty()) {
                 return response()->json(['companies' => $companies]);
             } else {
                 return response()->json(['message' => 'empty']);
             }
-           
+
         } else {
             $companies = Company::with('categories')->where('status' , 1)->latest('id')->take(3)->get();
             $content = view('student.companies_content', compact('companies'))->render();
-            
+
             return response()->json(['content' => $content]);
         }
     }
 
-    // content for ajax 
+    // content for ajax
     public function companies_content(){
         $companies = Company::with('categories')->where('status' , 1)->latest('id')->take(3)->get();
         return view('student.companies_content' ,compact('companies'));
@@ -351,7 +357,7 @@ class websiteController extends Controller
     public function ajax_search(Request $request)
     {
         $company = Company::with('categories')->findOrFail($request->company_id);
-        
+
         return view('student.search_result', compact('company'));
 
     }
@@ -359,7 +365,7 @@ class websiteController extends Controller
 
 
     // evaluate company
-    public function evaluate_company($slug)  
+    public function evaluate_company($slug)
     {
         $company = Company::whereSlug($slug)->first();
         $evaluation = Evaluation::where('evaluation_type', 'company')->first();

@@ -106,7 +106,10 @@ float: left!important;
 }
 
 .heading-line:after {
-    
+
     left: unset !important;
     right: 0;
+}
+.modal-header .close, .modal-header .mailbox-attachment-close {
+    margin: -1rem -1rem -1rem !important;
 }

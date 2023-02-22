@@ -1,7 +1,7 @@
 @extends('admin.master')
 
-@section('title', 'Add New University')
-@section('sub-title', 'Universities')
+@section('title', __('admin.Add New University'))
+@section('sub-title', __('admin.Universities'))
 @section('universities-menu-open', 'menu-open')
 @section('universities-active', 'active')
 @section('add-university-active', 'active')
@@ -12,7 +12,7 @@
         <div class="col-md-12">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Add New University</h3>
+                    <h3 class="card-title">{{ __('admin.Add New University') }}</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
@@ -23,9 +23,9 @@
                             {{-- name  --}}
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label class="mb-2">University name</label>
+                                    <label class="mb-2">{{ __('admin.University Name') }}</label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                        name="name" placeholder="University name" value="{{ old('name') }}">
+                                        name="name" placeholder="{{ __('admin.University Name') }}" value="{{ old('name') }}">
                                     @error('name')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                     @enderror
@@ -36,9 +36,9 @@
                             {{-- email  --}}
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="mb-2">University email</label>
+                                    <label class="mb-2"> {{ __('admin.Email') }}</label>
                                     <input type="text" class="form-control @error('email') is-invalid @enderror"
-                                        name="email" placeholder="University email" value="{{ old('email') }}">
+                                        name="email" placeholder="{{ __('admin.Email') }}" value="{{ old('email') }}">
                                     @error('email')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                     @enderror
@@ -48,9 +48,9 @@
                             {{-- phone --}}
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="mb-2">University phone</label>
+                                    <label class="mb-2"> {{ __('admin.Phone') }}</label>
                                     <input type="text" class="form-control @error('phone') is-invalid @enderror"
-                                        name="phone" placeholder="University phone" value="{{ old('phone') }}">
+                                        name="phone" placeholder="{{ __('admin.Phone') }}" value="{{ old('phone') }}">
                                     @error('phone')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                     @enderror
@@ -61,9 +61,9 @@
                             {{-- address  --}}
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="mb-2">University address</label>
+                                    <label class="mb-2">{{ __('admin.Location') }}</label>
                                     <input type="text" class="form-control @error('address') is-invalid @enderror"
-                                        name="address" placeholder="University address" value="{{ old('address') }}">
+                                        name="address" placeholder="{{ __('admin.Location') }}" value="{{ old('address') }}">
                                     @error('address')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                     @enderror
@@ -71,15 +71,15 @@
                             </div>
 
                         </div>
-                        
+
                     </div>
                     <!-- /.card-body -->
 
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-plus"></i> Add</button>
                         <button class="btn btn-dark" type="button" onclick="history.back()">
-                            <i class="fas fa-undo-alt"> </i> Return Back </button>
+                            <i class="fas fa-undo-alt"> </i> {{ __('admin.Return Back') }} </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> {{ __('admin.Add') }}</button>
 
                     </div>
                 </form>

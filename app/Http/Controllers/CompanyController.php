@@ -74,7 +74,7 @@ class CompanyController extends Controller
         ]);
         $company->categories()->attach($request->category_id);
 
-        return redirect()->route('admin.companies.index')->with('msg', 'Company has been addedd successfully')->with('type', 'success');
+        return redirect()->route('admin.companies.index')->with('msg', __('admin.Company has been addedd successfully'))->with('type', 'success');
     }
 
     /**
@@ -142,7 +142,7 @@ class CompanyController extends Controller
 
         $company->categories()->sync($request->category_id);
 
-        return redirect()->route('admin.companies.index')->with('msg', 'Company has been updated successfully')->with('type', 'success');
+        return redirect()->route('admin.companies.index')->with('msg', __('admin.Company has been updated successfully'))->with('type', 'success');
 
     }
 

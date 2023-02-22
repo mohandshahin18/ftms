@@ -20,7 +20,7 @@ class Authenticate extends Middleware
            if($request->is('admin')    || $request->is('admin/*')
             ||$request->is('ar/admin') || $request->is('ar/admin/*')
             ||$request->is('en/admin') || $request->is('en/admin/*'))
-                return redirect('selection-type');
+                return route('selection');
             else
                 return route('student.login.show');
             }

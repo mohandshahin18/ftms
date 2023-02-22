@@ -314,6 +314,10 @@ i.far.fa-comments{
 
 }
 
+.card-title{
+    float: unset !important;
+}
+
         /* Loader */
 
         .loader {
