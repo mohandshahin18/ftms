@@ -81,7 +81,7 @@ class HomeController extends Controller
 
 
         settings()->save();
-        return redirect()->back()->with('msg' ,'Settings Updated succssfully') ->with('type' , 'success');
+        return redirect()->back()->with('msg' ,__('admin.Settings Updated succssfully')) ->with('type' , 'success');
 
     }
 
@@ -235,13 +235,11 @@ class HomeController extends Controller
       }elseif(Auth::guard('company')->check() ){
 
         $company =Company::findOrFail($id);
-        // dd($request->file('image'))
         $path = $company->image;
         if($request->file('image')) {
             File::delete(public_path($company->image));
             $path = $request->file('image')->store('/uploads/company', 'custom');
         }
-
 
         $request->validate([
             'name' => ['required',new TwoSyllables()] ,
@@ -250,7 +248,7 @@ class HomeController extends Controller
             'image' => 'nullable',
             'category_id' => 'required',
             'address' => 'required',
-            'description' => ['required',new TextLength()],
+            'description'=>['required',new TextLength()],
         ]);
 
         $company->update([

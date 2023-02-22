@@ -139,6 +139,7 @@
         }
 
         $(wrapper).on("click", '#apply_btn', function() {
+            $(this).attr("disabled", true)
             let url = applay_form.attr("action");
             $.ajax({
                 url: url,
@@ -147,8 +148,6 @@
                 success: function(data) {
                     wrapper.empty();
                     wrapper.append(data.content);
-
-
                     const Toast = Swal.mixin({
                         toast: true,
                         position: 'top',
@@ -170,6 +169,8 @@
                         })
                 },
                 error: function(data) {
+                    $('#apply_btn').attr("disabled", false)
+
                     $('.invalid-feedback').remove();
                     $.each(data.responseJSON.errors, function (field, error) {
                         $("textarea").addClass('is-invalid').after('<small class="invalid-feedback">' +error+ '</small>');

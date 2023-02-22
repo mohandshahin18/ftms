@@ -1,0 +1,112 @@
+
+
+body {
+direction: rtl;
+text-align: right;
+}
+@media (min-width: 768px){
+body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .content-wrapper, body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-footer, body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-header {
+margin-right: 250px;
+margin-left: 0;
+transition: margin-right.3s ease-in-out !important;
+}
+
+}
+
+
+
+.nav-sidebar {
+padding: 0
+}
+.nav-sidebar .nav-link>.right, .nav-sidebar .nav-link>p>.right {
+left: 1rem;
+right: unset;
+transform: rotate(360deg)
+}
+.nav-sidebar .menu-is-opening>.nav-link i.right, .nav-sidebar .menu-is-opening>.nav-link svg.right, .nav-sidebar .menu-open>.nav-link i.right, .nav-sidebar .menu-open>.nav-link svg.right { -webkit-transform: rotate(270deg); transform: rotate(270deg); -moz-transform: rotate(270deg); -ms-transform: rotate(270deg); -o-transform: rotate(270deg);
+}
+.ml-auto, .mx-auto {
+margin-left: unset!important;
+margin-right: auto!important;
+}
+
+@media (min-width: 992px){
+.sidebar-mini.sidebar-collapse .content-wrapper, .sidebar-mini.sidebar-collapse .main-footer, .sidebar-mini.sidebar-collapse .main-header {
+margin-right: 4.6rem!important;
+margin-left: unset!important;
+
+}
+
+.navbar-nav {
+padding-left: unset;
+padding-right: 0;
+
+}
+}
+@media (min-width: 576px){
+.float-sm-right {
+float: left!important;
+}
+.dropdown-menu.dropdown-menu-lg.dropdown-menu-left.show{
+left: 0 !important;
+right: inherit !important;
+}
+}
+
+
+.breadcrumb-item+.breadcrumb-item::before {
+float: right;
+padding-left: 0.5rem;
+padding-right:unset;
+color: #6c757d;
+content: "/";
+}
+.breadcrumb-item+.breadcrumb-item {
+padding-left: unset;
+padding-right: 0.5rem;
+}
+
+.dropdown-item {
+
+text-align: right;
+
+}
+
+.mr-2, .mx-2 {
+margin-left: 0.5rem!important;
+margin-right: unset!important;
+}
+
+.mr-3, .mx-3 {
+margin-right:unset!important;
+margin-left: 1rem!important;
+}
+
+.float-right {
+float: left!important;
+}
+.image-lang{
+    margin-left: unset !important;
+    margin-right: 0.5rem!important;
+}
+.icon-nav{
+    padding-right: 1rem !important;
+}
+
+.form-control.is-invalid, .was-validated .form-control:invalid {
+    padding-right: .375rem !important;
+    padding-left: 2.25rem!important;
+    background-position: left calc(0.375em + 0.1875rem) center;
+}
+.notification-list .notification-list_content .notification-list_img img
+{
+
+    margin-right: unset !important;
+    margin-left: 20px;
+}
+
+.heading-line:after {
+    
+    left: unset !important;
+    right: 0;
+}

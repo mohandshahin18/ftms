@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\Http\Traits\AuthTrait;
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
+use App\Models\Company;
+use App\Models\Teacher;
+use App\Models\Trainer;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -49,12 +53,16 @@ class LoginController extends Controller
 
         if( $request->type == 'teacher'){
             $email ='exists:teachers,email';
+            $user = Teacher::where('email', $request->email)->first();
         }elseif($request->type == 'admin'){
             $email ='exists:admins,email';
+            $user = Admin::where('email', $request->email)->first();
         }elseif($request->type == 'company'){
             $email ='exists:companies,email';
+            $user = Company::where('email', $request->email)->first();
         }elseif($request->type == 'trainer'){
             $email ='exists:trainers,email';
+            $user = Trainer::where('email', $request->email)->first();
         }
 
         $this->validate($request, [
@@ -67,10 +75,13 @@ class LoginController extends Controller
 
         if (Auth::guard($this->chekGuard($request))->attempt(['email' => $request->email, 'password' => $request->password])) {
             $type =ucfirst($this->chekGuard($request));
+            $name = $user->name;
+            $firstname = substr($name, 0, strpos($name, " "));
 
-            return $this->redirect($request)->with('msg', $type.' Login successfully ')->with('type','success');
+
+            return $this->redirect($request)->with('login',__('admin.Welcome back'). $firstname.' ! ' )->with('login_type','warning');
          }else {
-            return redirect()->back()->with('msg' ,' The selected email or password is invalid. ')->with('type','danger');
+            return redirect()->back()->with('msg' ,__('admin.The selected email or password is invalid.'))->with('type','danger');
          }
     }
 

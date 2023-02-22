@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use Carbon\Carbon;
 use App\Models\Task;
 use App\Models\Student;
 use App\Models\Trainer;
@@ -48,7 +49,7 @@ class TaskController extends Controller
      */
     public function store(TaskRequest $request)
     {
-       $trainer = Trainer::with('company')->where('id',  Auth::user()->id)->first();
+        $trainer = Trainer::with('company')->where('id',  Auth::user()->id)->first();
         $company_id = $trainer->company->id;
 
 
@@ -56,48 +57,49 @@ class TaskController extends Controller
 
 
         $slug = Str::slug($request->sub_title);
-        $slugCount = Task::where('slug' , 'like' , $slug. '%')->count();
+        $slugCount = Task::where('slug', 'like', $slug . '%')->count();
         $random =  $slugCount + 1;
 
-        if($slugCount > 0){
+        if ($slugCount > 0) {
             $slug = $slug . '-' . $random;
         }
 
         $fileName = null;
-        if($request->hasFile('file')) {
+        if ($request->hasFile('file')) {
             $task_title = str_replace(' ', '-', $request->main_title);
-            $fileName =$task_title.'-'.$request->file('file')->getClientOriginalName();
-            $request->file('file')->move(public_path('uploads/tasks-files/'),$fileName);
+            $fileName = $task_title . '-' . $request->file('file')->getClientOriginalName();
+            $request->file('file')->move(public_path('uploads/tasks-files/'), $fileName);
         }
 
-            Task::create([
+        Task::create([
             'main_title' => $request->main_title,
             'sub_title' => $request->sub_title,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'file' => $fileName,
             'description' => $request->description,
-            'company_id' =>$company_id,
+            'company_id' => $company_id,
             'category_id' => Auth::user()->category->id,
             'trainer_id' => Auth::user()->id,
             'slug' => $slug,
         ]);
 
 
+        $delay = Carbon::parse($request->start_date)->diffInSeconds(now());
 
+        $students = Student::where('category_id', Auth::user()->category->id)
+            ->where('company_id', $company_id)->get();
 
-            $students = Student::where('category_id',Auth::user()->category->id)
-                              ->where('company_id' ,$company_id )->get();
-
-            foreach($students as $student){
-                $student->notify(new NewTaskNotification(Auth::user()->name,$slug,Auth::user()->id ));
-
-            }
+        foreach ($students as $student) {
+            $student->notify((new NewTaskNotification(Auth::user()->name, $slug, Auth::user()->id,
+                                                     Auth::user()->image))
+                                                     ->delay($delay));
+        }
 
 
         return redirect()->route('admin.tasks.index')
-        ->with('msg', 'Task has been addedd successfully')
-        ->with('type', 'success');
+            ->with('msg', 'Task has been addedd successfully')
+            ->with('type', 'success');
     }
 
     /**
@@ -134,25 +136,25 @@ class TaskController extends Controller
     public function update(TaskRequest $request, Task $task)
     {
         $fileName = $task->file;
-        if($request->hasFile('file')) {
+        if ($request->hasFile('file')) {
             $path = public_path($task->file);
-            if($path) {
+            if ($path) {
                 try {
                     File::delete($path);
-                } catch(Exception $e) {
+                } catch (Exception $e) {
                     Log::error($e->getMessage());
                 }
             }
             $task_title = str_replace(' ', '-', $task->main_title);
-            $fileName =$task_title.'-'.$request->file('file')->getClientOriginalName();
-            $request->file('file')->move(public_path('uploads/tasks-files/'),$fileName);
+            $fileName = $task_title . '-' . $request->file('file')->getClientOriginalName();
+            $request->file('file')->move(public_path('uploads/tasks-files/'), $fileName);
         }
 
         $slug = Str::slug($request->sub_title);
-        $slugCount = Task::where('slug' , 'like' , $slug. '%')->count();
+        $slugCount = Task::where('slug', 'like', $slug . '%')->count();
         $random =  $slugCount + 1;
 
-        if($slugCount > 1){
+        if ($slugCount > 1) {
             $slug = $slug . '-' . $random;
         }
 
@@ -169,8 +171,8 @@ class TaskController extends Controller
         ]);
 
         return redirect()->route('admin.tasks.index')
-        ->with('msg', 'Task has been updated successfully')
-        ->with('type', 'info');
+            ->with('msg', 'Task has been updated successfully')
+            ->with('type', 'info');
     }
 
     /**
@@ -181,35 +183,34 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        $students = Student::where('category_id',Auth::user()->category->id)
-                            ->where('company_id',$task->company_id )->get();
+        $students = Student::where('category_id', Auth::user()->category->id)
+            ->where('company_id', $task->company_id)->get();
 
 
-       foreach($students as $student){
+        foreach ($students as $student) {
             $other_notifications = DB::table('notifications')
-            ->where('type','App\Notifications\NewTaskNotification')
-            ->where('notifiable_type','App\Models\Student')
-            ->where('notifiable_id',$student->id)
-            ->get();
+                ->where('type', 'App\Notifications\NewTaskNotification')
+                ->where('notifiable_type', 'App\Models\Student')
+                ->where('notifiable_id', $student->id)
+                ->get();
 
-            foreach($other_notifications as $notification) {
+            foreach ($other_notifications as $notification) {
                 $data = json_decode($notification->data, true);
 
-                if(($data['slug'] == $task->slug) )
-                    {
-                        DB::table('notifications')
-                            ->where('id', $notification->id)
-                            ->delete();
-                    }
+                if (($data['slug'] == $task->slug)) {
+                    DB::table('notifications')
+                        ->where('id', $notification->id)
+                        ->delete();
+                }
             }
         }
 
 
 
-        if($task->file){
+        if ($task->file) {
             try {
                 File::delete(public_path($task->file));
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 Log::error($e->getMessage());
             }
         }

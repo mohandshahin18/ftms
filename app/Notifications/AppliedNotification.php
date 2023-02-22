@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AppliedNotification extends Notification
+class AppliedNotification extends Notification 
 {
     use Queueable;
 
@@ -17,13 +17,14 @@ class AppliedNotification extends Notification
     protected $student_id;
     protected $category_id;
     protected $company_id;
+    protected $image;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($name , $reason ,$category ,$student_id ,$category_id ,$company_id  )
+    public function __construct($name , $reason ,$category ,$student_id ,$category_id ,$company_id , $image )
     {
         $this->name = $name;
         $this->reason = $reason;
@@ -31,6 +32,7 @@ class AppliedNotification extends Notification
         $this->student_id = $student_id;
         $this->category_id = $category_id;
         $this->company_id = $company_id;
+        $this->image = $image;
     }
 
     /**
@@ -76,6 +78,7 @@ class AppliedNotification extends Notification
             'student_id' => $this->student_id,
             'category_id' => $this->category_id,
             'company_id' => $this->company_id,
+            'image' => $this->image,
 
         ];
     }

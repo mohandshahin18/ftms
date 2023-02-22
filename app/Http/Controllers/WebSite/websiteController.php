@@ -67,11 +67,12 @@ class websiteController extends Controller
             }
         }
 
-
         $applied =Application::get();
 
         return view('student.company',compact('company','program' ,'applied', 'ap'));
     }
+
+
 
     public function company_apply(Request $request){
 
@@ -101,7 +102,7 @@ class websiteController extends Controller
         $company->notify(new AppliedNotification(Auth::user()->name  ,
                                                 $request->reason, $category->name ,
                                                 Auth::user()->id ,$request->category_id ,
-                                                $request->company_id ));
+                                                $request->company_id , Auth::user()->image ));
 
         $response = array();
         $response['content'] = '<p>Your application under review, we will send a message when we approved it</p>
@@ -111,6 +112,10 @@ class websiteController extends Controller
 
         return response()->json($response);
     }
+
+
+
+
 
 
 
@@ -142,6 +147,8 @@ class websiteController extends Controller
         Application::destroy($id);
         return redirect()->back();
     }
+
+
 
 
 

@@ -211,6 +211,7 @@
 
 
         accept_btn.on("click", function() {
+            $(this).attr("disabled", true)
             let url = $(this).parent().attr("action");
             let wrapper = $(this).parents().eq(1);
             $.ajax({
@@ -248,6 +249,7 @@
         }
 
         reject_btn.on("click", function() {
+            $(this).attr("disabled", true)
             let url = $(this).parent().attr("action");
             let wrapper = $(this).parents().eq(1);
             $.ajax({

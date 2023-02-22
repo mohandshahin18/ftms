@@ -1,15 +1,12 @@
 @extends('admin.master')
 
 @section('title', Auth::guard()->user()->name)
-@section('sub-title', 'Profile')
+@section('sub-title',  __('admin.Profile') )
 
 @section('styles')
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 
 <style>
-    .colored-toast.swal2-icon-success {
-        background-color: #a5dc86 !important;
-    }
 
     .select2-container--default
     .select2-selection--multiple
@@ -60,7 +57,7 @@
                         <span class="text-black-50 mb-3" id="email">{{ Auth::guard()->user()->email }}</span><span> </span>
 
                         @if (Auth::guard('company')->check())
-                        <span class="text-black-50 mb-3">Students Number: <b class="text-dark">{{ $company->students->count() }}</b></span>
+                        <span class="text-black-50 mb-3">{{ __('admin.Students Number') }}: <b class="text-dark">{{ $company->students->count() }}</b></span>
                         @endif
                     </div>
                 </div>
@@ -71,8 +68,8 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-6 mb-3">
-                            <label class="labels">Name</label>
-                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Name"
+                            <label class="labels">{{ __('admin.Name') }}</label>
+                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="{{ __('admin.Name') }}"
                                 value="{{ Auth::guard()->user()->name }}">
                                 @error('name')
                                         <small class="invalid-feedback"> {{ $message }}</small>
@@ -80,17 +77,17 @@
                         </div>
 
                         <div class="col-md-6 mb-3">
-                            <label class="labels">Email</label>
+                            <label class="labels">{{ __('admin.Email') }}</label>
                             <input type="text" name="email" class="form-control @error('name') is-invalid @enderror" value="{{ Auth::guard()->user()->email }}"
-                                placeholder="Email">
+                                placeholder="{{ __('admin.Email') }}">
                                 @error('name')
                                 <small class="invalid-feedback"> {{ $message }}</small>
                                 @enderror
                         </div>
 
                         <div class="col-md-6 mb-3">
-                            <label class="labels">Phone</label>
-                            <input type="text" name="phone" class="form-control @error('name') is-invalid @enderror" placeholder="Phone"
+                            <label class="labels">{{ __('admin.Phone') }}</label>
+                            <input type="text" name="phone" class="form-control @error('name') is-invalid @enderror" placeholder="{{ __('admin.Phone') }}"
                                 value="{{ Auth::guard()->user()->phone }}">
                                 @error('name')
                                 <small class="invalid-feedback"> {{ $message }}</small>
@@ -101,12 +98,12 @@
                         @if(Auth::guard('teacher')->check())
 
                         <div class="col-md-6 mb-3">
-                            <label class="labels">University</label>
+                            <label class="labels">{{ __('admin.University') }}</label>
                             <input type="text" name="" class="form-control " disabled  value="{{ $university }}">
                         </div>
 
                         <div class="col-md-6 mb-3">
-                            <label class="labels">Specialization</label>
+                            <label class="labels">{{ __('admin.Specialization') }}</label>
                             <select name="specialization_id" class="form-control" id="specialization_id">
                                 @foreach ($specializations as $specialization)
                                 <option @selected(Auth::guard()->user()->specialization_id == $specialization->id) value="{{ $specialization->id }}">
@@ -118,13 +115,13 @@
                         @endif
                         @if(Auth::guard('trainer')->check())
                         <div class="col-md-6 mb-3">
-                            <label class="labels">Company</label>
+                            <label class="labels">{{ __('admin.Company') }}Company</label>
                             <input type="text" name="" class="form-control " disabled name=""  value="{{ $company }}">
                         </div>
 
                         {{-- Program --}}
                         <div class="col-md-6 mb-3">
-                            <label class="labels">Program</label>
+                            <label class="labels">{{ __('admin.Program') }}</label>
                             <select name="category_id" class="form-control">
                                 @foreach ($categories as $category)
                                 <option @selected(Auth::guard()->user()->category_id == $category->id) value="{{ $category->id }}">
@@ -139,10 +136,10 @@
                         @if(Auth::guard('company')->check())
 
                         <div class="col-md-6 mb-3">
-                            <label class="labels">Location</label>
-                            <input type="text" name="address" class="form-control @error('name') is-invalid @enderror" placeholder="Phone"
+                            <label class="labels">{{ __('admin.Location') }}</label>
+                            <input type="text" name="address" class="form-control @error('address') is-invalid @enderror" placeholder="{{ __('admin.Location') }}"
                                 value="{{ Auth::guard()->user()->address }}">
-                                @error('name')
+                                @error('address')
                                 <small class="invalid-feedback"> {{ $message }}</small>
                                 @enderror
                         </div>
@@ -151,7 +148,7 @@
 
                         <div class="col-md-6 mb-3">
                             <div class="form-group">
-                                <label class="mb-2">Program</label>
+                                <label class="mb-2">{{ __('admin.Programs') }}</label>
                                 <select name="category_id[]" class="form-control select2" multiple>
                                     @foreach ($categories as $category)
 
@@ -166,22 +163,29 @@
 
 
                         <div class="col-md-6 mb-3">
-                            <label class="labels">Status</label>
+                            <label class="labels">{{ __('admin.Status') }}</label>
                             <select name="status" class="form-control" >
-                                <option @selected(Auth::guard()->user()->status == 1) value="1"> Avilable</option>
-                                <option  @selected(Auth::guard()->user()->status == 0) value="0">Unavilable </option>
+                                <option @selected(Auth::guard()->user()->status == 1) value="1"> {{ __('admin.Avilable') }}</option>
+                                <option  @selected(Auth::guard()->user()->status == 0) value="0"> {{ __('admin.Unavilable') }} </option>
                             </select>
                         </div>
 
                         <div class="col-md-12 mb-3">
-                            <label for="description">Description</label>
-                            <textarea name="description" class="@error('description') is-invalid @enderror" id="my-desc">{{ Auth::guard()->user()->description  }}</textarea>
+                            <label for="description"> {{ __('admin.Description') }}</label>
+                            <textarea name="description" class="@error('description') is-invalid @enderror" id="content">{{ old('description', Auth::guard()->user()->description)  }}</textarea>
                             @error('description')
                                 <small class="invalid-feedback">{{ $message }}</small>
                             @enderror
 
                         </div>
 
+                        {{-- <div class="mb-3 col-12">
+                            <label for="description">Description</label>
+                            <textarea name="description" class="@error('description') is-invalid @enderror" id="my-desc">{{ old('description', $company->description) }}</textarea>
+                            @error('description')
+                                <small class="invalid-feedback">{{ $message }}</small>
+                            @enderror
+                        </div> --}}
 
 
                         @endif
@@ -190,7 +194,7 @@
 
 
                     <div class="mt-2 wrapper-btn">
-                        <button class="btn btn-primary profile-button" type="button"> Save Edit </button>
+                        <button class="btn btn-primary profile-button" type="button">{{ __('admin.Save Edit') }}  </button>
                     </div>
                 </div>
             </div>
@@ -211,10 +215,30 @@
 
 @section('scripts')
 
+{{-- <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+<script>tinymce.init({selector:'textarea'});</script> --}}
+
+@if(Auth::guard('company')->check())
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.3.1/tinymce.min.js" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+
+<script>
+    $(document).ready(function() {
+            $('.select2').select2();
+        });
+</script>
+
+@endif
+
 
 {{-- AJAX Reauest --}}
     <script>
+
         let form = $(".update_form")[0];
+
         let btn = $(".profile-button");
         let wrapper = $(".wrapper-btn");
         let image;
@@ -227,9 +251,26 @@
         });
 
 
+        @if (Auth::guard('company')->check())
+            tinymce.init({
+                selector: '#content',
+                init_instance_callback: function(editor) {
+                    var content = editor.getContent();
+                    window.myEditorInstance = editor;
+                }
+
+            });
+        @endif
         btn.on("click", function() {
+
             let formData = new FormData(form);
             formData.append('image',image);
+
+            @if (Auth::guard('company')->check())
+            var content = window.myEditorInstance.getContent();
+            formData.append('description', content);
+            @endif
+
             let url = form.getAttribute("action");
             $.ajax({
                 type: "POST",
@@ -252,7 +293,6 @@
                     const Toast = Swal.mixin({
                     toast: true,
                     position: 'top',
-                    iconColor: 'white',
                     customClass: {
                         popup: 'colored-toast'
                     },
@@ -267,13 +307,18 @@
 
                     Toast.fire({
                     icon: 'success',
-                    title: 'Profile Updated successfully'
+                    title: '{{ __('admin.Profile Updated successfully') }}'
                     })
                 } ,
                 error: function(data) {
                     $('.invalid-feedback').remove();
                     $.each(data.responseJSON.errors, function (field, error) {
+                       if(field == 'description') {
+                        $("textarea").addClass('is-invalid').after('<small class="invalid-feedback">' +error+ '</small>');
+                       } else {
                         $("input[name='" + field + "']").addClass('is-invalid').after('<small class="invalid-feedback">' +error+ '</small>');
+                       }
+                        //
                     });
                 } ,
             })
@@ -282,22 +327,6 @@
     </script>
 
 
-@if(Auth::guard('company')->check())
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.3.1/tinymce.min.js" referrerpolicy="no-referrer"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-
-<script>
-    tinymce.init({
-        selector: '#my-desc'
-    });
-
-    $(document).ready(function() {
-            $('.select2').select2();
-        });
-</script>
-
-@endif
 
     <script>
         "use strict";

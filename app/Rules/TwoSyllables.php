@@ -39,6 +39,6 @@ class TwoSyllables implements Rule
      */
     public function message()
     {
-        return 'The :attribute must consist of two syllables.';
+        return __('admin.The :attribute must consist of two syllables.');
     }
 }

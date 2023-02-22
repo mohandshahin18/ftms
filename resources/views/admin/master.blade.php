@@ -20,75 +20,47 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('adminAssets/dist/css/mystyle.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="icon" type="image/x-icon" href="{{ asset('adminAssets/dist/img/selection/favicon.ico') }}">
+    @if(app()->getLocale()=='ar')
+    <link rel="stylesheet" href="{{ asset('adminAssets/dist/css/myStyle-ar.css') }}">
 
+    @endif
     <!-- Sweat Alert -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
 
 
     @yield('styles')
     <style>
-        .sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active,
-        .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
-            background-color: #5d78ff;
-            color: #fff;
+        #toast-container>.toast-success{
+            background-image: unset !important;
+        }
+        #toast-container>div{
+            padding: 15px !important;
+            background: #516171 !important;
         }
 
-        [class*=sidebar-dark-],
-        .card-primary:not(.card-outline)>.card-header {
-            background-color: #1e272f;
-        }
 
-        .nav-sidebar .nav-link>.right, .nav-sidebar .nav-link>p>.right {
-        transform: rotate(180deg)
-        }
-
-    .nav-sidebar .menu-is-opening>.nav-link i.right, .nav-sidebar .menu-is-opening>.nav-link svg.right, .nav-sidebar .menu-open>.nav-link i.right, .nav-sidebar .menu-open>.nav-link svg.right {
-        -webkit-transform: rotate(270deg);
-        transform: rotate(270deg);
-    }
-    .unread{
-        background: #ededed;
-    }
-        /* .form-control {
-            background: #f8f8f8;
-            border: 1px solid #f8f8f8;
-
-            border: 0;
-            outline: 0;
-        }
-        .form-control:focus{
-           border: 1px solid #ced4da;
-        } */
-
-        .image-avatar{
-            width: 50px;
-            height: 50px;
-            object-fit: cover;
-        }
-
-.dropdown-menu.dropdown-menu-lg.dropdown-menu-right.show{
-    overflow: scroll;
-    max-height: 391px;
-}
-.dropdown-menu.dropdown-menu-lg.dropdown-menu-right.show::-webkit-scrollbar {
-  display: none;
-}
-
-/* .all{
-    position: relative;
-}
-
-a.dropdown-item.dropdown-footer{
-    display: inline-block;
-    position: absolute;
-    bottom: 0;
-    background: #dedede
-    /* z-index: 999; */
-}  */
  </style>
 
+@if(app()->getLocale()=='ar')
+<style>
+body ,
+html {
+    font-family: event-reg;
+}
+
+
+@font-face {
+    font-family: event-reg;
+    src: url({{ asset('adminAssets/dist/fonts/JF-Flat-regular.ttf') }});
+}
+
+
+
+</style>
+@endif
 
 
 </head>
@@ -101,7 +73,7 @@ a.dropdown-item.dropdown-footer{
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
+                    <a class="nav-link icon-nav" data-widget="pushmenu" href="#" role="button"><i
                             class="fas fa-bars"></i></a>
                 </li>
 
@@ -109,7 +81,34 @@ a.dropdown-item.dropdown-footer{
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
+    <!-- Messages Dropdown Menu -->
+    <li class="nav-item dropdown">
+        <a class="nav-link d-flex align-items-center justify-content-center "  data-toggle="dropdown" href="#">
+            @if( app()->getLocale() == 'ar')
+            <img src="{{ asset('adminAssets/dist/img/lang/ar.png') }}" width="30" >
+            @else
+            <img src="{{ asset('adminAssets/dist/img/lang/en.png') }}" width="30" >
 
+            @endif
+        </a>
+        <div class="dropdown-menu dropdown-menu dropdown-menu-right" style="min-width: unset !important; width: 115px !important; ">
+                    {{-- <div class="media-body"> --}}
+                        <ul class="p-0 text-center ">
+                            @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                                <li style="list-style-type: none" class="d-flex align-items-center justify-content-center lang {{ app()->getLocale() == $localeCode ? 'active' : ' ' }}">
+                                    <a rel="alternate" class="text-secondary" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                                        {{ $properties['native'] }}
+                                        <img src="{{ asset('adminAssets/dist/img/lang/'.$properties['flag']) }}" width="25" alt="" class="ml-2 image-lang">
+
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    {{-- </div> --}}
+
+
+        </div>
+    </li>
 
                 <!-- Messages Dropdown Menu -->
                 <li class="nav-item dropdown">
@@ -175,24 +174,23 @@ a.dropdown-item.dropdown-footer{
                 </li>
 @php
         use App\Models\Student;
-
             $auth =Auth::user();
-
 @endphp
 
                 <!-- Notifications Dropdown Menu -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
+                    <a class="nav-link notify" data-toggle="dropdown" href="#">
                         <i class="far fa-bell"></i>
+
                         @if($auth->unreadNotifications->count() > 0)
-                        <span class="badge badge-danger navbar-badge">{{ $auth->unreadNotifications->count()  }}</span>
+                        <span class="badge badge-danger navbar-badge notify-number">{{ $auth->unreadNotifications->count()  }}</span>
                         @else
                         <span ></span>
 
                         @endif
                     </a>
 
-                    <div class="test dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right " id="dropNotification">
                         @foreach ($auth->notifications as $notify )
                         <a href="{{ route('admin.mark_read',$notify->id) }}"   class="dropdown-item {{ $notify->read_at ? '' : 'unread' }}">
                             <!-- Message Start -->
@@ -209,8 +207,7 @@ a.dropdown-item.dropdown-footer{
                                     }
 
                                     @endphp
-                                    <img src="{{ $src }}" alt="User Avatar"
-                                    class="img-size-50 mr-3 img-circle image-avatar">
+                                    <img src="{{ $src }}" alt="User Avatar" class="img-size-50 mr-3 img-circle image-avatar">
                                 <div class="media-body">
                                     <h3 class="dropdown-item-title">
                                         {{ $notify->data['name'] }}
@@ -225,7 +222,7 @@ a.dropdown-item.dropdown-footer{
                         @endforeach
                         <div class="dropdown-divider"></div>
                         <div class="all">
-                        <a href="{{ route('admin.read_notify') }}" class="dropdown-item dropdown-footer">Show All Notifications</a>
+                        <a href="{{ route('admin.read_notify') }}" class="dropdown-item dropdown-footer">{{ __('admin.Show All Notifications') }}</a>
 
                         </div>
                     </div>
@@ -264,20 +261,20 @@ a.dropdown-item.dropdown-footer{
                         <p class=" text-center my-2" style="font-size: 17px;">{{ Auth::guard()->user()->name }}</p>
                         <div class="dropdown-divider mb-3"></div>
                         <a href="{{ route('admin.profile') }}" class="dropdown-item text-secondary mb-2">
-                            <i class="fas fa-user mr-2 text-secondary"></i> Profile
+                            <i class="fas fa-user mr-2 text-secondary"></i> {{ __('admin.Profile') }}
                         </a>
                         <a href="{{ route('edit-password' , $type) }}" class="dropdown-item text-secondary mb-2">
-                            <i class="fas fa-key mr-2 text-secondary"></i> Edit Password
+                            <i class="fas fa-key mr-2 text-secondary"></i> {{ __('admin.Edit Password') }}
                         </a>
 
                         <a href="{{ route('admin.settings') }}" class="dropdown-item text-secondary mb-2">
-                            <i class="fas fa-cog mr-2 text-secondary"></i>Stettings
+                            <i class="fas fa-cog mr-2 text-secondary"></i>{{ __('admin.Settings') }}
                         </a>
 
                         @if(auth('teacher')->check())
                             <form method="GET" action="{{ route('logout','teacher') }}"></form>
                                 <a href="{{ route('logout','teacher') }}" class="dropdown-item text-secondary">
-                                    <i class="fas fa-sign-out-alt mr-2 text-secondary"></i> LogOut
+                                    <i class="fas fa-sign-out-alt mr-2 text-secondary"></i> {{ __('admin.LogOut') }}
                                 </a>
                                 <input type="hidden" name="type" value="teacher" id="">
 
@@ -285,7 +282,7 @@ a.dropdown-item.dropdown-footer{
                         @elseif (auth('trainer')->check())
                         <form method="GET" action="{{ route('logout','trainer') }}"></form>
                             <a href="{{ route('logout','trainer') }}" class="dropdown-item text-secondary">
-                                <i class="fas fa-sign-out-alt mr-2 text-secondary"></i> LogOut
+                                <i class="fas fa-sign-out-alt mr-2 text-secondary"></i> {{ __('admin.LogOut') }}
                             </a>
                             <input type="hidden" name="type" value="trainer" id="">
 
@@ -293,14 +290,14 @@ a.dropdown-item.dropdown-footer{
                         @elseif (auth('admin')->check())
                         <form method="GET" action="{{ route('logout','admin') }}"></form>
                             <a href="{{ route('logout','admin') }}" class="dropdown-item text-secondary">
-                                <i class="fas fa-sign-out-alt mr-2 text-secondary"></i> LogOut
+                                <i class="fas fa-sign-out-alt mr-2 text-secondary"></i> {{ __('admin.LogOut') }}
                             </a>
                             <input type="hidden" name="type" value="admin" id="">
                         </form>
                         @elseif (auth('company')->check())
                         <form method="GET" action="{{ route('logout','company') }}"></form>
                             <a href="{{ route('logout','company') }}" class="dropdown-item text-secondary">
-                                <i class="fas fa-sign-out-alt mr-2 text-secondary"></i> LogOut
+                                <i class="fas fa-sign-out-alt mr-2 text-secondary"></i> {{ __('admin.LogOut') }}
                             </a>
                             <input type="hidden" name="type" value="company" id="">
 
@@ -342,7 +339,7 @@ a.dropdown-item.dropdown-footer{
                             <a href="{{ route('admin.home') }}" class="nav-link @yield('home-active')">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
-                                    Home
+                                    {{ __('admin.Home') }}
                                 </p>
                             </a>
 
@@ -355,7 +352,7 @@ a.dropdown-item.dropdown-footer{
                             <a href="#" class="nav-link @yield('companies-active')">
                                 <i class="nav-icon fas fa-laptop-house"></i>
                                 <p>
-                                    Companies
+                                    {{ __('admin.Companies') }}
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -364,14 +361,14 @@ a.dropdown-item.dropdown-footer{
                                     <a href="{{ route('admin.companies.index') }}"
                                         class="nav-link @yield('index-company-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>All Companies</p>
+                                        <p>{{ __('admin.All Companies') }}</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('admin.companies.create') }}"
                                         class="nav-link @yield('add-company-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Add Company</p>
+                                        <p>{{ __('admin.Add Company') }}</p>
                                     </a>
                                 </li>
                             </ul>
@@ -383,7 +380,7 @@ a.dropdown-item.dropdown-footer{
                             <a href="#" class="nav-link @yield('categories-active')">
                                 <i class="nav-icon fas fa-star"></i>
                                 <p>
-                                    Programs
+                                    {{ __('admin.Programs') }}
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -392,14 +389,14 @@ a.dropdown-item.dropdown-footer{
                                     <a href="{{ route('admin.categories.index') }}"
                                         class="nav-link @yield('index-category-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>All Programs</p>
+                                        <p>{{ __('admin.All Programs') }}</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('admin.categories.create') }}"
                                         class="nav-link @yield('add-category-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Add Program</p>
+                                        <p>{{ __('admin.Add Program') }} </p>
                                     </a>
                                 </li>
                             </ul>
@@ -411,7 +408,7 @@ a.dropdown-item.dropdown-footer{
                             <a href="#" class="nav-link @yield('universities-active')">
                                 <i class="nav-icon fas fa-university"></i>
                                 <p>
-                                    Universities
+                                    {{ __('admin.Universities') }}
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -420,14 +417,14 @@ a.dropdown-item.dropdown-footer{
                                     <a href="{{ route('admin.universities.index') }}"
                                         class="nav-link @yield('index-university-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>All Universities</p>
+                                        <p>{{ __('admin.All Universities') }}</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('admin.universities.create') }}"
                                         class="nav-link @yield('add-university-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Add University</p>
+                                        <p>{{ __('admin.Add University') }}</p>
                                     </a>
                                 </li>
                             </ul>
@@ -437,7 +434,7 @@ a.dropdown-item.dropdown-footer{
                             <a href="#" class="nav-link @yield('teachers-active')">
                                 <i class="nav-icon fas fa-chalkboard-teacher"></i>
                                 <p>
-                                    Teachers
+                                    {{ __('admin.Teachers') }}
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -446,14 +443,14 @@ a.dropdown-item.dropdown-footer{
                                     <a href="{{ route('admin.teachers.index') }}"
                                         class="nav-link @yield('index-teacher-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>All Teachers</p>
+                                        <p>{{ __('admin.All Teachers') }}</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('admin.teachers.create') }}"
                                         class="nav-link @yield('add-teacher-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Add Teacher</p>
+                                        <p>{{ __('admin.Add Teacher') }}</p>
                                     </a>
                                 </li>
                             </ul>
@@ -465,7 +462,7 @@ a.dropdown-item.dropdown-footer{
                             <a href="#" class="nav-link @yield('specializations-active')">
                                 <i class="nav-icon fas fa-graduation-cap"></i>
                                 <p>
-                                    Specializations
+                                    {{ __('admin.Specializations') }}
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -474,14 +471,14 @@ a.dropdown-item.dropdown-footer{
                                     <a href="{{ route('admin.specializations.index') }}"
                                         class="nav-link @yield('index-specialization-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>All Specializations</p>
+                                        <p>{{ __('admin.All Specializations') }}</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('admin.specializations.create') }}"
                                         class="nav-link @yield('add-specialization-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Add Specialization</p>
+                                        <p>{{ __('admin.Add Specialization') }}</p>
                                     </a>
                                 </li>
                             </ul>
@@ -493,7 +490,7 @@ a.dropdown-item.dropdown-footer{
                             <a href="#" class="nav-link @yield('trainers-active')">
                                 <i class="fas fa-user-friends nav-icon"></i>
                                 <p>
-                                    Trainers
+                                    {{ __('admin.Trainers') }}
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -502,14 +499,14 @@ a.dropdown-item.dropdown-footer{
                                     <a href="{{ route('admin.trainers.index') }}"
                                         class="nav-link @yield('index-trainer-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>All Trainers</p>
+                                        <p>{{ __('admin.All Trainers') }}</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('admin.trainers.create') }}"
                                         class="nav-link @yield('add-trainer-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Add Trainer</p>
+                                        <p>{{ __('admin.Add Trainer') }}</p>
                                     </a>
                                 </li>
                             </ul>
@@ -519,7 +516,7 @@ a.dropdown-item.dropdown-footer{
                             <a href="#" class="nav-link @yield('admins-active')">
                                 <i class="fas fa-user-shield nav-icon"></i>
                                 <p>
-                                    Admins
+                                    {{ __('admin.Admins') }}
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -527,13 +524,13 @@ a.dropdown-item.dropdown-footer{
                                 <li class="nav-item">
                                     <a href="{{ route('admin.admins.index') }}" class="nav-link @yield('index-admin-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>All Admins</p>
+                                        <p>{{ __('admin.All Admins') }}</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('admin.admins.create') }}" class="nav-link @yield('add-admin-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Add Admin</p>
+                                        <p>{{ __('admin.Add Admin') }}</p>
                                     </a>
                                 </li>
                             </ul>
@@ -545,7 +542,7 @@ a.dropdown-item.dropdown-footer{
                                 {{-- <i class="fas fa-file-chart-line"></i> --}}
                                 <i class="fas fa-file-signature nav-icon"></i>
                                 <p>
-                                    Evaluations
+                                    {{ __('admin.Evaluations') }}
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -554,14 +551,14 @@ a.dropdown-item.dropdown-footer{
                                     <a href="{{ route('admin.evaluations.index') }}"
                                         class="nav-link @yield('index-evaluations-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>All evaluations</p>
+                                        <p>{{ __('admin.All Evaluations') }}</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('admin.evaluations.create') }}"
                                         class="nav-link @yield('add-evaluations-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Add Evaluation</p>
+                                        <p>{{ __('admin.Add Evaluation') }}</p>
                                     </a>
                                 </li>
                             </ul>
@@ -572,7 +569,7 @@ a.dropdown-item.dropdown-footer{
                             <a href="#" class="nav-link @yield('tasks-active')">
                                 <i class="fas fa-tasks nav-icon"></i>
                                 <p>
-                                    Tasks
+                                    {{ __('admin.Tasks') }}
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -580,13 +577,13 @@ a.dropdown-item.dropdown-footer{
                                 <li class="nav-item">
                                     <a href="{{ route('admin.tasks.index') }}" class="nav-link @yield('index-task-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>All Tasks</p>
+                                        <p>{{ __('admin.All Tasks') }}</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('admin.tasks.create') }}" class="nav-link @yield('add-task-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Add Task</p>
+                                        <p>{{ __('admin.Add Task') }}</p>
                                     </a>
                                 </li>
                             </ul>
@@ -599,7 +596,7 @@ a.dropdown-item.dropdown-footer{
                             <a href="{{ route('admin.students.index') }}" class="nav-link @yield('students-active')">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
-                                    Students
+                                    {{ __('admin.Students') }}
                                 </p>
                             </a>
                         </li>
@@ -646,23 +643,24 @@ a.dropdown-item.dropdown-footer{
 
         <!-- Main Footer -->
         <footer class="main-footer">
+            {{-- {{ now()->diffForHumans() }} --}}
             <!-- To the right -->
             <div class="float-right d-none d-sm-inline">
                 {{ config('app.name') }}
             </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; {{ now()->year }} - {{ now()->year + 1 }}</strong>
+            <strong>{{ __('admin.Copyright') }} &copy; {{ now()->year }} - {{ now()->year + 1 }}</strong>
         </footer>
     </div>
     <!-- ./wrapper -->
 
     {{-- Loader --}}
-    {{-- <div class="loader">
+    <div class="loader">
         <div class="b b1"></div>
         <div class="b b2"></div>
         <div class="b b3"></div>
         <div class="b b4"></div>
-    </div> --}}
+    </div>
 
     <!-- REQUIRED SCRIPTS -->
 
@@ -675,18 +673,22 @@ a.dropdown-item.dropdown-footer{
     <script src="{{ asset('adminAssets/dist/js/custom.js') }}"></script>
     <!-- Sweat Alert -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js"></script>
-    {{-- <script src="{{ asset('js/app.js') }}"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
     <script>
-        let companyId = '{{ Auth::id() }}';
+        let from = 'admin';
+        let companyId = {{ Auth::id() }};
+
     </script>
     @vite(['resources/js/app.js'])
 
     <!-- Loader -->
-    {{-- <script>
+    <script>
         window.onload = ()=> {
             document.querySelector(".loader").style.display = 'none';
         }
-    </script> --}}
+    </script>
 
 @if (session('msg'))
 <script>
