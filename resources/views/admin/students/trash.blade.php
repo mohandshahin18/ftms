@@ -1,7 +1,7 @@
 @extends('admin.master')
 
-@section('title', 'Recycle Bin')
-@section('sub-title', 'Students')
+@section('title', __('admin.Recycle Bin'))
+@section('sub-title', __('admin.Students'))
 @section('students-menu-open', 'menu-open')
 @section('students-active', 'active')
 
@@ -27,7 +27,7 @@
 
 
                         <div class="btn-website">
-                            <a href="{{ route('admin.students.index') }}" class="btn btn-primary"> All Students</a>
+                            <a href="{{ route('admin.students.index') }}" class="btn btn-primary">{{ __('admin.Students') }}</a>
                         </div>
 
 
@@ -39,13 +39,13 @@
                         <thead>
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
-                                <th>Student name</th>
-                                <th>Student email</th>
-                                <th>Student phone</th>
-                                <th>Student ID</th>
-                                <th>University name</th>
-                                <th>Specialization name</th>
-                                <th>Action</th>
+                                <th>{{ __('admin.Student Name') }}</th>
+                                <th>{{ __('admin.Student phone') }}</th>
+                                <th>{{ __('admin.Student ID') }}</th>
+                                <th>{{ __('admin.University Name') }}</th>
+                                <th>{{ __('admin.Specialization') }}</th>
+                                <th>{{ __('admin.Evaluation Status') }}</th>
+                                <th>{{ __('admin.Actions') }}</th>
                             </tr>
                         </thead>
 
@@ -76,7 +76,7 @@
                                 </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">
-                                    NO Data Selected
+                                    {{ __('admin.Not Evaluated yet') }}
                                 </td>
                             @endforelse
                         </tbody>

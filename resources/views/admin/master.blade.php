@@ -337,7 +337,7 @@ html {
                with font-awesome or any other icon font library -->
                         <li class="nav-item @yield('home-menu-open') ">
                             <a href="{{ route('admin.home') }}" class="nav-link @yield('home-active')">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <i class="nav-icon fas fa-home"></i>
                                 <p>
                                     {{ __('admin.Home') }}
                                 </p>
@@ -350,7 +350,7 @@ html {
 
                         <li class="nav-item @yield('companies-menu-open')">
                             <a href="#" class="nav-link @yield('companies-active')">
-                                <i class="nav-icon fas fa-laptop-house"></i>
+                                <i class="nav-icon fas fa-building"></i>
                                 <p>
                                     {{ __('admin.Companies') }}
                                     <i class="right fas fa-angle-left"></i>
