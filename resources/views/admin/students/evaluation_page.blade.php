@@ -42,8 +42,8 @@
                     <table class="table table-striped  table-hover ">
                         <thead>
                             <tr style="background-color: #1e272f; color: #fff;">
-                                <th style="width: 60%;">Question</th>
-                                 <th>Answer</th>
+                                <th style="width: 60%;">{{ __('admin.Questions') }}</th>
+                                 <th>{{ __('admin.Answers') }}</th>
 
                             </tr>
                         </thead>

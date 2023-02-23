@@ -1,7 +1,7 @@
 @extends('admin.master')
 
-@section('title', 'Teachers')
-@section('sub-title', 'Teachers')
+@section('title', __('admin.Teachers'))
+@section('sub-title', __('admin.Teachers'))
 @section('teachers-menu-open', 'menu-open')
 @section('teachers-active', 'active')
 @section('index-teacher-active', 'active')
@@ -23,7 +23,7 @@
 
                         <div class="btn-website">
                             <a href="{{ route('admin.teachers.create') }}" class="btn btn-primary"><i
-                                    class="fas fa-plus"></i> Add Teacher</a>
+                                    class="fas fa-plus"></i> {{ __('admin.Add Teacher') }}</a>
                         </div>
 
 
@@ -35,12 +35,12 @@
                         <thead>
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
-                                <th>Teacher name</th>
-                                <th>Teacher email</th>
-                                <th>Teacher phone</th>
-                                <th>University name</th>
-                                <th>Specialization name</th>
-                                <th>Action</th>
+                                <th>{{ __('admin.Teacher name') }}</th>
+                                <th>{{ __('admin.Teacher email') }}</th>
+                                <th>{{ __('admin.Phone') }}</th>
+                                <th>{{ __('admin.University Name') }}</th>
+                                <th>{{ __('admin.Specialization') }}</th>
+                                <th>{{ __('admin.Actions') }}</th>
                             </tr>
                         </thead>
 
@@ -64,7 +64,7 @@
                                 </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">
-                                    NO Data Selected
+                                    {{ __('admin.NO Data Selected') }}
                                 </td>
                             @endforelse
                         </tbody>

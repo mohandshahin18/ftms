@@ -1,7 +1,7 @@
 @extends('admin.master')
 
-@section('title', 'Admins')
-@section('sub-title', 'Admins')
+@section('title', __('admin.Admins'))
+@section('sub-title', __('admin.Admins'))
 @section('admins-menu-open', 'menu-open')
 @section('admins-active', 'active')
 @section('index-admin-active', 'active')
@@ -23,7 +23,7 @@
 
                         <div class="btn-website">
                             <a href="{{ route('admin.admins.create') }}" class="btn btn-primary"><i
-                                    class="fas fa-plus"></i> Add Admin</a>
+                                    class="fas fa-plus"></i> {{ __('admin.Add Admin') }}</a>
                         </div>
 
 
@@ -35,10 +35,10 @@
                         <thead>
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
-                                <th>Admin name</th>
-                                <th>Admin email</th>
-                                <th>Admin phone</th>
-                                <th>Action</th>
+                                <th>{{ __('admin.Admin name') }}</th>
+                                <th>{{ __('admin.Email') }}</th>
+                                <th>{{ __('admin.Phone') }}</th>
+                                <th>{{ __('admin.Actions') }}</th>
                             </tr>
                         </thead>
 
@@ -59,7 +59,7 @@
                                 </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">
-                                    NO Data Selected
+                                    {{ __('admin.NO Data Selected') }}
                                 </td>
                             @endforelse
                         </tbody>

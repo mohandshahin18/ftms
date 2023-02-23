@@ -154,7 +154,7 @@
                                 <th>{{ __('admin.Student Name') }}</th>
                                 <th>{{ __('admin.Student phone') }}</th>
                                 <th>{{ __('admin.Student ID') }}</th>
-                                <th>{{ __('admin.University name') }}</th>
+                                <th>{{ __('admin.University Name') }}</th>
                                 <th>{{ __('admin.Specialization') }}</th>
                                 <th>{{ __('admin.Evaluation Status') }}</th>
                                 <th>{{ __('admin.Actions') }}</th>

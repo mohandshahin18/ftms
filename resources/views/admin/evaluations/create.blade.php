@@ -1,7 +1,7 @@
 @extends('admin.master')
 
-@section('title' , 'Add New Evaluations')
-@section('sub-title' , 'Evaluations')
+@section('title' , __('admin.Add New Evaluation'))
+@section('sub-title' , __('admin.Evaluations'))
 @section('evaluations-menu-open' , 'menu-open')
 @section('evaluations-active' , 'active')
 @section('add-evaluations-active' , 'active')
@@ -47,7 +47,7 @@
     <div class="col-md-12">
         <div class="card card-primary">
             <div class="card-header">
-              <h3 class="card-title">Add New Evaluations</h3>
+              <h3 class="card-title">{{ __('admin.Add New Evaluation') }}</h3>
             </div>
             <!-- /.card-header -->
             <!-- form start -->
@@ -58,8 +58,8 @@
                  {{-- name --}}
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label class="mb-2">Evaluations name</label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"  placeholder="Evaluations name" value="{{ old('name') }}">
+                            <label class="mb-2">{{ __('admin.Evaluation Name') }}</label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"  placeholder="{{ __('admin.Evaluation Name') }}" value="{{ old('name') }}">
                             @error('name')
                             <small class="invalid-feedback"> {{ $message }}</small>
                             @enderror
@@ -69,10 +69,10 @@
                      {{-- type --}}
                      <div class="col-lg-6">
                         <div class="form-group">
-                            <label class="mb-2">Evaluation for</label>
+                            <label class="mb-2">{{ __('admin.For') }}</label>
                             <select name="evaluation_type" class="form-control" id="">
-                                <option value="company">Companies</option>
-                                <option value="student">Students</option>
+                                <option value="company">{{ __('admin.Companies') }}</option>
+                                <option value="student">{{ __('admin.Students') }}</option>
                             </select>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                     {{-- start date --}}
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label class="mb-2">Start Date</label>
+                            <label class="mb-2">{{ __('admin.Starts Date') }}</label>
                             <input type="date" class="datepicker form-control @error('start_date') is-invalid @enderror" value="{{ old('start_date') }}" name="start_date">
                             @error('start_date')
                                 <small class="invalid-feedback"> {{ $message }}</small>
@@ -91,7 +91,7 @@
                     {{-- end date --}}
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label class="mb-2">End Date</label>
+                            <label class="mb-2">{{ __('admin.Ends Date') }}</label>
                             <input type="date" class="datepicker form-control @error('end_date') is-invalid @enderror" value="{{ old('end_date') }}" name="end_date">
                             @error('end_date')
                                 <small class="invalid-feedback"> {{ $message }}</small>
@@ -103,9 +103,9 @@
 
                </div>
                <hr>
-                <h4>Questions</h4>
+                <h4>{{ __('admin.Questions') }}</h4>
 
-                <button id="add_question" class="btn btn-sm btn-success mb-2"><i class="fas fa-plus"></i> Add</button>
+                <button id="add_question" class="btn btn-sm btn-success mb-2"><i class="fas fa-plus"></i> {{ __('admin.Add') }}</button>
 
                 <div class="question_wrapper">
 
@@ -118,9 +118,9 @@
 
               <div class="card-footer">
                 <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Save</button>
+                    <i class="fas fa-plus"></i> {{ __('admin.Save') }}</button>
                 <button  class="btn btn-dark" type="button" onclick="history.back()">
-                    <i class="fas fa-undo-alt"> </i> Return Back </button>
+                    <i class="fas fa-undo-alt"> </i> {{ __('admin.Return Back') }} </button>
 
               </div>
             </form>
@@ -137,7 +137,7 @@
         e.preventDefault();
 
         let q = `<div>
-                    <input type="text" name="questions[]" id="" class="form-control mb-2"      placeholder="Question">
+                    <input type="text" name="questions[]" id="" class="form-control mb-2"      placeholder="{{ __('admin.Question') }}">
                     <span class="remove_question">-</span>
                 </div>`;
 
