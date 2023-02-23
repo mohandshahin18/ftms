@@ -1,7 +1,7 @@
 @extends('admin.master')
 
-@section('title', 'Trainers')
-@section('sub-title', 'Trainers')
+@section('title', __('admin.Trainers'))
+@section('sub-title', __('admin.Trainers'))
 @section('trainers-menu-open', 'menu-open')
 @section('trainers-active', 'active')
 @section('index-trainer-active', 'active')
@@ -20,7 +20,7 @@
 
                         <div class="btn-website">
                             <a href="{{ route('admin.trainers.create') }}" class="btn btn-primary"><i
-                                    class="fas fa-plus"></i> Add Trainer</a>
+                                    class="fas fa-plus"></i> {{ __('admin.Add Trainer') }}</a>
                         </div>
 
 
@@ -32,12 +32,12 @@
                         <thead>
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
-                                <th>Trainer Name</th>
-                                <th>email</th>
-                                <th>phone</th>
-                                <th>Company name</th>
-                                <th>Program</th>
-                                <th>Action</th>
+                                <th>{{ __('admin.Trainer Name') }}</th>
+                                <th>{{ __('admin.Email') }}</th>
+                                <th>{{ __('admin.Phone') }}</th>
+                                <th>{{ __('admin.Company Name') }}</th>
+                                <th>{{ __('admin.Program') }}</th>
+                                <th>{{ __('admin.Actions') }}</th>
                             </tr>
                         </thead>
 
@@ -61,7 +61,7 @@
                                 </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">
-                                    NO Data Selected
+                                    {{ __('admin.NO Data Selected') }}
                                 </td>
                             @endforelse
                         </tbody>

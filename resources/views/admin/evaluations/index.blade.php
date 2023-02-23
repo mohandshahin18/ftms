@@ -1,7 +1,7 @@
 @extends('admin.master')
 
-@section('title', 'Evaluations')
-@section('sub-title', 'Evaluations')
+@section('title', __('admin.Evaluations'))
+@section('sub-title', __('admin.Evaluations'))
 @section('evaluations-menu-open', 'menu-open')
 @section('evaluations-active', 'active')
 @section('index-evaluations-active', 'active')
@@ -29,7 +29,7 @@
 
                         <div class="btn-website">
                             <a href="{{ route('admin.evaluations.create') }}" class="btn btn-primary"><i
-                                    class="fas fa-plus"></i> Add Evaluation</a>
+                                    class="fas fa-plus"></i> {{ __('admin.Add Evaluation') }}</a>
 
                         </div>
 
@@ -42,9 +42,11 @@
                         <thead>
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
-                                <th>Evaluations Name</th>
-                                <th>For</th>
-                                <th>Action</th>
+                                <th>{{ __('admin.Evaluation Name') }}</th>
+                                <th>{{ __('admin.For') }}</th>
+                                <th>{{ __('admin.Starts Date') }}</th>
+                                <th>{{ __('admin.Ends Date') }}</th>
+                                <th>{{ __('admin.Actions') }}</th>
                             </tr>
                         </thead>
 
@@ -54,6 +56,8 @@
                                     <td>{{ $evaluation->id }}</td>
                                     <td>{{ $evaluation->name }}</td>
                                     <td>{{ $evaluation->evaluation_type == 'company' ? 'Company' : 'Students' }}</td>
+                                    <td>{{ Carbon::parse($evaluation->start_date)->format('Y/m/j')}}</td>
+                                    <td>{{ Carbon::parse($evaluation->end_date)->format('Y/m/j') }}</td>
                                     <td>
                                         <div style="display: flex; gap: 5px">
                                             <a title="Edit" href="{{ route('admin.evaluations.edit', $evaluation) }}" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i> </a>
@@ -67,7 +71,7 @@
                                 </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">
-                                    NO Data Selected
+                                    {{ __('admin.NO Data Selected') }}
                                 </td>
                             @endforelse
                         </tbody>

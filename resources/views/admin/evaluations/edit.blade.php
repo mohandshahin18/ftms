@@ -1,7 +1,7 @@
 @extends('admin.master')
 
-@section('title' , 'Edit Evaluation')
-@section('sub-title' , 'Evaluations')
+@section('title' , __('admin.Edit Evaluation'))
+@section('sub-title' , __('admin.Evaluations'))
 @section('evaluations-menu-open' , 'menu-open')
 @section('evaluations-active' , 'active')
 @section('add-specialization-active' , 'active')
@@ -47,7 +47,7 @@
     <div class="col-md-12">
         <div class="card card-primary">
             <div class="card-header">
-              <h3 class="card-title">Edit Evaluation</h3>
+              <h3 class="card-title">{{ __('admin.Edit Evaluation') }}</h3>
             </div>
             <!-- /.card-header -->
             <!-- form start -->
@@ -59,7 +59,7 @@
                  {{-- name --}}
                  <div class="col-lg-6">
                     <div class="form-group">
-                        <label class="mb-2">Evaluation name</label>
+                        <label class="mb-2">{{ __('admin.Evaluation Name') }}</label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"  placeholder="Evaluation name" value="{{ old('name', $evaluation->name) }}">
                         @error('name')
                         <small class="invalid-feedback"> {{ $message }}</small>
@@ -70,7 +70,7 @@
                      {{-- company --}}
                      <div class="col-6">
                         <div class="form-group">
-                            <label class="mb-2">For</label>
+                            <label class="mb-2">{{ __('admin.For') }}</label>
                             <select name="evaluation_type" class="form-control" id="">
                                     <option @selected($evaluation->evaluation_type == 'company') value="company">Company</option>
                                     <option @selected($evaluation->evaluation_type == 'student') value="student">Students</option>
@@ -82,7 +82,7 @@
                     {{-- start date --}}
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label class="mb-2">Start Date</label>
+                            <label class="mb-2">{{ __('admin.Starts Date') }}</label>
                             <input type="date" class="datepicker form-control @error('start_date') is-invalid @enderror" value="{{ old('start_date', $evaluation->start_date) }}" name="start_date">
                             @error('start_date')
                                 <small class="invalid-feedback"> {{ $message }}</small>
@@ -93,7 +93,7 @@
                     {{-- end date --}}
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label class="mb-2">End Date</label>
+                            <label class="mb-2">{{ __('admin.Ends Date') }}</label>
                             <input type="date" class="datepicker form-control @error('end_date') is-invalid @enderror" value="{{ old('end_date', $evaluation->end_date) }}" name="end_date">
                             @error('end_date')
                                 <small class="invalid-feedback"> {{ $message }}</small>
@@ -105,14 +105,14 @@
                </div>
 
                <hr>
-                <h4>Questions</h4>
+                <h4>{{ __('admin.Questions') }}</h4>
 
-                <button id="add_question" class="btn btn-sm btn-success mb-2"><i class="fas fa-plus"></i> Add</button>
+                <button id="add_question" class="btn btn-sm btn-success mb-2"><i class="fas fa-plus"></i> {{ __('admin.Add') }}</button>
 
                 <div class="question_wrapper">
                     @foreach ($evaluation->questions as $question)
                         <div>
-                            <input type="text" name="questions[{{ $question->id }}]" value="{{ $question->question }}" id="" class="form-control mb-2"      placeholder="Question">
+                            <input type="text" name="questions[{{ $question->id }}]" value="{{ $question->question }}" id="" class="form-control mb-2"      placeholder="{{ __('admin.Question') }}">
                             <span class="remove_question">-</span>
                         </div>
                     @endforeach
@@ -122,9 +122,9 @@
 
               <div class="card-footer">
                 <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Edit</button>
+                    <i class="fas fa-plus"></i> {{ __('admin.Edit') }}</button>
                 <button  class="btn btn-dark" type="button" onclick="history.back()">
-                    <i class="fas fa-undo-alt"> </i> Return Back </button>
+                    <i class="fas fa-undo-alt"> </i> {{ __('admin.Return Back') }} </button>
 
               </div>
             </form>
@@ -141,7 +141,7 @@
         e.preventDefault();
 
         let q = `<div>
-                    <input type="text" name="questions[]" id="" class="form-control mb-2"      placeholder="Question">
+                    <input type="text" name="questions[]" id="" class="form-control mb-2"      placeholder="{{ __('admin.Question') }}">
                     <span class="remove_question">-</span>
                 </div>`;
 

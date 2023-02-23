@@ -1,7 +1,7 @@
 @extends('admin.master')
 
-@section('title', 'Specializations')
-@section('sub-title', 'Specializations')
+@section('title', __('admin.Specializations'))
+@section('sub-title', __('admin.Specializations'))
 @section('specializations-menu-open', 'menu-open')
 @section('specializations-active', 'active')
 @section('index-specialization-active', 'active')
@@ -29,7 +29,7 @@
 
                         <div class="btn-website">
                             <a href="{{ route('admin.specializations.create') }}" class="btn btn-primary"><i
-                                    class="fas fa-plus"></i> Add specialization</a>
+                                    class="fas fa-plus"></i> {{ __('admin.Add Specialization') }}</a>
 
                         </div>
 
@@ -42,9 +42,9 @@
                         <thead>
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
-                                <th>Specialization Name</th>
-                                <th>University Name</th>
-                                <th>Action</th>
+                                <th>{{ __('admin.Specialization') }}</th>
+                                <th>{{ __('admin.University Name') }}</th>
+                                <th>{{ __('admin.Actions') }}</th>
                             </tr>
                         </thead>
 
@@ -68,7 +68,7 @@
                                 </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">
-                                    NO Data Selected
+                                    {{ __('admin.NO Data Selected') }}
                                 </td>
                             @endforelse
                         </tbody>

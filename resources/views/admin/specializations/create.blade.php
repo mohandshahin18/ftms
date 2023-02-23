@@ -1,7 +1,7 @@
 @extends('admin.master')
 
-@section('title' , 'Add New Specialization')
-@section('sub-title' , 'Specializations')
+@section('title' , __('admin.Add Specialization'))
+@section('sub-title' , __('admin.Specializations'))
 @section('specializations-menu-open' , 'menu-open')
 @section('specializations-active' , 'active')
 @section('add-specialization-active' , 'active')
@@ -12,7 +12,7 @@
     <div class="col-md-12">
         <div class="card card-primary">
             <div class="card-header">
-              <h3 class="card-title">Add New specialization</h3>
+              <h3 class="card-title">{{ __('admin.Add New Specialization') }}</h3>
             </div>
             <!-- /.card-header -->
             <!-- form start -->
@@ -23,8 +23,8 @@
                  {{-- name --}}
                  <div class="col-lg-6">
                     <div class="form-group">
-                        <label class="mb-2">Specialization name</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"  placeholder="Specialization name" value="{{ old('name') }}">
+                        <label class="mb-2">{{ __('admin.Specialization') }}</label>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"  placeholder="{{ __('admin.Specialization') }}" value="{{ old('name') }}">
                         @error('name')
                         <small class="invalid-feedback"> {{ $message }}</small>
                         @enderror
@@ -34,7 +34,7 @@
                      {{-- university --}}
                      <div class="col-lg-6">
                         <div class="form-group">
-                            <label class="mb-2">University</label>
+                            <label class="mb-2">{{ __('admin.University Name') }}</label>
                             <select name="university_id" class="form-control" id="">
                                 <option value="">Select University</option>
                                 @foreach ($universities as $university)
@@ -50,9 +50,9 @@
 
               <div class="card-footer">
                 <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Add</button>
+                    <i class="fas fa-plus"></i> {{ __('admin.Add') }}</button>
                 <button  class="btn btn-dark" type="button" onclick="history.back()">
-                    <i class="fas fa-undo-alt"> </i> Return Back </button>
+                    <i class="fas fa-undo-alt"> </i> {{ __('admin.Return Back') }} </button>
 
               </div>
             </form>
