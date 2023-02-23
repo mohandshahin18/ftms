@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use Carbon\Carbon;
 use App\Models\Task;
 use App\Models\Student;
 use App\Models\Trainer;
@@ -65,7 +64,6 @@ class TaskController extends Controller
             $slug = $slug . '-' . $random;
         }
 
-<<<<<<< HEAD
         $file_name = null;
         if($request->hasFile('file')) {
             $file = $request->file('file')->getClientMimeType();
@@ -92,17 +90,7 @@ class TaskController extends Controller
         //     $request->file('file')->move(public_path('uploads/tasks-files/'),$fileName);
         // }
 
-            $task = Task::create([
-=======
-        $fileName = null;
-        if ($request->hasFile('file')) {
-            $task_title = str_replace(' ', '-', $request->main_title);
-            $fileName = $task_title . '-' . $request->file('file')->getClientOriginalName();
-            $request->file('file')->move(public_path('uploads/tasks-files/'), $fileName);
-        }
-
-        Task::create([
->>>>>>> f305488a507c4922415f503b533e3ca92cf0e3b8
+            Task::create([
             'main_title' => $request->main_title,
             'sub_title' => $request->sub_title,
             'start_date' => $request->start_date,
@@ -121,29 +109,15 @@ class TaskController extends Controller
         $students = Student::where('category_id', Auth::user()->category->id)
             ->where('company_id', $company_id)->get();
 
-<<<<<<< HEAD
-            $students = Student::where('category_id',Auth::user()->category->id)
-                              ->where('company_id' ,$company_id )->get();
-            // $start_date = now()->diffInMinutes($task->start_date) + 1;
-            // $delay = now()->addMinutes($start_date);
-            $delay = Carbon::parse($task->start_date)->startOfDay();
-            foreach($students as $student){
-                // $student->notify(new NewTaskNotification(Auth::user()->name,$slug,Auth::user()->id));
-                $student->notify((new NewTaskNotification(Auth::user()->name, $slug, Auth::user()->id)));
-
-
-            }
-=======
         foreach ($students as $student) {
             $student->notify((new NewTaskNotification(Auth::user()->name, $slug, Auth::user()->id,
                                                      Auth::user()->image))
                                                      ->delay($delay));
         }
->>>>>>> f305488a507c4922415f503b533e3ca92cf0e3b8
 
 
         return redirect()->route('admin.tasks.index')
-            ->with('msg', 'Task has been addedd successfully')
+            ->with('msg', __('admin.Task has been added successfully'))
             ->with('type', 'success');
     }
 
@@ -216,8 +190,8 @@ class TaskController extends Controller
         ]);
 
         return redirect()->route('admin.tasks.index')
-            ->with('msg', 'Task has been updated successfully')
-            ->with('type', 'info');
+            ->with('msg', __('admin.Task has been updated successfully'))
+            ->with('type', 'success');
     }
 
     /**

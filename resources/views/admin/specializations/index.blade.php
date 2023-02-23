@@ -24,11 +24,11 @@
                 <div class="card-header">
                     <div class="d-flex  justify-content-between">
 
-                        
+
 
 
                         <div class="btn-website">
-                            <a href="{{ route('admin.specializations.create') }}" class="btn btn-primary"><i
+                            <a title="{{ __('admin.Add Specialization') }}" href="{{ route('admin.specializations.create') }}" class="btn btn-primary"><i
                                     class="fas fa-plus"></i> {{ __('admin.Add Specialization') }}</a>
 
                         </div>
@@ -55,13 +55,13 @@
                                     <td>{{ $specialization->name }}</td>
                                     <td>{{ $specialization->university->name }}</td>
                                     <td>
-                                        <a title="Edit" href="{{ route('admin.specializations.edit', $specialization) }}" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i> </a>
+                                        <a title="{{ __('admin.Edit') }}" href="{{ route('admin.specializations.edit', $specialization) }}" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i> </a>
 
                                         <form class="d-inline delete_form"
                                             action="{{ route('admin.specializations.destroy', $specialization->id) }}" method="POST">
                                             @csrf
                                             @method('delete')
-                                            <button class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"
+                                            <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"
                                                    ></i> </button>
                                         </form>
                                     </td>

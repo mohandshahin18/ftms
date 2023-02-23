@@ -71,7 +71,7 @@ class TeacherController extends Controller
 
         return redirect()
         ->route('admin.teachers.index')
-        ->with('msg', 'Teacher Has Been Addedd Successfully')
+        ->with('msg', __('admin.Teacher has been added successfully'))
         ->with('type', 'success');
     }
 
@@ -118,7 +118,7 @@ class TeacherController extends Controller
     public function destroy(Teacher $teacher)
     {
         $photo_path = public_path($teacher->image);
-        
+
         if(File::exists($photo_path)) {
             try {
                 File::delete($photo_path);

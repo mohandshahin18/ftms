@@ -50,7 +50,7 @@ class SpecializationsController extends Controller
         ]);
 
         return redirect()->route('admin.specializations.index')
-        ->with('msg', 'Specialization has been addedd successfully')
+        ->with('msg', __('admin.Specialization has been added successfully'))
         ->with('type', 'success');
 
     }
@@ -88,7 +88,7 @@ class SpecializationsController extends Controller
     public function update(Request $request,Specialization $specialization)
     {
 
-        
+
         $request->validate([
             'name' => 'required',
             'university_id' => 'required',
@@ -102,9 +102,9 @@ class SpecializationsController extends Controller
         ]);
 
         return redirect()->route('admin.specializations.index')
-        ->with('msg', 'Specialization has been updated successfully')
+        ->with('msg', __('admin.Specialization has been updated successfully'))
         ->with('type', 'success');
-       
+
     }
 
     /**

@@ -22,7 +22,7 @@
 
 
                         <div class="btn-website">
-                            <a href="{{ route('admin.teachers.create') }}" class="btn btn-primary"><i
+                            <a title="{{ __('admin.Add Teacher') }}" href="{{ route('admin.teachers.create') }}" class="btn btn-primary"><i
                                     class="fas fa-plus"></i> {{ __('admin.Add Teacher') }}</a>
                         </div>
 
@@ -35,8 +35,8 @@
                         <thead>
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
-                                <th>{{ __('admin.Teacher name') }}</th>
-                                <th>{{ __('admin.Teacher email') }}</th>
+                                <th>{{ __('admin.Teacher Name') }}</th>
+                                <th>{{ __('admin.Teacher Email') }}</th>
                                 <th>{{ __('admin.Phone') }}</th>
                                 <th>{{ __('admin.University Name') }}</th>
                                 <th>{{ __('admin.Specialization') }}</th>
@@ -58,7 +58,7 @@
                                             action="{{ route('admin.teachers.destroy', $teacher->id) }}" method="POST">
                                             @csrf
                                             @method('delete')
-                                            <button class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i> </button>
+                                            <button  title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i> </button>
                                         </form>
                                     </td>
                                 </tr>

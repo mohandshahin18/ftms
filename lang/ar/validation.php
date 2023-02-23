@@ -208,6 +208,13 @@ return [
         "logo"                  => "اللوقو",
         "image"                 => "الصورة",
         "category_id"           => "البرنامج",
+        "specialization_id"     => "التخصص",
+        "university_id"         => "الجامعة",
+        "company_id"           => "الشركة",
+        "start_date"         => "تاريخ البداية	",
+        "end_date"         => "تاريخ النهاية	",
+        "main_title"         => "العنوان الرئيسي",
+        "sub_title"         => "العنوان الفرعي",
 
     ],
 

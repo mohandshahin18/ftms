@@ -154,6 +154,8 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     Route::resource('specializations', SpecializationsController::class);
 
     // trainer
+    Route::get('/get/category/{id}', [TrainerController::class, 'get_category']);
+
     Route::get('get/category/{id}', [TrainerController::class, 'get_category']);
     Route::resource('trainers', TrainerController::class);
 

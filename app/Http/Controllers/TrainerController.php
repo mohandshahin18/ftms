@@ -62,7 +62,7 @@ class TrainerController extends Controller
 
         return redirect()
         ->route('admin.trainers.index')
-        ->with('msg', 'Trainer Has Been Addedd Successfully')
+        ->with('msg', __('admin.Trainer has been added successfully'))
         ->with('type', 'success');
 
 
@@ -130,5 +130,19 @@ class TrainerController extends Controller
     //     $company = CategoryCompany::where('company_id', $id)->get();
     //     return json_encode($company);
     // }
+
+
+     /**
+     * return specialization based on university
+     *
+     */
+    public function get_category($id)
+    {
+        $company = Company::with('categories')->where('id',$id)->first();
+        $categories = $company->categories->pluck("name", 'id');
+        return json_encode($categories);
+    }
+
+
 
 }

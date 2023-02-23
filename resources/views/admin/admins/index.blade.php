@@ -18,11 +18,11 @@
                 <div class="card-header">
                     <div class="d-flex  justify-content-between">
 
-                    
+
 
 
                         <div class="btn-website">
-                            <a href="{{ route('admin.admins.create') }}" class="btn btn-primary"><i
+                            <a title="{{ __('admin.Add Admin') }}" href="{{ route('admin.admins.create') }}" class="btn btn-primary"><i
                                     class="fas fa-plus"></i> {{ __('admin.Add Admin') }}</a>
                         </div>
 
@@ -35,7 +35,7 @@
                         <thead>
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
-                                <th>{{ __('admin.Admin name') }}</th>
+                                <th>{{ __('admin.Admin Name') }}</th>
                                 <th>{{ __('admin.Email') }}</th>
                                 <th>{{ __('admin.Phone') }}</th>
                                 <th>{{ __('admin.Actions') }}</th>
@@ -53,7 +53,7 @@
                                         <form class="d-inline delete_form" action="{{ route('admin.admins.destroy', $admin) }}" method="POST">
                                             @csrf
                                             @method('delete')
-                                            <button class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i> </button>
+                                            <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i> </button>
                                         </form>
                                     </td>
                                 </tr>
@@ -77,65 +77,5 @@
 
 
 
-
-@stop
-
-@section('scripts')
-
-    <script>
-
-
-        $('.delete_form').on('submit', function(e) {
-            e.preventDefault();
-
-            let url = $(this).attr('action');
-
-            let data = $(this).serialize();
-
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Admin will be Deleted",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#000',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // send ajax request and delete post
-                    $.ajax({
-                        type: 'post',
-                        url: url,
-                        data: data,
-                        success: function(res) {
-                            $('#row_' + res).remove();
-
-                        }
-
-                    })
-
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 2000,
-                        timerProgressBar: false,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer)
-                            toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        }
-                    })
-
-                    Toast.fire({
-                        icon: 'warning',
-                        title: 'Admin Deleted Successfully'
-                    })
-                }
-            })
-
-
-
-        });
-      </script>
 
 @stop

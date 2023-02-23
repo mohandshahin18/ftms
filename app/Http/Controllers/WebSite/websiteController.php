@@ -98,12 +98,9 @@ class websiteController extends Controller
             return view('student.company',compact('company','program', 'ap'));
         }
 
-<<<<<<< HEAD
-=======
         $applied =Application::get();
 
         return view('student.company',compact('company','program' ,'applied', 'ap'));
->>>>>>> 955655bc9fadb8368d9d2a1f6613cd8a59166eca
     }
 
 

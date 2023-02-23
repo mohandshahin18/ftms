@@ -35,12 +35,16 @@
                      <div class="col-lg-6">
                         <div class="form-group">
                             <label class="mb-2">{{ __('admin.University Name') }}</label>
-                            <select name="university_id" class="form-control" id="">
+                            <select name="university_id" class="form-control @error('university_id') is-invalid @enderror" id="">
                                 <option value="">Select University</option>
                                 @foreach ($universities as $university)
                                     <option value="{{ $university->id }}">{{ $university->name }}</option>
                                 @endforeach
                             </select>
+                            @error('university_id')
+                                        <small class="invalid-feedback"> {{ $message }}</small>
+                            @enderror
+
                         </div>
                     </div>
 
@@ -49,10 +53,10 @@
               <!-- /.card-body -->
 
               <div class="card-footer">
+                  <button  class="btn btn-dark" type="button" onclick="history.back()">
+                      <i class="fas fa-undo-alt"> </i> {{ __('admin.Return Back') }} </button>
                 <button type="submit" class="btn btn-primary">
                     <i class="fas fa-plus"></i> {{ __('admin.Add') }}</button>
-                <button  class="btn btn-dark" type="button" onclick="history.back()">
-                    <i class="fas fa-undo-alt"> </i> {{ __('admin.Return Back') }} </button>
 
               </div>
             </form>

@@ -45,7 +45,7 @@ class CategoryController extends Controller
             'name' => $request->name,
         ]);
 
-        return redirect()->route('admin.categories.index')->with('msg', __('admin.Program has been addedd successfully'))->with('type', 'success');
+        return redirect()->route('admin.categories.index')->with('msg', __('admin.Program has been added successfully'))->with('type', 'success');
     }
 
     /**

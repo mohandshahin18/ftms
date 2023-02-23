@@ -66,7 +66,7 @@ class EvaluationController extends Controller
         }
 
         return redirect()->route('admin.evaluations.index')
-        ->with('msg', 'Evaluation Created Successfully')
+        ->with('msg', __('admin.Evaluation has been added successfully'))
         ->with('type', 'success');
     }
 
@@ -127,8 +127,8 @@ class EvaluationController extends Controller
         }
 
         return redirect()->route('admin.evaluations.index')
-        ->with('msg', 'Evaluation Updated Successfully')
-        ->with('type', 'info');
+        ->with('msg', __('admin.Evaluation has been updated successfully'))
+        ->with('type', 'success');
     }
 
     /**

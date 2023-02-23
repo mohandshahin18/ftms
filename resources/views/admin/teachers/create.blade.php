@@ -62,7 +62,7 @@
                                 <div class="form-group">
                                     <label class="mb-2">{{ __('admin.Phone') }}</label>
                                     <input type="text" class="form-control @error('phone') is-invalid @enderror"
-                                        name="phone" placeholder="{{ __('admin.Phone') }}Teacher phone" value="{{ old('phone') }}">
+                                        name="phone" placeholder="{{ __('admin.Phone') }}" value="{{ old('phone') }}">
                                     @error('phone')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                     @enderror
@@ -73,12 +73,15 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="mb-2">{{ __('admin.University Name') }}</label>
-                                    <select name="university_id" class="form-control" id="">
+                                    <select name="university_id" id="university_id" class="form-control @error('university_id') is-invalid @enderror" id="">
                                         <option value="">{{ __('admin.Select University') }}</option>
                                         @foreach ($universities as $university)
                                             <option value="{{ $university->id }}">{{ $university->name }}</option>
                                         @endforeach
                                     </select>
+                                    @error('university_id')
+                                        <small class="invalid-feedback"> {{ $message }}</small>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -86,12 +89,15 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="mb-2">{{ __('admin.Specialization') }}</label>
-                                    <select name="specialization_id" class="form-control" id="">
+                                    <select name="specialization_id" id="specialization_id" class="form-control @error('specialization_id') is-invalid @enderror" id="">
                                         <option value="">{{ __('admin.Select Specialization') }}</option>
                                         @foreach ($specializations as $specialization)
                                             <option value="{{ $specialization->id }}">{{ $specialization->name }}</option>
                                         @endforeach
                                     </select>
+                                    @error('specialization_id')
+                                        <small class="invalid-feedback"> {{ $message }}</small>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -113,10 +119,10 @@
                     <!-- /.card-body -->
 
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-plus"></i> {{ __('admin.Add') }}</button>
                         <button class="btn btn-dark" type="button" onclick="history.back()">
                             <i class="fas fa-undo-alt"> </i> {{ __('admin.Return Back') }} </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> {{ __('admin.Add') }}</button>
 
                     </div>
                 </form>
@@ -125,4 +131,27 @@
     </div>
 
 
+@stop
+@section('scripts')
+    <script>
+         $(document).ready(function() {
+            $("#university_id").on("change", function() {
+                var uni_id = $(this).val();
+                if (uni_id) {
+                    $.ajax({
+                        url: "/admin/get/specialization/" + uni_id,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            $("#specialization_id").empty();
+                            $.each(data, function(key, value) {
+                                $("#specialization_id").append('<option value="' + key +
+                                    '">' + value + '</option>');
+                            });
+                        },
+                    });
+                }
+            });
+        });
+    </script>
 @stop

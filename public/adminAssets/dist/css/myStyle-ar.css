@@ -94,9 +94,15 @@ float: left!important;
 }
 
 .form-control.is-invalid, .was-validated .form-control:invalid {
-    padding-right: .375rem !important;
+    padding-right: .75rem !important;
     padding-left: 2.25rem!important;
     background-position: left calc(0.375em + 0.1875rem) center;
+}
+
+.was-validated select.form-control:invalid, select.form-control.is-invalid {
+    padding-right: .75rem !important;
+    padding-left: 3rem!important;
+    background-position: left 1.5rem center !important;
 }
 .notification-list .notification-list_content .notification-list_img img
 {
