@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AppliedEvaluation;
-use App\Models\Evaluation;
-use App\Models\Student;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
-use Illuminate\Support\Facades\File;
+use App\Models\Student;
+use App\Models\Evaluation;
+use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\AppliedEvaluation;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class StudentController extends Controller
 {
@@ -86,7 +87,7 @@ class StudentController extends Controller
         return view('admin.students.index', compact('students', 'applied_evaluations'));
     }
 
-    // search and return students names 
+    // search and return students names
     public function search(Request $request)
     {
         $search = $request->search;
@@ -99,7 +100,7 @@ class StudentController extends Controller
                           ->orWhere('student_id', 'like', '%'.$search.'%');
                 })
                 ->pluck('name');
-    
+
             } elseif(Auth::guard('trainer')->check()) {
                 $students = Student::where('trainer_id', Auth::user()->id)
                 ->where(function($query) use ($search) {
@@ -107,7 +108,7 @@ class StudentController extends Controller
                           ->orWhere('student_id', 'like', '%'.$search.'%');
                 })
                 ->pluck('name');
-    
+
             } elseif(Auth::guard('teacher')->check()) {
                 $students = Student::where('teacher_id', Auth::user()->id)
                 ->where(function($query) use ($search) {
@@ -115,7 +116,7 @@ class StudentController extends Controller
                           ->orWhere('student_id', 'like', '%'.$search.'%');
                 })
                 ->pluck('name');
-    
+
             } else {
                 $students = Student::where(function($query) use ($search) {
                     $query->where('name', 'like', '%'.$search.'%')
@@ -123,18 +124,62 @@ class StudentController extends Controller
                 })
                 ->pluck('name');
             }
-    
+
             if($students) {
                 return response()->json(["students" => $students]);
             } else {
                 return response()->json(["message"=> "meg"]);
             }
-        } 
+        }
     }
 
     public function delete_company_student($id)
     {
         $student= Student::where('id',$id)->first();
+
+
+        $applyNotifications = DB::table('notifications')
+                    ->where('type','App\Notifications\AppliedNotification')
+                    ->where('notifiable_type','App\Models\Company')
+                    ->where('notifiable_id',$student->company_id)
+                    ->get();
+
+        if($applyNotifications) {
+            foreach($applyNotifications as $notification) {
+
+                $data = json_decode($notification->data, true);
+                if(($data['student_id'] == $student->id)&&
+                    ($data['category_id'] == $student->category_id) &&
+                    ($data['company_id'] == $student->company_id))
+                    {
+                        DB::table('notifications')
+                            ->where('id', $notification->id)
+                            ->delete();
+                    }
+            }
+        }
+
+        $acceptApplyNotifications = DB::table('notifications')
+        ->where('type','App\Notifications\AcceptApplyNotification')
+        ->where('notifiable_type','App\Models\Student')
+        ->where('notifiable_id',$student->id)
+        ->get();
+
+        if($acceptApplyNotifications) {
+            foreach($acceptApplyNotifications as $notification) {
+
+                $data = json_decode($notification->data, true);
+                if(($data['studentId'] == $student->id)&&
+                    ($data['company_id'] == $student->company_id))
+                    {
+                        DB::table('notifications')
+                            ->where('id', $notification->id)
+                            ->delete();
+                    }
+            }
+        }
+
+
 
         $student->update([
             'company_id'=> null ,

@@ -128,17 +128,18 @@ class NotifyController extends Controller
             }
 
             $application->delete();
-            
+
             $student = Student::where('id',$student_id)->first();
             $studentName =$student->name;
+            $studentId = $student->id;
 
             $category = Category::where('id',$category_id)->first();
             $categoryName =$category->name;
 
             $student->notify(new AcceptApplyNotification(Auth::user()->name,
                                                         Auth::user()->slug , $request->company_id ,
-                                                        $categoryName, $studentName , Auth::user()->image ));
-            return '<i class="fas fa-check text-success"> Approved</i>';
+                                                        $categoryName, $studentName , Auth::user()->image ,$studentId));
+            return '<i class="fas fa-check text-success"> ' . __('admin.Approved').'</i>';
         }
     }
 
@@ -159,7 +160,7 @@ class NotifyController extends Controller
                         ->where('category_id',$category_id)->delete();
 
             DB::table('notifications')->where('id',$id)->delete();
-            return  response()->json(['reject' =>'<i class="fas fa-times text-danger"> Rejected</i>' ,'id'=>$id]);
+            return  response()->json(['reject' =>'<i class="fas fa-times text-danger"> ' . __('admin.Rejected').'</i>' ,'id'=>$id]);
         }
 
     }

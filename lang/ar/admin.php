@@ -168,6 +168,14 @@ return [
     "Optional" => "إختياري",
     "File" => "ملف",
     "Edit Task" => "تعديل المهمة",
+    "Notifications" => "الإشعارات",
+    "Accept" => "قبول",
+    "Reject" => "رفض",
+    "Approved" => "مقبول",
+    "Rejected" => "مرفوض",
+    "1 Seconds ago" => "منذ ثانية",
+    "Show More Notifications" => " عرض المزيد من الإشعارات",
+
 
 
 ];

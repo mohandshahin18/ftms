@@ -41,7 +41,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
             background: #516171 !important;
         }
 
-
+        .card-footer{
+            gap: 4px
+        }
  </style>
 
 @if(app()->getLocale()=='ar')
@@ -679,6 +681,9 @@ html {
     <script>
         let from = 'admin';
         let companyId = {{ Auth::id() }};
+        let time = "{{ __('admin.1 Seconds ago') }}";
+        let lang = "{{ app()->getLocale() }}" ;
+        let host = "{{ env('APP_URL') }}";
 
     </script>
     @vite(['resources/js/app.js'])

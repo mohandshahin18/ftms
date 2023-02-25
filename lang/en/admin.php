@@ -168,8 +168,16 @@ return [
     "Task has been updated successfully" => "Task has been updated successfully",
     "Like Task 1, Task 2 ..." => "Like Task 1, Task 2 ...",
     "Optional" => "Optional",
-    "File" => "File",
     "Edit Task" => "Edit Task",
+    "File" => "File",
+    "Notifications" => "Notifications",
+    "Accept" => "Accept",
+    "Reject" => "Reject",
+    "Approved" => "Approved",
+    "Rejected" => "Rejected",
+    "1 Seconds ago" => "1 Seconds ago",
+    "Show More Notifications" => "Show More Notifications",
+
 
 
 ];

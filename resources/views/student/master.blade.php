@@ -394,6 +394,9 @@
     <script>
         let from = 'student';
         let studentId = {{ Auth::id() }};
+        let time = "{{ __('admin.1 Seconds ago') }}";
+
+
     </script>
     @vite(['resources/js/app.js'])
 

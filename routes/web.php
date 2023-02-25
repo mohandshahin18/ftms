@@ -129,7 +129,7 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     Route::get('/read-notify', [NotifyController::class, 'read_notify'])->name('read_notify');
     Route::get('/mark-read/{id}', [NotifyController::class, 'mark_read'])->name('mark_read');
 
-    // accept apply
+    // accept and reject apply
     Route::get('/accept',[NotifyController::class,'accept_apply'])->name('accept_apply');
     Route::delete('/reject/{id}',[NotifyController::class,'reject_apply'])->name('reject_apply');
 
