@@ -180,7 +180,7 @@ class EvaluationController extends Controller
         ]);
 
         return redirect()->route('admin.students.index')
-        ->with('msg', $student->name.' has been evaluated successfully')
+        ->with('msg', $student->name. __('admin.has been evaluated successfully'))
         ->with('type', 'success');
     }
 

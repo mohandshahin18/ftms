@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AppliedNotification extends Notification 
+class AppliedNotification extends Notification
 {
     use Queueable;
 
@@ -71,7 +71,7 @@ class AppliedNotification extends Notification
     {
         return [
             'name' => $this->name ,
-            'msg' => 'Applied to your company',
+            'msg' => __('admin.Submit an application to the company'),
             'reason' => $this->reason,
             'category' => $this->category,
             'url' => url('/admin/read-notify'),

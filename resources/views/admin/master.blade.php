@@ -322,7 +322,7 @@ html {
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link ">
+            <a href="{{ route('admin.home') }}" class="brand-link text-center">
                 <img src="{{ asset($data['logo']) }}" style="opacity: .8 ; width: 100px;">
 
             </a>
@@ -348,29 +348,105 @@ html {
                         </li>
 
 
-
-
-                        <li class="nav-item @yield('companies-menu-open')">
-                            <a href="#" class="nav-link @yield('companies-active')">
-                                <i class="nav-icon fas fa-building"></i>
+                        <li class="nav-item @yield('admins-menu-open')">
+                            <a href="#" class="nav-link @yield('admins-active')">
+                                <i class="fas fa-user-shield nav-icon"></i>
                                 <p>
-                                    {{ __('admin.Companies') }}
+                                    {{ __('admin.Admins') }}
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ route('admin.companies.index') }}"
-                                        class="nav-link @yield('index-company-active')">
+                                    <a href="{{ route('admin.admins.index') }}" class="nav-link @yield('index-admin-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.All Companies') }}</p>
+                                        <p>{{ __('admin.All Admins') }}</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('admin.companies.create') }}"
-                                        class="nav-link @yield('add-company-active')">
+                                    <a href="{{ route('admin.admins.create') }}" class="nav-link @yield('add-admin-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.Add Company') }}</p>
+                                        <p>{{ __('admin.Add Admin') }}</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item @yield('universities-menu-open')">
+                            <a href="#" class="nav-link @yield('universities-active')">
+                                <i class="nav-icon fas fa-university"></i>
+                                <p>
+                                    {{ __('admin.Universities') }}
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.universities.index') }}"
+                                        class="nav-link @yield('index-university-active')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>{{ __('admin.All Universities') }}</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.universities.create') }}"
+                                        class="nav-link @yield('add-university-active')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>{{ __('admin.Add University') }}</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+                        <li class="nav-item @yield('specializations-menu-open')">
+                            <a href="#" class="nav-link @yield('specializations-active')">
+                                <i class="nav-icon fas fa-graduation-cap"></i>
+                                <p>
+                                    {{ __('admin.Specializations') }}
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.specializations.index') }}"
+                                        class="nav-link @yield('index-specialization-active')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>{{ __('admin.All Specializations') }}</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.specializations.create') }}"
+                                        class="nav-link @yield('add-specialization-active')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>{{ __('admin.Add Specialization') }}</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+                        <li class="nav-item @yield('teachers-menu-open')">
+                            <a href="#" class="nav-link @yield('teachers-active')">
+                                <i class="nav-icon fas fa-chalkboard-teacher"></i>
+                                <p>
+                                    {{ __('admin.Teachers') }}
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.teachers.index') }}"
+                                        class="nav-link @yield('index-teacher-active')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>{{ __('admin.All Teachers') }}</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.teachers.create') }}"
+                                        class="nav-link @yield('add-teacher-active')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>{{ __('admin.Add Teacher') }}</p>
                                     </a>
                                 </li>
                             </ul>
@@ -404,88 +480,31 @@ html {
                             </ul>
                         </li>
 
-
-
-                        <li class="nav-item @yield('universities-menu-open')">
-                            <a href="#" class="nav-link @yield('universities-active')">
-                                <i class="nav-icon fas fa-university"></i>
+                        <li class="nav-item @yield('companies-menu-open')">
+                            <a href="#" class="nav-link @yield('companies-active')">
+                                <i class="nav-icon fas fa-building"></i>
                                 <p>
-                                    {{ __('admin.Universities') }}
+                                    {{ __('admin.Companies') }}
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ route('admin.universities.index') }}"
-                                        class="nav-link @yield('index-university-active')">
+                                    <a href="{{ route('admin.companies.index') }}"
+                                        class="nav-link @yield('index-company-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.All Universities') }}</p>
+                                        <p>{{ __('admin.All Companies') }}</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('admin.universities.create') }}"
-                                        class="nav-link @yield('add-university-active')">
+                                    <a href="{{ route('admin.companies.create') }}"
+                                        class="nav-link @yield('add-company-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.Add University') }}</p>
+                                        <p>{{ __('admin.Add Company') }}</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-
-                        <li class="nav-item @yield('teachers-menu-open')">
-                            <a href="#" class="nav-link @yield('teachers-active')">
-                                <i class="nav-icon fas fa-chalkboard-teacher"></i>
-                                <p>
-                                    {{ __('admin.Teachers') }}
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.teachers.index') }}"
-                                        class="nav-link @yield('index-teacher-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.All Teachers') }}</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.teachers.create') }}"
-                                        class="nav-link @yield('add-teacher-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.Add Teacher') }}</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-
-
-                        <li class="nav-item @yield('specializations-menu-open')">
-                            <a href="#" class="nav-link @yield('specializations-active')">
-                                <i class="nav-icon fas fa-graduation-cap"></i>
-                                <p>
-                                    {{ __('admin.Specializations') }}
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.specializations.index') }}"
-                                        class="nav-link @yield('index-specialization-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.All Specializations') }}</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.specializations.create') }}"
-                                        class="nav-link @yield('add-specialization-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.Add Specialization') }}</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
 
 
                         <li class="nav-item @yield('trainers-menu-open')">
@@ -509,58 +528,6 @@ html {
                                         class="nav-link @yield('add-trainer-active')">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>{{ __('admin.Add Trainer') }}</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-item @yield('admins-menu-open')">
-                            <a href="#" class="nav-link @yield('admins-active')">
-                                <i class="fas fa-user-shield nav-icon"></i>
-                                <p>
-                                    {{ __('admin.Admins') }}
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.admins.index') }}" class="nav-link @yield('index-admin-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.All Admins') }}</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.admins.create') }}" class="nav-link @yield('add-admin-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.Add Admin') }}</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-
-                        <li class="nav-item @yield('evaluations-menu-open')">
-                            <a href="#" class="nav-link @yield('evaluations-active')">
-                                {{-- <i class="fas fa-file-chart-line"></i> --}}
-                                <i class="fas fa-file-signature nav-icon"></i>
-                                <p>
-                                    {{ __('admin.Evaluations') }}
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.evaluations.index') }}"
-                                        class="nav-link @yield('index-evaluations-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.All Evaluations') }}</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.evaluations.create') }}"
-                                        class="nav-link @yield('add-evaluations-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.Add Evaluation') }}</p>
                                     </a>
                                 </li>
                             </ul>
@@ -591,6 +558,36 @@ html {
                             </ul>
                         </li>
                         @endif
+                        
+
+                        <li class="nav-item @yield('evaluations-menu-open')">
+                            <a href="#" class="nav-link @yield('evaluations-active')">
+                                {{-- <i class="fas fa-file-chart-line"></i> --}}
+                                <i class="fas fa-file-signature nav-icon"></i>
+                                <p>
+                                    {{ __('admin.Evaluations') }}
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.evaluations.index') }}"
+                                        class="nav-link @yield('index-evaluations-active')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>{{ __('admin.All Evaluations') }}</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.evaluations.create') }}"
+                                        class="nav-link @yield('add-evaluations-active')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>{{ __('admin.Add Evaluation') }}</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+
 
 
 

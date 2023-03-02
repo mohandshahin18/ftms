@@ -89,8 +89,187 @@
             /* background: #000; */
             margin-bottom: 35px;
         }
+
+        .dropdown.show .dropdown-links a > i {
+
+                line-height: 2 !important;
+            }
+            img.image-lang {
+    width: 30px !important;
+    height: auto !important;
+    border-radius: unset !important;
+    object-fit: unset !important
+}
+.img-lang-defult{
+    width: 30px !important;
+    height: auto !important;
+    border-radius: unset !important;
+    object-fit: unset !important
+}
     </style>
 
+
+@if(app()->getLocale() == 'ar')
+    <style>
+
+        table th{
+            text-align: start !important;
+
+        }
+        .form-control.is-invalid, .was-validated .form-control:invalid {
+    padding-right: 0.75rem !important;
+    padding-left: 2.25rem!important;
+    background-position: left calc(0.375em + 0.1875rem) center;
+}
+
+
+body ,
+html {
+    font-family: event-reg;
+}
+
+
+@font-face {
+    font-family: event-reg;
+    src: url({{ asset('adminAssets/dist/fonts/JF-Flat-regular.ttf') }});
+}
+        body{
+            direction: rtl
+        }
+        .btn , input{
+            font-family: event-reg !important;
+
+        }
+        .navbar-toggler-left{
+            left: unset;
+            right: 1rem;
+        }
+        .float-right {
+    float: left!important;
+}
+.mr-4 {
+    margin-right: unset!important;
+    margin-left: 1.5rem!important;
+}
+.mr-3 {
+    margin-right: unset!important;
+    margin-left: 1rem!important;
+}
+.px-1 {
+    padding-right: 75PX !important;
+    padding-left: 5px !important;
+}
+.pl-5 {
+    padding-left: unset!important;
+    padding-right: 3rem!important;
+}
+
+@media (min-width: 1200px){
+.row {
+    margin-left: -15px;
+    margin-right: -15px;
+}
+}
+
+[data-component=navbar] .navbar-collapse {
+    background-color: #292a2c;
+    margin-left: unset;
+    margin-right: 75px;
+}
+.dropdown-menu-right {
+    left: 0;
+    right: auto;
+}
+.dropdown.show .dropdown-links a > i {
+    color: #6c757d !important;
+    font-size: 1rem;
+    transition: all 0.1s linear;
+    margin-right: unset!important;
+    margin-left: 0.5rem!important;
+
+}
+.page-todo .task.high {
+    border-left: unset !important;
+    border-right: 2px solid #f86c6b;
+}
+.page-todo .task .time {
+    right: unset !important;
+    left: 0;
+    text-align: left !important;
+    padding: unset !important;
+
+    padding: 10px 0 10px 10px !important;
+}
+
+@media only screen and (max-width: 767px){
+    .page-todo .task .desc {
+
+    margin-right: unset !important;
+    margin-left: -20px !important;
+}
+}
+
+.text-start {
+    text-align: right!important;
+}
+
+.text-end {
+    text-align: left!important;
+}
+
+    </style>
+
+@endif
+
+
+<style>
+
+.mydrop {
+position: relative;
+display: inline-block;
+/* top: 0;
+left: 0; */
+
+}
+/* .mydrop p{
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 5px;
+} */
+/* .mydrop img{
+
+} */
+
+.mydrop-content {
+display: none;
+position: absolute;
+    background-color: #f9f9f9;
+    min-width: 220px;
+    box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 20%);
+    padding: 12px 16px;
+    z-index: 1;
+    text-align: center;
+    right: -10px;
+    top: 30px;
+}
+
+.mydrop-content a{
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 5px;
+
+}
+
+.mydrop:hover .mydrop-content {
+/* display: block; */
+display: flex;
+flex-direction: column;
+gap:10px
+}
+
+</style>
     @yield('styles')
 
 
@@ -139,9 +318,34 @@
                     <div class="right-links float-right mr-4">
                         {{-- <a href="{{ route('student.home') }}" class="home"><i class="fa fa-home mr-3"></i></a> --}}
 
+                        <div class="d-inline dropdown mr-3">
+                            <a class="dropdown-toggle" id="messages" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" href="#">
+                                {{-- <i class="fas fa-globe-europe"> --}}
+                                    <span class="badge badge-danger navbar-badge"></span><i class="far fa-globe-europe"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right rounded-0 " style="min-width: unset !important; width: 120px;"
+                                aria-labelledby="messages">
+
+                                <div class="dropdown-links pl-3">
+
+                                    @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                                    <a rel="alternate" class="text-secondary" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" style="width:110px !important">
+                                        {{ $properties['native'] }}
+                                       ({{ $properties['regional'] }})
+
+                                    </a>
+                                    @endforeach
 
 
-                        <div class="d-inline dropdown ml-3 mr-3">
+
+                                </div>
+                            </div> <!-- /.dropdown-menu -->
+                        </div> <!-- /.dropdown -->
+
+
+
+                        <div class="d-inline dropdown  mr-3">
 
                             <a class="dropdown-toggle notify" id="notifications" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false" href="#">
@@ -190,8 +394,7 @@
 
                                                     <div class="main-info">
                                                         <div class="d-flex align-items-center"
-                                                            style="gap:
-                                                    8px !important;">
+                                                            style="gap:8px !important;">
                                                             <img src="{{ $notifySrc }}">
                                                             <h3 class="dropdown-item-title">{{ $notify->data['name'] }}
                                                             </h3>
@@ -274,25 +477,30 @@
 
 
 
+
                         <div class="d-inline dropdown">
                             <a class="dropdown-toggle" id="messages" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false" href="#">
-                                <img src="{{ $src }}" id="student_img">
+                                <img src="{{ $src }}" style="margin-top: -6px;" id="student_img">
                             </a>
                             <div class="dropdown-menu dropdown-menu-right rounded-0 profile" style="width: 220px;"
                                 aria-labelledby="messages">
-                                <img src="{{ $src }}" id="dropdown_img">
+                                <img src="{{ $src }}"  id="dropdown_img">
+
                                 <p class=" text-center mb-2" id="dropdown_name" style="font-size: 17px;">{{ auth()->user()->name }}</p>
 
                                 <div class="dropdown-divider mb-1"></div>
                                 <div class="dropdown-links pl-3">
 
-                                    <a href="{{ route('student.profile', Auth::user()->slug) }}"><i class="fas fa-user mr-2"></i>Profile</a>
-                                    <a href="{{ route('edit-password', 'student') }}"><i class="fas fa-key mr-2"></i> Edit password</a>
-                                    <a href="{{ route('logout', 'student') }}"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a>
+                                    <a href="{{ route('student.profile', Auth::user()->slug) }}"><i class="fas fa-user mr-2"></i>{{ __('admin.Profile') }}</a>
+                                    <a href="{{ route('edit-password', 'student') }}"><i class="fas fa-key mr-2"></i> {{ __('admin.Edit Password') }}</a>
+                                    <a href="{{ route('logout', 'student') }}"><i class="fas fa-sign-out-alt mr-2"></i> {{ __('admin.LogOut') }}</a> <ul class="p-0 text-center ">
+
                                 </div>
                             </div> <!-- /.dropdown-menu -->
                         </div> <!-- /.dropdown -->
+
+
 
                     </div> <!-- /.right-links -->
 
@@ -317,12 +525,12 @@
                                     @if (Auth::user()->company_id)
                                         <a class="btn rounded-0 border-0 d-flex w-100 justify-content-between p-3 pl-5"
                                             href="{{ route('student.company', [$company2->slug, $category->name]) }}">
-                                            Company
+                                            {{ __('admin.Company') }}
                                         </a>
                                     @else
                                         <a class="btn rounded-0 border-0 d-flex w-100 justify-content-between p-3 pl-5"
                                             href="{{ route('student.allCompanies') }}">
-                                            Companies
+                                            {{  __('admin.Avilable Companies') }}
                                         </a>
                                     @endif
                                 </div> <!-- /.col-md-3 -->
@@ -391,10 +599,13 @@
             }
         }
     </script> --}}
+
     <script>
         let from = 'student';
         let studentId = {{ Auth::id() }};
         let time = "{{ __('admin.1 Seconds ago') }}";
+        let lang = "{{ app()->getLocale() }}" ;
+        let host = "{{ env('APP_URL') }}";
 
 
     </script>

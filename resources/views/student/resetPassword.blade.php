@@ -1,13 +1,12 @@
 @extends('student.master')
 
-@section('title', Auth::guard()->user()->name . ' - reset password')
+@section('title', __('admin.Edit Password'))
 @section('styles')
 <style>
 .bg{
 
     height: 100%;
       background: url('{{ asset('adminAssets/dist/img/selection/bg.png') }}') no-repeat center center;
-      font-family: "Barlow", sans-serif;
       background-size: cover !important;
       backdrop-filter: blur(5px);
 
@@ -15,11 +14,6 @@
 
 
 .bg .overlay{
-/*
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.188); */
-
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0);
@@ -51,24 +45,24 @@
 
                     <div class="row mt-3 px-2">
                         <div class="col-md-12 mb-3">
-                            <label class="labels">Current Password</label>
-                            <input type="password" name="current_password" class="form-control @error('current_password') is-invalid @enderror" placeholder="Password" value="{{ old('current_password') }}">
+                            <label class="labels">{{ __('admin.Current Password') }}</label>
+                            <input type="password" name="current_password" class="form-control @error('current_password') is-invalid @enderror" placeholder="{{ __('admin.Current Password') }}" value="{{ old('current_password') }}">
                                 @error('current_password')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                 @enderror
                         </div>
 
                         <div class="col-md-12 mb-3">
-                            <label class="labels">New Password</label>
-                            <input type="password" name="new_password" class="form-control @error('new_password') is-invalid @enderror" placeholder="Password" value="{{ old('new_password') }}">
+                            <label class="labels">{{ __('admin.New Password') }}</label>
+                            <input type="password" name="new_password" class="form-control @error('new_password') is-invalid @enderror" placeholder="{{ __('admin.New Password') }}" value="{{ old('new_password') }}">
                                 @error('new_password')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                 @enderror
                         </div>
 
                         <div class="col-md-12 mb-3">
-                            <label class="labels">New Password Confirmation</label>
-                            <input type="password" name="new_password_confirmation" class="form-control @error('new_password_confirmation') is-invalid @enderror" placeholder="Password" value="{{ old('new_password_confirmation') }}">
+                            <label class="labels">{{ __('admin.New Password Confirmation') }}</label>
+                            <input type="password" name="new_password_confirmation" class="form-control @error('new_password_confirmation') is-invalid @enderror" placeholder="{{ __('admin.New Password Confirmation') }}" value="{{ old('new_password_confirmation') }}">
                                 @error('new_password_confirmation')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                 @enderror
@@ -85,7 +79,7 @@
 
 
                     <div class="mt-3 text-end">
-                        <button class="btn btn-primary profile-button"  type="submit"> Save Edit </button>
+                        <button class="btn btn-brand profile-button"  type="submit"> {{ __('admin.Save Edit') }} </button>
                     </div>
                 </div>
             </div>
@@ -94,3 +88,6 @@
 </div>
 @stop
 
+@section('scripts')
+
+@stop

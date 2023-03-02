@@ -104,7 +104,7 @@ class RegisterController extends Controller
 
 
             return redirect()->route('student.login.show')
-                             ->with('msg' ,'We have sent you an activation code, please check your email.')
+                             ->with('msg' ,__('admin.We have sent you an activation code, please check your email.'))
                              ->with('type' , 'warning');
 
 
@@ -126,22 +126,23 @@ class RegisterController extends Controller
     {
         $verifyStudent = Users_Verify::where('token', $token)->first();
 
-        $message = 'Sorry your email cannot be identified.';
-        $type = 'danger';
-
         if(!is_null($verifyStudent) ){
             $student = $verifyStudent->student;
 
             if(!$student->is_email_verified) {
                 $verifyStudent->student->is_email_verified = 1;
                 $verifyStudent->student->save();
-                $message = "Your e-mail is verified. You can now login.";
+                $message = __('admin.Your email is verified. You can now login.');
                 $type = 'success';
                 DB::table('users_verifies')->where(['token'=> $token])->delete();
             } else {
-                $message = "Your e-mail is already verified. You can now login.";
+                $message = __("admin.Your email is already verified. You can now login.");
                 $type = 'success';
             }
+        }else{
+            $message =__("admin.Your email is already verified. You can now login.");
+            $type = 'success';
+
         }
 
       return redirect()->route('student.login.show')->with('msg', $message)->with('type' , $type);

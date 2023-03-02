@@ -67,7 +67,17 @@
 
     /* Port navigation */
 
+    .dropdown-item.active, .dropdown-item:active {
+        /* color: unset !important; */
+        color: #fff !important;
+        text-decoration: none;
+        background-color: #e1e1e1;
+    }
+    .dropdown-item.active, .dropdown-item:active p,
+    .dropdown-item.active, .dropdown-item:active h3{
+        color: #000 !important;
 
+    }
     /*search */
 
     .search-wrapper{

@@ -46,7 +46,7 @@
 
 @if(Auth::user()->company_id)
     @if (!$evaluated)
-        
+
         <section id="services" class="text-center bg-light">
             <a href="{{ route('student.evaluate.company', $company->slug) }}" class="btn btn-brand">Rate {{ $company->name }}</a>
         </section>
@@ -58,17 +58,17 @@
         <div class="row justify-content-center">
             <div class="col-12">
                 <div class="intro">
-                    <h6>Need This?</h6>
-                    <h1>Apply To Our Company</h1>
+                    <h6>{{ __('admin.NEED THIS?') }}</h6>
+                    <h1>{{ __('admin.Apply To Our Company') }}</h1>
                 </div>
             </div>
             <div class="col-md-8" id="main_content">
 
                     @if ($ap)
-                        <p>Your application under review, we will send a message when we approved it</p>
+                        <p>{{ __('admin.Your application under review, we will send a notification when we approved it') }}</p>
 
-                        <a href="{{ route('student.company_cancel', $ap->id) }}" class="btn btn-brand" id="cancle_btn">Cancel Request</a>
-                        
+                        <a href="{{ route('student.company_cancel', $ap->id) }}" class="btn btn-brand" id="cancle_btn">{{ __('admin.Cancel Request') }}</a>
+
                     @else
                         <form action="{{ route('student.company_apply', $company->id) }}" class="apply_form">
                             @csrf
@@ -87,7 +87,7 @@
 
                                 <div class=" col-md-6">
                                     <div class="mb-3">
-                                        <label for="">Name</label>
+                                        <label for="">{{ __('admin.Name') }}</label>
                                         <input type="text" name="name" class="form-control"
                                             value="{{ Auth::user()->name }}" readonly>
                                     </div>
@@ -95,7 +95,7 @@
 
                                 <div class=" col-md-6">
                                     <div class="mb-3">
-                                        <label for="">Email</label>
+                                        <label for="">{{ __('admin.Email') }}</label>
                                         <input type="text" name="name" class="form-control"
                                             value="{{ Auth::user()->email }}" readonly>
                                     </div>
@@ -103,7 +103,7 @@
 
                                 <div class=" col-md-12">
                                     <div class="mb-3">
-                                        <label for="">Reason</label>
+                                        <label for="">{{ __('admin.Reason') }}</label>
                                         <textarea name="reason" required class="form-control @error('reason') is-invalid @enderror" rows="5"></textarea>
                                         @error('reason')
                                             <small class="invalid-feedback"> {{ $message }}</small>
@@ -114,8 +114,7 @@
                             </div>
 
                             <div class="text-end apply-div">
-                                <button type="button" class="btn px-5 btn-brand" id="apply_btn">Apply</button>
-
+                                <button type="button" class="btn px-5 btn-brand" id="apply_btn">{{ __('admin.Apply') }}</button>
                             </div>
 
 
@@ -149,33 +148,19 @@
                 data: applay_form.serialize(),
                 beforeSend: function() {
                     $('.apply-div').empty();
-                    $('.apply-div').html('<i class="fa fa-spin fa-spinner"></i> Loading...');
+                    $('.apply-div').html('<i class="fa fa-spin fa-spinner reload-apply"></i> {{ __("admin.Loading...") }}');
                 },
                 success: function(data) {
                     wrapper.empty();
                     wrapper.append(data.content);
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top',
-                        iconColor: '#90da98',
-                        customClass: {
-                            popup: 'colored-toast'
-                        },
-                        showConfirmButton: false,
-                        timer: 3500,
-                        timerProgressBar: false,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer)
-                            toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        }
-                        })
-                        Toast.fire({
-                        icon: 'success',
-                        title: '<p style="color: #000; margin:0">Your request has been sent</p>'
-                        })
                 },
                 error: function(data) {
-                    $('#apply_btn').attr("disabled", false)
+                    // $('#apply_btn').attr("disabled", false)
+                    $('.apply-div ').empty();
+                    $('.apply-div ').html('<button type="button" class="btn px-5 btn-brand" id="apply_btn">{{ __('admin.Apply') }}</button>');
+
+
+
 
                     $('.invalid-feedback').remove();
                     $.each(data.responseJSON.errors, function (field, error) {

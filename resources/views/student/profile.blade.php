@@ -5,7 +5,14 @@
 @section('styles')
 
     <style>
-
+.btn-circle {
+    width: 45px;
+    height: 45px;
+    padding: 13px;
+    border-radius: 50%;
+    font-size: 15px;
+    text-align: center;
+		}
 
     </style>
 @stop
@@ -58,28 +65,28 @@
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-md-6 mb-3">
-                                        <label class="labels">Name</label>
+                                        <label class="labels">{{ __('admin.Name') }}</label>
                                         <input type="text" name="name" id="name"
-                                            class="form-control @error('name') is-invalid @enderror" placeholder="Name"
+                                            class="form-control @error('name') is-invalid @enderror" placeholder="{{ __('admin.Name') }}"
                                             value="{{ $student->name }}">
                                         @error('name')
                                             <small class="invalid-feedback"> {{ $message }}</small>
                                         @enderror
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label class="labels">Email</label>
+                                        <label class="labels">{{ __('admin.Email') }}</label>
                                         <input type="text" name="email" id="email"
                                             class="form-control @error('name') is-invalid @enderror"
-                                            value="{{ $student->email }}" placeholder="Email">
+                                            value="{{ $student->email }}" placeholder="{{ __('admin.Email') }}">
                                         @error('name')
                                             <small class="invalid-feedback"> {{ $message }}</small>
                                         @enderror
                                     </div>
 
                                     <div class="col-md-6 mb-3">
-                                        <label class="labels">Phone</label>
+                                        <label class="labels">{{ __('admin.Phone') }}</label>
                                         <input type="text" name="phone" id="phone"
-                                            class="form-control @error('name') is-invalid @enderror" placeholder="Phone"
+                                            class="form-control @error('name') is-invalid @enderror" placeholder="{{ __('admin.Phone') }}"
                                             value="{{ $student->phone }}">
                                         @error('name')
                                             <small class="invalid-feedback"> {{ $message }}</small>
@@ -87,30 +94,30 @@
                                     </div>
 
                                     <div class="col-md-6 mb-3">
-                                        <label class="labels">Student ID</label>
+                                        <label class="labels">{{ __('admin.Student ID') }}</label>
                                         <input type="text" name="" class="form-control " disabled
                                             value="{{ $student->student_id }}">
                                     </div>
 
 
                                     <div class="col-md-6 mb-3">
-                                        <label class="labels">University</label>
+                                        <label class="labels">{{ __('admin.University') }}</label>
                                         <input type="text" name="" class="form-control " disabled
                                             value="{{ $student->university->name }}">
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label class="labels">Specialization</label>
+                                        <label class="labels">{{ __('admin.Specialization') }}</label>
                                         <input type="text" name="" class="form-control " disabled
                                             value="{{ $student->specialization->name }}">
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label class="labels">Your Teacher</label>
+                                        <label class="labels">{{ __('admin.Your Teacher') }}</label>
                                         <input type="text" name="" class="form-control " disabled
                                             value="{{ $student->teacher->name ? $student->teacher->name : 'No teacher yet' }}">
                                     </div>
                                     @if ($student->company_id)
                                         <div class="col-md-6 mb-3">
-                                            <label class="labels">Your Company</label>
+                                            <label class="labels">{{ __('admin.Your Company') }}</label>
                                             <input type="text" name="" class="form-control " disabled
                                                 value="{{ $student->company->name }}">
                                         </div>
@@ -120,8 +127,8 @@
                                 </div>
 
 
-                                <div class="mt-2 wrapper-btn">
-                                    <button class="btn btn-brand profile-button" type="button"> Save Edit</button>
+                                <div class="mt-2 wrapper-btn text-end">
+                                    <button class="btn btn-brand profile-button" type="button"> {{ __('admin.Save Edit') }}</button>
                                 </div>
                             </div>
                         </div>
@@ -168,15 +175,25 @@
                 dataType: "json",
                 processData: false,
                 contentType: false,
+                beforeSend: function(data) {
+                    btn.addClass("btn-circle");
+                    btn.html('<i class="fa fa-spin fa-spinner "></i>');
+
+
+                } ,
                 success: function(data) {
                     $('.invalid-feedback').remove();
                     $('input').removeClass('is-invalid');
-                    btn.attr('disabled', true);
-                    btn.attr("disabled", true)
                     setTimeout(() => {
+                        btn.html('<i class="fas fa-check"></i>');
+                    }, 1000);
+                    
+                    setTimeout(() => {
+                        btn.removeClass("btn-circle");
                         btn.removeAttr("disabled");
-                    }, 5000);
-<<<<<<< HEAD
+                        btn.html('{{ __('admin.Save Edit') }}');
+                    }, 2000);
+
                 window.history.pushState("localhost/", "profile", data.slug);
                 $("#primary_name").empty();
                 $("#primary_name").append(data.name);
@@ -184,56 +201,17 @@
                 $("#dropdown_name").append(data.name);
                 $("#primary_email").empty();
                 $("#primary_email").append(data.email);
-                $("#student_img").attr("src", "http://127.0.0.1:8000/"+ data.image);
-                $("#dropdown_img").attr("src", "http://127.0.0.1:8000/"+ data.image);
-                const Toast = Swal.mixin({
-
-                    toast: true,
-                    position: 'top',
-                    iconColor: '#90da98',
-                    customClass: {
-                        popup: 'colored-toast'
-                    },
-                    showConfirmButton: false,
-                    timer: 2000,
-                    timerProgressBar: false,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    }
-=======
-                    window.history.pushState("localhost/", "profile", data.slug);
-                    $("#primary_name").empty();
-                    $("#primary_name").append(data.name);
-                    $("#primary_email").empty();
-                    $("#primary_email").append(data.email);
-                    const Toast = Swal.mixin({
-
-                        toast: true,
-                        position: 'top',
-                        iconColor: '#90da98',
-                        customClass: {
-                            popup: 'colored-toast'
-                        },
-                        showConfirmButton: false,
-                        timer: 2000,
-                        timerProgressBar: false,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer)
-                            toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        }
->>>>>>> f305488a507c4922415f503b533e3ca92cf0e3b8
-                    })
-
-                    Toast.fire({
-                        icon: 'success',
-                        title: "<p style='color:#000; margin: 0 !important ; z-index:999'>" +
-                            'Profile  updated successfully' + "</p>",
-                    })
+                if(data.image){
+                    $("#student_img").attr("src", "http://127.0.0.1:8000/"+ data.image);
+                    $("#dropdown_img").attr("src", "http://127.0.0.1:8000/"+ data.image);
+                }
 
                 },
                 error: function(data) {
                     btn.attr("disabled", false)
+                    btn.removeClass('btn-circle')
+                    btn.html('{{ __('admin.Save Edit') }}');
+
                     $('.invalid-feedback').remove();
                     $.each(data.responseJSON.errors, function(field, error) {
                         $("input[name='" + field + "']").addClass('is-invalid').after(

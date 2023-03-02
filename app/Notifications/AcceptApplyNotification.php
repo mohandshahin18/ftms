@@ -72,9 +72,9 @@ class AcceptApplyNotification extends Notification
             'name' => $this->name ,
             'company_id' => $this->company_id ,
             'from' => 'apply',
-            'msg' => 'Accepted Your request to their company',
+            'msg' => __('admin.Your request has been accepted'),
             'url' => url('/company/'.$this->slug.'/'.$this->categoryName ),
-            'welcome' => ' Hi '. $this->studentName . ' Welcome to join to our company',
+            'welcome' =>$this->studentName . __('admin.Welcome to join our company'),
             'image' => $this->image ,
             'studentId' => $this->studentId ,
 

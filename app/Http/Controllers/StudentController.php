@@ -58,13 +58,13 @@ class StudentController extends Controller
 
             if(request()->has('keyword')){
                 $students = Student::with('specialization', 'university')
-                ->where('trainer', Auth::user()->id)
+                ->where('trainer_id', Auth::user()->id)
                 ->where('name' , 'like' , '%' .request()->keyword.'%')
                 ->latest('id')
                 ->paginate(env('PAGINATION_COUNT'));
             }else{
                 $students = Student::with('specialization', 'university')
-                ->where('trainer', Auth::user()->id)
+                ->where('trainer_id', Auth::user()->id)
                 ->latest('id')
                 ->paginate(env('PAGINATION_COUNT'));
             }

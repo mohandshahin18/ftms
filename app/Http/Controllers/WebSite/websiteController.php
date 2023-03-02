@@ -136,9 +136,9 @@ class websiteController extends Controller
                                                 $request->company_id , Auth::user()->image ));
 
         $response = array();
-        $response['content'] = '<p>Your application under review, we will send a message when we approved it</p>
+        $response['content'] = '<p>'.__('admin.Your application under review, we will send a notification when we approved it').'</p>
 
-        <a href="/company/cancel/'.$ap->id.'/request" class="btn btn-brand" id="cancle_btn">Cancel Request</a>
+        <a href="/company/cancel/'.$ap->id.'/request" class="btn btn-brand" id="cancle_btn">'.__('admin.Cancel Request').'</a>
         ';
 
         return response()->json($response);
