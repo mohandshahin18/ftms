@@ -15,9 +15,8 @@ class SpecializationsController extends Controller
      */
     public function index()
     {
-        $specializations = Specialization::with('university')->latest('id')->paginate(env('PAGINATION_COUNT'));
-        $universities = University::all();
-        return view('admin.specializations.index',compact('specializations', 'universities'));
+        $specializations = Specialization::latest('id')->paginate(env('PAGINATION_COUNT'));
+        return view('admin.specializations.index',compact('specializations'));
     }
 
     /**
@@ -27,8 +26,7 @@ class SpecializationsController extends Controller
      */
     public function create()
     {
-        $universities = University::get();
-        return view('admin.specializations.create', compact('universities'));
+        return view('admin.specializations.create');
     }
 
     /**
@@ -41,12 +39,10 @@ class SpecializationsController extends Controller
     {
         $request->validate([
             'name' => 'required|min:2',
-            'university_id'=>'required'
         ]);
 
         Specialization::create([
             'name' => $request->name ,
-            'university_id' => $request->university_id,
         ]);
 
         return redirect()->route('admin.specializations.index')
@@ -75,7 +71,7 @@ class SpecializationsController extends Controller
     public function edit(Specialization $specialization)
     {
         $universities = University::all();
-        return view('admin.specializations.edit', compact('specialization','universities'));
+        return view('admin.specializations.edit', compact('specialization'));
     }
 
     /**
@@ -91,13 +87,11 @@ class SpecializationsController extends Controller
         
         $request->validate([
             'name' => 'required',
-            'university_id' => 'required',
         ]);
 
         // dd($request->all());
         $specialization->update([
             'name' => $request->name,
-            'university_id' => $request->university_id,
 
         ]);
 

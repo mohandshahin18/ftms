@@ -176,7 +176,6 @@
                     setTimeout(() => {
                         btn.removeAttr("disabled");
                     }, 5000);
-<<<<<<< HEAD
                 window.history.pushState("localhost/", "profile", data.slug);
                 $("#primary_name").empty();
                 $("#primary_name").append(data.name);
@@ -201,28 +200,6 @@
                         toast.addEventListener('mouseenter', Swal.stopTimer)
                         toast.addEventListener('mouseleave', Swal.resumeTimer)
                     }
-=======
-                    window.history.pushState("localhost/", "profile", data.slug);
-                    $("#primary_name").empty();
-                    $("#primary_name").append(data.name);
-                    $("#primary_email").empty();
-                    $("#primary_email").append(data.email);
-                    const Toast = Swal.mixin({
-
-                        toast: true,
-                        position: 'top',
-                        iconColor: '#90da98',
-                        customClass: {
-                            popup: 'colored-toast'
-                        },
-                        showConfirmButton: false,
-                        timer: 2000,
-                        timerProgressBar: false,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer)
-                            toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        }
->>>>>>> f305488a507c4922415f503b533e3ca92cf0e3b8
                     })
 
                     Toast.fire({

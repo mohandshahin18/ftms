@@ -95,10 +95,12 @@ html {
                     {{-- <div class="media-body"> --}}
                         <ul class="p-0 text-center ">
                             @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                                <li style="list-style-type: none" class="d-flex align-items-center justify-content-center lang {{ app()->getLocale() == $localeCode ? 'active' : ' ' }}">
-                                    <a rel="alternate" class="text-secondary" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                                <li style="list-style-type: none" class="lang {{ app()->getLocale() == $localeCode ? 'active' : ' ' }}">
+                                    <a rel="alternate" class="text-secondary" style="display: flex;
+                                    align-items: center;
+                                    justify-content: space-around;" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
                                         {{ $properties['native'] }}
-                                        <img src="{{ asset('adminAssets/dist/img/lang/'.$properties['flag']) }}" width="25" alt="" class="ml-2 image-lang">
+                                        <img src="{{ asset('adminAssets/dist/img/lang/'.$properties['flag']) }}" width="25" alt="" class="ml-2">
 
                                     </a>
                                 </li>
@@ -346,35 +348,57 @@ html {
                         </li>
 
 
-
-
-                        <li class="nav-item @yield('companies-menu-open')">
-                            <a href="#" class="nav-link @yield('companies-active')">
-                                <i class="nav-icon fas fa-building"></i>
+                        <li class="nav-item @yield('specializations-menu-open')">
+                            <a href="#" class="nav-link @yield('specializations-active')">
+                                <i class="nav-icon fas fa-graduation-cap"></i>
                                 <p>
-                                    {{ __('admin.Companies') }}
+                                    {{ __('admin.Specializations') }}
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ route('admin.companies.index') }}"
-                                        class="nav-link @yield('index-company-active')">
+                                    <a href="{{ route('admin.specializations.index') }}"
+                                        class="nav-link @yield('index-specialization-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.All Companies') }}</p>
+                                        <p>{{ __('admin.All Specializations') }}</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('admin.companies.create') }}"
-                                        class="nav-link @yield('add-company-active')">
+                                    <a href="{{ route('admin.specializations.create') }}"
+                                        class="nav-link @yield('add-specialization-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.Add Company') }}</p>
+                                        <p>{{ __('admin.Add Specialization') }}</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
 
-
+                        <li class="nav-item @yield('universities-menu-open')">
+                            <a href="#" class="nav-link @yield('universities-active')">
+                                <i class="nav-icon fas fa-university"></i>
+                                <p>
+                                    {{ __('admin.Universities') }}
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.universities.index') }}"
+                                        class="nav-link @yield('index-university-active')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>{{ __('admin.All Universities') }}</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.universities.create') }}"
+                                        class="nav-link @yield('add-university-active')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>{{ __('admin.Add University') }}</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
                         <li class="nav-item @yield('categories-menu-open')">
                             <a href="#" class="nav-link @yield('categories-active')">
@@ -402,29 +426,27 @@ html {
                             </ul>
                         </li>
 
-
-
-                        <li class="nav-item @yield('universities-menu-open')">
-                            <a href="#" class="nav-link @yield('universities-active')">
-                                <i class="nav-icon fas fa-university"></i>
+                        <li class="nav-item @yield('companies-menu-open')">
+                            <a href="#" class="nav-link @yield('companies-active')">
+                                <i class="nav-icon fas fa-building"></i>
                                 <p>
-                                    {{ __('admin.Universities') }}
+                                    {{ __('admin.Companies') }}
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ route('admin.universities.index') }}"
-                                        class="nav-link @yield('index-university-active')">
+                                    <a href="{{ route('admin.companies.index') }}"
+                                        class="nav-link @yield('index-company-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.All Universities') }}</p>
+                                        <p>{{ __('admin.All Companies') }}</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('admin.universities.create') }}"
-                                        class="nav-link @yield('add-university-active')">
+                                    <a href="{{ route('admin.companies.create') }}"
+                                        class="nav-link @yield('add-company-active')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.Add University') }}</p>
+                                        <p>{{ __('admin.Add Company') }}</p>
                                     </a>
                                 </li>
                             </ul>
@@ -455,36 +477,6 @@ html {
                                 </li>
                             </ul>
                         </li>
-
-
-
-                        <li class="nav-item @yield('specializations-menu-open')">
-                            <a href="#" class="nav-link @yield('specializations-active')">
-                                <i class="nav-icon fas fa-graduation-cap"></i>
-                                <p>
-                                    {{ __('admin.Specializations') }}
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.specializations.index') }}"
-                                        class="nav-link @yield('index-specialization-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.All Specializations') }}</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.specializations.create') }}"
-                                        class="nav-link @yield('add-specialization-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.Add Specialization') }}</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-
 
                         <li class="nav-item @yield('trainers-menu-open')">
                             <a href="#" class="nav-link @yield('trainers-active')">
@@ -535,7 +527,6 @@ html {
                                 </li>
                             </ul>
                         </li>
-
 
                         <li class="nav-item @yield('evaluations-menu-open')">
                             <a href="#" class="nav-link @yield('evaluations-active')">
@@ -660,6 +651,7 @@ html {
         <div class="b b2"></div>
         <div class="b b3"></div>
         <div class="b b4"></div>
+        <div class="ftms">FTMS</div>
     </div>
 
     <!-- REQUIRED SCRIPTS -->

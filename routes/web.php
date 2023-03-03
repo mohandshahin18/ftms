@@ -18,6 +18,8 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\SpecializationsController;
 use App\Http\Controllers\WebSite\websiteController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\MessageController;
+use DebugBar\DataCollector\MessagesCollector;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
@@ -111,6 +113,9 @@ Route::prefix('/')->middleware('auth:student','is_verify_email')->name('student.
     Route::post('/task/submit', [websiteController::class, 'submit_task'])->name('submit.task');
     Route::post('/edit/task/{id}', [websiteController::class, 'edit_applied_task'])->name('edit.applied.task');
 
+    // messages
+    Route::get('/chats', [websiteController::class, 'student_chats']);
+
 
 });
 
@@ -188,6 +193,13 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     // tasks
     Route::get('tasks/{slug}/edit', [TaskController::class, 'edit'])->name('task.edit');
     Route::resource('tasks', TaskController::class);
+
+    // messages
+    Route::get('messages/{slug}', [MessageController::class, 'index'])->name('messages');
+    Route::post('send/message', [MessageController::class, 'send_message'])->name('send.message');
+    Route::post('messages/get/messages', [MessageController::class, 'get_messages']);
+    Route::get('messages/get/chats', [MessageController::class, 'get_chats']);
+    Route::get('messages/get/user/messages', [MessageController::class, 'get_user_messages']);
 
 });
 

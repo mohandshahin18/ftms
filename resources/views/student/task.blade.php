@@ -33,6 +33,15 @@
             width: 44px;
             margin-right: 8px;
         }
+
+        .hidden_form {
+            display: none;
+        }
+
+        #form_wrapper {
+            position: relative;
+            
+        }
     </style>
 @stop
 
@@ -144,7 +153,7 @@
                         @if ($applied_task)
                             <button type="button" id="show_edit_form"  value="edit-btn" class="btn btn-brand">Edit submission</button>
 
-                            <form action="{{ route('student.edit.applied.task', $applied_task->id) }}" id="edit_form"
+                            <form action="{{ route('student.edit.applied.task', $applied_task->id) }}" class="hidden_form" id="edit_form"
                                 method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="task_id" value="{{ $task->id }}">
@@ -168,7 +177,7 @@
                             <button type="button" id="show_form" class="btn btn-brand">Add Submission</button>
 
 
-                            <form action="{{ route('student.submit.task') }}" class="mt-4" method="POST" id="task_form"
+                            <form action="{{ route('student.submit.task') }}" class="mt-4 hidden_form" method="POST" id="task_form"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="task_id" value="{{ $task->id }}">
@@ -207,25 +216,23 @@
         $(document).ready(function() {
 
             // submit form
-            $('#task_form').hide();
             $("#form_wrapper").on("click", '#show_form', function() {
-                $('#task_form').show();
+                $('#task_form').removeClass("hidden_form");
                 $(this).hide();
 
             });
             $("#form_wrapper").on("click", '#hide_form', function() {
-                $('#task_form').hide();
+                $('#task_form').addClass("hidden_form");
                 $("#show_form").show();
             });
 
             // edit form
-            $('#edit_form').hide();
             $("#form_wrapper").on("click", '#show_edit_form', function() {
-                $('#edit_form').show();
+                $('#edit_form').removeClass("hidden_form");
                 $(this).hide();
             });
             $("#form_wrapper").on("click", '#hide_edit_form', function() {
-                $('#edit_form').hide();
+                $('#edit_form').addClass("hidden_form");
                 $("#show_edit_form").show();
             });
 
@@ -253,65 +260,70 @@
                         processData: false,
                         data: formData,
                         beforeSend: function() {
-                            $('#task_form').empty();
-                            $('#task_form').html('<div class="text-center" style="font-size: 36px; width: 100%;"><i class="fa fa-spin fa-spinner"></i> Loading...</div>');
+                            $('#form_wrapper').append('<div class="spinner-div d-flex align-items-center justify-content-center" style="font-size: 36px; width: 100%; position: absolute; width: 100%;height: 100%;z-index: 884;background: #fff; top: 0; right: 0;"><i class="fa fa-spin fa-spinner"></i> Loading...</div>');
                         },
                         success: function(response) {
-                            $('#task_form').hide();
-                            $("#show_form").hide();
+                            if(response.type) {
+                                $(".spinner-div").remove();
+                                $('#task_form').removeClass("hidden_form");
+                                $("input[name='file']").addClass('is-invalid')
+                                    .after('<small class="invalid-feedback" style="right: 0;">File type is invalid</small>');
+                            }else if(response.size) {
+                                $(".spinner-div").remove();
+                                $('#task_form').removeClass("hidden_form");
+                                $("input[name='file']").addClass('is-invalid')
+                                    .after('<small class="invalid-feedback" style="right: 0;">File size must bee less than 5MB</small>');
+                            }else {
 
-                            $("#submitted_text").removeClass('text-danger').empty();
+                                $('#task_form').hide();
+                                $("#show_form").hide();
 
-                            $("#submitted_text").css({
-                                'background': '#d1e7dd',
-                                'color': '#0f5132',
-                                'font-weight': 500
-                            }).append('Submitted');
+                                $("#submitted_text").removeClass('text-danger').empty();
 
-                            var editBtn = `<button type="button" id="show_edit_form"  value="edit-btn" class="btn btn-brand">Edit submission</button>`;
-                            $("#form_wrapper").append(editBtn);
-                            
-                            $("#file_submitted").empty();
-                            let file =
-                                `<a href="{{ asset('uploads/applied-tasks/${response.file}') }}" target="_blank" download>${response.file}</a>`
-                            $("#file_submitted").append(file);
+                                $("#submitted_text").css({
+                                    'background': '#d1e7dd',
+                                    'color': '#0f5132',
+                                    'font-weight': 500
+                                }).append('Submitted');
 
-                            $("#time_remaining").empty();
-                            var remaining =
-                                `<span style="font-weight: 500">Submitted now</span><span class="float-right text-success"><i class="fas fa-check"></i></span>`;
-                            $("#time_remaining").append(remaining);
-                            
-                            const Toast = Swal.mixin({
-                                toast: true,
-                                position: 'top',
-                                iconColor: '#90da98',
-                                customClass: {
-                                    popup: 'colored-toast'
-                                },
-                                showConfirmButton: false,
-                                timer: 2000,
-                                timerProgressBar: false,
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal
-                                        .stopTimer)
-                                    toast.addEventListener('mouseleave', Swal
-                                        .resumeTimer)
-                                }
-                            })
+                                var editBtn = `<button type="button" id="show_edit_form"  value="edit-btn" class="btn btn-brand">Edit submission</button>`;
+                                $('#form_wrapper').empty();
+                                $("#form_wrapper").append(editBtn);
+                                
+                                $("#file_submitted").empty();
+                                let file =
+                                    `<a href="{{ asset('uploads/applied-tasks/${response.file}') }}" target="_blank" download>${response.file}</a>`
+                                $("#file_submitted").append(file);
 
-                            Toast.fire({
-                                icon: 'success',
-                                title: '<p style="color: #000; margin:0">Your file submitted successfully</p>'
-                            })
-                        },
-                        error: function(response) {
-                            $('.invalid-feedback').remove();
-                            $.each(response.responseJSON.errors, function(field, error) {
-                                $("input[name='" + field + "']").addClass('is-invalid')
-                                    .after('<small class="invalid-feedback">' + error +
-                                        '</small>');
-                            });
-                        },
+                                $("#time_remaining").empty();
+                                var remaining =
+                                    `<span style="font-weight: 500">Submitted now</span><span class="float-right text-success"><i class="fas fa-check"></i></span>`;
+                                $("#time_remaining").append(remaining);
+                                
+                                const Toast = Swal.mixin({
+                                    toast: true,
+                                    position: 'top',
+                                    iconColor: '#90da98',
+                                    customClass: {
+                                        popup: 'colored-toast'
+                                    },
+                                    showConfirmButton: false,
+                                    timer: 2000,
+                                    timerProgressBar: false,
+                                    didOpen: (toast) => {
+                                        toast.addEventListener('mouseenter', Swal
+                                            .stopTimer)
+                                        toast.addEventListener('mouseleave', Swal
+                                            .resumeTimer)
+                                    }
+                                })
+
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: '<p style="color: #000; margin:0">Your file submitted successfully</p>'
+                                })
+                        }
+                        }
                     })
                 }
             })

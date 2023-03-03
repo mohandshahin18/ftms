@@ -138,7 +138,7 @@
 
                         <div class="btn-website">
 
-                            <a href="{{ route('admin.students.trash') }}" class="  btn btn-outline-warning text-dark"><i
+                            <a href="{{ route('admin.students.trash') }}" class="  btn btn-outline-secondary"><i
                                     class="fas fa-trash"></i> {{ __('admin.Recycle Bin') }}</a>
                         </div>
 
@@ -182,20 +182,23 @@
                                             @endif
                                         @endforeach
                                         @if ($isEvaluated)
-                                            <span class="text-success">{{ __('admin.Evaluated') }}</span>
+                                            <span class="text-success og-evaluation">{{ __('admin.Evaluated') }}</span>
+                                            <span class="text-success evaluation-check"><i class="fas fa-check"></i></span>
                                         @else
-                                            <span class="text-danger">{{ __('admin.Not Evaluated yet') }}</span>
+                                            <span class="text-danger og-evaluation">{{ __('admin.Not Evaluated yet') }}</span>
+                                            <span class="text-danger evaluation-check"><i class="fas fa-times"></i></span>
+
                                         @endif
                                     </td>
                                     <td>
                                         <div>
                                             @if ($isEvaluated)
                                                 <a href="{{ route('admin.show_evaluation', $student->slug) }}"
-                                                    class="btn btn-info btn-sm" data-disabled="true"
+                                                    class="btn btn-info btn-sm og-evaluation" data-disabled="true"
                                                     title="show evaluation">{{ __('admin.Evaluation') }}</a>
                                             @else
                                                 <a href="{{ route('admin.students.show', $student) }}"
-                                                    class="btn btn-sm  btn-outline-secondary" data-disabled="true"
+                                                    class="btn btn-sm og-evaluation btn-outline-secondary" data-disabled="true"
                                                     title="evaluate">{{ __('admin.Evaluate') }}</a>
                                             @endif
                                             @if (Auth::guard('company')->check())
@@ -216,7 +219,7 @@
                                                             class="fas fa-trash"></i> </button>
                                                 </form>
                                             @endif
-
+                                                <a href="{{ route('admin.messages', $student->slug) }}" class="btn btn-sm"><i class="fas fa-paper-plane"></i></a>
                                         </div>
                                     </td>
                                 </tr>

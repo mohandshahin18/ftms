@@ -7,19 +7,17 @@
 @section('add-company-active', 'active')
 
 @section('styles')
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 
-<style>
-    .select2-container--default {
-        width: 100% !important;
-    }
+    <style>
+        .select2-container--default {
+            width: 100% !important;
+        }
 
-    .select2-container--default
-    .select2-selection--multiple
-    .select2-selection__choice {
-        color: #333;
-    }
-</style>
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            color: #333;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -40,7 +38,8 @@
                                 <div class="form-group">
                                     <label class="mb-2">{{ __('admin.Company Name') }}</label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                        name="name" placeholder="{{ __('admin.Company Name') }}" value="{{ old('name') }}">
+                                        name="name" placeholder="{{ __('admin.Company Name') }}"
+                                        value="{{ old('name') }}">
                                     @error('name')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                     @enderror
@@ -75,14 +74,16 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="mb-2">{{ __('admin.Program') }}</label>
-                                    <select name="category_id[]" class="js-example-basic-multiple wide @error('category_id') is-invalid @enderror"  data-placeholder="{{ __('admin.Select Program') }}" multiple="multiple">
+                                    <select name="category_id[]"
+                                        class="js-example-basic-multiple wide @error('category_id') is-invalid @enderror"
+                                        data-placeholder="{{ __('admin.Select Program') }}" multiple="multiple">
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
                                     </select>
                                     @error('category_id')
-                                    <small class="invalid-feedback"> {{ $message }}</small>
-                                @enderror
+                                        <small class="invalid-feedback"> {{ $message }}</small>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -100,7 +101,8 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="mb-2">{{ __('admin.Password') }}</label>
-                                    <input type="password" placeholder="{{ __('admin.Password') }}" class="form-control @error('password') is-invalid @enderror" name="password">
+                                    <input type="password" placeholder="{{ __('admin.Password') }}"
+                                        class="form-control @error('password') is-invalid @enderror" name="password">
                                     @error('password')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                     @enderror
@@ -111,7 +113,8 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="mb-2">{{ __('admin.Image') }}</label>
-                                    <input type="file" class="form-control @error('image') is-invalid @enderror" name="image">
+                                    <input type="file" class="form-control @error('image') is-invalid @enderror"
+                                        name="image">
                                     @error('image')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                     @enderror
@@ -153,10 +156,9 @@
             selector: '#my-desc'
         });
 
-    // In your Javascript (external.js resource or <script> tag)
-    $(document).ready(function() {
-        $('.js-example-basic-multiple').select2();
-    });
+        // In your Javascript (external.js resource or <script> tag)
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
+        });
     </script>
 @endsection
-

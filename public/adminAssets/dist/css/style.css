@@ -16,6 +16,8 @@ body:not(.sidebar-mini-md) .content-wrapper, body:not(.sidebar-mini-md) .main-fo
     right: 29px;
 }
 
+
+
 /*end adminLTE changes*/
 
 
@@ -97,4 +99,3 @@ ul{
     list-style-type: none;
 }
 /* end setting sidebar */
-

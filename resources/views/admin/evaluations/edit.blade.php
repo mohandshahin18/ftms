@@ -121,10 +121,10 @@
               <!-- /.card-body -->
 
               <div class="card-footer">
+                  <button  class="btn btn-dark" type="button" onclick="history.back()">
+                      <i class="fas fa-undo-alt"> </i> {{ __('admin.Return Back') }} </button>
                 <button type="submit" class="btn btn-primary">
                     <i class="fas fa-plus"></i> {{ __('admin.Edit') }}</button>
-                <button  class="btn btn-dark" type="button" onclick="history.back()">
-                    <i class="fas fa-undo-alt"> </i> {{ __('admin.Return Back') }} </button>
 
               </div>
             </form>

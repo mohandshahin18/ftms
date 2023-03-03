@@ -106,10 +106,10 @@
                     <!-- /.card-body -->
 
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-arrow-up"></i> Update</button>
                         <button class="btn btn-dark" type="button" onclick="history.back()">
                             <i class="fas fa-undo-alt"> </i> Return Back </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-arrow-up"></i> Update</button>
 
                     </div>
                 </form>

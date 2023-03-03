@@ -98,12 +98,6 @@ class websiteController extends Controller
             return view('student.company',compact('company','program', 'ap'));
         }
 
-<<<<<<< HEAD
-=======
-        $applied =Application::get();
-
-        return view('student.company',compact('company','program' ,'applied', 'ap'));
->>>>>>> 955655bc9fadb8368d9d2a1f6613cd8a59166eca
     }
 
 
@@ -261,21 +255,29 @@ class websiteController extends Controller
 
 
         if(in_array($file, $allowed_types)) {
-                $file = $request->file('file');
-                if($file->isValid()) {
-                    $file_name = $request->file('file')->getClientOriginalName();
-                    $file_name = str_replace(' ', '-', $file_name);
-                    $request->file('file')->move(public_path('uploads/applied-tasks/'),     $file_name);
+            $size = $request->file('file')->getSize();
+            $size = number_format($size / 1048576, 2);
+                if($size <= 5) {
+                    $file = $request->file('file');
+                    if($file->isValid()) {
+                        $file_name = $request->file('file')->getClientOriginalName();
+                        $file_name = str_replace(' ', '-', $file_name);
+                        $request->file('file')->move(public_path('uploads/applied-tasks/'),     $file_name);
 
-                    $applied_task = AppliedTasks::create([
-                        'task_id' => $request->task_id,
-                        'student_id' => Auth::user()->id,
-                        'file' => $file_name,
-                    ]);
+                        $applied_task = AppliedTasks::create([
+                            'task_id' => $request->task_id,
+                            'student_id' => Auth::user()->id,
+                            'file' => $file_name,
+                        ]);
 
 
-                    return response()->json($applied_task->toArray());
+                        return response()->json($applied_task->toArray());
+                    } 
+                }else {
+                    return response()->json(["size" => "error"]);
                 }
+            }else {
+                return response()->json(["type" => "error"]);
             }
 
 
@@ -396,5 +398,13 @@ class websiteController extends Controller
         return redirect()->route('student.company', [$company->slug, $program])
         ->with('msg', $company->name.' has been evaluated successfully')
         ->with('type', 'success');
+    }
+
+    
+
+    // chats index
+    public function student_chats($slug)
+    {
+        
     }
 }

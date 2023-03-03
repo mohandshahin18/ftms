@@ -24,3 +24,25 @@ Broadcast::channel('App.Models.Student.{id}', function ($student, $id) {
 Broadcast::channel('App.Models.Trainer.{id}', function ($trainer, $id) {
     return (int) $trainer->id === (int) $id;
 },['guards'=>['trainer']]);
+
+// Chat channels
+Broadcast::channel('Messages.{id}', function ($user, $id) {
+    if($user->id == $id) {
+
+        return $user;
+    }
+},['guards'=>['teacher']]);
+
+Broadcast::channel('Messages.{id}', function ($user, $id) {
+    if($user->id == $id) {
+
+        return $user;
+    }
+},['guards'=>['student']]);
+
+Broadcast::channel('Messages.{id}', function ($user, $id) {
+    if($user->id == $id) {
+
+        return $user;
+    }
+},['guards'=>['trainer']]);

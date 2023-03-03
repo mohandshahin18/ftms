@@ -20,7 +20,7 @@
                         <div class="card-tools">
                             <form action="" >
                              <div class="input-group input-group" style="width: 280px;">
-                                 <input type="text" name="keyword" value="{{ request()->keyword }}" class="form-control " placeholder="Search by Name">
+                                 <input type="text" name="keyword" value="{{ request()->keyword }}" class="form-control " placeholder="{{ __('admin.Search by Student Name') }}">
                              </div>
                             </form>
                          </div>
@@ -76,7 +76,7 @@
                                 </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">
-                                    {{ __('admin.Not Evaluated yet') }}
+                                    {{ __('admin.NO Data Selected') }}
                                 </td>
                             @endforelse
                         </tbody>

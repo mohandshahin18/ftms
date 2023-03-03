@@ -212,8 +212,8 @@
                         success: function(data) {
                             $("#specialization_id").empty();
                             $.each(data, function(key, value) {
-                                $("#specialization_id").append('<option value="' + key +
-                                    '">' + value + '</option>');
+                                $("#specialization_id").append('<option value="' + value.id +
+                                    '">' + value.name + '</option>');
                             });
                         },
                     });

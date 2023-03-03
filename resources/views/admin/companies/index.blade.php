@@ -36,8 +36,8 @@
 
 
                         <div class="btn-website ">
-                            <a title="{{ __('admin.Add Company') }}" href="{{ route('admin.companies.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> {{ __('admin.Add Company') }}</a>
-                            <a title="{{ __('admin.Trashed Companies') }}" href="{{ route('admin.companies.trash') }}" class="btn btn-outline-secondary"><i class="fas fa-trash"></i> {{ __('admin.Recycle Bin') }}</a>
+                            <a title="{{ __('admin.Add Company') }}" href="{{ route('admin.companies.create') }}" class="btn btn-primary btn-flat"><i class="fas fa-plus"></i> {{ __('admin.Add Company') }}</a>
+                            <a title="{{ __('admin.Trashed Companies') }}" href="{{ route('admin.companies.trash') }}" class="btn btn-outline-secondary btn-flat"><i class="fas fa-trash"></i> {{ __('admin.Recycle Bin') }}</a>
                         </div>
 
 
