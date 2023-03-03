@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AppliedEvaluation;
 use App\Models\Company;
-use App\Models\Evaluation;
-use App\Models\Question;
 use App\Models\Student;
+use App\Models\Question;
+use App\Models\Evaluation;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\AppliedEvaluation;
 use Illuminate\Support\Facades\Auth;
 
 class EvaluationController extends Controller
@@ -49,11 +50,21 @@ class EvaluationController extends Controller
             'end_date' => ['required'],
         ]);
 
+        $slug = Str::slug($request->name);
+        $slugCount = Company::where('slug' , 'like' , $slug. '%')->count();
+        $count =  $slugCount + 1;
+
+        if($slugCount > 0){
+            $slug = $slug . '-' . $count;
+        }
+
+
         $evaluation = Evaluation::create([
             'name' => $request->name,
             'evaluation_type' => $request->evaluation_type,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
+            'slug' => $slug,
         ]);
 
         if($request->has('questions')) {
@@ -87,8 +98,9 @@ class EvaluationController extends Controller
      * @param  \App\Models\Evaluation  $evaluation
      * @return \Illuminate\Http\Response
      */
-    public function edit(Evaluation $evaluation)
+    public function edit($slug)
     {
+        $evaluation = Evaluation::whereSlug($slug)->first();
         return view('admin.evaluations.edit', compact('evaluation'));
     }
 
@@ -99,8 +111,10 @@ class EvaluationController extends Controller
      * @param  \App\Models\Evaluation  $evaluation
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Evaluation $evaluation)
+    public function update(Request $request, $slug)
     {
+        $evaluation = Evaluation::whereSlug($slug)->first();
+
         $request->validate([
             'name' => ['required'],
             'evaluation_type' => ['required'],
@@ -137,11 +151,13 @@ class EvaluationController extends Controller
      * @param  \App\Models\Evaluation  $evaluation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Evaluation $evaluation)
+    public function destroy($slug)
     {
+        $evaluation = Evaluation::whereSlug($slug)->first();
+
         Question::where('evaluation_id', $evaluation->id)->delete();
         $evaluation->forceDelete();
-        return $evaluation->id;
+        return $slug;
     }
 
 

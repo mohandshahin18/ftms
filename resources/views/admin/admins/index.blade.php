@@ -44,13 +44,13 @@
 
                         <tbody>
                             @forelse ($admins as $admin)
-                                <tr id="row_{{ $admin->id }}">
+                                <tr id="row_{{ $admin->slug }}">
                                     <td>{{ $admin->id }}</td>
                                     <td>{{ $admin->name }}</td>
                                     <td>{{ $admin->email }}</td>
                                     <td>{{ $admin->phone }}</td>
                                     <td>
-                                        <form class="d-inline delete_form" action="{{ route('admin.admins.destroy', $admin) }}" method="POST">
+                                        <form class="d-inline delete_form" action="{{ route('admin.admins.destroy', $admin->slug) }}" method="POST">
                                             @csrf
                                             @method('delete')
                                             <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i> </button>

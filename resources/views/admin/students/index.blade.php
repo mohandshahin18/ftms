@@ -163,7 +163,7 @@
 
                         <tbody>
                             @forelse ($students as $student)
-                                <tr id="row_{{ $student->id }}">
+                                <tr id="row_{{ $student->slug }}">
                                     <td>{{ $student->id }}</td>
                                     <td>{{ $student->name }}</td>
                                     <td>{{ $student->phone }}</td>
@@ -194,13 +194,13 @@
                                                     class="btn btn-info btn-sm" data-disabled="true"
                                                     title="show evaluation">{{ __('admin.Evaluation') }}</a>
                                             @else
-                                                <a title="{{ __('admin.Evaluate') }}" href="{{ route('admin.students.show', $student) }}"
+                                                <a title="{{ __('admin.Evaluate') }}" href="{{ route('admin.students.show', $student->slug) }}"
                                                     class="btn btn-sm  btn-outline-secondary" data-disabled="true"
                                                     title="evaluate">{{ __('admin.Evaluate') }}</a>
                                             @endif
                                             @if (Auth::guard('company')->check())
                                                 <form class="d-inline delete_form"
-                                                    action="{{ route('admin.students.delete.from.company', $student->id) }}"
+                                                    action="{{ route('admin.students.delete.from.company', $student->slug) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('delete')
@@ -209,7 +209,7 @@
                                                 </form>
                                             @else
                                                 <form class="d-inline delete_form"
-                                                    action="{{ route('admin.students.destroy', $student->id) }}"method="POST">
+                                                    action="{{ route('admin.students.destroy', $student->slug) }}"method="POST">
                                                     @csrf
                                                     @method('delete')
                                                     <button title="{{ __('admin.Move to recycle bin') }}" class="btn btn-danger btn-sm btn-delete"> <i

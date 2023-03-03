@@ -19,7 +19,6 @@
         height: 20px;
         justify-content: center;
         font-size: 36px;
-        line-height: 14px;
         color: #fff;
         border-radius: 50px;
         cursor: pointer;
@@ -27,6 +26,8 @@
         right: 4px;
         top: 8px;
         transition: all 0.1s linear;
+        justify-content: center;
+        align-items: center;
 
     }
 
@@ -39,6 +40,19 @@
     }
 
 </style>
+
+@if(app()->getLocale()=='ar')
+<style>
+.question_wrapper div span {
+
+    right: unset !important;
+    left: 4px !important;
+}
+
+
+</style>
+@endif
+
 @stop
 
 @section('content')

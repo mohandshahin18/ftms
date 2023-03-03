@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\TrainerRequest;
-use App\Models\Category;
-use App\Models\CategoryCompany;
+use Exception;
 use App\Models\Company;
 use App\Models\Trainer;
-use Exception;
+use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\CategoryCompany;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
+use App\Http\Requests\TrainerRequest;
 
 class TrainerController extends Controller
 {
@@ -50,13 +51,22 @@ class TrainerController extends Controller
 
         $path = $request->file('image')->store('/uploads/trainer', 'custom');
 
+        $slug = Str::slug($request->name);
+        $slugCount = Trainer::where('slug' , 'like' , $slug. '%')->count();
+        $count =  $slugCount + 1;
+
+        if($slugCount > 1){
+            $slug = $slug . '-' . $count;
+        }
+
         Trainer::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
-            'image' => $path,
             'company_id' => $request->company_id,
+            'image' => $path,
+            'slug' => $slug,
             'category_id' => $request->category_id
         ]);
 
@@ -108,8 +118,9 @@ class TrainerController extends Controller
      * @param  \App\Models\Trainer  $trainer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Trainer $trainer)
+    public function destroy($slug)
     {
+        $trainer = Trainer::whereSlug($slug)->first();
         if(public_path($trainer->image)) {
             try {
                 File::delete(public_path($trainer->image));
@@ -118,7 +129,7 @@ class TrainerController extends Controller
             }
         }
         $trainer->forceDelete();
-        return $trainer->id;
+        return $slug;
     }
 
        /**

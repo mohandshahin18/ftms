@@ -50,15 +50,15 @@
 
                         <tbody>
                             @forelse ($specializations as $specialization)
-                                <tr id="row_{{ $specialization->id }}">
+                                <tr id="row_{{ $specialization->slug }}">
                                     <td>{{ $specialization->id }}</td>
                                     <td>{{ $specialization->name }}</td>
                                     <td>{{ $specialization->university->name }}</td>
                                     <td>
-                                        <a title="{{ __('admin.Edit') }}" href="{{ route('admin.specializations.edit', $specialization) }}" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i> </a>
+                                        <a title="{{ __('admin.Edit') }}" href="{{ route('admin.specializations.edit', $specialization->slug) }}" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i> </a>
 
                                         <form class="d-inline delete_form"
-                                            action="{{ route('admin.specializations.destroy', $specialization->id) }}" method="POST">
+                                            action="{{ route('admin.specializations.destroy', $specialization->slug) }}" method="POST">
                                             @csrf
                                             @method('delete')
                                             <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"

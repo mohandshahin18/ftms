@@ -47,7 +47,7 @@ $('.delete_form').on('submit', function(e) {
               })
           }
       })
-
+    //   console.log(tbody);
 
 
   });
@@ -103,7 +103,5 @@ $('.restor_form').on('submit', function(e) {
             })
         }
     })
-
-
 
 });

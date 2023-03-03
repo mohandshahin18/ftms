@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\TeacherRequest;
-use App\Models\Specialization;
+use Exception;
 use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\University;
-use Exception;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\Specialization;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
+use App\Http\Requests\TeacherRequest;
 
 class TeacherController extends Controller
 {
@@ -49,6 +50,14 @@ class TeacherController extends Controller
     {
         $path = $request->file('image')->store('/uploads/teacher', 'custom');
 
+        $slug = Str::slug($request->name);
+        $slugCount = Teacher::where('slug' , 'like' , $slug. '%')->count();
+        $count =  $slugCount + 1;
+
+        if($slugCount > 1){
+            $slug = $slug . '-' . $count;
+        }
+
         $teacher = Teacher::create([
             'name' => $request->name,
             'phone' => $request->phone,
@@ -57,6 +66,7 @@ class TeacherController extends Controller
             'specialization_id' => $request->specialization_id,
             'password' => Hash::make($request->password),
             'image' => $path,
+            'slug' => $slug,
         ]);
 
         $students = Student::where('university_id', $teacher->university_id)->where('specialization_id', $request->specialization_id)->get();
@@ -115,8 +125,9 @@ class TeacherController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Teacher $teacher)
+    public function destroy($slug)
     {
+        $teacher = Teacher::whereSlug($slug)->first();
         $photo_path = public_path($teacher->image);
 
         if(File::exists($photo_path)) {
@@ -128,7 +139,7 @@ class TeacherController extends Controller
         }
         // File::delete();
         $teacher->forceDelete();
-        return $teacher->id;
+        return $slug;
     }
 
 

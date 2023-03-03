@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UniversityRequest;
-use App\Models\Specialization;
 use App\Models\University;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\Specialization;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\UniversityRequest;
 
 class UniversityController extends Controller
 {
@@ -40,11 +41,20 @@ class UniversityController extends Controller
      */
     public function store(UniversityRequest $request)
     {
+        $slug = Str::slug($request->name);
+        $slugCount = University::where('slug' , 'like' , $slug. '%')->count();
+        $count =  $slugCount + 1;
+
+        if($slugCount > 1){
+            $slug = $slug . '-' . $count;
+        }
+
         $universities = University::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
             'address' => $request->address,
+            'slug' =>$slug
         ]);
 
         return redirect()->route('admin.universities.index')->with('msg', __('admin.University has been added successfully'))->with('type', 'success');
@@ -79,9 +89,18 @@ class UniversityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UniversityRequest $request, $id)
+    public function update(UniversityRequest $request, $slug)
     {
-        $universities= University::findOrFail($id);
+        $universities= University::whereSlug($slug)->first();
+
+        $slug = Str::slug($request->name);
+        $slugCount = University::where('slug' , 'like' , $slug. '%')->count();
+        $count =  $slugCount + 1;
+
+        if($slugCount > 1){
+            $slug = $slug . '-' . $count;
+            $universities->slug = $slug;
+        }
 
 
         $universities->name = $request->name;
@@ -101,11 +120,11 @@ class UniversityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        $universities= University::findOrFail($id);
+        $universities = University::whereSlug($slug)->first();
         $universities->delete();
-        return $id;
+        return $slug;
     }
 
 

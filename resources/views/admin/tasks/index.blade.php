@@ -41,7 +41,7 @@
 
                         <tbody>
                             @forelse ($tasks as $task)
-                                <tr id="row_{{ $task->id }}">
+                                <tr id="row_{{ $task->slug }}">
                                     <td>{{ $task->id }}</td>
                                     <td>{{ $task->sub_title }}</td>
                                     <td>{{ $task->category->name }}</td>
@@ -52,7 +52,7 @@
                                     <td>
                                         <a  title="{{ __('admin.Edit') }}" href="{{ route('admin.task.edit', $task->slug) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                         <form class="d-inline delete_form"
-                                            action="{{ route('admin.tasks.destroy', $task) }}"
+                                            action="{{ route('admin.tasks.destroy', $task->slug) }}"
                                             method="POST">
                                             @csrf
                                             @method('delete')

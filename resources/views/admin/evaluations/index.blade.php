@@ -52,7 +52,7 @@
 
                         <tbody>
                             @forelse ($evaluations as $evaluation)
-                                <tr id="row_{{ $evaluation->id }}">
+                                <tr id="row_{{ $evaluation->slug }}">
                                     <td>{{ $evaluation->id }}</td>
                                     <td>{{ $evaluation->name }}</td>
                                     <td>{{ $evaluation->evaluation_type == 'company' ? 'Company' : 'Students' }}</td>
@@ -60,8 +60,8 @@
                                     <td>{{ Carbon::parse($evaluation->end_date)->format('Y/m/j') }}</td>
                                     <td>
                                         <div style="display: flex; gap: 5px">
-                                            <a title="{{ __('admin.Edit') }}" href="{{ route('admin.evaluations.edit', $evaluation) }}" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i> </a>
-                                            <form class="d-inline delete_form" action="{{ route('admin.evaluations.destroy', $evaluation) }}" method="POST">
+                                            <a title="{{ __('admin.Edit') }}" href="{{ route('admin.evaluations.edit', $evaluation->slug) }}" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i> </a>
+                                            <form class="d-inline delete_form" action="{{ route('admin.evaluations.destroy', $evaluation->slug) }}" method="POST">
                                                 @csrf
                                                 @method('delete')
                                                 <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i> </button>

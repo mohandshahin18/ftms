@@ -200,8 +200,9 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Task $task)
+    public function destroy($slug)
     {
+        $task = Task::whereSlug($slug)->first();
         $students = Student::where('category_id', Auth::user()->category->id)
             ->where('company_id', $task->company_id)->get();
 
@@ -234,6 +235,6 @@ class TaskController extends Controller
             }
         }
         $task->destroy($task->id);
-        return $task->id;
+        return $slug;
     }
 }

@@ -46,7 +46,7 @@
 
                         <tbody>
                             @forelse ($teachers as $teacher)
-                                <tr id="row_{{ $teacher->id }}">
+                                <tr id="row_{{ $teacher->slug }}">
                                     <td>{{ $teacher->id }}</td>
                                     <td>{{ $teacher->name }}</td>
                                     <td>{{ $teacher->email }}</td>
@@ -55,7 +55,7 @@
                                     <td>{{ $teacher->specialization->name }}</td>
                                     <td>
                                         <form class="d-inline delete_form"
-                                            action="{{ route('admin.teachers.destroy', $teacher->id) }}" method="POST">
+                                            action="{{ route('admin.teachers.destroy', $teacher->slug) }}" method="POST">
                                             @csrf
                                             @method('delete')
                                             <button  title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i> </button>

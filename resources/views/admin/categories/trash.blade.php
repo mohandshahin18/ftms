@@ -37,16 +37,16 @@
 
                         <tbody>
                             @forelse ($categories as $category)
-                                <tr id="row_{{ $category->id }}">
+                                <tr id="row_{{ $category->slug }}">
                                     <td>{{ $category->id }}</td>
                                     <td>{{ $category->name }}</td>
                                     <td>
                                         <div style="display: flex; gap: 5px">
-                                            <form action="{{ route('admin.categories.restore', $category->id) }}" method="POST" class="restor_form">
+                                            <form action="{{ route('admin.categories.restore', $category->slug) }}" method="POST" class="restor_form">
                                               @csrf
                                               <button title="{{ __('admin.Restore') }}" class="btn btn-warning btn-sm btn_restore"><i class="fas fa-trash-restore"></i></button>
                                             </form>
-                                            <form action="{{ route('admin.categories.forcedelete', $category->id) }}" method="POST" class="delete_form">
+                                            <form action="{{ route('admin.categories.forcedelete', $category->slug) }}" method="POST" class="delete_form">
                                               @csrf
                                               @method('delete')
                                               <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm delete_btn"> <i class="fas fa-times"></i> </button>

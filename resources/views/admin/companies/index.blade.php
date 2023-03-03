@@ -59,7 +59,7 @@
                         </thead>
                         <tbody>
                             @forelse ($companies as $company)
-                                <tr id="row_{{ $company->id }}">
+                                <tr id="row_{{ $company->slug }}">
                                     <td>{{ $company->id }}</td>
                                     <td>{{ $company->name }}</td>
                                     <td>{{ $company->categories->count() }}</td>
@@ -68,9 +68,9 @@
                                     <td>{{ $company->created_at->toDateString() }}</td>
                                     <td>
                                         <div style="display: flex; gap: 5px" class="">
-                                          <a title="{{ __('admin.Edit') }}" href="{{ route('admin.companies.edit', $company) }}" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i> </a>
+                                          <a title="{{ __('admin.Edit') }}" href="{{ route('admin.companies.edit', $company->slug) }}" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i> </a>
 
-                                          <form class="delete_form" method="POST" action="{{ route('admin.companies.destroy', $company) }}">
+                                          <form class="delete_form" method="POST" action="{{ route('admin.companies.destroy', $company->slug) }}">
                                             @csrf
                                             @method('delete')
                                             <button title="{{ __('admin.Move to recycle bin') }}" class="btn btn-danger btn-sm delete_btn"> <i class="fas fa-trash"></i> </button>

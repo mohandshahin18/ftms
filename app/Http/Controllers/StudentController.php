@@ -133,9 +133,9 @@ class StudentController extends Controller
         }
     }
 
-    public function delete_company_student($id)
+    public function delete_company_student($slug)
     {
-        $student= Student::where('id',$id)->first();
+        $student = Student::whereSlug($slug)->first();
 
 
         $applyNotifications = DB::table('notifications')
@@ -187,7 +187,7 @@ class StudentController extends Controller
             'trainer_id'=> null ,
         ]);
 
-        return $id ;
+        return $slug ;
     }
 
 
@@ -218,8 +218,10 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Student $student)
+    public function show($slug)
     {
+        $student = Student::whereSlug($slug)->first();
+
         $evaluation = Evaluation::where('evaluation_type', 'student')->first();
 
         if($evaluation) {
@@ -263,10 +265,12 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        Student::destroy($id);
-        return $id;
+        $student = Student::whereSlug($slug)->first();
+
+        Student::destroy($student->id);
+        return $slug;
     }
 
 
@@ -293,11 +297,12 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function restore($id)
+    public function restore($slug)
     {
-        $students = Student::onlyTrashed()->findOrFail($id);
+        $students = Student::onlyTrashed()->whereSlug($slug)->first();
+
         $students->restore();
-        return $id;
+        return $slug;
     }
 
 
@@ -307,9 +312,10 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function forcedelete($id)
+    public function forcedelete($slug)
     {
-        $students = Student::onlyTrashed()->findOrFail($id);
+        $students = Student::onlyTrashed()->whereSlug($slug)->first();
+
 
         if(public_path($students->image)) {
             try {
@@ -319,7 +325,7 @@ class StudentController extends Controller
             }
         }
         $students->forcedelete();
-        return $id;
+        return $slug;
 
 
 

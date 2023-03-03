@@ -27,6 +27,9 @@
         right: 4px;
         top: 8px;
         transition: all 0.1s linear;
+        justify-content: center;
+        align-items: center;
+
 
     }
 
@@ -39,6 +42,20 @@
     }
 
 </style>
+
+@if(app()->getLocale()=='ar')
+<style>
+.question_wrapper div span {
+
+    right: unset !important;
+    left: 4px !important;
+}
+
+
+</style>
+@endif
+
+
 @stop
 
 @section('content')
@@ -51,7 +68,7 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form action="{{ route('admin.evaluations.update', $evaluation) }}" method="POST" >
+            <form action="{{ route('admin.evaluations.update', $evaluation->slug) }}" method="POST" >
                 @csrf
                 @method('PUT')
               <div class="card-body">

@@ -50,7 +50,7 @@
 
                         <tbody>
                             @forelse ($universities as $university)
-                                <tr id="row_{{ $university->id }}">
+                                <tr id="row_{{ $university->slug }}">
                                     <td>{{ $university->id }}</td>
                                     <td>{{ $university->name }}</td>
                                     <td>{{ $university->email }}</td>
@@ -58,12 +58,12 @@
                                     <td>
                                         <button title="{{ __('admin.Edit') }}" type="button" class="btn btn-primary btn-sm btn-edit" data-toggle="modal"
                                             data-target="#editUniversity" data-name="{{ $university->name }}"
-                                            data-url="{{ route('admin.universities.update', $university->id) }}"
+                                            data-url="{{ route('admin.universities.update', $university->slug) }}"
                                             data-email="{{ $university->email }}" data-phone="{{ $university->phone }}"
                                             data-address="{{ $university->address }}"> <i class="fas fa-edit"></i>
                                         </button>
                                         <form class="d-inline delete_form"
-                                            action="{{ route('admin.universities.destroy', $university->id) }}"
+                                            action="{{ route('admin.universities.destroy', $university->slug) }}"
                                             method="POST">
                                             @csrf
                                             @method('delete')
@@ -201,9 +201,9 @@
                 data: data,
                 success: function(res) {
 
-                    $('#row_' + res.id + " td:nth-child(2)").text(res.name);
-                    $('#row_' + res.id + " td:nth-child(3)").text(res.email);
-                    $('#row_' + res.id + " td:nth-child(4)").text(res.phone);
+                    $('#row_' + res.slug + " td:nth-child(2)").text(res.name);
+                    $('#row_' + res.slug + " td:nth-child(3)").text(res.email);
+                    $('#row_' + res.slug + " td:nth-child(4)").text(res.phone);
 
                     const Toast = Swal.mixin({
                         toast: true,

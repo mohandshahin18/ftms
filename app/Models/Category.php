@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Category extends Model
 {
     use HasFactory , SoftDeletes;
-    protected $fillable = ['name'];
+    protected $fillable = ['name','slug'];
 
     // with company
     public function companies()
@@ -29,7 +29,7 @@ class Category extends Model
     {
         return $this->hasMany(Trainer::class);
     }
-    
+
     public function applications()
     {
         return $this->hasMany(Application::class);

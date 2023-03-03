@@ -45,7 +45,7 @@
                         </thead>
                         <tbody>
                             @forelse ($companies as $company)
-                                <tr id="row_{{ $company->id }}">
+                                <tr id="row_{{ $company->slug }}">
                                     <td>{{ $company->id }}</td>
                                     <td>{{ $company->name }}</td>
                                     <td>{{ $company->categories->count() }}</td>
@@ -54,11 +54,11 @@
                                     <td>{{ $company->deleted_at->toDateString() }}</td>
                                     <td>
                                       <div style="display: flex; gap: 5px">
-                                        <form action="{{ route('admin.companies.restore', $company) }}" method="POST" class="restor_form">
+                                        <form action="{{ route('admin.companies.restore', $company->slug) }}" method="POST" class="restor_form">
                                           @csrf
                                           <button title="{{ __('admin.Restore') }}" class="btn btn-primary btn-sm btn_restore"><i class="fas fa-trash-restore"></i></button>
                                         </form>
-                                        <form action="{{ route('admin.companies.forcedelete', $company) }}" method="POST" class="delete_form">
+                                        <form action="{{ route('admin.companies.forcedelete', $company->slug) }}" method="POST" class="delete_form">
                                           @csrf
                                           @method('delete')
                                           <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm delete_btn"> <i class="fas fa-times"></i> </button>
