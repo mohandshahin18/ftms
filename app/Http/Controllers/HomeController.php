@@ -298,15 +298,18 @@ class HomeController extends Controller
 
             //Match The current Password
             if(!Hash::check($request->current_password, $user->password)){
-                return redirect()->back()->with('msg' , "The Current Password Doesn't match!")->with('type' , 'danger') ;
+                // return redirect()->back()->with('msg' , "The Current Password Doesn't match!")->with('type' , 'danger') ;
+                return response()->json(['title'=> __('admin.The current password is incorrect') , 'icon' => 'error'] , 400);
             }
             elseif (Hash::check($request->current_password, $user->password) && Hash::check($request->new_password, $user->password)) {
-                return redirect()->back()->with('msg' , 'The new password can not be the current password!')->with('type' , 'danger') ;
+                // return redirect()->back()->with('msg' , 'The new password can not be the current password!')->with('type' , 'danger') ;
+                return response()->json(['title'=> __('admin.The new password cannot be the same as the current password!') , 'icon' => 'error'] , 400);
+
             } //new password can not be the current password!
             else{
                 $user->password = Hash::make($request->new_password);
                 $user->save();
-                return redirect()->back()->with('msg' , 'Updated Password is successfully')->with('type','success') ;
+                // return redirect()->back()->with('msg' , 'Updated Password is successfully')->with('type','success') ;
             }
         }
 

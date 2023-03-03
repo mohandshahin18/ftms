@@ -500,7 +500,7 @@ section {
     align-items: center;
     justify-content: space-between;
   }
-  
+
 
  /* slide */
  .header {
@@ -937,19 +937,21 @@ text-align: center;}
     padding: 0;
 }
 footer {
-    background: linear-gradient(0deg, rgba(26, 46, 68, 0.85), rgba(26, 46, 68, 0.85)), url(../img/bg_banner1.jpg), #082032;;
+    /* background: linear-gradient(0deg, rgba(26, 46, 68, 0.85), rgba(26, 46, 68, 0.85)), url(../img/bg_banner1.jpg), #082032;; */
+    background: rgba(26, 46, 68, 0.85);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    /* margin-top: 80px; */
 }
 
-footer .footer-top {
-    padding-top: 80px;
+/* footer .footer-top {
+    padding-top: 30px;
     padding-bottom: 40px;
-}
+} */
 
 .footer-bottom {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    /* border-top: 1px solid rgba(255, 255, 255, 0.1); */
     padding-bottom: 20px;
     padding-top: 20px;
     color: #fff;
@@ -1471,19 +1473,19 @@ input.form-control {
             stroke-dasharray: 150 212.908;
             stroke-dashoffset: 300;
           }
-          
+
           ::-moz-selection {
             background: rgb(208, 201, 201);
           }
-          
+
           ::selection {
             background: rgb(208, 201, 201);
           }
-          
+
           ::-moz-selection {
             background: rgb(208, 201, 201);
           }
-          
+
           body .dribbble {
             position: fixed;
             display: block;

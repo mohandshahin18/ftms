@@ -261,5 +261,8 @@ return [
     "has been evaluated successfully"=>" has been evaluated successfully",
     "Verify Email"=>" Verify Email",
     "You are receiving this email because we have received your confirmation email request ."=>" You are receiving this email because we have received your confirmation email request .",
+    "The current password is incorrect"=>"The current password is incorrect",
+    "Password changed successfully"=>"Password changed successfully",
+    "The new password cannot be the same as the current password!"=>"The new password cannot be the same as the current password!",
 
 ];

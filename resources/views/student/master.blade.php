@@ -33,7 +33,13 @@
 
         #toast-container>div {
             padding: 15px !important;
-            background: #516171 !important;
+            background: #fff !important;
+            opacity: 1;
+        }
+        #toast-container>div{
+            color: #000 !important;
+            width: unset !important;
+            min-width: 230px !important;
         }
 
         a {
@@ -112,22 +118,15 @@
 @if(app()->getLocale() == 'ar')
     <style>
 
-        table th{
-            text-align: start !important;
-
-        }
-        .form-control.is-invalid, .was-validated .form-control:invalid {
-    padding-right: 0.75rem !important;
-    padding-left: 2.25rem!important;
-    background-position: left calc(0.375em + 0.1875rem) center;
-}
-
 
 body ,
 html {
     font-family: event-reg;
 }
 
+#toast-container>div{
+            font-family: event-reg !important;
+        }
 
 @font-face {
     font-family: event-reg;
@@ -215,6 +214,42 @@ html {
 
 .text-end {
     text-align: left!important;
+}
+
+.notification-list .notification-list_content .notification-list_img img
+{
+
+    margin-right: unset !important;
+    margin-left: 20px;
+}
+
+.heading-line:after {
+
+    left: unset !important;
+    right: 0;
+}
+.modal-header .close, .modal-header .mailbox-attachment-close {
+    margin: -1rem -1rem -1rem !important;
+}
+.mr-1, .mx-1 {
+    margin-right: unset!important;
+    margin-left: 0.25rem!important;
+}
+
+.notification-list--unread {
+    border-left:unset !important;
+    border-right: 2px solid #29B6F6;
+}
+
+
+        table th{
+            text-align: start !important;
+
+        }
+        .form-control.is-invalid, .was-validated .form-control:invalid {
+    padding-right: 0.75rem !important;
+    padding-left: 2.25rem!important;
+    background-position: left calc(0.375em + 0.1875rem) center;
 }
 
     </style>
@@ -550,22 +585,7 @@ gap:10px
 
     @yield('content')
     <footer>
-        <div class="footer-top text-center footer">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-6 text-center">
-                        <img class="mb-4" src="{{ asset($data['logo']) }}">
-                        <p>{{ $data['footer_text'] }}</p>
-
-                        {{-- <div class="col-auto conditions-section">
-                            <a href="#">privacy</a>
-                            <a href="#">terms</a>
-                            <a href="mailto:{{ $data['email'] }}">Technical support</i></a>
-                        </div> --}}
-                    </div>
-                </div>
-            </div>
-        </div>
+        
         <div class="footer-bottom text-center">
             <p class="mb-0">{{ $data['copy_right'] }}</p>
             Distributed By {{ $data['distributed_by'] }}
@@ -578,27 +598,6 @@ gap:10px
     <!-- Sweat Alert -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
-    {{-- cancel inspecting --}}
-    {{-- <script>
-        document.onkeydown = function(e) {
-            if(event.keyCode == 123) {
-                return false;
-            }
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)){
-                return false;
-            }
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)){
-                return false;
-            }
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)){
-                return false;
-            }
-            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)){
-                return false;
-            }
-        }
-    </script> --}}
 
     <script>
         let from = 'student';

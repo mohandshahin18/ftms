@@ -261,6 +261,9 @@ return [
     "has been evaluated successfully"=>" تم تقييمه بنجاح ",
     "Verify Email"=>" تأكيد البريد الإلكتروني ",
     "You are receiving this email because we have received your confirmation email request ."=>" أنت تتلقى هذا البريد الإلكتروني لأننا تلقينا طلب التأكيد عبر البريد الإلكتروني. ",
+    "The current password is incorrect"=>"كلمة السر الحالية غير صحيحة",
+    "Password changed successfully"=>"تم تغيير كلمة السر بنجاح",
+    "The new password cannot be the same as the current password!"=>"لا يمكن أن تكون كلمة السر الجديدة نفس كلمة السر الحالية !",
 
 
 
