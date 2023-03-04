@@ -266,15 +266,7 @@ display: inline-block;
 left: 0; */
 
 }
-/* .mydrop p{
-display: flex;
-justify-content: center;
-align-items: center;
-gap: 5px;
-} */
-/* .mydrop img{
 
-} */
 
 .mydrop-content {
 display: none;
@@ -585,7 +577,7 @@ gap:10px
 
     @yield('content')
     <footer>
-        
+
         <div class="footer-bottom text-center">
             <p class="mb-0">{{ $data['copy_right'] }}</p>
             Distributed By {{ $data['distributed_by'] }}
@@ -594,7 +586,7 @@ gap:10px
 
 
     <script src="{{ asset('studentAssets/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('studentAssets/js/bootstrap.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
     <!-- Sweat Alert -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>

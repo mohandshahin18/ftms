@@ -251,7 +251,7 @@ return [
     "Submit an application to the company"=>" أرسل طلب إلى الشركة ",
     "Your request has been accepted"=>" تم قبول طلبك  ",
     "Welcome to join our company"=>" مرحباً بك في الانضمام إلى شركتنا ",
-    "A new task has been assigned to you"=>" مرحباً بك في الانضمام إلى شركتنا ",
+    "A new task has been assigned to you"=>" تم تعيين مهمة جديدة لك ",
     "Admin s"=>"مسؤول",
     "Company s"=>"شركة",
     "Teacher s"=>"معلم",
@@ -264,7 +264,20 @@ return [
     "The current password is incorrect"=>"كلمة السر الحالية غير صحيحة",
     "Password changed successfully"=>"تم تغيير كلمة السر بنجاح",
     "The new password cannot be the same as the current password!"=>"لا يمكن أن تكون كلمة السر الجديدة نفس كلمة السر الحالية !",
-
+    "The entered university id is not registered with us"=>" الرقم الجامعي المدخل غير مسجل لدينا ",
+    "This registration is allowed for students registered for field training course only."=>" هذا التسجيل مسموح للطلاب المسجلين لمادة تدريب ميداني فقط . ",
+    "Enter your university id to confirm that you are registered for a field training course"=>" أدخل رقمك الجامعي للتأكد من أنك مسجل  مادة تدريب ميداني ",
+    "University ID check"=>" فحص الرقم الجامعي",
+    "Check"=>"إفحص",
+    "University ID"=>"الرقم الجامعي",
+    "University IDs"=>"الأرقام الجامعية",
+    "All University IDs"=>"كل الأرقام الجامعية" ,
+    "Add University ID"=>"إضافة رقم جامعي" ,
+    "Add New University ID"=>"إضافة رقم جامعي جديد" ,
+    "Edit University ID"=>"تعديل الرقم جامعي" ,
+    "University ID has been updated successfully"=>"تم تعديل الرقم الجامعي بنجاح" ,
+    "Next"=>"التالي ← " ,
+    "Prev"=>"→ السابق" ,
 
 
 ];

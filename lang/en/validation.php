@@ -179,7 +179,8 @@ return [
         "specialization_id"  => "specialization",
         "university_id"      => "university",
         "company_id"         => "company",
-        
+        "university_id_st"         => "university id",
+
 
     ],
 

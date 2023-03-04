@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\Student;
 use App\Models\Teacher;
+use App\Models\Subsicribe;
+use App\Rules\TwoSyllables;
 use Illuminate\Support\Str;
 use App\Models\Users_Verify;
 use Illuminate\Http\Request;
@@ -13,7 +15,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Providers\RouteServiceProvider;
-use App\Rules\TwoSyllables;
 
 class RegisterController extends Controller
 {
@@ -48,12 +49,22 @@ class RegisterController extends Controller
     }
 
 
-    public function showStudentRegisterForm()
+
+    public function showStudentRegisterForm($student_id)
     {
-        return view('auth.register');
+        $subsicribes = Subsicribe::get();
+
+        foreach($subsicribes as $subsicribe){
+            if($subsicribe->university_id == $student_id){
+                return view('auth.register' , compact('student_id'));
+            }else{
+                abort(403);
+            }
+
+        }
     }
 
-    public function createStudent(Request $request)
+    public function createStudent(Request $request , $student_id)
     {
 
         $request->validate([

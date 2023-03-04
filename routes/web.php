@@ -18,6 +18,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\SpecializationsController;
 use App\Http\Controllers\WebSite\websiteController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\SubsicribeController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
@@ -45,8 +46,10 @@ Route::group(['namespace' => 'Auth'] ,function() {
 
 // student register
 Route::group(['namespace' => 'Student'] ,function() {
-    Route::get('/student/register',[RegisterController::class,'showStudentRegisterForm'])->name('student.register-view');
-    Route::post('/student/register',[RegisterController::class,'createStudent'])->name('student.register');
+    Route::get('/student/selsect-id',[SubsicribeController::class,'selectUniversity_id'])->name('student.select-id');
+    Route::post('/student/selsect-id',[SubsicribeController::class,'subsicribeId'])->name('student.subsicribeId');
+    Route::get('/student/register/{student_id}',[RegisterController::class,'showStudentRegisterForm'])->name('student.register-view');
+    Route::post('/student/submit',[RegisterController::class,'createStudent'])->name('student.register');
     Route::get('/student/get/specialization/{id}', [RegisterController::class, 'get_specialization']);
 
     // verify email
@@ -190,6 +193,9 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     // tasks
     Route::get('tasks/{slug}/edit', [TaskController::class, 'edit'])->name('task.edit');
     Route::resource('tasks', TaskController::class);
+
+    // subsicribes
+    Route::resource('subscribes', SubsicribeController::class);
 
 });
 

@@ -89,7 +89,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3 form-group">
                                         <input type="text" class="form-control @error('student_id') error @enderror"
-                                            name="student_id" value="{{ old('student_id') }}" placeholder="{{ __('admin.Student ID') }}">
+                                            name="student_id" value="{{ $student_id }}" placeholder="{{ __('admin.Student ID') }}" disabled>
                                         @error('student_id')
                                             <small>{{ $message }}</small>
                                         @enderror

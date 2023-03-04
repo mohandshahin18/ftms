@@ -93,15 +93,7 @@ class UniversityController extends Controller
     {
         $universities= University::whereSlug($slug)->first();
 
-        $slug = Str::slug($request->name);
-        $slugCount = University::where('slug' , 'like' , $slug. '%')->count();
-        $count =  $slugCount + 1;
-
-        if($slugCount > 1){
-            $slug = $slug . '-' . $count;
-            $universities->slug = $slug;
-        }
-
+  
 
         $universities->name = $request->name;
         $universities->email = $request->email;

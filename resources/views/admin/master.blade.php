@@ -558,7 +558,7 @@ html {
                             </ul>
                         </li>
                         @endif
-                        
+
 
                         <li class="nav-item @yield('evaluations-menu-open')">
                             <a href="#" class="nav-link @yield('evaluations-active')">
@@ -589,6 +589,32 @@ html {
 
 
 
+                        <li class="nav-item @yield('subscribes-menu-open')">
+                            <a href="#" class="nav-link @yield('subscribes-active')">
+                                {{-- <i class="fas fa-file-chart-line"></i> --}}
+                                <i class="fas fa-file-signature nav-icon"></i>
+                                <p>
+                                    {{ __('admin.University IDs') }}
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.subscribes.index') }}"
+                                        class="nav-link @yield('index-subscribes-active')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>{{ __('admin.All University IDs') }}</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.subscribes.create') }}"
+                                        class="nav-link @yield('add-subscribe-active')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>{{ __('admin.Add University ID') }}</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
 
                         <li class="nav-item @yield('students-menu-open')">

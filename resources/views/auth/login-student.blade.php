@@ -120,7 +120,7 @@
                                 <div class="account d-flex flex-column">
                                     <p><a href="{{ route('forget.password.get' ,'student') }}">{{ __('admin.Forget Your Password ?') }}</a></p>
 
-                                    <p class="m-0"> <a href="{{ route('student.register-view') }}">{{ __("admin.Don't have account ?") }}  </a>
+                                    <p class="m-0"> <a href="{{ route('student.select-id') }}">{{ __("admin.Don't have account ?") }}  </a>
 
                                     </p>
                                 </div>

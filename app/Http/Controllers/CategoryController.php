@@ -96,14 +96,6 @@ class CategoryController extends Controller
         ]);
         $categories= Category::whereSlug($slug)->first();
 
-        $slug = Str::slug($request->name);
-        $slugCount = Category::where('slug' , 'like' , $slug. '%')->count();
-        $count =  $slugCount + 1;
-
-        if($slugCount > 1){
-            $slug = $slug . '-' . $count;
-            $categories->slug = $slug;
-        }
 
         $categories->name = $request->name;
 
