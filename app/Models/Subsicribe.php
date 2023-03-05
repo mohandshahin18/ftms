@@ -9,5 +9,5 @@ class Subsicribe extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['university_id'];
+    protected $fillable = ['name','university_id'];
 }

@@ -57,17 +57,8 @@
                 <div class="signin-form">
                     <div class="row">
                         <div class="col-md-6 ">
-                            <form  method="POST" class="check_form" action="{{route('student.subsicribeId')}}">
+                            <form  action="{{route('student.subsicribeId')}}" method="POST" class="check_form" >
                                 @csrf
-
-
-                                {{-- @if($errors->any())
-                                <div class=" alert-danger">
-                                        @foreach ($errors->all() as $error )
-                                                <li>{{ $error }}</li>
-                                        @endforeach
-                                </div>
-                                @endif --}}
 
                                 @if (session('msg'))
                                     <div class=" alert-{{ session('type') }}">
@@ -130,11 +121,10 @@
     <script>
         let form = $(".check_form");
         let btn = $(".check-button");
-        // let input = ;
-        form.onsubmit = (e) => {
-            e.preventDefault();
-        }
 
+        form.on('submit' , function(e) {
+            e.preventDefault();
+        })
 
 
         btn.on("click", function() {
@@ -153,7 +143,6 @@
                 url: url,
                 data: data,
                 success: function(data) {
-                    // console.log(data +'/'+$('.university_id').val());
                     window.location.href = data  ;
 
                 },

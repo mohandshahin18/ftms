@@ -103,9 +103,9 @@
         let form = $(".update_form");
         let btn = $(".profile-button");
 
-        form.onsubmit = (e) => {
+        form.on('submit' , function(e) {
             e.preventDefault();
-        }
+        })
 
 
 

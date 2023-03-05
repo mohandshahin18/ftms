@@ -215,28 +215,17 @@ class websiteController extends Controller
 
 
         $request->validate([
-            'name' => ['required',new TwoSyllables()] ,
             'email' => 'required|email',
             'phone' => 'required|',
             'image' => 'nullable'
         ]);
 
 
-    //    if($request->name != Auth::user()->name){
-            $slug = Str::slug($request->name);
-            $slugCount = Student::where('slug' , 'like' , $slug. '%')->count();
-            $random =  $slugCount + 1;
-            if($slugCount > 1){
-                $slug = $slug . '-' . $random;
-        // }
-       }
-
+        
         $student->update([
-            'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
             'image' => $path,
-            'slug' =>$slug
         ]);
 
         return json_encode(array("name"=>$student->name, "email"=>$student->email, "slug"=>$student->slug, "image" => $student->image));

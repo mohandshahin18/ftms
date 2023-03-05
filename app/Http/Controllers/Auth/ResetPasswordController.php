@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Carbon\Carbon;
-use App\Models\Student;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Company;
+use App\Models\Student;
 use App\Models\Trainer;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ResetPasswordController extends Controller implements ShouldQueue
 {
@@ -93,12 +93,6 @@ class ResetPasswordController extends Controller implements ShouldQueue
               $message->to($request->email);
               $message->subject('Reset Password');
           });
-
-        // DB::table('password_resets')
-        // ->where('created_at', '<', Carbon::parse(Carbon::now())->subMinutes(1))
-        // ->delete();
-
-
 
           return back()->with('msg', __('admin.We have e-mailed your password reset link!'))->with('type','warning');
       }

@@ -20,8 +20,19 @@
                     @csrf
                     <div class="card-body">
                         <div class="row">
+                             {{-- name  --}}
+                             <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="mb-2">{{ __('admin.Student Name') }}</label>
+                                    <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                        name="name" placeholder="{{ __('admin.Student Name') }}" value="{{ old('name') }}">
+                                    @error('name')
+                                        <small class="invalid-feedback"> {{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
                             {{-- name  --}}
-                            <div class="col-lg-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="mb-2">{{ __('admin.University ID') }}</label>
                                     <input type="text" class="form-control @error('university_id_st') is-invalid @enderror"

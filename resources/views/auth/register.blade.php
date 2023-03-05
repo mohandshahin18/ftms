@@ -31,7 +31,14 @@
             background-size: cover !important;
 
         }
-
+        .p{
+            font-size: 12px;
+            font-weight: 600
+        }
+        .p span{
+            color: #ff0000;
+            font-size: 14px
+        }
 
       </style>
 
@@ -47,20 +54,23 @@
                 </div>
                 <div class="signin-form register">
                     <div class="row">
-                        <form method="POST" action="{{ route('student.register') }}">
+                        <form method="POST" action="{{ route('student.register', $subsicribe->university_id ) }}">
                             @csrf
-                            <h3>{{ __('admin.Create a new account') }}</h3>
+                            <h3 >{{ __('admin.Create a new account') }}</h3>
                             <div class="row">
 
                                         {{-- name  --}}
                                 <div class="col-md-6">
-                                <div class="mb-3 form-group">
-                                    <input type="name" class="form-control @error('name') error @enderror" name="name"
-                                    value="{{ old('name') }}" placeholder="{{ __('admin.Name') }}">
-                                    @error('name')
-                                            <small  class="invalid-feedback">{{ $message }}</small>
-                                    @enderror
+                                    <div class="mb-3 form-group">
+                                        <input type="name" class="form-control" value="{{ $subsicribe->name }}" disabled placeholder="{{ __('admin.Name') }}">
+                                    </div>
                                 </div>
+
+                                {{-- Student ID  --}}
+                                <div class="col-md-6">
+                                    <div class="mb-3 form-group">
+                                        <input type="text" class="form-control" value="{{ $subsicribe->university_id }}" placeholder="{{ __('admin.Student ID') }}" disabled>
+                                    </div>
                                 </div>
 
                                 {{-- email  --}}
@@ -84,19 +94,6 @@
                                         @enderror
                                     </div>
                                 </div>
-
-                                {{-- Student ID  --}}
-                                <div class="col-md-6">
-                                    <div class="mb-3 form-group">
-                                        <input type="text" class="form-control @error('student_id') error @enderror"
-                                            name="student_id" value="{{ $student_id }}" placeholder="{{ __('admin.Student ID') }}" disabled>
-                                        @error('student_id')
-                                            <small>{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
-
-
 
                                 @php
                                     use App\Models\University;
@@ -163,7 +160,9 @@
                                 </div>
 
                         </form>
+                        <p class="p m-0"><span >*</span>{{ __('admin.Make sure your data is correct, you cannot modify it later') }}</p>
                         <div class="account">
+
                             <p> <a href="{{ route('student.login.show') }}"> {{ __('admin.Do you have account ?') }} </a></p>
                         </div>
                     </div>

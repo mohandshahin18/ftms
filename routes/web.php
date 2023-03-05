@@ -49,7 +49,7 @@ Route::group(['namespace' => 'Student'] ,function() {
     Route::get('/student/selsect-id',[SubsicribeController::class,'selectUniversity_id'])->name('student.select-id');
     Route::post('/student/selsect-id',[SubsicribeController::class,'subsicribeId'])->name('student.subsicribeId');
     Route::get('/student/register/{student_id}',[RegisterController::class,'showStudentRegisterForm'])->name('student.register-view');
-    Route::post('/student/submit',[RegisterController::class,'createStudent'])->name('student.register');
+    Route::post('/student/submit/{student_id}',[RegisterController::class,'createStudent'])->name('student.register');
     Route::get('/student/get/specialization/{id}', [RegisterController::class, 'get_specialization']);
 
     // verify email
@@ -194,8 +194,13 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     Route::get('tasks/{slug}/edit', [TaskController::class, 'edit'])->name('task.edit');
     Route::resource('tasks', TaskController::class);
 
+    //import university id
+
+    Route::get('subscribes/import/', [SubsicribeController::class, 'import'])->name('subscribes.import_view');
+    Route::post('subscribes/import/Excel', [SubsicribeController::class, 'importExcel'])->name('subscribes.importExcel');
     // subsicribes
     Route::resource('subscribes', SubsicribeController::class);
+
 
 });
 

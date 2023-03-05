@@ -278,6 +278,12 @@ return [
     "University ID has been updated successfully"=>"تم تعديل الرقم الجامعي بنجاح" ,
     "Next"=>"التالي ← " ,
     "Prev"=>"→ السابق" ,
+    "Make sure your data is correct, you cannot modify it later"=>" تأكد من صحة بياناتك , لا يمكنك تعديلها فيما بعد" ,
+    "Import new university Ids"=>"استيراد أرقام جامعية جديدة" ,
+    "Import"=>"استيراد" ,
+    "Only an Excel file must be selected, containing the student's name their and university id only"=>"يجب اختيار ملف من نوع اكسل فقط , يوجد به اسم الطالب ورقمه الجامعي فقط" ,
+    "Excel File"=>"ملف الإكسل" ,
+    "File imported successfully."=>"تم استيراد الملف بنجاح ." ,
 
 
 ];

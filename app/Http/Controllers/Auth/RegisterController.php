@@ -52,35 +52,35 @@ class RegisterController extends Controller
 
     public function showStudentRegisterForm($student_id)
     {
-        $subsicribes = Subsicribe::get();
+        $subsicribe= Subsicribe::where('university_id',$student_id)->first();
 
-        foreach($subsicribes as $subsicribe){
-            if($subsicribe->university_id == $student_id){
-                return view('auth.register' , compact('student_id'));
+            if($subsicribe){
+                return view('auth.register' , compact('subsicribe'));
             }else{
                 abort(403);
             }
 
-        }
+
     }
 
     public function createStudent(Request $request , $student_id)
     {
 
+        $subsicribe= Subsicribe::where('university_id',$student_id)->first();
+
+
         $request->validate([
-            'name' => ['required', 'string', 'max:255' , new TwoSyllables()],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:students'],
+            'email' => ['required', 'string', 'email', 'unique:students'],
             'phone' => ['required', 'string','min:10', 'max:20', 'unique:students'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'password_confirmation' => ['required'],
-            'student_id' => ['required', 'digits:8', 'min:8'],
             'university_id' => ['required'],
             'specialization_id' => ['required'],
         ]);
 
 
         $teacher = Teacher::where('university_id',$request->university_id)->where('specialization_id', $request->specialization_id)->first();
-        $slug = Str::slug($request->name);
+        $slug = Str::slug($subsicribe->name);
         $slugCount = Student::where('slug' , 'like' , $slug. '%')->count();
         $random =  $slugCount + 1;
 
@@ -88,12 +88,14 @@ class RegisterController extends Controller
             $slug = $slug . '-' . $random;
         }
 
+
+
         $student = Student::create([
-                'name' => $request->name,
+                'name' => $subsicribe->name,
                 'email' => $request->email,
                 'phone' => $request->phone,
                 'teacher_id' => $teacher ? $teacher->id : null,
-                'student_id' => $request->student_id,
+                'student_id' => $subsicribe->university_id,
                 'university_id' => $request->university_id,
                 'specialization_id' => $request->specialization_id,
                 'password' => Hash::make($request->password),

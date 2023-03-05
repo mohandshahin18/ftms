@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\ImportUniversityId;
 use App\Models\Subsicribe;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SubsicribeController extends Controller
 {
@@ -30,7 +32,7 @@ class SubsicribeController extends Controller
 
     }
 
-    /**
+        /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -39,16 +41,46 @@ class SubsicribeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'name' =>'required',
             'university_id_st' =>'required'
         ]);
 
         Subsicribe::create([
+            'name' => $request->name,
             'university_id' => $request->university_id_st,
         ]);
 
         return redirect()->route('admin.subscribes.index')->with('msg', __('admin.University has been added successfully'))->with('type', 'success');
 
     }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function import()
+    {
+        return view('admin.subscribes.importUniversityId');
+
+    }
+
+    /**
+     * import data from exale.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function importExcel(Request $request)
+    {
+        $file = $request->file('file');
+
+        Excel::import(new ImportUniversityId, $file);
+
+        return redirect()->route('admin.subscribes.index')->with('msg', __('admin.File imported successfully.'))->with('type','success');
+
+   }
+
+
 
     /**
      * Display the specified resource.
@@ -89,6 +121,7 @@ class SubsicribeController extends Controller
 
 
 
+        $subscribes->name = $request->name;
         $subscribes->university_id = $request->university_id_st;
 
 
@@ -106,7 +139,10 @@ class SubsicribeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $subscribes= Subsicribe::where('id',$id)->first();
+
+        $subscribes->destroy($id);
+        return $id;
     }
 
      /**
@@ -132,16 +168,12 @@ class SubsicribeController extends Controller
          $request->validate([
              'university_id_st' => 'required',
          ]);
-         $subsicribes = Subsicribe::get();
+         $subsicribe = Subsicribe::where('university_id',$request->university_id_st)->first();
 
-         foreach($subsicribes as $subsicribe){
-             if($subsicribe->university_id == $request->university_id_st){
-                 return route('student.register-view',$request->university_id_st);
+            if($subsicribe){
+                 return response()->json([route('student.register-view',$request->university_id_st)],200);
              }else{
                  return response()->json(['title'=>__('admin.The entered university id is not registered with us')],400);
              }
-
-         }
-
      }
 }

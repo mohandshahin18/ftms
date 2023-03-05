@@ -63,13 +63,16 @@
 
                                     <div class="col-md-6 mb-3">
                                         <label class="labels">{{ __('admin.Name') }}</label>
-                                        <input type="text" name="name" id="name"
-                                            class="form-control @error('name') is-invalid @enderror" placeholder="{{ __('admin.Name') }}"
-                                            value="{{ $student->name }}">
-                                        @error('name')
-                                            <small class="invalid-feedback"> {{ $message }}</small>
-                                        @enderror
+                                        <input type="text" disabled id="name" class="form-control " placeholder="{{ __('admin.Name') }}" value="{{ $student->name }}">
+
                                     </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        <label class="labels">{{ __('admin.Student ID') }}</label>
+                                        <input type="text" name="" class="form-control " disabled
+                                            value="{{ $student->student_id }}">
+                                    </div>
+
                                     <div class="col-md-6 mb-3">
                                         <label class="labels">{{ __('admin.Email') }}</label>
                                         <input type="text" name="email" id="email"
@@ -90,11 +93,7 @@
                                         @enderror
                                     </div>
 
-                                    <div class="col-md-6 mb-3">
-                                        <label class="labels">{{ __('admin.Student ID') }}</label>
-                                        <input type="text" name="" class="form-control " disabled
-                                            value="{{ $student->student_id }}">
-                                    </div>
+
 
 
                                     <div class="col-md-6 mb-3">

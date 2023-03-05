@@ -278,4 +278,11 @@ return [
     "University ID has been updated successfully"=>"University ID has been updated successfully",
     "Prev"=>"← Prev" ,
     "Next"=>"Next →" ,
+    "Make sure your data is correct, you cannot modify it later"=>" Make sure your data is correct, you cannot modify it later" ,
+    "Import new university Ids"=>"Import new university Ids" ,
+    "Import"=>"Import" ,
+    "Only an Excel file must be selected, containing the student's name their and university id only"=>"Only an Excel file must be selected, containing the student's name their and university id only" ,
+    "Excel File"=>"Excel File" ,
+    "File imported successfully."=>"File imported successfully." ,
+
 ];

@@ -10,7 +10,7 @@
     <style>
         /* modal  */
         .modal-body {
-            height: 130px;
+            height: 220px;
         }
         .modal-body::-webkit-scrollbar {
             display: none;
@@ -35,13 +35,15 @@
 
 
 
-                        <div class="btn-website">
-                            <a title="{{ __('admin.University ID') }}" href="{{ route('admin.subscribes.create') }}" class="btn btn-primary"><i
-                                    class="fas fa-plus"></i> {{ __('admin.University ID') }}</a>
+                        <div class="btn-website ">
+                            <a title="{{ __('admin.Add University ID') }}" href="{{ route('admin.subscribes.create') }}" class="btn btn-primary"><i
+                                    class="fas fa-plus"></i> {{ __('admin.Add University ID') }}</a>
+
+
 
                         </div>
-
-
+                        <a title="{{ __('admin.Import') }}" href="{{ route('admin.subscribes.import_view') }}" class="btn btn-primary"><i
+                            class="fas fa-file-import"></i> {{ __('admin.Import') }} </a>
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -50,6 +52,7 @@
                         <thead>
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
+                                <th>{{ __('admin.Student Name') }}</th>
                                 <th>{{ __('admin.University ID') }}</th>
                                 <th>{{ __('admin.Actions') }}</th>
                             </tr>
@@ -59,15 +62,16 @@
                             @forelse ($subscribes as $subscribe)
                                 <tr id="row_{{ $subscribe->id }}">
                                     <td>{{ $subscribe->id }}</td>
+                                    <td>{{ $subscribe->name }}</td>
                                     <td>{{ $subscribe->university_id }}</td>
                                     <td>
                                         <button title="{{ __('admin.Edit') }}" type="button" class="btn btn-primary btn-sm btn-edit" data-toggle="modal"
                                             data-target="#editUniversityID"
-                                            data-url="{{ route('admin.subscribes.update', $subscribe->id) }}"
+                                            data-url="{{ route('admin.subscribes.update', $subscribe->id) }}"  data-name="{{ $subscribe->name }}"
                                             data-university_id="{{ $subscribe->university_id }}"> <i class="fas fa-edit"></i>
                                         </button>
                                         <form class="d-inline delete_form"
-                                            action="{{ route('admin.subscribes.destroy', $subscribe->university_id) }}"
+                                            action="{{ route('admin.subscribes.destroy', $subscribe->id) }}"
                                             method="POST">
                                             @csrf
                                             @method('delete')
@@ -114,6 +118,13 @@
                         <div class="row">
                             {{-- start name --}}
                             <div class="col-sm-12 mb-3">
+                                <label class="mb-2">{{ __('admin.Student Name') }}</label>
+                                <input type="text" class="form-control" name="name" placeholder="{{ __('admin.Student Name') }}">
+                            </div>
+                            {{-- end name --}}
+
+                            {{-- start name --}}
+                            <div class="col-sm-12 mb-3">
                                 <label class="mb-2">{{ __('admin.University ID') }}</label>
                                 <input type="text" class="form-control" name="university_id_st" placeholder="{{ __('admin.University ID') }}">
                             </div>
@@ -152,11 +163,13 @@
         $('.btn-edit').on('click', function() {
             // $('#editUniversityID').css('display','block');
 
+            let name = $(this).data('name');
             let university_id = $(this).data('university_id');
             let url = $(this).data('url');
 
             $('#editUniversityID form').attr('action', url);
             $('#editUniversityID input[name=university_id_st]').val(university_id);
+            $('#editUniversityID input[name=name]').val(name);
 
 
         });
@@ -181,7 +194,8 @@
                     // $("#edit_form").click(function(){
                     //     $("#editUniversityID").modal("hide");
                     // });
-                    $('#row_' + res.id + " td:nth-child(2)").text(res.university_id);
+                    $('#row_' + res.id + " td:nth-child(2)").text(res.name);
+                    $('#row_' + res.id + " td:nth-child(3)").text(res.university_id);
 
                     const Toast = Swal.mixin({
                         toast: true,
