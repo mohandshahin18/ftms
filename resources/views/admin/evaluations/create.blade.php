@@ -19,7 +19,6 @@
         height: 20px;
         justify-content: center;
         font-size: 36px;
-        line-height: 14px;
         color: #fff;
         border-radius: 50px;
         cursor: pointer;
@@ -27,6 +26,8 @@
         right: 4px;
         top: 8px;
         transition: all 0.1s linear;
+        justify-content: center;
+        align-items: center;
 
     }
 
@@ -39,6 +40,19 @@
     }
 
 </style>
+
+@if(app()->getLocale()=='ar')
+<style>
+.question_wrapper div span {
+
+    right: unset !important;
+    left: 4px !important;
+}
+
+
+</style>
+@endif
+
 @stop
 
 @section('content')
@@ -120,7 +134,11 @@
                   <button  class="btn btn-dark" type="button" onclick="history.back()">
                       <i class="fas fa-undo-alt"> </i> {{ __('admin.Return Back') }} </button>
                 <button type="submit" class="btn btn-primary">
+<<<<<<< HEAD
                     <i class="fas fa-plus"></i> {{ __('admin.Save') }}</button>
+=======
+                    <i class="fas fa-plus"></i> {{ __('admin.Add') }}</button>
+>>>>>>> 25f7bd83733fdf50d4799eeb51ae766e9177ec6d
 
               </div>
             </form>

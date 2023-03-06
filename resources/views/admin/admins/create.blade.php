@@ -23,9 +23,9 @@
                             {{-- name  --}}
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="mb-2">{{ __('admin.Admin name') }}</label>
+                                    <label class="mb-2">{{ __('admin.Admin Name') }}</label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                        name="name" placeholder="{{ __('admin.Admin name') }}" value="{{ old('name') }}">
+                                        name="name" placeholder="{{ __('admin.Admin Name') }}" value="{{ old('name') }}">
                                     @error('name')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                     @enderror

@@ -17,12 +17,13 @@ class AcceptApplyNotification extends Notification
     protected $categoryName;
     protected $studentName;
     protected $image;
+    protected $studentId;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($name ,$slug,$company_id ,$categoryName ,$studentName ,$image )
+    public function __construct($name ,$slug,$company_id ,$categoryName ,$studentName ,$image ,$studentId )
     {
         $this->name = $name;
         $this->slug = $slug;
@@ -30,6 +31,7 @@ class AcceptApplyNotification extends Notification
         $this->categoryName = $categoryName;
         $this->studentName = $studentName;
         $this->image = $image;
+        $this->studentId = $studentId;
 
     }
 
@@ -70,10 +72,11 @@ class AcceptApplyNotification extends Notification
             'name' => $this->name ,
             'company_id' => $this->company_id ,
             'from' => 'apply',
-            'msg' => 'Accepted Your request to their company',
+            'msg' => __('admin.Your request has been accepted'),
             'url' => url('/company/'.$this->slug.'/'.$this->categoryName ),
-            'welcome' => ' Hi '. $this->studentName . ' Welcome to join to our company',
+            'welcome' =>$this->studentName . __('admin.Welcome to join our company'),
             'image' => $this->image ,
+            'studentId' => $this->studentId ,
 
 
         ];

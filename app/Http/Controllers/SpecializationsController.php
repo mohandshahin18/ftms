@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Specialization;
 use App\Models\University;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\Specialization;
 
 class SpecializationsController extends Controller
 {
@@ -41,12 +42,25 @@ class SpecializationsController extends Controller
             'name' => 'required|min:2',
         ]);
 
+        $slug = Str::slug($request->name);
+        $slugCount = Specialization::where('slug' , 'like' , $slug. '%')->count();
+        $count =  $slugCount + 1;
+
+        if($slugCount > 0){
+            $slug = $slug . '-' . $count;
+        }
+
         Specialization::create([
             'name' => $request->name ,
+<<<<<<< HEAD
+=======
+            'university_id' => $request->university_id,
+            'slug' => $slug,
+>>>>>>> 25f7bd83733fdf50d4799eeb51ae766e9177ec6d
         ]);
 
         return redirect()->route('admin.specializations.index')
-        ->with('msg', 'Specialization has been addedd successfully')
+        ->with('msg', __('admin.Specialization has been added successfully'))
         ->with('type', 'success');
 
     }
@@ -68,10 +82,15 @@ class SpecializationsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Specialization $specialization)
+    public function edit($slug)
     {
         $universities = University::all();
+<<<<<<< HEAD
         return view('admin.specializations.edit', compact('specialization'));
+=======
+        $specialization = Specialization::whereSlug($slug)->first();
+        return view('admin.specializations.edit', compact('specialization','universities'));
+>>>>>>> 25f7bd83733fdf50d4799eeb51ae766e9177ec6d
     }
 
     /**
@@ -81,24 +100,39 @@ class SpecializationsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,Specialization $specialization)
+    public function update(Request $request,$slug)
     {
 
-        
+        $specialization = Specialization::whereSlug($slug)->first();
+
         $request->validate([
             'name' => 'required',
         ]);
 
-        // dd($request->all());
+
+        $slug = Str::slug($request->name);
+        $slugCount = Specialization::where('slug' , 'like' , $slug. '%')->count();
+        $count =  $slugCount + 1;
+
+        if($slugCount > 0){
+            $slug = $slug . '-' . $count;
+        }
+
+
         $specialization->update([
             'name' => $request->name,
+<<<<<<< HEAD
+=======
+            'university_id' => $request->university_id,
+            'slug' => $slug
+>>>>>>> 25f7bd83733fdf50d4799eeb51ae766e9177ec6d
 
         ]);
 
         return redirect()->route('admin.specializations.index')
-        ->with('msg', 'Specialization has been updated successfully')
+        ->with('msg', __('admin.Specialization has been updated successfully'))
         ->with('type', 'success');
-       
+
     }
 
     /**
@@ -107,10 +141,10 @@ class SpecializationsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        $specializations= Specialization::findOrFail($id);
-        $specializations->delete();
-        return $id;
+        $specialization = Specialization::whereSlug($slug)->first();
+        $specialization->destroy($specialization->id);
+        return $slug;
     }
 }

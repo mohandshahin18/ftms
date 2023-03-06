@@ -26,23 +26,11 @@ Broadcast::channel('App.Models.Trainer.{id}', function ($trainer, $id) {
 },['guards'=>['trainer']]);
 
 // Chat channels
-Broadcast::channel('Messages.{id}', function ($user, $id) {
-    if($user->id == $id) {
+Broadcast::channel('Messages.{id}', function ($student, $id) {
+    if($student->id == $id) {
 
-        return $user;
+        return $student;
     }
-},['guards'=>['teacher']]);
+},['guards'=>['student','teacher','trainer']]);
 
-Broadcast::channel('Messages.{id}', function ($user, $id) {
-    if($user->id == $id) {
 
-        return $user;
-    }
-},['guards'=>['student']]);
-
-Broadcast::channel('Messages.{id}', function ($user, $id) {
-    if($user->id == $id) {
-
-        return $user;
-    }
-},['guards'=>['trainer']]);

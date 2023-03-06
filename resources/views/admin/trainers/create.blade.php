@@ -73,12 +73,15 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="mb-2">{{ __('admin.Company Name') }}</label>
-                                    <select name="company_id" class="form-control" id="company_id">
-                                        <option value="">{{ __('admin.Select Company') }}</option>
+                                    <select name="company_id" id="company_id" class="form-control @error('company_id') is-invalid @enderror" id="company_id">
+                                        <option value=" ">{{ __('admin.Select Company') }}</option>
                                         @foreach ($companies as $company)
                                             <option value="{{ $company->id }}">{{ $company->name }}</option>
                                         @endforeach
                                     </select>
+                                    @error('company_id')
+                                        <small class="invalid-feedback"> {{ $message }}</small>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -86,12 +89,15 @@
                              <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="mb-2">{{ __('admin.Program') }}</label>
-                                    <select name="category_id" class="form-control" id="category_id">
-                                        <option value="">{{ __('admin.Select Program') }}</option>
+                                    <select name="category_id" id="category_id" class="form-control @error('category_id') is-invalid @enderror" id="category_id">
+                                        <option value=" ">{{ __('admin.Select Program') }}</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
                                     </select>
+                                    @error('category_id')
+                                        <small class="invalid-feedback"> {{ $message }}</small>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -116,8 +122,13 @@
                     <div class="card-footer">
                         <button class="btn btn-dark" type="button" onclick="history.back()">
                             <i class="fas fa-undo-alt"> </i> {{ __('admin.Return Back') }} </button>
+<<<<<<< HEAD
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-plus"></i> {{ __('admin.Add') }}</button>
+=======
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> {{ __('admin.Add') }}</button>
+>>>>>>> 25f7bd83733fdf50d4799eeb51ae766e9177ec6d
 
                     </div>
                 </form>
@@ -126,4 +137,29 @@
     </div>
 
 
+@stop
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $("#company_id").on("change", function() {
+                var comp_id = $(this).val();
+                if (comp_id) {
+                    $.ajax({
+                        url: "/admin/get/category/" + comp_id,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            $("#category_id").empty();
+                            $.each(data, function(key, value) {
+                                // console.log(key);
+                                // console.log(value);
+                                $("#category_id").append('<option value="' + key +
+                                    '">' + value + '</option>');
+                            });
+                        },
+                    });
+                }
+            });
+        });
+    </script>
 @stop

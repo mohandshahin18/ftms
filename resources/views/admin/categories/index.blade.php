@@ -52,17 +52,17 @@
 
                         <tbody>
                             @forelse ($categories as $category)
-                                <tr id="row_{{ $category->id }}">
+                                <tr id="row_{{ $category->slug }}">
                                     <td>{{ $category->id }}</td>
                                     <td>{{ $category->name }}</td>
                                     <td>{{ $category->companies->count() }}</td>
                                     <td>
                                         <button title="{{ __('admin.Edit') }}" type="button" class="btn btn-primary btn-sm btn-edit" data-toggle="modal"
                                             data-target="#editCategory" data-name="{{ $category->name }}"
-                                            data-url="{{ route('admin.categories.update', $category->id) }}"> <i
+                                            data-url="{{ route('admin.categories.update', $category->slug) }}"> <i
                                                 class="fas fa-edit"></i> </button>
                                         <form class="d-inline delete_form"
-                                            action="{{ route('admin.categories.destroy', $category->id) }}" method="POST">
+                                            action="{{ route('admin.categories.destroy', $category->slug) }}" method="POST">
                                             @csrf
                                             @method('delete')
                                             <button title="{{ __('admin.Move to recycle bin') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"
@@ -173,7 +173,7 @@
                 data: data,
                 success: function(res) {
 
-                    $('#row_' + res.id + " td:nth-child(2)").text(res.name);
+                    $('#row_' + res.slug + " td:nth-child(2)").text(res.name);
 
 
                     $('#editCategory').modal('hide');

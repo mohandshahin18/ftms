@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Admin;
-use App\Models\Company;
 use Exception;
+use App\Models\Admin;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
-use ParagonIE\Sodium\Compat;
 
 class AdminController extends Controller
 {
@@ -52,6 +51,14 @@ class AdminController extends Controller
             'password.regex' => 'password must contains numbers'
         ]);
 
+        $slug = Str::slug($request->name);
+        $slugCount = Admin::where('slug' , 'like' , $slug. '%')->count();
+        $count =  $slugCount + 1;
+
+        if($slugCount > 1){
+            $slug = $slug . '-' . $count;
+        }
+
         $path = $request->file('image')->store('/uploads/admins', 'custom');
 
         Admin::create([
@@ -60,11 +67,12 @@ class AdminController extends Controller
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
             'image' => $path,
+            'slug' => $slug,
         ]);
 
         return redirect()
         ->route('admin.admins.index')
-        ->with('msg','Admin Has Been Addedd Successfully')
+        ->with('msg',__('admin.Admin has been added successfully'))
         ->with('type', 'success');
     }
 
@@ -108,8 +116,10 @@ class AdminController extends Controller
      * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Admin $admin)
+    public function destroy($slug)
     {
+        $admin = Admin::whereSlug($slug)->first();
+
         $path = public_path($admin->image);
 
         if($path) {
@@ -120,6 +130,6 @@ class AdminController extends Controller
             }
         }
         $admin->forceDelete();
-        return $admin->id;
+        return $slug;
     }
 }

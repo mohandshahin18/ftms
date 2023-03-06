@@ -1,6 +1,6 @@
 @extends('student.master')
 
-@section('title' , 'Avilable Companies')
+@section('title' ,  __('admin.Avilable Companies'))
 
 @section('styles')
     <style>
@@ -127,7 +127,7 @@
 
 <section class="bg-light" id="reviews">
     <div class="container">
-        <h1 class="text-white">Avilable Company</h1>
+        <h1 class="text-white">{{ __('admin.Avilable Companies') }}</h1>
     </div>
 </section>
 
@@ -136,7 +136,7 @@
         <div class="search_wrapper mb-5">
 
             <div class="input-box">
-                <input type="text" placeholder="Search by Company name..."  id="search_input" autocomplete="off"/>
+                <input type="text" placeholder="{{ __('admin.Search by Company Name...') }}"  id="search_input" autocomplete="off"/>
                 <span><i class="fas fa-times" id="clear_input"></i></span>
                 <span class="search">
                   <i class="fas fa-search search-icon"></i>
@@ -163,14 +163,14 @@
                                     <h5>{{ $company->name }}</h5>
                                     <p class="mb-4">{{ Str::words(strip_tags(html_entity_decode($company->description)), 6, '...') }}</p>
 
-                                    <a href="{{ route('student.company' ,[$company->slug , $category->name]) }}" class="btn-brand">Learn More</a>
+                                    <a href="{{ route('student.company' ,[$company->slug , $category->name]) }}" class="btn-brand">{{ __('admin.Learn More') }}</a>
                                 </div>
                             </article>
                         </div>
                 @endforeach
             @endforeach
         </div>
-        <div class="text-center" id="load-more"><button class="btn btn-brand" id="load_more_btn" data-page="1">Load more</button></div>
+        <div class="text-center" id="load-more"><button class="btn btn-brand" id="load_more_btn" data-page="1">{{ __('admin.Load More') }}</button></div>
     </div>
 </section>
 
@@ -191,18 +191,18 @@
                 url: url,
                 data: {page: page},
                 beforeSend: function() {
-                    $('#load-more').html('<i class="fa fa-spin fa-spinner"></i> Loading...');
+                    $('#load-more').html('<i class="fa fa-spin fa-spinner"></i> {{ __("admin.Loading...") }}');
                 },
                 success:function(response) {
                     if(response.length > 0) {
                         wrapper.append(response);
                         page++;
-                        btn = `<button class="btn btn-brand" id="load_more_btn" data-page="${page}">Load more</button>`;
+                        btn = `<button class="btn btn-brand" id="load_more_btn" data-page="${page}">{{ __('admin.Load More') }}</button>`;
                         $("#load-more").empty();
                         $("#load-more").append(btn);
                     } else {
                         $("#load-more").empty();
-                        $("#load-more").html('<span style="color = #1a2e44">There is no more to load.</span>');
+                        $("#load-more").html('<span style="color = #1a2e44">{{ __('admin.There is no more to load.') }}</span>');
                     }
                 },
                 error: function(xhr) {
@@ -247,7 +247,7 @@
                         }else if(response.message) {
                             $("#companies_dropdown").show()
                             $("#companies_dropdown").empty();
-                            let msg = `<p style="padding: 10px;">there is no result for<b><i>${search}</i></b></p>`;
+                            let msg = `<p style="padding: 10px;">{{ __('admin.There is no result for') }}<b><i>${search}</i></b></p>`;
                             $("#companies_dropdown").append(msg);
                         }
                         else {
@@ -278,7 +278,7 @@
             url: 'search/companies',
             data: {company_id: company_id},
             beforeSend: function() {
-                $('#categories_wrapper').html('<div class="d-flex justify-content-center align-items-center" style="font-size: 24px; height: inherit; gap: 10px; color: #1a2e44;"><i class="fa fa-spin fa-spinner"></i> Loading...</div>');
+                $('#categories_wrapper').html('<div class="d-flex justify-content-center align-items-center" style="font-size: 24px; height: inherit; gap: 10px; color: #1a2e44;"><i class="fa fa-spin fa-spinner"></i> {{ __("admin.Loading...") }}</div>');
             },
             success:function(response) {
                 if(response.length > 0) {
@@ -286,7 +286,7 @@
                     $("#load_more_btn").hide();
                     $("#categories_wrapper").html(response);
                 } else {
-                    var empty = `<span class="text-center mt-5">There is no result for <i><b>${search}</b></i></span>`;
+                    var empty = `<span class="text-center mt-5">{{ __('admin.There is no result for') }} <i><b>${search}</b></i></span>`;
                     $("#categories_wrapper").empty();
                     $("#categories_wrapper").html(empty);
                 }

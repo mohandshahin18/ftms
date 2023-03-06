@@ -54,5 +54,7 @@
 
 @section('scripts')
 
-
+        <script>
+            
+        </script>
     @stop

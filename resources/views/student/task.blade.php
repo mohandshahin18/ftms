@@ -60,8 +60,8 @@
             <div class="row ">
                 <div class="col-lg-12 ">
                     <div class="task rounded p-3">
-                        <p><b>Opend: </b>{{ Carbon::parse($task->start_date)->format('l, j F Y, g:i A') }}</p>
-                        <p><b>Due: </b>{{ Carbon::parse($task->end_date)->format('l, j F Y, g:i A') }}</p>
+                        <p><b>{{ __('admin.Opend') }} : </b>{{ Carbon::parse($task->start_date)->format('l, j F Y, g:i A') }}</p>
+                        <p><b>{{ __('admin.Due') }} : </b>{{ Carbon::parse($task->end_date)->format('l, j F Y, g:i A') }}</p>
 
                         <div class="divider"></div>
                         <div class="desc mb-5 mt-3">
@@ -69,32 +69,32 @@
 
                         </div>
                         {{-- <a href="{{ asset('files/example.pdf') }}" download>Download Example PDF</a> --}}
-                        
+
                         <a target="_blank" href="{{ asset('uploads/tasks-files/' . $task->file) }}"
                             download>{{ $task->file }}</a>
                     </div>
 
-                    <h3 class="my-4">Submission status</h3>
+                    <h3 class="my-4">{{ __('admin.Submission status') }}</h3>
 
                     <table class="table table-striped table-bordered table-hover">
 
                         <tbody>
                             <tr>
-                                <th>Submission status</th>
+                                <th>{{ __('admin.Submission status') }}</th>
                                 @if ($applied_task)
                                     <td style="background: #d1e7dd ; color: #0f5132 ;font-weight: 500;">
-                                        Submitted
+                                        {{ __('admin.Submitted') }}
                                     </td>
                                 @else
                                     <td id="submitted_text" class="text-danger">
-                                        Not Submitted yet
+                                        {{ __('admin.Not Submitted yet') }}
                                     </td>
                                 @endif
 
 
                             </tr>
                             <tr>
-                                <th>Time remaining</th>
+                                <th>{{ __('admin.Time remaining') }}</th>
                                 <td id="time_remaining">
 
                                     @php
@@ -106,40 +106,40 @@
 
                                     @if (!$applied_task)
                                         @if ($end_date->gt(now()))
-                                            @if ($remaining_days && $remaining_hours)
-                                                {{ $remaining_days . ' Days and ' . $remaining_hours . ' hours remaining' }}
+                                            @if ($remaining_days && $remaining_hours || $remaining_hours)
+                                                {{ $remaining_days .' '.  __("admin.Days and")  .' '. $remaining_hours .' '. __('admin.hours remaining') }}
                                             @elseif($remaining_hours)
-                                                {{ $remaining_hours . ' hours remaining' }}
+                                                {{ $remaining_hours .' '. __('admin.hours remaining') }}
                                             @else
-                                                {{ $remaining_minutes . ' minutes remaining' }}
+                                                {{ $remaining_minutes .' '. __('admin.minutes remaining') }}
                                             @endif
                                         @else
                                             <span class="text-danger">
                                                 @if ($time_passed_days && $time_passed_hours)
-                                                    {{ $time_passed_days == 1 ? $time_passed_days . ' Day ago' : $time_passed_days . ' Days ago' }}
+                                                    {{ $time_passed_days == 1 ? $time_passed_days .' '. __('admin.Day ago') : $time_passed_days .' '. __('admin.Days ago') }}
                                                 @elseif ($time_passed_hours)
-                                                    {{ $time_passed_hours . ' hours ago' }}
+                                                    {{ $time_passed_hours .' '. __('admin.hours ago') }}
                                                 @else
-                                                    {{ $time_passed_minutes . ' minutes ago' }}
+                                                    {{ $time_passed_minutes .' '. __('admin.minutes ago') }}
                                                 @endif
                                             </span>
                                         @endif
                                     @else
-                                    {{ $applied_task->updated_at->gt($applied_task->created_at) ? 'Updated '.$applied_task->updated_at->diffForHumans() : 'Submitted '.$applied_task->created_at->diffForHumans()  }}
+                                    {{ $applied_task->updated_at->gt($applied_task->created_at) ? __('admin.Updated').$applied_task->updated_at->diffForHumans() : __('admin.Submitted').$applied_task->created_at->diffForHumans()  }}
                                        <span class="float-right text-success"><i class="fas fa-check"></i></span>
                                     @endif
                                 </td>
 
                             </tr>
                             <tr>
-                                <th>File submissions</th>
+                                <th>{{ __('admin.File submission') }}</th>
                                 @if ($applied_task)
                                     <td id="file_submitted">
                                         <a href="{{ asset('uploads/applied-tasks/' . $applied_task->file) }}"
                                             target="_blank" download>{{ $applied_task->file }}</a>
                                     </td>
                                 @else
-                                    <td id="file_submitted">There is no file yet</td>
+                                    <td id="file_submitted">{{ __('admin.There is no file yet') }}</td>
                                 @endif
 
                             </tr>
@@ -151,30 +151,30 @@
                 <div class="col-lg-12 text-end" id="form_wrapper">
                     @if (!now()->gt($end_date))
                         @if ($applied_task)
-                            <button type="button" id="show_edit_form"  value="edit-btn" class="btn btn-brand">Edit submission</button>
+                            <button type="button" id="show_edit_form"  value="edit-btn" class="btn btn-brand">{{ __('admin.Edit submission') }}</button>
 
                             <form action="{{ route('student.edit.applied.task', $applied_task->id) }}" class="hidden_form" id="edit_form"
                                 method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="task_id" value="{{ $task->id }}">
                                 <div class="file-drop-area">
-                                    <span class="fake-btn">Choose files</span>
-                                    <span class="file-msg">or drag and drop files here</span>
+                                    <span class="fake-btn">{{ __('admin.Choose file') }}</span>
+                                    <span class="file-msg">{{ __('admin.or drag and drop file here') }}</span>
                                     <input class="file-input" name="file" id="file_input" type="file" required>
-                                    <span class="validaition">Supported file types: doc, docs, pdf, pptx, zip, rar <b>|</b> 
-                                        Max file size: 5 MB</span>
+                                    <span class="validaition">{{ __('admin.Supported file types: doc, docs, pdf, pptx, zip, rar') }} <b>|</b>
+                                        {{ __('admin.Max file size: 5 MB') }}</span>
                                     <span class="text-danger">{{ $errors->first('file') }}</span>
                                 </div>
 
+                                <button type="button" id="hide_edit_form"
+                                    class="mt-5 btn btn-seconed-brand btn-sm">{{ __('admin.Cancel') }}</button>
                                 <button type="button" class="btn btn-brand btn-sm mt-5" id="edit_btn"><i
                                         class="fas fa-edit"></i>
-                                    Edit</button>
-                                <button type="button" id="hide_edit_form"
-                                    class="mt-5 btn btn-seconed-brand btn-sm">Cancel</button>
+                                    {{ __('admin.Edit') }}</button>
 
                             </form>
                         @else
-                            <button type="button" id="show_form" class="btn btn-brand">Add Submission</button>
+                            <button type="button" id="show_form" class="btn btn-brand">{{ __('admin.Add Submission') }}</button>
 
 
                             <form action="{{ route('student.submit.task') }}" class="mt-4 hidden_form" method="POST" id="task_form"
@@ -182,16 +182,16 @@
                                 @csrf
                                 <input type="hidden" name="task_id" value="{{ $task->id }}">
                                 <div class="file-drop-area">
-                                    <span class="fake-btn">Choose files</span>
-                                    <span class="file-msg">or drag and drop files here</span>
+                                    <span class="fake-btn">{{ __('admin.Choose file') }}</span>
+                                    <span class="file-msg">{{ __('admin.or drag and drop file here') }}</span>
                                     <input class="file-input" name="file" id="file_input" type="file" required>
-                                    <span class="validaition">Supported file types: doc, docs, pdf, pptx, zip, rar <b>|</b> 
-                                        Max file size: 5 MB</span>
+                                    <span class="validaition">{{ __('admin.Supported file types: doc, docs, pdf, pptx, zip, rar') }}<b>|</b>
+                                        {{ __('admin.Max file size: 5 MB') }}</span>
                                     <span class="text-danger">{{ $errors->first('file') }}</span>
                                 </div>
 
-                                <button type="button" id="submit_btn" class="mt-5 btn btn-brand">Submit</button>
-                                <button type="button" id="hide_form" class="mt-5 btn btn-seconed-brand">Cancel</button>
+                                <button type="button" id="hide_form" class="mt-5 btn btn-seconed-brand">{{ __('admin.Cancel') }}</button>
+                                <button type="button" id="submit_btn" class="mt-5 btn btn-brand">{{ __('admin.Submit') }}</button>
 
                             </form>
                         @endif
@@ -263,67 +263,61 @@
                             $('#form_wrapper').append('<div class="spinner-div d-flex align-items-center justify-content-center" style="font-size: 36px; width: 100%; position: absolute; width: 100%;height: 100%;z-index: 884;background: #fff; top: 0; right: 0;"><i class="fa fa-spin fa-spinner"></i> Loading...</div>');
                         },
                         success: function(response) {
-                            if(response.type) {
-                                $(".spinner-div").remove();
-                                $('#task_form').removeClass("hidden_form");
-                                $("input[name='file']").addClass('is-invalid')
-                                    .after('<small class="invalid-feedback" style="right: 0;">File type is invalid</small>');
-                            }else if(response.size) {
-                                $(".spinner-div").remove();
-                                $('#task_form').removeClass("hidden_form");
-                                $("input[name='file']").addClass('is-invalid')
-                                    .after('<small class="invalid-feedback" style="right: 0;">File size must bee less than 5MB</small>');
-                            }else {
+                            $('#task_form').hide();
+                            $("#show_form").hide();
 
-                                $('#task_form').hide();
-                                $("#show_form").hide();
+                            $("#submitted_text").removeClass('text-danger').empty();
 
-                                $("#submitted_text").removeClass('text-danger').empty();
+                            $("#submitted_text").css({
+                                'background': '#d1e7dd',
+                                'color': '#0f5132',
+                                'font-weight': 500
+                            }).append('{{ __('admin.Submitted') }}');
 
-                                $("#submitted_text").css({
-                                    'background': '#d1e7dd',
-                                    'color': '#0f5132',
-                                    'font-weight': 500
-                                }).append('Submitted');
+                            var editBtn = `<button type="button" id="show_edit_form"  value="edit-btn" class="btn btn-brand">Edit submission</button>`;
+                            $("#form_wrapper").append(editBtn);
 
-                                var editBtn = `<button type="button" id="show_edit_form"  value="edit-btn" class="btn btn-brand">Edit submission</button>`;
-                                $('#form_wrapper').empty();
-                                $("#form_wrapper").append(editBtn);
-                                
-                                $("#file_submitted").empty();
-                                let file =
-                                    `<a href="{{ asset('uploads/applied-tasks/${response.file}') }}" target="_blank" download>${response.file}</a>`
-                                $("#file_submitted").append(file);
+                            $("#file_submitted").empty();
+                            let file =
+                                `<a href="{{ asset('uploads/applied-tasks/${response.file}') }}" target="_blank" download>${response.file}</a>`
+                            $("#file_submitted").append(file);
 
-                                $("#time_remaining").empty();
-                                var remaining =
-                                    `<span style="font-weight: 500">Submitted now</span><span class="float-right text-success"><i class="fas fa-check"></i></span>`;
-                                $("#time_remaining").append(remaining);
-                                
-                                const Toast = Swal.mixin({
-                                    toast: true,
-                                    position: 'top',
-                                    iconColor: '#90da98',
-                                    customClass: {
-                                        popup: 'colored-toast'
-                                    },
-                                    showConfirmButton: false,
-                                    timer: 2000,
-                                    timerProgressBar: false,
-                                    didOpen: (toast) => {
-                                        toast.addEventListener('mouseenter', Swal
-                                            .stopTimer)
-                                        toast.addEventListener('mouseleave', Swal
-                                            .resumeTimer)
-                                    }
-                                })
+                            $("#time_remaining").empty();
+                            var remaining =
+                                `<span style="font-weight: 500">{{ __('admin.Submitted now') }}</span><span class="float-right text-success"><i class="fas fa-check"></i></span>`;
+                            $("#time_remaining").append(remaining);
 
-                                Toast.fire({
-                                    icon: 'success',
-                                    title: '<p style="color: #000; margin:0">Your file submitted successfully</p>'
-                                })
-                        }
-                        }
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top',
+                                iconColor: '#90da98',
+                                customClass: {
+                                    popup: 'colored-toast'
+                                },
+                                showConfirmButton: false,
+                                timer: 2000,
+                                timerProgressBar: false,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal
+                                        .stopTimer)
+                                    toast.addEventListener('mouseleave', Swal
+                                        .resumeTimer)
+                                }
+                            })
+
+                            Toast.fire({
+                                icon: 'success',
+                                title: '<p style="color: #000; margin:0">Your file submitted successfully</p>'
+                            })
+                        },
+                        error: function(response) {
+                            $('.invalid-feedback').remove();
+                            $.each(response.responseJSON.errors, function(field, error) {
+                                $("input[name='" + field + "']").addClass('is-invalid')
+                                    .after('<small class="invalid-feedback">' + error +
+                                        '</small>');
+                            });
+                        },
                     })
                 }
             })
@@ -360,10 +354,10 @@
                             $("#file_submitted").empty();
                             $("#file_input").empty();
                             $(".file-msg").empty();
-                            $(".file-msg").append("or drag and drop files here");
+                            $(".file-msg").append("{{ __('admin.or drag and drop file here') }}");
                             let file =
                                 `<a href="{{ asset('uploads/applied-tasks/${response.file}') }}" target="_blank" download>${response.file}</a>`
-                            
+
                             $("#file_submitted").append(file);
                             $("#time_remaining").empty();
                             var remaining =

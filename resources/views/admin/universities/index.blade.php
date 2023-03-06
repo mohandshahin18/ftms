@@ -50,16 +50,25 @@
 
                         <tbody>
                             @forelse ($universities as $university)
-                                <tr id="row_{{ $university->id }}">
+                                <tr id="row_{{ $university->slug }}">
                                     <td>{{ $university->id }}</td>
                                     <td>{{ $university->name }}</td>
                                     <td>{{ $university->email }}</td>
                                     <td>{{ $university->phone }}</td>
                                     <td>
+<<<<<<< HEAD
                                         <a href="{{ route('admin.universities.edit', $university) }}" title="{{ __('admin.Edit') }}" type="button" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i>
                                         </a>
+=======
+                                        <button title="{{ __('admin.Edit') }}" type="button" class="btn btn-primary btn-sm btn-edit" data-toggle="modal"
+                                            data-target="#editUniversity" data-name="{{ $university->name }}"
+                                            data-url="{{ route('admin.universities.update', $university->slug) }}"
+                                            data-email="{{ $university->email }}" data-phone="{{ $university->phone }}"
+                                            data-address="{{ $university->address }}"> <i class="fas fa-edit"></i>
+                                        </button>
+>>>>>>> 25f7bd83733fdf50d4799eeb51ae766e9177ec6d
                                         <form class="d-inline delete_form"
-                                            action="{{ route('admin.universities.destroy', $university->id) }}"
+                                            action="{{ route('admin.universities.destroy', $university->slug) }}"
                                             method="POST">
                                             @csrf
                                             @method('delete')
@@ -86,4 +95,159 @@
         </div>
     </div>
 
+<<<<<<< HEAD
+=======
+
+    <!-- Modal Edit Category -->
+    <div class="modal fade" id="editUniversity" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class=" modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title fs-5" id="exampleModalLabel">{{ __('admin.Edit University') }}</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="edit_form" action="" method="Post">
+                    <div class="modal-body">
+
+
+                        @csrf
+                        @method('put')
+                        <div class="row">
+
+                            {{-- start name --}}
+                            <div class="col-sm-6 mb-3">
+                                <label class="mb-2">{{ __('admin.Name') }}</label>
+                                <input type="text" class="form-control" name="name" placeholder="{{ __('admin.Name') }}">
+                            </div>
+                            {{-- end name --}}
+
+                            {{-- email --}}
+                            <div class="col-sm-6 mb-3">
+                                <label class="mb-2">{{ __('admin.Email') }}</label>
+                                <input type="text" class="form-control" name="email" placeholder="{{ __('admin.Email') }}">
+                            </div>
+                            {{-- email --}}
+
+                            {{-- phone  --}}
+                            <div class="col-sm-6 mb-3">
+                                <label class="mb-2">{{ __('admin.Phone') }}</label>
+                                <input type="text" class="form-control" name="phone" placeholder="{{ __('admin.Phone') }}">
+                            </div>
+                            {{-- phone  --}}
+
+                            {{-- address  --}}
+                            <div class="col-sm-6 mb-3">
+                                <label class="mb-2">{{ __('admin.Location') }}</label>
+                                <input type="text" class="form-control" name="address" placeholder="{{ __('admin.Location') }}">
+                            </div>
+                            {{-- address  --}}
+
+                        </div>
+
+                        <div class="alert alert-danger d-none">
+                            <ul>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('admin.Close') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('admin.Save Edit') }}</button>
+                    </div>
+
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+@stop
+
+@section('scripts')
+    <script>
+        // get old data from edit button
+        $('.btn-edit').on('click', function() {
+            let name = $(this).data('name');
+            let phone = $(this).data('phone');
+            let email = $(this).data('email');
+            let address = $(this).data('address');
+            let url = $(this).data('url');
+
+            $('#editUniversity form').attr('action', url);
+            $('#editUniversity input[name=name]').val(name);
+            $('#editUniversity input[name=email]').val(email);
+            $('#editUniversity input[name=phone]').val(phone);
+            $('#editUniversity input[name=address]').val(address);
+
+
+            $('#editUniversity .alert ').addClass('d-none');
+            $('#editUniversity .alert ul').html('');
+
+        });
+
+        // send data using ajax
+        $('#edit_form').on('submit', function(e) {
+            e.preventDefault();
+
+
+            let data = $(this).serialize();
+            // send ajax request
+            $.ajax({
+
+                type: 'post',
+                url: $('#editUniversity form').attr('action'),
+                data: data,
+                success: function(res) {
+
+                    $('#row_' + res.slug + " td:nth-child(2)").text(res.name);
+                    $('#row_' + res.slug + " td:nth-child(3)").text(res.email);
+                    $('#row_' + res.slug + " td:nth-child(4)").text(res.phone);
+
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: false,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title:' {{ __('admin.University has been updated successfully') }}'
+                    });
+                    $('#editUniversity').modal('hide');
+                },
+                error: function(err) {
+                    $('#editUniversity .alert ul').html('');
+                    $('#editUniversity .alert ').removeClass('d-none');
+                    for (const key in err.responseJSON.errors) {
+                        let li = '<li>' + err.responseJSON.errors[key] + '</li>';
+                        $('#editUniversity .alert ul').append(li);
+                    }
+                }
+
+            });
+
+        });
+
+
+    </script>
+
+
+
+
+>>>>>>> 25f7bd83733fdf50d4799eeb51ae766e9177ec6d
 @stop

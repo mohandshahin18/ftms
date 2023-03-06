@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\File;
 
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\CompanyRequest;
+use App\Models\CategoryCompany;
 use Exception;
 
 use Illuminate\Support\Facades\Log;
@@ -57,10 +58,10 @@ class CompanyController extends Controller
 
         $slug = Str::slug($request->name);
         $slugCount = Company::where('slug' , 'like' , $slug. '%')->count();
-        $random =  $slugCount + 1;
+        $count =  $slugCount + 1;
 
         if($slugCount > 0){
-            $slug = $slug . '-' . $random;
+            $slug = $slug . '-' . $count;
         }
         $company = Company::create([
             'name' => $request->name,
@@ -74,7 +75,7 @@ class CompanyController extends Controller
         ]);
         $company->categories()->attach($request->category_id);
 
-        return redirect()->route('admin.companies.index')->with('msg', __('admin.Company has been addedd successfully'))->with('type', 'success');
+        return redirect()->route('admin.companies.index')->with('msg', __('admin.Company has been added successfully'))->with('type', 'success');
     }
 
     /**
@@ -94,8 +95,10 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function edit(Company $company)
+    public function edit($slug)
     {
+        $company = Company::whereSlug($slug)->first();
+
         $attached_categories = $company->categories()->get()->map(function($category) {
             return $category->id;
         })->toArray();
@@ -111,8 +114,9 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function update(CompanyRequest $request, Company $company)
+    public function update(CompanyRequest $request, $slug)
     {
+        $company = Company::whereSlug($slug)->first();
 
         $path = $company->image;
 
@@ -124,11 +128,12 @@ class CompanyController extends Controller
 
         $slug = Str::slug($request->name);
         $slugCount = Company::where('slug' , 'like' , $slug. '%')->count();
-        $random =  $slugCount + 1;
+        $count =  $slugCount + 1;
 
         if($slugCount > 1){
-            $slug = $slug . '-' . $random;
+            $slug = $slug . '-' . $count;
         }
+
 
         $company->update([
             'name' => $request->name,
@@ -152,10 +157,12 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        Company::destroy($id);
-        return $id;
+        $company = Company::whereSlug($slug)->first();
+
+        $company->destroy($company->id);
+        return $slug;
     }
 
 
@@ -168,7 +175,7 @@ class CompanyController extends Controller
     {
         if(request()->has('keyword')){
             $companies = Company::onlyTrashed()->where('name' , 'like' , '%' .request()->keyword.'%')
-            ->paginate(env('PAGINATION_COUNT'));
+            ->latest('id')->paginate(env('PAGINATION_COUNT'));
         }else{
         $companies = Company::with('categories')->onlyTrashed()->latest('id')->paginate(env('PAGINATION_COUNT '));
         }
@@ -181,11 +188,12 @@ class CompanyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function restore($id)
+    public function restore($slug)
     {
-        $company = Company::onlyTrashed()->findOrFail($id);
+        $company = Company::onlyTrashed()->whereSlug($slug)->first();
+
         $company->restore();
-        return $id;
+        return $slug;
     }
 
      /**
@@ -194,9 +202,10 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function forceDelete($id)
+    public function forceDelete($slug)
     {
-        $company = Company::onlyTrashed()->findOrFail($id);
+        $company = Company::onlyTrashed()->whereSlug($slug)->first();
+
         $path = public_path($company->image);
 
         if($path) {
@@ -207,10 +216,9 @@ class CompanyController extends Controller
             }
         }
         $company->forceDelete();
-        return $id;
+        return $slug;
 
     }
-
 
 
 

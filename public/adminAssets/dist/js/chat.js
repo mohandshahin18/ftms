@@ -19,6 +19,20 @@ const addMessage = function(msg) {
     </div>`);
 }
 
+const appendMessage = function(msg, image) {
+    let created = new Date();
+    const options = { hour: 'numeric', minute: 'numeric', hour12: true };
+    const time = created.toLocaleTimeString([], options); 
+    let message = `<div class="chat incoming message" data-id=""> 
+                    <img src="http://127.0.0.1:8000/${image}" alt="">
+                    <div class="details">
+                        <p>${msg}</p>
+                        <span class="time">${time}</span>
+                    </div>
+                </div>`;
+                $(".chat_box").append(message);
+}
+
 chatBox.html(
     '<div class="d-flex align-items-center justify-content-center" style="height: 100%;"><i class="fa fa-spin fa-spinner"></i></div>'
     );

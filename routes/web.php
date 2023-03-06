@@ -19,6 +19,7 @@ use App\Http\Controllers\SpecializationsController;
 use App\Http\Controllers\WebSite\websiteController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\Website\MessagesController;
 use DebugBar\DataCollector\MessagesCollector;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -114,8 +115,11 @@ Route::prefix('/')->middleware('auth:student','is_verify_email')->name('student.
     Route::post('/edit/task/{id}', [websiteController::class, 'edit_applied_task'])->name('edit.applied.task');
 
     // messages
-    Route::get('/chats', [websiteController::class, 'student_chats']);
-
+    Route::get('/chats/{slug}', [MessagesController::class, 'student_chats'])->name('chats');
+    Route::post('student/send/message', [MessagesController::class, 'send_message'])->name('send.message');
+    Route::post('chats/get/messages', [MessagesController::class, 'get_messages']);
+    Route::get('chats/get/chats', [MessagesController::class, 'get_chats']);
+    Route::get('chats/get/user/messages/{slug}', [MessagesController::class, 'get_user_messages']);
 
 });
 
@@ -134,7 +138,7 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     Route::get('/read-notify', [NotifyController::class, 'read_notify'])->name('read_notify');
     Route::get('/mark-read/{id}', [NotifyController::class, 'mark_read'])->name('mark_read');
 
-    // accept apply
+    // accept and reject apply
     Route::get('/accept',[NotifyController::class,'accept_apply'])->name('accept_apply');
     Route::delete('/reject/{id}',[NotifyController::class,'reject_apply'])->name('reject_apply');
 
@@ -159,6 +163,8 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     Route::resource('specializations', SpecializationsController::class);
 
     // trainer
+    Route::get('/get/category/{id}', [TrainerController::class, 'get_category']);
+
     Route::get('get/category/{id}', [TrainerController::class, 'get_category']);
     Route::resource('trainers', TrainerController::class);
 

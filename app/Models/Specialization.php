@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Specialization extends Model
 {
     use HasFactory;
-    protected $fillable = ['name' , 'university_id'];
+    protected $fillable = ['name' , 'university_id', 'slug'];
 
     public function university(){
         return $this->belongsToMany(University::class)->withDefault();

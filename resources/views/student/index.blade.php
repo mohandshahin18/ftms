@@ -456,17 +456,17 @@
                     <div class="counter">
                         <h1 class="display-4" data-goal="{{ $students->count() }}">0 </h1>
                     </div>
-                    <p class="mb-0">Students Number</p>
+                    <p class="mb-0">{{ __('admin.Students Number') }}</p>
                 </div>
                 <div class="col-lg-2 col-sm-6">
                     <div class="counter">
                         <h1 class="display-4" data-goal="{{ $company->count() }}">0</h1>
                     </div>
-                    <p class="mb-0">Companies Number</p>
+                    <p class="mb-0">{{ __('admin.Companies Number') }}</p>
                 </div>
                 <div class="col-lg-2 col-sm-6">
                     <h1 class="display-4" data-goal="{{ $trainers->count() }}">0</h1>
-                    <p class="mb-0">trainers Number</p>
+                    <p class="mb-0">{{ __('admin.Trainers Number') }}</p>
                 </div>
 
             </div>
@@ -480,7 +480,7 @@
                     <div class="col-12">
                         <div class="intro">
                             {{-- <h6>Company</h6> --}}
-                            <h1>Tasks</h1>
+                            <h1>{{ __('admin.Tasks') }}</h1>
 
                         </div>
 
@@ -529,8 +529,8 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="intro">
-                            <h6>Company</h6>
-                            <h1>Avilable Company</h1>
+                            <h6>{{ __('admin.Companies') }}</h6>
+                            <h1>{{ __('admin.Avilable Companies') }}</h1>
                             <p class="mx-auto">Contrary to popular belief, Lorem Ipsum is not simply random text. It has
                                 roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old</p>
                         </div>
@@ -554,7 +554,7 @@
                                     </p>
 
                                     <a href="{{ route('student.company', [$company->slug, $category->name]) }}"
-                                        class="btn-brand">Learn More</a>
+                                        class="btn-brand">{{ __('admin.Learn More') }}</a>
 
 
                                 </div>
@@ -563,7 +563,7 @@
 
                     @endforeach
                     <div class="text-center mt-4">
-                        <a href="{{ route('student.allCompanies') }}" class="btn-brand">Show More</a>
+                        <a href="{{ route('student.allCompanies') }}" class="btn-brand">{{ __('admin.Show More') }}</a>
                     </div>
 
                 </div>

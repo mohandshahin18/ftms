@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Events\CreateMessage;
 use App\Models\Message;
 use App\Models\Student;
+use App\Models\Teacher;
+use App\Models\Trainer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,16 +24,18 @@ class MessageController extends Controller
     // send messages
     public function send_message(Request $request)
     {
+
+        $user = Auth::user();
         $student = Student::whereSlug($request->reciver_id)->first();
         $message = Message::create([
             'receiver_id' => $student->id,
             'student_id' => $student->id,
-            'trainer_id' => Auth::user()->id,
-            'sender_id' => Auth::user()->id,
+            'trainer_id' => $user->id,
+            'sender_id' => $user->id,
             'message' => $request->message,
         ]);
 
-        broadcast(new CreateMessage($message));
+        broadcast(new CreateMessage($message, $user->image));
 
         $time = $message->created_at->format('h:i');
         $am_pm = $message->created_at->format('a');
@@ -56,8 +60,8 @@ class MessageController extends Controller
             
             foreach($messages as $message) {
                 $time = $message->created_at->format('h:i');
-                $am_pm = $message->created_at->format('a');
-                $total_time = $time.' '.$am_pm;
+                $period = $message->created_at->format('a');
+                $total_time = $time.' '.$period;
                 if($message->sender_id == $user->id) {
 
 
@@ -106,10 +110,7 @@ class MessageController extends Controller
             
             
 
-            if($message) {
-                // $time = $message->created_at->format('h:i');
-                // $am_pm = $message->created_at->format('a');
-                // $total_time = $time.' '.$am_pm;
+            if($message) {  
                 $total_time = $message->created_at->diffForHumans();
                 $last_message = $message->message;
             } else {
@@ -139,18 +140,41 @@ class MessageController extends Controller
     // get user messages by clicking 
     public function get_user_messages(Request $request)
     {
-        $user = Auth::user();
-        $student = Student::whereSlug($request->slug)->first();
-        $messages = $user->messages()->where('student_id', $student->id)->orderBy('id', 'desc')->limit(10)->get()->reverse();
-        $image = 'http://127.0.0.1:8000/'.$student->image;
-        $data = [
-            "messages" => $messages,
-            "student" => $student,
-            "user" => $user,
-            "image" => $image,
-        ];
+        $auth = Auth::auth();
+        if(Auth::guard('student')->check()) {
+            $trainer = Trainer::whereSlug($request->slug)->first();
+            $teacher = Teacher::whereSlug($request->slug)->first();
+            if($trainer) {
+                $user = $trainer;
+                $messages = $auth->messages()->where('trainer_id', $user->id)->orderBy('id', 'desc')->limit(10)->get()->reverse();
+                
+            }else {
+                $user = $teacher;
+                $messages = $auth->messages()->where('teacher_id', $user->id)->orderBy('id', 'desc')->limit(10)->get()->reverse();
+            }
+            
+            $image = 'http://127.0.0.1:8000/'.$user->image;
+            $data = [
+                "messages" => $messages,
+                "user" => $user,
+                "auth" => $auth,
+                "image" => $image,
+            ];
+            return $data;
 
-        return $data;
+        }else {
+            $student = Student::whereSlug($request->slug)->first();
+            $messages = $auth->messages()->where('student_id', $student->id)->orderBy('id', 'desc')->limit(10)->get()->reverse();
+            $image = 'http://127.0.0.1:8000/'.$student->image;
+            $data = [
+                "messages" => $messages,
+                "student" => $student,
+                "auth" => $auth,
+                "image" => $image,
+            ];
+
+            return $data;
+        }
         
     }
 }

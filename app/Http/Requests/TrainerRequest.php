@@ -27,7 +27,7 @@ class TrainerRequest extends FormRequest
     public function rules()
     {
         $rule = 'required';
-        
+
         if($this->method() == 'PUT') {
             $rule = 'nullable';
         }
@@ -37,6 +37,8 @@ class TrainerRequest extends FormRequest
             'email' => ['required'],
             'password' => ['required'],
             'phone' => ['required', 'min:7'],
+            'category_id' => ['required'],
+            'company_id' => ['required'],
             'image' => [$rule, 'mimes:png,jpg,jpeg,webp,jfif,svg', 'max:2048'],
         ];
     }

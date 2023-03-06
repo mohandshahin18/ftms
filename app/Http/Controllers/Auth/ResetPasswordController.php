@@ -11,11 +11,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Company;
 use App\Models\Trainer;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
-class ResetPasswordController extends Controller
+class ResetPasswordController extends Controller implements ShouldQueue
 {
     /*
     |--------------------------------------------------------------------------
@@ -88,15 +89,18 @@ class ResetPasswordController extends Controller
             'created_at' => Carbon::now()
           ]);
 
-        //   dd($type);
         Mail::send('emails.forgetPassword', compact('type','token'), function($message) use($request){
               $message->to($request->email);
               $message->subject('Reset Password');
           });
 
+        // DB::table('password_resets')
+        // ->where('created_at', '<', Carbon::parse(Carbon::now())->subMinutes(1))
+        // ->delete();
 
 
-          return back()->with('msg', 'We have e-mailed your password reset link!')->with('type','warning');
+
+          return back()->with('msg', __('admin.We have e-mailed your password reset link!'))->with('type','warning');
       }
 
       /**
@@ -151,7 +155,7 @@ class ResetPasswordController extends Controller
                               ->first();
 
         if(!$updatePassword){
-            return back()->withInput()->with('msg', 'Invalid token!')->with('type','danger');
+            return back()->withInput()->with('msg', __('admin.Invalid token!'))->with('type','danger');
         }
         elseif($request->type == 'student'){
             $student = Student::where('email', $request->email)
@@ -171,10 +175,10 @@ class ResetPasswordController extends Controller
 
           DB::table('password_resets')->where(['email'=> $request->email])->delete();
           if($request->type == 'student'){
-            return redirect()->route('student.login.show')->with('msg', 'Your password has been changed!')->with('type','success');
+            return redirect()->route('student.login.show')->with('msg', __('admin.Your password has been changed!'))->with('type','success');
 
           }else{
-            return redirect()->route('login.show',$request->type)->with('msg', 'Your password has been changed!')->with('type','success');
+            return redirect()->route('login.show',$request->type)->with('msg', __('admin.Your password has been changed!'))->with('type','success');
 
           }
       }

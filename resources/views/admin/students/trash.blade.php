@@ -51,7 +51,7 @@
 
                         <tbody>
                             @forelse ($students as $student)
-                            <tr id="row_{{ $student->id }}">
+                            <tr id="row_{{ $student->slug }}">
                                 <td>{{ $student->id }}</td>
                                 <td>{{ $student->name }}</td>
                                 <td>{{ $student->email }}</td>
@@ -61,11 +61,11 @@
                                 <td>{{ $student->specialization->name }}</td>
                                     <td>
                                         <div style="display: flex; gap: 5px">
-                                            <form action="{{ route('admin.students.restore', $student->id) }}" method="POST" class="restor_form">
+                                            <form action="{{ route('admin.students.restore', $student->slug) }}" method="POST" class="restor_form">
                                               @csrf
                                               <button class="btn btn-warning btn-sm btn_restore" title="Restore"><i class="fas fa-trash-restore"></i></button>
                                             </form>
-                                            <form action="{{ route('admin.students.forcedelete', $student->id) }}" method="POST" class="delete_form">
+                                            <form action="{{ route('admin.students.forcedelete', $student->slug) }}" method="POST" class="delete_form">
                                               @csrf
                                               @method('delete')
                                               <button class="btn btn-danger btn-sm delete_btn" title="Delete"> <i class="fas fa-times"></i> </button>

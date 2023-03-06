@@ -19,6 +19,7 @@ class CreateMessage implements ShouldBroadcast
      * @var \App\Models\Message
      */
     public $message;
+    public $image;
     /**
      * Create a new event instance.
      * 
@@ -26,9 +27,10 @@ class CreateMessage implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct(Message $message)
+    public function __construct(Message $message, $image)
     {
         $this->message = $message;
+        $this->image = $image;
     }
 
     /**
@@ -38,7 +40,7 @@ class CreateMessage implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('Messages.' .$this->message->receiver_id);
+        return new PrivateChannel('Messages.'.$this->message->receiver_id);
     }
 
     // to change namespace for event

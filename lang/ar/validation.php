@@ -46,7 +46,7 @@ return [
     'email' => 'يجب أن يكون :attribute عنوان بريد إلكتروني صحيح البُنية',
     'ends_with' => 'الـ :attribute يجب ان ينتهي بأحد القيم التالية :value.',
     'enum' => 'حقل :attribute غير صحيح',
-    'exists' => 'حقل :attribute لاغٍ',
+    'exists' => 'خطأ في حقل :attribute',
     'file' => 'الـ :attribute يجب أن يكون من ملفا.',
     'filled' => 'حقل :attribute إجباري',
     'gt' => [
@@ -208,6 +208,15 @@ return [
         "logo"                  => "اللوقو",
         "image"                 => "الصورة",
         "category_id"           => "البرنامج",
+        "specialization_id"     => "التخصص",
+        "university_id"         => "الجامعة",
+        "company_id"            => "الشركة",
+        "start_date"            => "تاريخ البداية	",
+        "end_date"              => "تاريخ النهاية	",
+        "main_title"            => "العنوان الرئيسي",
+        "sub_title"             => "العنوان الفرعي",
+        "student_id"           => "الرقم الجامعي",
+        "reason"                => "سبب التقدم ",
 
     ],
 

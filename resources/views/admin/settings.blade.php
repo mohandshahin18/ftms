@@ -20,7 +20,7 @@
 
 
                             {{-- footer text  --}}
-                            <div class="col-6">
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="mb-2">{{ __('admin.Footer Text') }}</label>
                                     <input type="text" class="form-control @error('footer_text') is-invalid @enderror"
@@ -45,7 +45,7 @@
                             </div>
 
                             {{-- copy right  --}}
-                            <div class="col-6">
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="mb-2">{{ __('admin.Copy Right') }}</label>
                                     <input type="text" class="form-control @error('copy_right') is-invalid @enderror"
@@ -57,7 +57,7 @@
                             </div>
 
                             {{-- distributed_by   --}}
-                            <div class="col-6">
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="mb-2">{{ __('admin.Distributed by') }}</label>
                                     <input type="text" class="form-control @error('distributed_by') is-invalid @enderror"
@@ -91,13 +91,13 @@
                     </div>
                     <!-- /.card-body -->
 
-                    <div class="card-footer">
+                    <div class="card-footer d-flex justify-content-end">
 
                         <button class="btn btn-dark" type="button" onclick="history.back()">
                             <i class="fas fa-undo-alt"> </i> {{ __('admin.Return Back') }}  </button>
 
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-plus"></i> {{ __('admin.Update') }} </button>
+                                <i class="fas fa-pen"></i> {{ __('admin.Update') }} </button>
 
                     </div>
                 </form>

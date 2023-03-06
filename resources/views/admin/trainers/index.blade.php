@@ -19,7 +19,7 @@
                     <div class="d-flex  justify-content-between">
 
                         <div class="btn-website">
-                            <a href="{{ route('admin.trainers.create') }}" class="btn btn-primary"><i
+                            <a title="{{ __('admin.Add Trainer') }}" href="{{ route('admin.trainers.create') }}" class="btn btn-primary"><i
                                     class="fas fa-plus"></i> {{ __('admin.Add Trainer') }}</a>
                         </div>
 
@@ -43,7 +43,7 @@
 
                         <tbody>
                             @forelse ($trainers as $trainer)
-                                <tr id="row_{{ $trainer->id }}">
+                                <tr id="row_{{ $trainer->slug }}">
                                     <td>{{ $trainer->id }}</td>
                                     <td>{{ $trainer->name }}</td>
                                     <td>{{ $trainer->email }}</td>
@@ -52,10 +52,10 @@
                                     <td>{{ $trainer->category->name }}</td>
                                     <td>
                                         <form class="d-inline delete_form"
-                                            action="{{ route('admin.trainers.destroy', $trainer->id) }}" method="POST">
+                                            action="{{ route('admin.trainers.destroy', $trainer->slug) }}" method="POST">
                                             @csrf
                                             @method('delete')
-                                            <button class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i> </button>
+                                            <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i> </button>
                                         </form>
                                     </td>
                                 </tr>
@@ -81,5 +81,7 @@
 
 
 @stop
+
+
 
 

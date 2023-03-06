@@ -175,7 +175,11 @@ return [
     */
 
     'attributes' => [
-        "category_id"           => "category",
+        "category_id"        => "category",
+        "specialization_id"  => "specialization",
+        "university_id"      => "university",
+        "company_id"         => "company",
+        
 
     ],
 

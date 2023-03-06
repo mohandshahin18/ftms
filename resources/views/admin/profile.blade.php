@@ -179,13 +179,6 @@
 
                         </div>
 
-                        {{-- <div class="mb-3 col-12">
-                            <label for="description">Description</label>
-                            <textarea name="description" class="@error('description') is-invalid @enderror" id="my-desc">{{ old('description', $company->description) }}</textarea>
-                            @error('description')
-                                <small class="invalid-feedback">{{ $message }}</small>
-                            @enderror
-                        </div> --}}
 
 
                         @endif
@@ -193,7 +186,7 @@
                     </div>
 
 
-                    <div class="mt-2 wrapper-btn">
+                    <div class="mt-2 wrapper-btn d-flex justify-content-end">
                         <button class="btn btn-primary profile-button" type="button">{{ __('admin.Save Edit') }}  </button>
                     </div>
                 </div>

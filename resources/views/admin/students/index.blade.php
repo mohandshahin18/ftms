@@ -127,7 +127,7 @@
                                     <input type="text" name="keyword" id="search_input" value="{{ request()->keyword }}"
                                         class="form-control " placeholder="{{ __('admin.Search by Student Name') }}" autocomplete="off">
                                     <ul id="students_names">
-                                        
+
                                     </ul>
                                 </div>
                             </form>
@@ -138,7 +138,7 @@
 
                         <div class="btn-website">
 
-                            <a href="{{ route('admin.students.trash') }}" class="  btn btn-outline-secondary"><i
+                            <a href="{{ route('admin.students.trash') }}" class="btn btn-outline-secondary"><i
                                     class="fas fa-trash"></i> {{ __('admin.Recycle Bin') }}</a>
                         </div>
 
@@ -163,7 +163,7 @@
 
                         <tbody>
                             @forelse ($students as $student)
-                                <tr id="row_{{ $student->id }}">
+                                <tr id="row_{{ $student->slug }}">
                                     <td>{{ $student->id }}</td>
                                     <td>{{ $student->name }}</td>
                                     <td>{{ $student->phone }}</td>
@@ -193,29 +193,29 @@
                                     <td>
                                         <div>
                                             @if ($isEvaluated)
-                                                <a href="{{ route('admin.show_evaluation', $student->slug) }}"
-                                                    class="btn btn-info btn-sm og-evaluation" data-disabled="true"
+                                                <a title="{{ __('admin.Evaluation') }}" href="{{ route('admin.show_evaluation', $student->slug) }}"
+                                                    class="btn btn-info btn-sm" data-disabled="true"
                                                     title="show evaluation">{{ __('admin.Evaluation') }}</a>
                                             @else
-                                                <a href="{{ route('admin.students.show', $student) }}"
-                                                    class="btn btn-sm og-evaluation btn-outline-secondary" data-disabled="true"
+                                                <a title="{{ __('admin.Evaluate') }}" href="{{ route('admin.students.show', $student->slug) }}"
+                                                    class="btn btn-sm  btn-outline-secondary" data-disabled="true"
                                                     title="evaluate">{{ __('admin.Evaluate') }}</a>
                                             @endif
                                             @if (Auth::guard('company')->check())
-                                                <form class="d-inline delete_company"
-                                                    action="{{ route('admin.students.delete.from.company', $student->id) }}"
+                                                <form class="d-inline delete_form"
+                                                    action="{{ route('admin.students.delete.from.company', $student->slug) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('delete')
-                                                    <button class="btn btn-danger btn-sm btn-delete"> <i
+                                                    <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i
                                                             class="fas fa-trash"></i> </button>
                                                 </form>
                                             @else
                                                 <form class="d-inline delete_form"
-                                                    action="{{ route('admin.students.destroy', $student->id) }}"method="POST">
+                                                    action="{{ route('admin.students.destroy', $student->slug) }}"method="POST">
                                                     @csrf
                                                     @method('delete')
-                                                    <button class="btn btn-danger btn-sm btn-delete"> <i
+                                                    <button title="{{ __('admin.Move to recycle bin') }}" class="btn btn-danger btn-sm btn-delete"> <i
                                                             class="fas fa-trash"></i> </button>
                                                 </form>
                                             @endif
@@ -225,7 +225,7 @@
                                 </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">
-                                    NO Data Selected
+                                    {{ __('admin.NO Data Selected') }}
                                 </td>
                         </tbody>
                         @endforelse
@@ -253,58 +253,6 @@
 
 
     <script>
-        // Delete
-        $('.delete_company').on('submit', function(e) {
-            e.preventDefault();
-
-            let url = $(this).attr('action');
-
-            let data = $(this).serialize();
-
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "It will be deleted",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#000',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // send ajax request and delete post
-                    $.ajax({
-                        type: 'post',
-                        url: url,
-                        data: data,
-                        success: function(res) {
-                            $('#row_' + res).remove();
-
-                        }
-
-                    })
-
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top',
-                        showConfirmButton: false,
-                        timer: 2000,
-                        timerProgressBar: false,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer)
-                            toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        }
-                    })
-
-                    Toast.fire({
-                        icon: 'error',
-                        title: 'Delete Completed'
-                    })
-                }
-            })
-
-
-
-        });
 
         $(document).ready(function() {
             let input = $("#search_input");
@@ -329,7 +277,7 @@
                                 $("#students_names").show();
                                 $("#students_names").append(row);
                             });
-                            
+
                         }
                     }
                 })

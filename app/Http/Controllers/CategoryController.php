@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -41,11 +42,21 @@ class CategoryController extends Controller
             'name' => 'required',
         ]);
 
+        $slug = Str::slug($request->name);
+        $slugCount = Category::where('slug' , 'like' , $slug. '%')->count();
+        $count =  $slugCount + 1;
+
+        if($slugCount > 1){
+            $slug = $slug . '-' . $count;
+        }
+
         Category::create([
             'name' => $request->name,
+            'slug' => $slug,
+
         ]);
 
-        return redirect()->route('admin.categories.index')->with('msg', __('admin.Program has been addedd successfully'))->with('type', 'success');
+        return redirect()->route('admin.categories.index')->with('msg', __('admin.Program has been added successfully'))->with('type', 'success');
     }
 
     /**
@@ -77,14 +88,22 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
 
         $request->validate([
             'name' => 'required',
         ]);
-        $categories= Category::findOrFail($id);
+        $categories= Category::whereSlug($slug)->first();
 
+        $slug = Str::slug($request->name);
+        $slugCount = Category::where('slug' , 'like' , $slug. '%')->count();
+        $count =  $slugCount + 1;
+
+        if($slugCount > 1){
+            $slug = $slug . '-' . $count;
+            $categories->slug = $slug;
+        }
 
         $categories->name = $request->name;
 
@@ -100,10 +119,11 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        Category::destroy($id);
-        return $id;
+        $category = Category::whereSlug($slug)->first();
+        $category->destroy($category->id);
+        return $slug;
     }
 
 
@@ -124,11 +144,11 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function restore($id)
+    public function restore($slug)
     {
-        $categories = Category::onlyTrashed()->findOrFail($id);
-        $categories->restore();
-        return $id;
+        $category = Category::onlyTrashed()->whereSlug($slug)->first();
+        $category->restore();
+        return $slug;
     }
 
 
@@ -138,11 +158,11 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function forcedelete($id)
+    public function forcedelete($slug)
     {
-        $categories = Category::onlyTrashed()->findOrFail($id);
-        $categories->forcedelete();
-        return $id;
+        $category = Category::onlyTrashed()->whereSlug($slug)->first();
+        $category->forcedelete();
+        return $slug;
 
 
 

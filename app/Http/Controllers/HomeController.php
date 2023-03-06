@@ -290,25 +290,26 @@ class HomeController extends Controller
         'current_password'=>'required',
         'new_password'=>'required|string|min:6|max:25|confirmed',
         'new_password_confirmation'=>'required'
-        ], [
-        'current_password.required'=> "The current password field is required.",
         ]);
 
 
 
-            $student = Auth::guard()->user();
+            $user = Auth::guard()->user();
 
             //Match The current Password
-            if(!Hash::check($request->current_password, $student->password)){
-                return redirect()->back()->with('msg' , "The Current Password Doesn't match!")->with('type' , 'danger') ;
+            if(!Hash::check($request->current_password, $user->password)){
+                // return redirect()->back()->with('msg' , "The Current Password Doesn't match!")->with('type' , 'danger') ;
+                return response()->json(['title'=> __('admin.The current password is incorrect') , 'icon' => 'error'] , 400);
             }
-            elseif (Hash::check($request->current_password, $student->password) && Hash::check($request->new_password, $student->password)) {
-                return redirect()->back()->with('msg' , 'The new password can not be the current password!')->with('type' , 'danger') ;
+            elseif (Hash::check($request->current_password, $user->password) && Hash::check($request->new_password, $user->password)) {
+                // return redirect()->back()->with('msg' , 'The new password can not be the current password!')->with('type' , 'danger') ;
+                return response()->json(['title'=> __('admin.The new password cannot be the same as the current password!') , 'icon' => 'error'] , 400);
+
             } //new password can not be the current password!
             else{
-                $student->password = Hash::make($request->new_password);
-                $student->save();
-                return redirect()->back()->with('msg' , 'Updated Password is successfully')->with('type','success') ;
+                $user->password = Hash::make($request->new_password);
+                $user->save();
+                // return redirect()->back()->with('msg' , 'Updated Password is successfully')->with('type','success') ;
             }
         }
 

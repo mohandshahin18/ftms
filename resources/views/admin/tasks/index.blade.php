@@ -1,7 +1,7 @@
 @extends('admin.master')
 
-@section('title', 'Tasks')
-@section('sub-title', 'Tasks')
+@section('title', __('admin.Tasks'))
+@section('sub-title', __('admin.Tasks'))
 @section('tasks-menu-open', 'menu-open')
 @section('tasks-active', 'active')
 @section('index-task-active', 'active')
@@ -17,8 +17,8 @@
 
 
                         <div class="btn-website">
-                            <a href="{{ route('admin.tasks.create') }}" class="btn btn-primary"><i
-                                    class="fas fa-plus"></i> Add task</a>
+                            <a title="{{ __('admin.Add Task') }}" href="{{ route('admin.tasks.create') }}" class="btn btn-primary"><i
+                                    class="fas fa-plus"></i> {{ __('admin.Add Task') }}</a>
 
                         </div>
 
@@ -31,17 +31,17 @@
                         <thead>
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
-                                <th>Task Name</th>
-                                <th>Category</th>
-                                <th>Start Date</th>
-                                <th>End Date</th>
-                                <th>Action</th>
+                                <th>{{ __('admin.Task Name') }}</th>
+                                <th>{{ __('admin.Program Name') }}</th>
+                                <th>{{ __('admin.Starts Date') }}</th>
+                                <th>{{ __('admin.Ends Date') }}</th>
+                                <th>{{ __('admin.Actions') }}</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             @forelse ($tasks as $task)
-                                <tr id="row_{{ $task->id }}">
+                                <tr id="row_{{ $task->slug }}">
                                     <td>{{ $task->id }}</td>
                                     <td>{{ $task->sub_title }}</td>
                                     <td>{{ $task->category->name }}</td>
@@ -50,13 +50,13 @@
 
                                     <td>{{ Carbon::parse($task->end_date)->locale(config('app.locale'))->format('j F') }} <b>at</b> {{ Carbon::parse($task->end_date)->format('h:i A') }}</td>
                                     <td>
-                                        <a href="{{ route('admin.task.edit', $task->slug) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                        <a  title="{{ __('admin.Edit') }}" href="{{ route('admin.task.edit', $task->slug) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                         <form class="d-inline delete_form"
-                                            action="{{ route('admin.tasks.destroy', $task) }}"
+                                            action="{{ route('admin.tasks.destroy', $task->slug) }}"
                                             method="POST">
                                             @csrf
                                             @method('delete')
-                                            <button class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i>
+                                            <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
                                     </td>

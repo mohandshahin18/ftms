@@ -4,7 +4,7 @@
 @endphp
 @extends('admin.master')
 
-@section('title', 'Notifications')
+@section('title', __('admin.Notifications'))
 
 @section('styles')
     <style>
@@ -105,7 +105,7 @@
 @section('content')
 
     <section class="section-50">
-        <h3 class="m-b-50 heading-line">Notifications <i class="fa fa-bell text-muted"></i></h3>
+        <h3 class="m-b-50 heading-line">{{  __('admin.Notifications') }} <i class="fa fa-bell text-muted"></i></h3>
 
         <div class="notification-ui_dd-content">
             @foreach ($auth->notifications as $notify)
@@ -133,7 +133,7 @@
                         <div style="width: 100%">
                             <div class="notification-list_detail">
                                 <p><b>{{ $notify->data['name'] }}</b> {{ $notify->data['msg'] }} </p>
-                                <p>Program : {{ $notify->data['category'] }}</p>
+                                <p>{{ __('admin.Program') }} : {{ $notify->data['category'] }}</p>
                                 <p class="text-muted">{{ $notify->data['reason'] }}</p>
                                 <p class="text-muted"><small><i
                                             class="far fa-clock mr-1"></i>{{ $notify->created_at->diffForHumans() }}</small>
@@ -147,7 +147,7 @@
                             @endphp
                             @if ($student->company_id == Auth::user()->id)
                                 <div class="btns d-flex justify-content-end">
-                                    <i class="fas fa-check text-success">Approved</i>
+                                    <i class="fas fa-check text-success"> {{ __('admin.Approved') }}</i>
                                 </div>
 
                             @elseif($student->company_id == null)
@@ -165,7 +165,7 @@
                                         <input type="hidden" name="company_id" value="{{ $notify->data['company_id'] }}" id="">
                                         <input type="hidden" name="student_id" value="{{ $notify->data['student_id'] }}" id="">
                                         <input type="hidden" name="category_id" value="{{ $notify->data['category_id'] }}" id="">
-                                        <button type="button" class="btn btn-success accept_btn"></i>Accept</button>
+                                        <button type="button" class="btn btn-success accept_btn"></i> {{ __('admin.Accept') }}</button>
                                     </form>
                                     <form action="{{ route('admin.reject_apply',$notify->id) }}" method="POST">
                                         @csrf
@@ -174,7 +174,7 @@
                                         <input type="hidden" name="company_id" value="{{ $notify->data['company_id'] }}" id="">
                                         <input type="hidden" name="student_id" value="{{ $notify->data['student_id'] }}" id="">
                                         <input type="hidden" name="category_id" value="{{ $notify->data['category_id'] }}" id="">
-                                        <button type="button" class="btn btn-danger reject_btn">Reject</button>
+                                        <button type="button" class="btn btn-danger reject_btn"> {{ __('admin.Reject') }}</button>
 
                                     </form>
                                 </div>
@@ -189,7 +189,7 @@
         </div>
 
         <div class="text-center">
-            <a href="#!" class="dark-link">Load more activity</a>
+            <a href="#!" class="dark-link">{{ __('admin.Show More Notifications') }}</a>
         </div>
 
     </section>

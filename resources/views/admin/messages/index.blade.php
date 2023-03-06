@@ -49,12 +49,13 @@
 
         var pusher = new Pusher('d13948d0184f21111953', {
             cluster: 'ap2',
-            authEndpoint: "/broadcasting/auth",
+            authEndpoint: '/broadcasting/auth',
         });
 
-        var channel = pusher.subscribe(`presence-Messages.${userId}`);
+        var channel = pusher.subscribe(`private-Messages.${userId}`);
         channel.bind('new-message', function(data) {
-            addMessage(data.message.message);
+            appendMessage(data.message.message, data.image);
+            scrollToBottom();
         });
 
        

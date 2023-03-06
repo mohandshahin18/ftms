@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use Carbon\Carbon;
 use App\Models\Task;
 use App\Models\Student;
 use App\Models\Trainer;
@@ -16,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\Notifications\NewTaskNotification;
+use Carbon\Carbon;
 
 class TaskController extends Controller
 {
@@ -83,13 +83,6 @@ class TaskController extends Controller
             }
         }
 
-        // $fileName = null;
-        // if($request->hasFile('file')) {
-        //     $task_title = str_replace(' ', '-', $request->main_title);
-        //     $fileName =$task_title.'-'.$request->file('file')->getClientOriginalName();
-        //     $request->file('file')->move(public_path('uploads/tasks-files/'),$fileName);
-        // }
-
             $task = Task::create([
             'main_title' => $request->main_title,
             'sub_title' => $request->sub_title,
@@ -106,8 +99,7 @@ class TaskController extends Controller
 
         $delay = Carbon::parse($request->start_date)->diffInSeconds(now());
 
-        $students = Student::where('category_id', Auth::user()->category->id)
-            ->where('company_id', $company_id)->get();
+        $students = Student::where('trainer_id', Auth::user()->id)->get();
 
         foreach ($students as $student) {
             $student->notify((new NewTaskNotification(Auth::user()->name, $slug, Auth::user()->id,
@@ -117,7 +109,7 @@ class TaskController extends Controller
 
 
         return redirect()->route('admin.tasks.index')
-            ->with('msg', 'Task has been addedd successfully')
+            ->with('msg', __('admin.Task has been added successfully'))
             ->with('type', 'success');
     }
 
@@ -190,8 +182,8 @@ class TaskController extends Controller
         ]);
 
         return redirect()->route('admin.tasks.index')
-            ->with('msg', 'Task has been updated successfully')
-            ->with('type', 'info');
+            ->with('msg', __('admin.Task has been updated successfully'))
+            ->with('type', 'success');
     }
 
     /**
@@ -200,8 +192,9 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Task $task)
+    public function destroy($slug)
     {
+        $task = Task::whereSlug($slug)->first();
         $students = Student::where('category_id', Auth::user()->category->id)
             ->where('company_id', $task->company_id)->get();
 
@@ -234,6 +227,6 @@ class TaskController extends Controller
             }
         }
         $task->destroy($task->id);
-        return $task->id;
+        return $slug;
     }
 }

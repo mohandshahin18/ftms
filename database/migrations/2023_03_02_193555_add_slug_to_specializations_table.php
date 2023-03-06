@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('applied_tasks', function (Blueprint $table) {
-            $table->string('file');
+        Schema::table('specializations', function (Blueprint $table) {
+            $table->string('slug')->after('name')->unique();
         });
     }
 
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('applied_tasks', function (Blueprint $table) {
+        Schema::table('specializations', function (Blueprint $table) {
             //
         });
     }

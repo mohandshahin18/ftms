@@ -127,7 +127,7 @@ class LoginController extends Controller
         if (Auth::guard('student')->attempt(['email' => $request->email, 'password' => $request->password])) {
             return redirect()->route('student.home')->with('msg', ' Welcome back ')->with('type','success');
          }else {
-            return redirect()->back()->with('msg' ,' The selected email or password is invalid. ')->with('type','danger');
+            return redirect()->back()->with('msg' ,__('admin.The selected email or password is invalid.'))->with('type','danger');
          }
     }
 
