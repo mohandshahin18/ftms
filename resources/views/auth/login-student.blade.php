@@ -35,7 +35,6 @@
 
         }
 
-
       </style>
 
 
@@ -52,6 +51,7 @@
                             <form  method="POST" action="{{route('login_studens')}}">
                                 @csrf
 
+                                <h3>{{ __('admin.Login') }}</h3>
 
                                 @if($errors->any())
                                 <div class=" alert-danger">
@@ -69,7 +69,7 @@
 
 
 
-                                <div class="mb-3 form-group mt-5">
+                                <div class="mb-3 form-group ">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
                                         <g id="Icon_" data-name="Icon " transform="translate(0.176 0.486)">
                                           <rect id="Area_ICON:feather_x_SIZE:MEDIUM_STATE:DEFAULT_STYLE:STYLE2_" data-name="Area [ICON:feather/x][SIZE:MEDIUM][STATE:DEFAULT][STYLE:STYLE2]" width="22" height="22" transform="translate(-0.176 -0.486)" fill="#222" opacity="0"/>

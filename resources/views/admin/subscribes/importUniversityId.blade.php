@@ -29,7 +29,7 @@
                                     @error('file')
                                     <small class="invalid-feedback"> {{ $message }}</small>
                                     @enderror
-                                    <p style="font-size: 12px; font-weight: 600"><span class="text-danger">*</span> {{ __("admin.Only an Excel file must be selected, containing the student's name their and university id only") }}</p>
+                                    <p style="font-size: 12px; font-weight: 600"><span class="text-danger">*</span> {{ __("admin.Only an Excel file must be selected, containing the student's name  and their university id only") }}</p>
                                 </div>
                             </div>
 
