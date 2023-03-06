@@ -24,3 +24,13 @@ Broadcast::channel('App.Models.Student.{id}', function ($student, $id) {
 Broadcast::channel('App.Models.Trainer.{id}', function ($trainer, $id) {
     return (int) $trainer->id === (int) $id;
 },['guards'=>['trainer']]);
+
+// Chat channels
+Broadcast::channel('Messages.{id}', function ($student, $id) {
+    if($student->id == $id) {
+
+        return $student;
+    }
+},['guards'=>['student','teacher','trainer']]);
+
+

@@ -31,6 +31,8 @@
                     </div>
                     </div>
 
+<<<<<<< HEAD
+=======
                      {{-- university --}}
                      <div class="col-lg-6">
                         <div class="form-group">
@@ -48,13 +50,19 @@
                         </div>
                     </div>
 
+>>>>>>> 25f7bd83733fdf50d4799eeb51ae766e9177ec6d
                </div>
               </div>
               <!-- /.card-body -->
 
               <div class="card-footer">
+<<<<<<< HEAD
+                <button  class="btn btn-dark" type="button" onclick="history.back()">
+                    <i class="fas fa-undo-alt"> </i> {{ __('admin.Return Back') }} </button>
+=======
                   <button  class="btn btn-dark" type="button" onclick="history.back()">
                       <i class="fas fa-undo-alt"> </i> {{ __('admin.Return Back') }} </button>
+>>>>>>> 25f7bd83733fdf50d4799eeb51ae766e9177ec6d
                 <button type="submit" class="btn btn-primary">
                     <i class="fas fa-plus"></i> {{ __('admin.Add') }}</button>
 

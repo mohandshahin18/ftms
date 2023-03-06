@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Models\Specialization;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\University;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Providers\RouteServiceProvider;
@@ -126,7 +127,13 @@ class RegisterController extends Controller
 
     public function get_specialization($id)
     {
-        $specializations = Specialization::where('university_id', $id)->pluck("name", 'id');
+        $university = University::findOrFail($id);
+        $specializations = $university->specializations()->get()->map(function($specialization) {
+            return [
+                'id' => $specialization->id,
+                'name' => $specialization->name
+            ];
+        });
         return json_encode($specializations);
     }
 

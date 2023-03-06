@@ -11,7 +11,7 @@ class Specialization extends Model
     protected $fillable = ['name' , 'university_id', 'slug'];
 
     public function university(){
-        return $this->belongsTo(University::class)->withDefault();
+        return $this->belongsToMany(University::class)->withDefault();
     }
 
 

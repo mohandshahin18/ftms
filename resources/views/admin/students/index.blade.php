@@ -182,9 +182,12 @@
                                             @endif
                                         @endforeach
                                         @if ($isEvaluated)
-                                            <span class="text-success">{{ __('admin.Evaluated') }}</span>
+                                            <span class="text-success og-evaluation">{{ __('admin.Evaluated') }}</span>
+                                            <span class="text-success evaluation-check"><i class="fas fa-check"></i></span>
                                         @else
-                                            <span class="text-danger">{{ __('admin.Not Evaluated yet') }}</span>
+                                            <span class="text-danger og-evaluation">{{ __('admin.Not Evaluated yet') }}</span>
+                                            <span class="text-danger evaluation-check"><i class="fas fa-times"></i></span>
+
                                         @endif
                                     </td>
                                     <td>
@@ -216,7 +219,7 @@
                                                             class="fas fa-trash"></i> </button>
                                                 </form>
                                             @endif
-
+                                                <a href="{{ route('admin.messages', $student->slug) }}" class="btn btn-sm"><i class="fas fa-paper-plane"></i></a>
                                         </div>
                                     </td>
                                 </tr>

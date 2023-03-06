@@ -97,10 +97,12 @@ html {
                     {{-- <div class="media-body"> --}}
                         <ul class="p-0 text-center ">
                             @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                                <li style="list-style-type: none" class="d-flex align-items-center justify-content-center lang {{ app()->getLocale() == $localeCode ? 'active' : ' ' }}">
-                                    <a rel="alternate" class="text-secondary" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                                <li style="list-style-type: none" class="lang {{ app()->getLocale() == $localeCode ? 'active' : ' ' }}">
+                                    <a rel="alternate" class="text-secondary" style="display: flex;
+                                    align-items: center;
+                                    justify-content: space-around;" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
                                         {{ $properties['native'] }}
-                                        <img src="{{ asset('adminAssets/dist/img/lang/'.$properties['flag']) }}" width="25" alt="" class="ml-2 image-lang">
+                                        <img src="{{ asset('adminAssets/dist/img/lang/'.$properties['flag']) }}" width="25" alt="" class="ml-2">
 
                                     </a>
                                 </li>
@@ -685,6 +687,7 @@ html {
         <div class="b b2"></div>
         <div class="b b3"></div>
         <div class="b b4"></div>
+        <div class="ftms">FTMS</div>
     </div>
 
     <!-- REQUIRED SCRIPTS -->

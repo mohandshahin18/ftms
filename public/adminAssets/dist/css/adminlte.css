@@ -14321,6 +14321,7 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
 @media (max-width: 991.98px) {
   .sidebar-mini.sidebar-collapse .main-sidebar {
     box-shadow: none !important;
+    width: 0 !important;
   }
 }
 

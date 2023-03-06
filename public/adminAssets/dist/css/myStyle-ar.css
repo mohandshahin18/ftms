@@ -125,7 +125,7 @@ float: left!important;
 }
 .image-lang{
     margin-left: unset !important;
-    margin-right: 0.5rem!important;
+    /* margin-right: 0.5rem!important; */
 }
 .icon-nav{
     padding-right: 1rem !important;

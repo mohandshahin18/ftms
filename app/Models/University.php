@@ -13,7 +13,7 @@ class University extends Model
 
     // with specialization
     public function specializations(){
-        return $this->hasMany(Specialization::class);
+        return $this->belongsToMany(Specialization::class);
     }
 
     // with teacher

@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->string('slug')->after('name')->unique()->nullable();
+            $table->string('slug')->after('name')->unique();
         });
     }
 

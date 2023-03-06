@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Specialization;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\CssSelector\Node\Specificity;
 use App\Http\Requests\UniversityRequest;
 
 class UniversityController extends Controller
@@ -30,7 +31,8 @@ class UniversityController extends Controller
      */
     public function create()
     {
-        return view('admin.universities.create');
+        $specializations = Specialization::all();
+        return view('admin.universities.create', compact('specializations'));
     }
 
     /**
@@ -41,6 +43,7 @@ class UniversityController extends Controller
      */
     public function store(UniversityRequest $request)
     {
+
         $slug = Str::slug($request->name);
         $slugCount = University::where('slug' , 'like' , $slug. '%')->count();
         $count =  $slugCount + 1;
@@ -57,7 +60,9 @@ class UniversityController extends Controller
             'slug' =>$slug
         ]);
 
-        return redirect()->route('admin.universities.index')->with('msg', __('admin.University has been added successfully'))->with('type', 'success');
+        $universities->specializations()->sync($request->specialization_id);
+
+        return redirect()->route('admin.universities.index')->with('msg', __('admin.University has been addedd successfully'))->with('type', 'success');
     }
 
     /**
@@ -77,9 +82,14 @@ class UniversityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(University $university)
     {
+        $attached_specializations = $university->specializations()->get()->map(function($specialization) {
+            return $specialization->id;
+        })->toArray();
 
+        $specializations = Specialization::latest()->get();
+        return view('admin.universities.edit', compact('university', 'attached_specializations', 'specializations'));
     }
 
     /**
@@ -92,18 +102,26 @@ class UniversityController extends Controller
     public function update(UniversityRequest $request, $slug)
     {
         $universities= University::whereSlug($slug)->first();
+        $slug = Str::slug($request->name);
+        $slugCount = University::where('slug' , 'like' , $slug. '%')->count();
+        $count =  $slugCount + 1;
 
-  
+        if($slugCount > 1){
+            $slug = $slug . '-' . $count;
+            $universities->slug = $slug;
+        }
 
-        $universities->name = $request->name;
-        $universities->email = $request->email;
-        $universities->phone = $request->phone;
-        $universities->address = $request->address;
+        $universities->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+        ]);
 
+        $universities->specializations()->sync($request->specialization_id);
 
-        $universities->save();
+        return redirect()->route('admin.universities.index')->with('msg', __('admin.University has been updated successfully'))->with('type', 'success');
 
-        return $universities;
     }
 
     /**

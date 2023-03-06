@@ -6,6 +6,18 @@
 @section('universities-active', 'active')
 @section('add-university-active', 'active')
 
+@section('styles')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+
+<style>
+    .select2-container--default {
+            width: 100% !important;
+    }
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        color: #333;
+    }
+</style>
+@stop
 @section('content')
 
     <div class="row">
@@ -70,6 +82,23 @@
                                 </div>
                             </div>
 
+                            {{-- specializations --}}
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="mb-2">{{ __('admin.Specializations') }}</label>
+                                    <select name="specialization_id[]"
+                                        class="specialization wide @error('specialization_id') is-invalid @enderror"
+                                        data-placeholder="{{ __('admin.Select Specialization') }}" multiple="multiple">
+                                        @foreach ($specializations as $specialization)
+                                            <option value="{{ $specialization->id }}">{{ $specialization->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('specialization_id')
+                                        <small class="invalid-feedback"> {{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+
                         </div>
 
                     </div>
@@ -88,4 +117,13 @@
     </div>
 
 
+@stop
+
+@section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>    
+    <script>
+        $(document).ready(function() {
+            $('.specialization').select2();
+        });
+    </script>
 @stop

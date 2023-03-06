@@ -83,14 +83,7 @@ class TaskController extends Controller
             }
         }
 
-        // $fileName = null;
-        // if($request->hasFile('file')) {
-        //     $task_title = str_replace(' ', '-', $request->main_title);
-        //     $fileName =$task_title.'-'.$request->file('file')->getClientOriginalName();
-        //     $request->file('file')->move(public_path('uploads/tasks-files/'),$fileName);
-        // }
-
-            Task::create([
+            $task = Task::create([
             'main_title' => $request->main_title,
             'sub_title' => $request->sub_title,
             'start_date' => $request->start_date,
@@ -106,8 +99,7 @@ class TaskController extends Controller
 
         $delay = Carbon::parse($request->start_date)->diffInSeconds(now());
 
-        $students = Student::where('category_id', Auth::user()->category->id)
-            ->where('company_id', $company_id)->get();
+        $students = Student::where('trainer_id', Auth::user()->id)->get();
 
         foreach ($students as $student) {
             $student->notify((new NewTaskNotification(Auth::user()->name, $slug, Auth::user()->id,

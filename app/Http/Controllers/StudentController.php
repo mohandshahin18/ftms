@@ -379,10 +379,28 @@ class StudentController extends Controller
         $student = Student::findOrFail($id);
         $applied_evaluation = AppliedEvaluation::with('evaluation')->where('student_id', $id)->first();
         $questions = json_decode($applied_evaluation->data, true);
+        $scores = [
+            'bad' => 20,
+            'acceptable' => 40,
+            'good' => 60,
+            'very good' => 80,
+            'excellent' => 100,
+        ];
+
+        $total_score = 0;
+        $count = count($questions);
+        foreach ($questions as $response) {
+            $total_score += $scores[$response];
+        }
+
+        $average_score = $total_score / $count;
+        $average_score = floor($average_score);
+
         $data = [
             'student' => $student,
             'questions' => $questions,
-            'applied_evaluation' => $applied_evaluation
+            'applied_evaluation' => $applied_evaluation,
+            'total_rate' => $average_score,
         ];
 
         $name_of_pdf = str_replace(' ', '-', $student->name).'-'.$student->student_id;
@@ -392,23 +410,4 @@ class StudentController extends Controller
     }
 
 
-    // // Filter students by evaluated or not
-
-    // public function filter(Request $request)
-    // {
-    //     $filter = request()->filter;
-    //     $students = Student::with('applied_evaluation', 'university', 'specialization');
-
-    //     if($filter == 'evaluated') {
-    //         $students = $students->has('applied_evaluation')->latest('id')->paginate(env('PAGINATION_COUNT'));
-    //     } elseif($filter == 'not evaluated') {
-    //         $students = $students->doesntHave('applied_evaluation')->latest('id')->paginate(env('PAGINATION_COUNT'));
-    //     } else {
-    //         $students = $students->latest('id')->paginate(env('PAGINATION_COUNT'));
-    //     }
-
-    //     $evaluated_students = Student::has('applied_evaluation')->get();
-
-    //     return view('admin.students.index', compact('students', 'evaluated_students', 'filter'));
-    // }
 }

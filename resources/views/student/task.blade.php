@@ -33,6 +33,15 @@
             width: 44px;
             margin-right: 8px;
         }
+
+        .hidden_form {
+            display: none;
+        }
+
+        #form_wrapper {
+            position: relative;
+            
+        }
     </style>
 @stop
 
@@ -97,21 +106,21 @@
 
                                     @if (!$applied_task)
                                         @if ($end_date->gt(now()))
-                                            @if ($remaining_days && $remaining_hours)
-                                                {{ $remaining_days .  __("admin.Days and")  . $remaining_hours . __('admin.hours remaining') }}
+                                            @if ($remaining_days && $remaining_hours || $remaining_hours)
+                                                {{ $remaining_days .' '.  __("admin.Days and")  .' '. $remaining_hours .' '. __('admin.hours remaining') }}
                                             @elseif($remaining_hours)
-                                                {{ $remaining_hours . __('admin.hours remaining') }}
+                                                {{ $remaining_hours .' '. __('admin.hours remaining') }}
                                             @else
-                                                {{ $remaining_minutes . __('admin.minutes remaining') }}
+                                                {{ $remaining_minutes .' '. __('admin.minutes remaining') }}
                                             @endif
                                         @else
                                             <span class="text-danger">
                                                 @if ($time_passed_days && $time_passed_hours)
-                                                    {{ $time_passed_days == 1 ? $time_passed_days . __('admin.Day ago') : $time_passed_days . __('admin.Days ago') }}
+                                                    {{ $time_passed_days == 1 ? $time_passed_days .' '. __('admin.Day ago') : $time_passed_days .' '. __('admin.Days ago') }}
                                                 @elseif ($time_passed_hours)
-                                                    {{ $time_passed_hours . __('admin.hours ago') }}
+                                                    {{ $time_passed_hours .' '. __('admin.hours ago') }}
                                                 @else
-                                                    {{ $time_passed_minutes . __('admin.minutes ago') }}
+                                                    {{ $time_passed_minutes .' '. __('admin.minutes ago') }}
                                                 @endif
                                             </span>
                                         @endif
@@ -144,7 +153,7 @@
                         @if ($applied_task)
                             <button type="button" id="show_edit_form"  value="edit-btn" class="btn btn-brand">{{ __('admin.Edit submission') }}</button>
 
-                            <form action="{{ route('student.edit.applied.task', $applied_task->id) }}" id="edit_form"
+                            <form action="{{ route('student.edit.applied.task', $applied_task->id) }}" class="hidden_form" id="edit_form"
                                 method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="task_id" value="{{ $task->id }}">
@@ -168,7 +177,7 @@
                             <button type="button" id="show_form" class="btn btn-brand">{{ __('admin.Add Submission') }}</button>
 
 
-                            <form action="{{ route('student.submit.task') }}" class="mt-4" method="POST" id="task_form"
+                            <form action="{{ route('student.submit.task') }}" class="mt-4 hidden_form" method="POST" id="task_form"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="task_id" value="{{ $task->id }}">
@@ -207,25 +216,23 @@
         $(document).ready(function() {
 
             // submit form
-            $('#task_form').hide();
             $("#form_wrapper").on("click", '#show_form', function() {
-                $('#task_form').show();
+                $('#task_form').removeClass("hidden_form");
                 $(this).hide();
 
             });
             $("#form_wrapper").on("click", '#hide_form', function() {
-                $('#task_form').hide();
+                $('#task_form').addClass("hidden_form");
                 $("#show_form").show();
             });
 
             // edit form
-            $('#edit_form').hide();
             $("#form_wrapper").on("click", '#show_edit_form', function() {
-                $('#edit_form').show();
+                $('#edit_form').removeClass("hidden_form");
                 $(this).hide();
             });
             $("#form_wrapper").on("click", '#hide_edit_form', function() {
-                $('#edit_form').hide();
+                $('#edit_form').addClass("hidden_form");
                 $("#show_edit_form").show();
             });
 
@@ -253,8 +260,7 @@
                         processData: false,
                         data: formData,
                         beforeSend: function() {
-                            $('#task_form').empty();
-                            $('#task_form').html('<div class="text-center" style="font-size: 36px; width: 100%;"><i class="fa fa-spin fa-spinner"></i> Loading...</div>');
+                            $('#form_wrapper').append('<div class="spinner-div d-flex align-items-center justify-content-center" style="font-size: 36px; width: 100%; position: absolute; width: 100%;height: 100%;z-index: 884;background: #fff; top: 0; right: 0;"><i class="fa fa-spin fa-spinner"></i> Loading...</div>');
                         },
                         success: function(response) {
                             $('#task_form').hide();

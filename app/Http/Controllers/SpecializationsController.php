@@ -16,9 +16,8 @@ class SpecializationsController extends Controller
      */
     public function index()
     {
-        $specializations = Specialization::with('university')->latest('id')->paginate(env('PAGINATION_COUNT'));
-        $universities = University::all();
-        return view('admin.specializations.index',compact('specializations', 'universities'));
+        $specializations = Specialization::latest('id')->paginate(env('PAGINATION_COUNT'));
+        return view('admin.specializations.index',compact('specializations'));
     }
 
     /**
@@ -28,8 +27,7 @@ class SpecializationsController extends Controller
      */
     public function create()
     {
-        $universities = University::get();
-        return view('admin.specializations.create', compact('universities'));
+        return view('admin.specializations.create');
     }
 
     /**
@@ -42,7 +40,6 @@ class SpecializationsController extends Controller
     {
         $request->validate([
             'name' => 'required|min:2',
-            'university_id'=>'required'
         ]);
 
         $slug = Str::slug($request->name);
@@ -55,8 +52,11 @@ class SpecializationsController extends Controller
 
         Specialization::create([
             'name' => $request->name ,
+<<<<<<< HEAD
+=======
             'university_id' => $request->university_id,
             'slug' => $slug,
+>>>>>>> 25f7bd83733fdf50d4799eeb51ae766e9177ec6d
         ]);
 
         return redirect()->route('admin.specializations.index')
@@ -85,8 +85,12 @@ class SpecializationsController extends Controller
     public function edit($slug)
     {
         $universities = University::all();
+<<<<<<< HEAD
+        return view('admin.specializations.edit', compact('specialization'));
+=======
         $specialization = Specialization::whereSlug($slug)->first();
         return view('admin.specializations.edit', compact('specialization','universities'));
+>>>>>>> 25f7bd83733fdf50d4799eeb51ae766e9177ec6d
     }
 
     /**
@@ -103,7 +107,6 @@ class SpecializationsController extends Controller
 
         $request->validate([
             'name' => 'required',
-            'university_id' => 'required',
         ]);
 
 
@@ -118,8 +121,11 @@ class SpecializationsController extends Controller
 
         $specialization->update([
             'name' => $request->name,
+<<<<<<< HEAD
+=======
             'university_id' => $request->university_id,
             'slug' => $slug
+>>>>>>> 25f7bd83733fdf50d4799eeb51ae766e9177ec6d
 
         ]);
 

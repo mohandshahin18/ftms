@@ -43,7 +43,6 @@
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
                                 <th>{{ __('admin.Specialization') }}</th>
-                                <th>{{ __('admin.University Name') }}</th>
                                 <th>{{ __('admin.Actions') }}</th>
                             </tr>
                         </thead>
@@ -53,7 +52,6 @@
                                 <tr id="row_{{ $specialization->slug }}">
                                     <td>{{ $specialization->id }}</td>
                                     <td>{{ $specialization->name }}</td>
-                                    <td>{{ $specialization->university->name }}</td>
                                     <td>
                                         <a title="{{ __('admin.Edit') }}" href="{{ route('admin.specializations.edit', $specialization->slug) }}" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i> </a>
 

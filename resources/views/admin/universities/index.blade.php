@@ -56,12 +56,17 @@
                                     <td>{{ $university->email }}</td>
                                     <td>{{ $university->phone }}</td>
                                     <td>
+<<<<<<< HEAD
+                                        <a href="{{ route('admin.universities.edit', $university) }}" title="{{ __('admin.Edit') }}" type="button" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i>
+                                        </a>
+=======
                                         <button title="{{ __('admin.Edit') }}" type="button" class="btn btn-primary btn-sm btn-edit" data-toggle="modal"
                                             data-target="#editUniversity" data-name="{{ $university->name }}"
                                             data-url="{{ route('admin.universities.update', $university->slug) }}"
                                             data-email="{{ $university->email }}" data-phone="{{ $university->phone }}"
                                             data-address="{{ $university->address }}"> <i class="fas fa-edit"></i>
                                         </button>
+>>>>>>> 25f7bd83733fdf50d4799eeb51ae766e9177ec6d
                                         <form class="d-inline delete_form"
                                             action="{{ route('admin.universities.destroy', $university->slug) }}"
                                             method="POST">
@@ -90,6 +95,8 @@
         </div>
     </div>
 
+<<<<<<< HEAD
+=======
 
     <!-- Modal Edit Category -->
     <div class="modal fade" id="editUniversity" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -242,4 +249,5 @@
 
 
 
+>>>>>>> 25f7bd83733fdf50d4799eeb51ae766e9177ec6d
 @stop

@@ -18,13 +18,7 @@
     <div class="row">
         <div class="col-12">
 
-            <div class="card">
-                <div class="card-header">
-                    <div><button class="btn btn-secondary btn-sm mb-3" onclick="history.back()">@if (app()->getLocale()=='ar')
-                            <i class="fas fa-arrow-right"></i></button></div>
-                        @else
-                            <i class="fas fa-arrow-left"></i></button></div>
-                        @endif
+            <div class="card p-3">
                         
                     <div class="d-flex  justify-content-between align-items-center">
                         <div>

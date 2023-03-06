@@ -18,7 +18,13 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\SpecializationsController;
 use App\Http\Controllers\WebSite\websiteController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+<<<<<<< HEAD
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\Website\MessagesController;
+use DebugBar\DataCollector\MessagesCollector;
+=======
 use App\Http\Controllers\SubsicribeController;
+>>>>>>> 6c4132914a766f7baddd4a6c247393f70df9e01a
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
@@ -114,6 +120,12 @@ Route::prefix('/')->middleware('auth:student','is_verify_email')->name('student.
     Route::post('/task/submit', [websiteController::class, 'submit_task'])->name('submit.task');
     Route::post('/edit/task/{id}', [websiteController::class, 'edit_applied_task'])->name('edit.applied.task');
 
+    // messages
+    Route::get('/chats/{slug}', [MessagesController::class, 'student_chats'])->name('chats');
+    Route::post('student/send/message', [MessagesController::class, 'send_message'])->name('send.message');
+    Route::post('chats/get/messages', [MessagesController::class, 'get_messages']);
+    Route::get('chats/get/chats', [MessagesController::class, 'get_chats']);
+    Route::get('chats/get/user/messages/{slug}', [MessagesController::class, 'get_user_messages']);
 
 });
 
@@ -194,6 +206,14 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     Route::get('tasks/{slug}/edit', [TaskController::class, 'edit'])->name('task.edit');
     Route::resource('tasks', TaskController::class);
 
+<<<<<<< HEAD
+    // messages
+    Route::get('messages/{slug}', [MessageController::class, 'index'])->name('messages');
+    Route::post('send/message', [MessageController::class, 'send_message'])->name('send.message');
+    Route::post('messages/get/messages', [MessageController::class, 'get_messages']);
+    Route::get('messages/get/chats', [MessageController::class, 'get_chats']);
+    Route::get('messages/get/user/messages', [MessageController::class, 'get_user_messages']);
+=======
     //import university id
 
     Route::get('subscribes/import/', [SubsicribeController::class, 'import'])->name('subscribes.import_view');
@@ -201,6 +221,7 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     // subsicribes
     Route::resource('subscribes', SubsicribeController::class);
 
+>>>>>>> 6c4132914a766f7baddd4a6c247393f70df9e01a
 
 });
 

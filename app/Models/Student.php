@@ -63,5 +63,10 @@ class Student extends Authenticatable
         return $this->hasMany(Application::class);
     }
 
+    // with messages
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
 
 }
