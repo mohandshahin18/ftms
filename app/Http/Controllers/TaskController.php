@@ -161,13 +161,7 @@ class TaskController extends Controller
             $request->file('file')->move(public_path('uploads/tasks-files/'), $fileName);
         }
 
-        $slug = Str::slug($request->sub_title);
-        $slugCount = Task::where('slug', 'like', $slug . '%')->count();
-        $random =  $slugCount + 1;
 
-        if ($slugCount > 1) {
-            $slug = $slug . '-' . $random;
-        }
 
         $task->update([
             'main_title' => $request->main_title,
@@ -178,7 +172,6 @@ class TaskController extends Controller
             'description' => $request->description,
             'category_id' => Auth::user()->category->id,
             'trainer_id' => Auth::user()->id,
-            'slug' => $slug
         ]);
 
         return redirect()->route('admin.tasks.index')

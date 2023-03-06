@@ -1,6 +1,6 @@
 @extends('admin.master')
 
-@section('title', 'Home')
+@section('title', __('admin.Home'))
 @section('home-menu-open', 'menu-open')
 @section('home-active', 'active')
 
@@ -55,6 +55,6 @@
 @section('scripts')
 
         <script>
-            
+
         </script>
     @stop

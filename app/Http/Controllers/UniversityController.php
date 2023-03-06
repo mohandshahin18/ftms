@@ -7,11 +7,8 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Specialization;
 use Illuminate\Support\Facades\DB;
-<<<<<<< HEAD
 use Symfony\Component\CssSelector\Node\Specificity;
-=======
 use App\Http\Requests\UniversityRequest;
->>>>>>> 25f7bd83733fdf50d4799eeb51ae766e9177ec6d
 
 class UniversityController extends Controller
 {
@@ -46,9 +43,7 @@ class UniversityController extends Controller
      */
     public function store(UniversityRequest $request)
     {
-<<<<<<< HEAD
-        $university = University::create([
-=======
+
         $slug = Str::slug($request->name);
         $slugCount = University::where('slug' , 'like' , $slug. '%')->count();
         $count =  $slugCount + 1;
@@ -58,7 +53,6 @@ class UniversityController extends Controller
         }
 
         $universities = University::create([
->>>>>>> 25f7bd83733fdf50d4799eeb51ae766e9177ec6d
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
@@ -66,13 +60,9 @@ class UniversityController extends Controller
             'slug' =>$slug
         ]);
 
-<<<<<<< HEAD
-        $university->specializations()->sync($request->specialization_id);
+        $universities->specializations()->sync($request->specialization_id);
 
         return redirect()->route('admin.universities.index')->with('msg', __('admin.University has been addedd successfully'))->with('type', 'success');
-=======
-        return redirect()->route('admin.universities.index')->with('msg', __('admin.University has been added successfully'))->with('type', 'success');
->>>>>>> 25f7bd83733fdf50d4799eeb51ae766e9177ec6d
     }
 
     /**
@@ -111,11 +101,7 @@ class UniversityController extends Controller
      */
     public function update(UniversityRequest $request, $slug)
     {
-<<<<<<< HEAD
-        $university= University::findOrFail($id);
-=======
         $universities= University::whereSlug($slug)->first();
-
         $slug = Str::slug($request->name);
         $slugCount = University::where('slug' , 'like' , $slug. '%')->count();
         $count =  $slugCount + 1;
@@ -124,16 +110,15 @@ class UniversityController extends Controller
             $slug = $slug . '-' . $count;
             $universities->slug = $slug;
         }
->>>>>>> 25f7bd83733fdf50d4799eeb51ae766e9177ec6d
 
-        $university->update([
+        $universities->update([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
             'address' => $request->address,
         ]);
 
-        $university->specializations()->sync($request->specialization_id);
+        $universities->specializations()->sync($request->specialization_id);
 
         return redirect()->route('admin.universities.index')->with('msg', __('admin.University has been updated successfully'))->with('type', 'success');
 

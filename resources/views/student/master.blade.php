@@ -356,6 +356,49 @@
         </style>
     @endif
 
+@endif
+
+
+<style>
+
+.mydrop {
+position: relative;
+display: inline-block;
+/* top: 0;
+left: 0; */
+
+}
+
+
+.mydrop-content {
+display: none;
+position: absolute;
+    background-color: #f9f9f9;
+    min-width: 220px;
+    box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 20%);
+    padding: 12px 16px;
+    z-index: 1;
+    text-align: center;
+    right: -10px;
+    top: 30px;
+}
+
+.mydrop-content a{
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 5px;
+
+}
+
+.mydrop:hover .mydrop-content {
+/* display: block; */
+display: flex;
+flex-direction: column;
+gap:10px
+}
+
+</style>
     @yield('styles')
 
 
@@ -728,6 +771,7 @@
     <script src="{{ asset('studentAssets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('studentAssets/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('adminAssets/dist/js/moment-with-locales.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
     <!-- Sweat Alert -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>

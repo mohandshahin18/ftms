@@ -18,9 +18,13 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\SpecializationsController;
 use App\Http\Controllers\WebSite\websiteController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+<<<<<<< HEAD
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Website\MessagesController;
 use DebugBar\DataCollector\MessagesCollector;
+=======
+use App\Http\Controllers\SubsicribeController;
+>>>>>>> 6c4132914a766f7baddd4a6c247393f70df9e01a
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
@@ -48,8 +52,10 @@ Route::group(['namespace' => 'Auth'] ,function() {
 
 // student register
 Route::group(['namespace' => 'Student'] ,function() {
-    Route::get('/student/register',[RegisterController::class,'showStudentRegisterForm'])->name('student.register-view');
-    Route::post('/student/register',[RegisterController::class,'createStudent'])->name('student.register');
+    Route::get('/student/selsect-id',[SubsicribeController::class,'selectUniversity_id'])->name('student.select-id');
+    Route::post('/student/selsect-id',[SubsicribeController::class,'subsicribeId'])->name('student.subsicribeId');
+    Route::get('/student/register/{student_id}',[RegisterController::class,'showStudentRegisterForm'])->name('student.register-view');
+    Route::post('/student/submit/{student_id}',[RegisterController::class,'createStudent'])->name('student.register');
     Route::get('/student/get/specialization/{id}', [RegisterController::class, 'get_specialization']);
 
     // verify email
@@ -200,12 +206,22 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     Route::get('tasks/{slug}/edit', [TaskController::class, 'edit'])->name('task.edit');
     Route::resource('tasks', TaskController::class);
 
+<<<<<<< HEAD
     // messages
     Route::get('messages/{slug}', [MessageController::class, 'index'])->name('messages');
     Route::post('send/message', [MessageController::class, 'send_message'])->name('send.message');
     Route::post('messages/get/messages', [MessageController::class, 'get_messages']);
     Route::get('messages/get/chats', [MessageController::class, 'get_chats']);
     Route::get('messages/get/user/messages', [MessageController::class, 'get_user_messages']);
+=======
+    //import university id
+
+    Route::get('subscribes/import/', [SubsicribeController::class, 'import'])->name('subscribes.import_view');
+    Route::post('subscribes/import/Excel', [SubsicribeController::class, 'importExcel'])->name('subscribes.importExcel');
+    // subsicribes
+    Route::resource('subscribes', SubsicribeController::class);
+
+>>>>>>> 6c4132914a766f7baddd4a6c247393f70df9e01a
 
 });
 

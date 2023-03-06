@@ -42,7 +42,14 @@
             <div class=" col-md-6 mt-5 ">
                 <div class="p-3 bg-white rounded shadow  mb-5">
 
+                    <div class="alert  d-none" >
+                        <ul>
+                            <li>
 
+                            </li>
+
+                        </ul>
+                    </div>
 
                     <div class="row mt-3 px-2">
                         <div class="col-md-12 mb-3">
@@ -96,9 +103,9 @@
         let form = $(".update_form");
         let btn = $(".profile-button");
 
-        form.onsubmit = (e) => {
+        form.on('submit' , function(e) {
             e.preventDefault();
-        }
+        })
 
 
 

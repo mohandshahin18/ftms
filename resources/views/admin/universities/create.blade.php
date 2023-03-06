@@ -33,7 +33,7 @@
                     <div class="card-body">
                         <div class="row">
                             {{-- name  --}}
-                            <div class="col-6">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="mb-2">{{ __('admin.University Name') }}</label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
@@ -46,7 +46,7 @@
 
 
                             {{-- email  --}}
-                            <div class="col-lg-6">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="mb-2"> {{ __('admin.Email') }}</label>
                                     <input type="text" class="form-control @error('email') is-invalid @enderror"
@@ -58,7 +58,7 @@
                             </div>
 
                             {{-- phone --}}
-                            <div class="col-lg-6">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="mb-2"> {{ __('admin.Phone') }}</label>
                                     <input type="text" class="form-control @error('phone') is-invalid @enderror"
@@ -71,7 +71,7 @@
 
 
                             {{-- address  --}}
-                            <div class="col-lg-6">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="mb-2">{{ __('admin.Location') }}</label>
                                     <input type="text" class="form-control @error('address') is-invalid @enderror"

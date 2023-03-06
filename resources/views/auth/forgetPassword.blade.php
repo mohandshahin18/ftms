@@ -86,7 +86,7 @@
                                     </svg>
 
                                     <input type="email" class=" form-control " name="email" value="{{ old('email') }} "
-                                        placeholder="Email">
+                                    placeholder="{{ __('admin.Email') }}">
 
 
                                 </div>
