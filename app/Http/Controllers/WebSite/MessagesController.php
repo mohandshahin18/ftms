@@ -63,7 +63,7 @@ class MessagesController extends Controller
     }
 
 
-    // get messages 
+    // get messages
     public function get_messages(Request $request)
     {
         $slug = $request->reciver_id;
@@ -73,10 +73,10 @@ class MessagesController extends Controller
 
         if($trainer) {
             $messages = $user->messages()->where('trainer_id', $trainer->id)->orderBy('id', 'desc')->limit(10)->get()->reverse();
-            
+
         }else {
             $messages = $user->messages()->where('teacher_id', $teacher->id)->orderBy('id', 'desc')->limit(10)->get()->reverse();
-            
+
         }
 
         $output = '';
@@ -100,7 +100,7 @@ class MessagesController extends Controller
                     }else {
                         $image = $teacher->image;
                     }
-                    $output .= '<div class="chat incoming message" data-id="'.$message->id.'"> 
+                    $output .= '<div class="chat incoming message" data-id="'.$message->id.'">
                                     <img src="'.'http://127.0.0.1:8000/'.$image.'" alt="">
                                     <div class="details">
                                         <p>'.$message->message.'</p>
@@ -110,7 +110,7 @@ class MessagesController extends Controller
                 }
             }
 
-            
+
         }
 
         return $output;
@@ -124,7 +124,7 @@ class MessagesController extends Controller
         $teacher = $user->teacher;
 
         $output = '';
-    
+
         $trainerMessage = Message::where([
             ['sender_id', $trainer->id],
             ['receiver_id', $user->id]
@@ -191,12 +191,12 @@ class MessagesController extends Controller
                             </div>
                         </div>
                     </a>';
-    
+
 
         return $output;
     }
 
-    // get user messages 
+    // get user messages
     public function get_user_messages($slug)
     {
         $auth = Auth::user();
@@ -204,7 +204,7 @@ class MessagesController extends Controller
         $teacher = Teacher::whereSlug($slug)->first();
 
         if($trainer) {
-            $user = $trainer; 
+            $user = $trainer;
             $messages = $auth->messages()->where('trainer_id', $user->id)->orderBy('id', 'desc')->limit(10)->get()->reverse();
         }else {
             $user = $teacher;
@@ -226,5 +226,15 @@ class MessagesController extends Controller
         return $data;
 
 
+    }
+
+
+    // mark message as read
+    public function read_message(Request $request)
+    {
+        $message = Message::where('id', $request->msg)->first();
+
+        $message->read_at = now();
+        $message->save();
     }
 }

@@ -10,7 +10,7 @@ send_form.on("submit", function(e) {
 const addMessage = function(msg) {
     let created = new Date();
     const options = { hour: 'numeric', minute: 'numeric', hour12: true };
-    const time = created.toLocaleTimeString([], options); 
+    const time = created.toLocaleTimeString([], options);
     $(".chat_box").append(`<div class="chat outgoing message">
         <div class="details">
             <p>${msg}</p>
@@ -22,8 +22,8 @@ const addMessage = function(msg) {
 const appendMessage = function(msg, image) {
     let created = new Date();
     const options = { hour: 'numeric', minute: 'numeric', hour12: true };
-    const time = created.toLocaleTimeString([], options); 
-    let message = `<div class="chat incoming message" data-id=""> 
+    const time = created.toLocaleTimeString([], options);
+    let message = `<div class="chat incoming message" data-id="">
                     <img src="http://127.0.0.1:8000/${image}" alt="">
                     <div class="details">
                         <p>${msg}</p>
@@ -51,8 +51,8 @@ send_btn.on("click", function() {
                 $("#last_msg").empty();
                 $("#last_msg").append(value);
                 const sendTime = moment().fromNow();
-                $("#time-send").empty(); 
-                $("#time-send").append(sendTime); 
+                $("#time-send").empty();
+                $("#time-send").append(sendTime);
                 $(".input-field").val("");
                 scrollToBottom();
 
@@ -118,7 +118,7 @@ $(".chat-list .chat-boxes").on("click", ".chat-box", function(e) {
             $.each(response.messages, function(key, value) {
                 var created = new Date(Date.parse(value.created_at));
                 const options = { hour: 'numeric', minute: 'numeric', hour12: true };
-                const time = created.toLocaleTimeString([], options); 
+                const time = created.toLocaleTimeString([], options);
 
                 if (value.sender_id == response.auth.id) {
                     let msg = `<div class="chat outgoing message" data-id="${value.id}">
@@ -129,7 +129,7 @@ $(".chat-list .chat-boxes").on("click", ".chat-box", function(e) {
                         </div>`;
                     $(".chat_box").prepend(msg);
                 } else {
-                    let msg = `<div class="chat incoming message" data-id="${value.id}"> 
+                    let msg = `<div class="chat incoming message" data-id="${value.id}">
                             <img src="${response.image}" alt="">
                             <div class="details">
                                 <p>${value.message}</p>
@@ -143,6 +143,19 @@ $(".chat-list .chat-boxes").on("click", ".chat-box", function(e) {
         }
     });
 });
+
+// messages mark as read
+const readAt = function(msg) {
+    $.ajax({
+        type: "get",
+        url: 'read/message',
+        data: {msg: msg},
+        success:function(response) {
+
+        }
+    });
+}
+
 
 function scrollToBottom() {
     chatBox.scrollTop(chatBox.prop("scrollHeight"));

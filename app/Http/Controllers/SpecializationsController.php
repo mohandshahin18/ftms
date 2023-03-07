@@ -52,11 +52,7 @@ class SpecializationsController extends Controller
 
         Specialization::create([
             'name' => $request->name ,
-<<<<<<< HEAD
-=======
-            'university_id' => $request->university_id,
             'slug' => $slug,
->>>>>>> 25f7bd83733fdf50d4799eeb51ae766e9177ec6d
         ]);
 
         return redirect()->route('admin.specializations.index')
@@ -84,15 +80,10 @@ class SpecializationsController extends Controller
      */
     public function edit($slug)
     {
-        $universities = University::all();
-<<<<<<< HEAD
-        return view('admin.specializations.edit', compact('specialization'));
-=======
-        $specialization = Specialization::whereSlug($slug)->first();
-        return view('admin.specializations.edit', compact('specialization','universities'));
->>>>>>> 25f7bd83733fdf50d4799eeb51ae766e9177ec6d
-    }
 
+        $specialization = Specialization::whereSlug($slug)->first();
+        return view('admin.specializations.edit', compact('specialization'));
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -121,11 +112,7 @@ class SpecializationsController extends Controller
 
         $specialization->update([
             'name' => $request->name,
-<<<<<<< HEAD
-=======
-            'university_id' => $request->university_id,
             'slug' => $slug
->>>>>>> 25f7bd83733fdf50d4799eeb51ae766e9177ec6d
 
         ]);
 

@@ -73,6 +73,7 @@
         channel.bind('new-message', function(data) {
             appendMessage(data.message.message, data.image);
             scrollToBottom();
+            readAt(data.message.id);
         });
     </script>
 @endsection

@@ -256,7 +256,7 @@ return [
     "Company s"=>"شركة",
     "Teacher s"=>"معلم",
     "Trainer s"=>"مدرب",
-    "Selection Page"=>"صفحة التحديد",
+    "Selection Page"=>"صفحة الإختيار",
     "You need to confirm your account. We have sent you an activation code, please check your email."=>"تحتاج إلى تأكيد حسابك. لقد أرسلنا لك رمز التفعيل ، يرجى التحقق من بريدك الإلكتروني.",
     "has been evaluated successfully"=>" تم تقييمه بنجاح ",
     "Verify Email"=>" تأكيد البريد الإلكتروني ",

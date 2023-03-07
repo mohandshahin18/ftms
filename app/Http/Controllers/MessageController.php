@@ -52,12 +52,12 @@ class MessageController extends Controller
         $user = Auth::user();
         $messages = $user->messages()->where('student_id', $student->id)->orderBy('id', 'desc')->limit(10)->get()->reverse();
 
-        
+
 
         $output = "";
 
         if($messages) {
-            
+
             foreach($messages as $message) {
                 $time = $message->created_at->format('h:i');
                 $period = $message->created_at->format('a');
@@ -72,7 +72,7 @@ class MessageController extends Controller
                                     </div>
                                 </div>';
                 }else {
-                    $output .= '<div class="chat incoming message" data-id="'.$message->id.'"> 
+                    $output .= '<div class="chat incoming message" data-id="'.$message->id.'">
                                     <img src="'.'http://127.0.0.1:8000/'.$student->image.'" alt="">
                                     <div class="details">
                                         <p>'.$message->message.'</p>
@@ -87,12 +87,12 @@ class MessageController extends Controller
         }
     }
 
-    // load chats 
+    // load chats
     public function get_chats(Request $request)
     {
         $user = Auth::user();
         $students = Student::where('trainer_id', $user->id)->latest('id')->get();
-        
+
         $output = '';
 
         foreach($students as $student) {
@@ -107,10 +107,10 @@ class MessageController extends Controller
             ])
             ->latest('id')
             ->first();
-            
-            
 
-            if($message) {  
+
+
+            if($message) {
                 $total_time = $message->created_at->diffForHumans();
                 $last_message = $message->message;
             } else {
@@ -137,32 +137,11 @@ class MessageController extends Controller
         return $output;
     }
 
-    // get user messages by clicking 
+    // get user messages by clicking
     public function get_user_messages(Request $request)
     {
-        $auth = Auth::auth();
-        if(Auth::guard('student')->check()) {
-            $trainer = Trainer::whereSlug($request->slug)->first();
-            $teacher = Teacher::whereSlug($request->slug)->first();
-            if($trainer) {
-                $user = $trainer;
-                $messages = $auth->messages()->where('trainer_id', $user->id)->orderBy('id', 'desc')->limit(10)->get()->reverse();
-                
-            }else {
-                $user = $teacher;
-                $messages = $auth->messages()->where('teacher_id', $user->id)->orderBy('id', 'desc')->limit(10)->get()->reverse();
-            }
-            
-            $image = 'http://127.0.0.1:8000/'.$user->image;
-            $data = [
-                "messages" => $messages,
-                "user" => $user,
-                "auth" => $auth,
-                "image" => $image,
-            ];
-            return $data;
+        $auth = Auth::user();
 
-        }else {
             $student = Student::whereSlug($request->slug)->first();
             $messages = $auth->messages()->where('student_id', $student->id)->orderBy('id', 'desc')->limit(10)->get()->reverse();
             $image = 'http://127.0.0.1:8000/'.$student->image;
@@ -174,7 +153,7 @@ class MessageController extends Controller
             ];
 
             return $data;
-        }
-        
+
+
     }
 }

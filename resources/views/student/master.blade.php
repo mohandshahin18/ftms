@@ -156,7 +156,7 @@
             justify-content: space-between;
             padding-left: 13px;
         }
-        
+
 
         .msg-body {
             padding-left: 15px;
@@ -356,7 +356,6 @@
         </style>
     @endif
 
-@endif
 
 
 <style>
@@ -412,8 +411,9 @@ gap:10px
     @php
         use App\Models\Company;
         use App\Models\Category;
+        use App\Models\Trainer;
         $auth = Auth::user();
-        
+
         $data = json_decode(File::get(storage_path('app/settings.json')), true);
     @endphp
 
@@ -424,12 +424,12 @@ gap:10px
             @php
                 $name = Auth::guard()->user()->name ?? '';
                 $src = 'https://ui-avatars.com/api/?background=random&name=' . $name;
-                
+
                 if (Auth::guard()->user()->image) {
                     $img = Auth::guard()->user()->image;
                     $src = asset($img);
                 }
-                
+
             @endphp
             <nav class="navbar p-0 ">
                 <button class="navbar-toggler navbar-toggler-left rounded-0 border-0" type="button"
@@ -495,7 +495,7 @@ gap:10px
                                                 if ($notify->data['from'] == 'apply') {
                                                     $company = Company::where('id', $notify->data['company_id'])->first();
                                                     $company = $company->image;
-                                                
+
                                                     $name = $notify->data['name'] ?? '';
                                                     $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
                                                     if ($company) {
@@ -505,7 +505,7 @@ gap:10px
                                                 } elseif ($notify->data['from'] == 'task') {
                                                     $trainer = Trainer::where('id', $notify->data['trainer_id'])->first();
                                                     $trainer = $trainer->image;
-                                                
+
                                                     $name = $notify->data['name'] ?? '';
                                                     $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
                                                     if ($trainer) {
@@ -513,7 +513,7 @@ gap:10px
                                                         $notifySrc = asset($img);
                                                     }
                                                 }
-                                                
+
                                             @endphp
 
                                             <div class="media">
@@ -569,38 +569,45 @@ gap:10px
                                 $teacher = $auth->teacher;
                                 $trainer = $auth->trainer;
 
-                                $teacherLastMessage = $auth->messages()
-                                ->where('teacher_id', $teacher->id)
-                                ->latest('id')
-                                ->first();
+                                $teacherLastMessage = $auth
+                                    ->messages()
+                                    ->where('teacher_id', $teacher->id)
+                                    ->latest('id')
+                                    ->first();
 
-                                $trainerLastMessage = $auth->messages()
-                                ->where('trainer_id', $trainer->id)
-                                ->latest('id')
-                                ->first();
+                                $trainerLastMessage = $auth
+                                    ->messages()
+                                    ->where('trainer_id', $trainer->id)
+                                    ->latest('id')
+                                    ->first();
 
-                                $activeTrainerMessage = $auth->messages()
-                                ->where('trainer_id', $trainer->id)
-                                ->where('sender_id', $trainer->id)
-                                ->latest('id')
-                                ->first();
+                                $activeTrainerMessage = $auth
+                                    ->messages()
+                                    ->where('trainer_id', $trainer->id)
+                                    ->where('sender_id', $trainer->id)
+                                    ->latest('id')
+                                    ->first();
 
-                                $activeTeacherMessage = $auth->messages()
-                                ->where('teacher_id', $teacher->id)
-                                ->where('sender_id', $teacher->id)
-                                ->latest('id')
-                                ->first();
-                                
+                                $activeTeacherMessage = $auth
+                                    ->messages()
+                                    ->where('teacher_id', $teacher->id)
+                                    ->where('sender_id', $teacher->id)
+                                    ->latest('id')
+                                    ->first();
+
                             @endphp
                         @endif
                         <div class="d-inline dropdown mr-3">
                             <a class="dropdown-toggle" id="messages" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false" href="#"><i class="far fa-envelope"></i>
-                                @if ($activeTrainerMessage->read_at == null)
-                                    <span class="notify-number">1</span>
-                                {{-- @elseif ($trainerLastMessage->read_at == null && $teacherLastMessage->read_at == null) --}}
-                                    {{-- <span class="notify-number">2</span> --}}
-                                @endif</a>
+                                @if($activeTrainerMessage)
+                                    @if ($activeTrainerMessage->read_at == null)
+                                        <span class="notify-number">1</span>
+                                        {{-- @elseif ($trainerLastMessage->read_at == null && $teacherLastMessage->read_at == null) --}}
+                                        {{-- <span class="notify-number">2</span> --}}
+                                    @endif
+                                @endif
+                            </a>
                             <div class="dropdown-menu dropdown-menu-right pt-0" aria-labelledby="messages">
                                 <!-- <a class="dropdown-item">There are no new messages</a> -->
                                 <div class="list-group">
@@ -610,29 +617,32 @@ gap:10px
                                             @if ($trainerLastMessage)
                                                 <div class="media">
 
-                                                    <a href="{{ route('student.chats', $trainer->slug) }}" class="list-group-item list-group-item-action @if($activeTrainerMessage)
-                                                        @if ($activeTrainerMessage->read_at == null)
-                                                             {{ 'active' }}
-                                                        @endif
+                                                    <a href="{{ route('student.chats', $trainer->slug) }}"
+                                                        class="list-group-item list-group-item-action @if ($activeTrainerMessage) @if ($activeTrainerMessage->read_at == null)
+                                                             {{ 'active' }} @endif
                                                     @endif ">
                                                         <div class="main-info">
                                                             <div class="msg-img">
-                                                                <img src="{{ asset('http://127.0.0.1:8000/'.$trainer->image) }}">
+                                                                <img
+                                                                    src="{{ asset('http://127.0.0.1:8000/' . $trainer->image) }}">
                                                             </div>
                                                             <div class="msg-body" style="width: 100%;">
-                                                                <h3 class="dropdown-item-title">{{ $trainer->name }}</h3>
-                                                                <p class="text-sm message">{{ $trainerLastMessage ? Str::words($trainerLastMessage->message, 4, '...') : 'No messages yet' }}
-                                                                    
-                                                                        <i class="fas fa-circle active-dot" style="color: #003e83ad !important; font-size: 8px; "></i>
-                                                                    
+                                                                <h3 class="dropdown-item-title">{{ $trainer->name }}
+                                                                </h3>
+                                                                <p class="text-sm message">
+                                                                    {{ $trainerLastMessage ? Str::words($trainerLastMessage->message, 4, '...') : 'No messages yet' }}
+
+                                                                    <i class="fas fa-circle active-dot"
+                                                                        style="color: #003e83ad !important; font-size: 8px; "></i>
+
                                                                 </p>
                                                                 <p class="d-flex justify-content-start align-items-center float-right"
                                                                     style="gap:4px; font-size: 12px; margin:0 ">
                                                                     <i class="far fa-clock "
                                                                         style="line-height: 1; font-size: 12px; color: #464a4c !important; {{ $trainerLastMessage ? 'display: block;' : 'display: none;' }}"></i>
-                                                                        {{ $trainerLastMessage ? $trainerLastMessage->created_at->diffForHumans() : '' }}
-                                                                    </p>
-        
+                                                                    {{ $trainerLastMessage ? $trainerLastMessage->created_at->diffForHumans() : '' }}
+                                                                </p>
+
                                                             </div>
 
 
@@ -643,34 +653,38 @@ gap:10px
                                             @endif
                                             @if ($teacherLastMessage)
                                                 <div class="media">
-                                                    <a href="{{ route('student.chats', $teacher->slug) }}" class="list-group-item list-group-item-action @if ($activeTeacherMessage)
-                                                        {{ $activeTeacherMessage->read_at == null ? 'active' : '' }}
-                                                    @endif">
+                                                    <a href="{{ route('student.chats', $teacher->slug) }}"
+                                                        class="list-group-item list-group-item-action @if ($activeTeacherMessage) {{ $activeTeacherMessage->read_at == null ? 'active' : '' }} @endif">
                                                         <div class="main-info">
                                                             <div class="msg-img">
-                                                                <img src="{{ asset('http://127.0.0.1:8000/'.$teacher->image) }}">
-                                                                
-                                                            </div>
-                                                            <div class="msg-body" style="width: 100%;">
-                                                                <h3 class="dropdown-item-title">{{ $teacher->name }}</h3>
-                                                                <p class="text-sm message">{{ $teacherLastMessage ? Str::words($teacherLastMessage->message, 4, '...') : 'No messages yet' }}
-                                                                    <i class="fas fa-circle  active-dot" style="color: #003e83ad !important; font-size: 8px; "></i>
-                                                                </p>
-                                                                
-                                                                <p class="d-flex justify-content-start align-items-center float-right"
-                                                                style="gap:4px; font-size: 12px; margin:0 ">
-                                                                    <i class="far fa-clock " style="line-height: 1; font-size: 12px; color: #464a4c !important; {{ $teacherLastMessage ? 'display: block;' : 'display: none;' }}"></i>
-                                                                    {{ $teacherLastMessage ? $teacherLastMessage->created_at->diffForHumans() : '' }}
-                                                                </p>
-                                                                
+                                                                <img
+                                                                    src="{{ asset('http://127.0.0.1:8000/' . $teacher->image) }}">
 
                                                             </div>
-                                                            
+                                                            <div class="msg-body" style="width: 100%;">
+                                                                <h3 class="dropdown-item-title">{{ $teacher->name }}
+                                                                </h3>
+                                                                <p class="text-sm message">
+                                                                    {{ $teacherLastMessage ? Str::words($teacherLastMessage->message, 4, '...') : 'No messages yet' }}
+                                                                    <i class="fas fa-circle  active-dot"
+                                                                        style="color: #003e83ad !important; font-size: 8px; "></i>
+                                                                </p>
+
+                                                                <p class="d-flex justify-content-start align-items-center float-right"
+                                                                    style="gap:4px; font-size: 12px; margin:0 ">
+                                                                    <i class="far fa-clock "
+                                                                        style="line-height: 1; font-size: 12px; color: #464a4c !important; {{ $teacherLastMessage ? 'display: block;' : 'display: none;' }}"></i>
+                                                                    {{ $teacherLastMessage ? $teacherLastMessage->created_at->diffForHumans() : '' }}
+                                                                </p>
+
+
+                                                            </div>
+
                                                         </div>
 
                                                     </a>
                                                 </div>
-                                            @endif                                            
+                                            @endif
                                         @endif
 
 
@@ -769,7 +783,6 @@ gap:10px
 
 
     <script src="{{ asset('studentAssets/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('studentAssets/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('adminAssets/dist/js/moment-with-locales.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
     <!-- Sweat Alert -->
