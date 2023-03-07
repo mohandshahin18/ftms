@@ -80,7 +80,6 @@ class SpecializationsController extends Controller
      */
     public function edit($slug)
     {
-
         $specialization = Specialization::whereSlug($slug)->first();
         return view('admin.specializations.edit', compact('specialization'));
     }

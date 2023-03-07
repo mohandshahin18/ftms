@@ -12,11 +12,11 @@ const addMessage = function(msg) {
     const options = { hour: 'numeric', minute: 'numeric', hour12: true };
     const time = created.toLocaleTimeString([], options);
     $(".chat_box").append(`<div class="chat outgoing message">
-        <div class="details">
-            <p>${msg}</p>
-            <span class="time">${time}</span>
-        </div>
-    </div>`);
+                            <div class="details">
+                                <p>${msg}</p>
+                                <span class="time">${time}</span>
+                            </div>
+                            </div>`);
 }
 
 const appendMessage = function(msg, image) {
@@ -24,7 +24,7 @@ const appendMessage = function(msg, image) {
     const options = { hour: 'numeric', minute: 'numeric', hour12: true };
     const time = created.toLocaleTimeString([], options);
     let message = `<div class="chat incoming message" data-id="">
-                    <img src="http://127.0.0.1:8000/${image}" alt="">
+                    <img src="${host}/${image}" alt="">
                     <div class="details">
                         <p>${msg}</p>
                         <span class="time">${time}</span>
@@ -33,9 +33,7 @@ const appendMessage = function(msg, image) {
                 $(".chat_box").append(message);
 }
 
-chatBox.html(
-    '<div class="d-flex align-items-center justify-content-center" style="height: 100%;"><i class="fa fa-spin fa-spinner"></i></div>'
-    );
+chatBox.html('<div class="d-flex align-items-center justify-content-center" style="height: 100%;"><i class="fa fa-spin fa-spinner"></i></div>');
 
 // send message
 send_btn.on("click", function() {
@@ -47,13 +45,8 @@ send_btn.on("click", function() {
             data: send_form.serialize(),
             success: function(response) {
                 let value = $(".input-field").val();
+                appendChat();
                 addMessage(value);
-                $("#last_msg").empty();
-                $("#last_msg").append(value);
-                const sendTime = moment().fromNow();
-                $("#time-send").empty();
-                $("#time-send").append(sendTime);
-                $(".input-field").val("");
                 scrollToBottom();
 
             }
@@ -61,7 +54,7 @@ send_btn.on("click", function() {
     }
 });
 
-// get messages and chats the first you open the page
+// get messages and chats the first moment you open the page
 $(document).ready(function() {
     $.ajax({
         type: "post",
@@ -84,11 +77,28 @@ $(document).ready(function() {
         },
         success: function(response) {
             $(".chat-boxes").empty();
-            $(".chat-boxes").append(response);
+            $(".chat-boxes").prepend(response);
         }
     })
 });
 
+const appendChat = function() {
+    $.ajax({
+        type: "get",
+        url: "get/chats",
+        success: function(response) {
+            $(".chat-boxes").empty();
+            $(".chat-boxes").append(response);
+            let value = $(".input-field").val();
+            $("#last_msg").empty();
+            $("#last_msg").append(value);
+            const sendTime = moment().fromNow();
+            $("#time-send").empty();
+            $("#time-send").append(sendTime);
+            $(".input-field").val("");
+        }
+    })
+}
 
 // append chat to chat area
 $(".chat-list .chat-boxes").on("click", ".chat-box", function(e) {
@@ -100,12 +110,6 @@ $(".chat-list .chat-boxes").on("click", ".chat-box", function(e) {
         data: {
             slug: slug
         },
-        beforeSend: function() {
-            chatBox.css('position', 'relative');
-            chatBox.append(
-                '<div class="d-flex align-items-center justify-content-center" style="height: 100%; width: 100%; position: absolute; z-index: 999; background: #f7f7f7; top: 0;"><i class="fa fa-spin fa-spinner"></i></div>'
-                )
-        },
 
         success: function(response) {
             chatBox.empty();
@@ -114,7 +118,7 @@ $(".chat-list .chat-boxes").on("click", ".chat-box", function(e) {
             $("#student_name").append(response.user.name);
             $(".typing_area #receiver_id").val("");
             $(".typing_area #receiver_id").val(response.user.slug);
-            window.history.pushState("localhost/admin/", "messages", response.user.slug);
+            window.history.pushState(host+"/admin/", "messages", response.user.slug);
             $.each(response.messages, function(key, value) {
                 var created = new Date(Date.parse(value.created_at));
                 const options = { hour: 'numeric', minute: 'numeric', hour12: true };
@@ -127,7 +131,7 @@ $(".chat-list .chat-boxes").on("click", ".chat-box", function(e) {
                                 <span class="time">${time}</span>
                             </div>
                         </div>`;
-                    $(".chat_box").prepend(msg);
+                        chatBox.prepend(msg);
                 } else {
                     let msg = `<div class="chat incoming message" data-id="${value.id}">
                             <img src="${response.image}" alt="">
@@ -136,7 +140,7 @@ $(".chat-list .chat-boxes").on("click", ".chat-box", function(e) {
                                 <span class="time">${time}</span>
                             </div>
                         </div>`;
-                    $(".chat_box").prepend(msg);
+                        chatBox.prepend(msg);
                 }
             });
             scrollToBottom();
@@ -156,12 +160,9 @@ const readAt = function(msg) {
     });
 }
 
-
 function scrollToBottom() {
     chatBox.scrollTop(chatBox.prop("scrollHeight"));
 }
-
-
 
 // overlay
 $(window).scroll(function() {

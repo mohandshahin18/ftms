@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('table_specialization_university', function (Blueprint $table) {
+        Schema::create('specialization_university', function (Blueprint $table) {
             $table->id();
             $table->foreignId('specialization_id');
             $table->foreign('specialization_id')->references('id')->on('specializations')->cascadeOnDelete();
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_specialization_university');
+        Schema::dropIfExists('specialization_university');
     }
 };

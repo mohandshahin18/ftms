@@ -26,14 +26,27 @@ class MessageController extends Controller
     {
 
         $user = Auth::user();
+
         $student = Student::whereSlug($request->reciver_id)->first();
-        $message = Message::create([
-            'receiver_id' => $student->id,
-            'student_id' => $student->id,
-            'trainer_id' => $user->id,
-            'sender_id' => $user->id,
-            'message' => $request->message,
-        ]);
+        if(Auth::guard('trainer')->check()) {
+            $message = Message::create([
+                'receiver_id' => $student->id,
+                'student_id' => $student->id,
+                'trainer_id' => $user->id,
+                'sender_id' => $user->id,
+                'message' => $request->message,
+                'type' => 'trainer'
+            ]);
+        }else {
+            $message = Message::create([
+                'receiver_id' => $student->id,
+                'student_id' => $student->id,
+                'teacher_id' => $user->id,
+                'sender_id' => $user->id,
+                'message' => $request->message,
+                'type' => 'teacher'
+            ]);
+        }
 
         broadcast(new CreateMessage($message, $user->image));
 
@@ -141,6 +154,26 @@ class MessageController extends Controller
     public function get_user_messages(Request $request)
     {
         $auth = Auth::user();
+        if(Auth::guard('student')->check()) {
+            $trainer = Trainer::whereSlug($request->slug)->first();
+            $teacher = Teacher::whereSlug($request->slug)->first();
+            if($trainer) {
+                $user = $trainer;
+                $messages = $auth->messages()->where('trainer_id', $user->id)->orderBy('id', 'desc')->limit(10)->get()->reverse();
+
+            }else {
+                $user = $teacher;
+                $messages = $auth->messages()->where('teacher_id', $user->id)->orderBy('id', 'desc')->limit(10)->get()->reverse();
+            }
+
+            $image = 'http://127.0.0.1:8000/'.$user->image;
+            $data = [
+                "messages" => $messages,
+                "user" => $user,
+                "auth" => $auth,
+                "image" => $image,
+            ];
+            return $data;
 
             $student = Student::whereSlug($request->slug)->first();
             $messages = $auth->messages()->where('student_id', $student->id)->orderBy('id', 'desc')->limit(10)->get()->reverse();
@@ -156,4 +189,5 @@ class MessageController extends Controller
 
 
     }
+}
 }

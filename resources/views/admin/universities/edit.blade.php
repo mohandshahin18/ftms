@@ -2,8 +2,8 @@
 
 @section('title',  __('admin.Edit University') )
 @section('sub-title', __('admin.Universities'))
-@section('companies-menu-open', 'menu-open')
-@section('companies-active', 'active')
+@section('universities-menu-open', 'menu-open')
+@section('universities-active', 'active')
 @section('index-university-active', 'active')
 
 @section('styles')
@@ -32,7 +32,7 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form action="{{ route('admin.universities.update', $university->id) }}" method="POST"
+                <form action="{{ route('admin.universities.update', $university->slug) }}" method="POST"
                     enctype="multipart/form-data">
                     @csrf
                     @method('PUT')

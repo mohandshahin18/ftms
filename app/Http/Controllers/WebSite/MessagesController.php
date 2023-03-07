@@ -48,6 +48,7 @@ class MessagesController extends Controller
                 'sender_id' => $user->id,
                 'trainer_id' => $trainer->id,
                 'student_id' => $user->id,
+                'type' => 'trainer'
             ]);
         }else {
             $messages = Message::create([
@@ -56,6 +57,7 @@ class MessagesController extends Controller
                 'sender_id' => $user->id,
                 'teacher_id' => $teacher->id,
                 'student_id' => $user->id,
+                'type' => 'teacher',
             ]);
         }
 
@@ -127,22 +129,26 @@ class MessagesController extends Controller
 
         $trainerMessage = Message::where([
             ['sender_id', $trainer->id],
-            ['receiver_id', $user->id]
+            ['receiver_id', $user->id],
+            ['type', 'trainer']
         ])
         ->orWhere([
             ['sender_id', $user->id],
-            ['receiver_id', $trainer->id]
+            ['receiver_id', $trainer->id],
+            ['type', 'student']
         ])
         ->latest('id')
         ->first();
 
         $teacherMessage = Message::where([
             ['sender_id', $teacher->id],
-            ['receiver_id', $user->id]
+            ['receiver_id', $user->id],
+            ['type', 'teacher']
         ])
         ->orWhere([
             ['sender_id', $user->id],
-            ['receiver_id', $teacher->id]
+            ['receiver_id', $teacher->id],
+            ['type', 'student']
         ])
         ->latest('id')
         ->first();
@@ -154,6 +160,7 @@ class MessagesController extends Controller
             $teacherTime = '';
             $teacherLastMessage = 'No messages yet';
         }
+
         if($trainerMessage) {
             $trainerTime = $trainerMessage->created_at->diffForHumans();
             $trainerLastMessage = Str::words($trainerMessage->message, 4, '...');
@@ -162,39 +169,86 @@ class MessagesController extends Controller
             $trainerLastMessage = 'No messages yet';
         }
 
-        $output .= '<a href="" class="chat-box" data-slug="'.$trainer->slug.'">
-                        <div class="content">
-                            <div class="chat-img">
-                                <img src="'.'http://127.0.0.1:8000/'.$trainer->image.'" alt="">
-                            </div>
-                            <div class="chat-details">
-                                <span><b>'.$trainer->name.'</b></span>
-                                <div class="chat-message">
-                                    <p id="last_msg">'.$trainerLastMessage.'</p>
-                                    <span id="time-send">'.$trainerTime.'</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>';
+        $data[] = [$trainerMessage ,$teacherMessage ];
+        if($data){
+            // dd($data);
+            // if($trainerMessage->created_at > $teacherMessage->created_at) {
+            //         if($trainerMessage->created_at != null){
+            //         foreach($data as $item){
+            //             $output .= '<a href="" class="chat-box" data-slug="'.$trainer->slug.'">
+            //         <div class="content">
+            //             <div class="chat-img">
+            //                 <img src="'.'http://127.0.0.1:8000/'.$trainer->image.'" alt="">
+            //             </div>
+            //             <div class="chat-details">
+            //                 <span><b>'.$trainer->name.'</b></span>
+            //                 <div class="chat-message">
+            //                     <p id="last_msg">'.$trainerLastMessage.'</p>
+            //                     <span id="time-send">'.$trainerTime.'</span>
+            //                 </div>
+            //             </div>
+            //         </div>
+            //         </a>';
+            //         }
+            //         }elseif($teacherMessage->created_at != null){
+            //             $output .= '<a href="" class="chat-box" data-slug="'.$teacher->slug.'">
+            //             <div class="content">
+            //                 <div class="chat-img">
+            //                     <img src="'.'http://127.0.0.1:8000/'.$teacher->image.'" alt="">
+            //                 </div>
+            //                 <div class="chat-details">
+            //                     <span><b>'.$teacher->name.'</b></span>
+            //                     <div class="chat-message">
+            //                         <p id="last_msg">'.$teacherLastMessage.'</p>
+            //                         <span id="time-send">'.$teacherTime.'</span>
+            //                     </div>
+            //                 </div>
+            //             </div>
+            //         </a>';
+            //         }
 
-        $output .= '<a href="" class="chat-box" data-slug="'.$teacher->slug.'">
-                        <div class="content">
-                            <div class="chat-img">
-                                <img src="'.'http://127.0.0.1:8000/'.$teacher->image.'" alt="">
-                            </div>
-                            <div class="chat-details">
-                                <span><b>'.$teacher->name.'</b></span>
-                                <div class="chat-message">
-                                    <p id="last_msg">'.$teacherLastMessage.'</p>
-                                    <span id="time-send">'.$teacherTime.'</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>';
+
+            // }else {
+            //     $output .= '<a href="" class="chat-box" data-slug="'.$teacher->slug.'">
+            //                     <div class="content">
+            //                         <div class="chat-img">
+            //                             <img src="'.'http://127.0.0.1:8000/'.$teacher->image.'" alt="">
+            //                         </div>
+            //                         <div class="chat-details">
+            //                             <span><b>'.$teacher->name.'</b></span>
+            //                             <div class="chat-message">
+            //                                 <p id="last_msg">'.$teacherLastMessage.'</p>
+            //                                 <span id="time-send">'.$teacherTime.'</span>
+            //                             </div>
+            //                         </div>
+            //                     </div>
+            //                 </a>';
+
+            //                 $output .= '<a href="" class="chat-box" data-slug="'.$trainer->slug.'">
+            //                     <div class="content">
+            //                         <div class="chat-img">
+            //                             <img src="'.'http://127.0.0.1:8000/'.$trainer->image.'" alt="">
+            //                         </div>
+            //                         <div class="chat-details">
+            //                             <span><b>'.$trainer->name.'</b></span>
+            //                             <div class="chat-message">
+            //                                 <p id="last_msg">'.$trainerLastMessage.'</p>
+            //                                 <span id="time-send">'.$trainerTime.'</span>
+            //                             </div>
+            //                         </div>
+            //                     </div>
+            //                 </a>';
+            // }
 
 
+
+        // switch {
+        //     case 1:
+
+        // }
         return $output;
     }
+}
 
     // get user messages
     public function get_user_messages($slug)
