@@ -32,7 +32,7 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form action="{{ route('admin.universities.update', $university->id) }}" method="POST"
+                <form action="{{ route('admin.universities.update', $university->slug) }}" method="POST"
                     enctype="multipart/form-data">
                     @csrf
                     @method('PUT')

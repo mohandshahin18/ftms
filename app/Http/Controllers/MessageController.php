@@ -154,30 +154,16 @@ class MessageController extends Controller
     public function get_user_messages(Request $request)
     {
         $auth = Auth::user();
-        if(Auth::guard('student')->check()) {
-            $trainer = Trainer::whereSlug($request->slug)->first();
-            $teacher = Teacher::whereSlug($request->slug)->first();
-            if($trainer) {
-                $user = $trainer;
-                $messages = $auth->messages()->where('trainer_id', $user->id)->orderBy('id', 'desc')->limit(10)->get()->reverse();
-                
-            }else {
-                $user = $teacher;
-                $messages = $auth->messages()->where('teacher_id', $user->id)->orderBy('id', 'desc')->limit(10)->get()->reverse();
-            }
-            
-            $image = 'http://127.0.0.1:8000/'.$user->image;
-            $data = [
-                "messages" => $messages,
-                "user" => $user,
-                "auth" => $auth,
-                "image" => $image,
-            ];
-            return $data;
-
-        }else {
+       
             $student = Student::whereSlug($request->slug)->first();
-            $messages = $auth->messages()->where('student_id', $student->id)->orderBy('id', 'desc')->limit(10)->get()->reverse();
+            $messages = $auth->messages()
+            ->where('student_id', $student->id)
+            ->where('type', 'student')
+            ->orderBy('id', 'desc')
+            ->limit(10)
+            ->get()
+            ->reverse();
+            
             $image = 'http://127.0.0.1:8000/'.$student->image;
             $data = [
                 "messages" => $messages,
@@ -189,5 +175,5 @@ class MessageController extends Controller
             return $data;
         }
         
-    }
+    
 }

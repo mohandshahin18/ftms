@@ -581,7 +581,7 @@
                                     ->messages()
                                     ->where('trainer_id', $trainer->id)
                                     ->where('sender_id', $trainer->id)
-                                    ->where('type', 'trainer')
+                                    ->where('type', 'student')
                                     ->latest('id')
                                     ->first();
                                 
@@ -589,11 +589,62 @@
                                     ->messages()
                                     ->where('teacher_id', $teacher->id)
                                     ->where('sender_id', $teacher->id)
-                                    ->where('type', 'teacher')
+                                    ->where('type', 'student')
                                     ->latest('id')
                                     ->first();
                                 
                             @endphp
+                        @elseif ($auth->trainer_id)
+                            @php
+
+                                // teacher = null
+                                $teacherLastMessage = null;
+                                $activeTeacherMessage = null;
+
+                                $trainer = $auth->trainer;
+                                $trainerLastMessage = $auth
+                                    ->messages()
+                                    ->where('trainer_id', $trainer->id)
+                                    ->latest('id')
+                                    ->first();
+
+                                $activeTrainerMessage = $auth
+                                    ->messages()
+                                    ->where('trainer_id', $trainer->id)
+                                    ->where('sender_id', $trainer->id)
+                                    ->where('type', 'student')
+                                    ->latest('id')
+                                    ->first();
+                            @endphp
+                        @elseif ($auth->teacher_id)
+                            @php
+                                // trainer = null
+                                $activeTrainerMessage = null;
+                                $trainerLastMessage = null;
+
+                                $teacher = $auth->teacher;
+                                $teacherLastMessage = $auth
+                                    ->messages()
+                                    ->where('teacher_id', $teacher->id)
+                                    ->latest('id')
+                                    ->first();
+                                $activeTeacherMessage = $auth
+                                    ->messages()
+                                    ->where('teacher_id', $teacher->id)
+                                    ->where('sender_id', $teacher->id)
+                                    ->where('type', 'student')
+                                    ->latest('id')
+                                    ->first();
+                            @endphp
+                        @else
+                            @php
+                                // teacher = null
+                                $teacherLastMessage = null;
+                                $activeTeacherMessage = null;
+                                // trainer = null
+                                $activeTrainerMessage = null;
+                                $trainerLastMessage = null;
+                            @endphp         
                         @endif
                         <div class="d-inline dropdown mr-3">
                             <a class="dropdown-toggle" id="messages" data-toggle="dropdown" aria-haspopup="true"
@@ -681,6 +732,24 @@
                                                     </a>
                                                 </div>
                                             @endif
+                                        @else
+                                            <div class="media mb-0">
+
+                                                <a href="#" class="list-group-item list-group-item-action">
+                                                    <div class="main-info">
+
+                                                        <div class="msg-body" style="width: 100%;">
+                                                            <h3 class="dropdown-item-title">
+                                                            </h3>
+                                                            <p class="text-sm message">You have no messages yet</p>
+
+                                                        </div>
+
+
+                                                    </div>
+
+                                                </a>
+                                            </div>
                                         @endif
 
 
@@ -688,9 +757,6 @@
                                 </div> <!-- /.list group -->
                             </div> <!-- /.dropdown-menu -->
                         </div> <!-- /.dropdown -->
-
-
-
 
 
                         <div class="d-inline dropdown">

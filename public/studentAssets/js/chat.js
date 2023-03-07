@@ -89,12 +89,6 @@ const appendChat = function() {
         success: function(response) {
             $(".chat-boxes").empty();
             $(".chat-boxes").append(response);
-            let value = $(".input-field").val();
-            $("#last_msg").empty();
-            $("#last_msg").append(value);
-            const sendTime = moment().fromNow();
-            $("#time-send").empty(); 
-            $("#time-send").append(sendTime); 
             $(".input-field").val("");
         }
     })
@@ -110,13 +104,6 @@ $(".chat-list .chat-boxes").on("click", ".chat-box", function(e) {
         data: {
             slug: slug
         },
-        // beforeSend: function() {
-        //     chatBox.css('position', 'relative');
-        //     chatBox.append(
-        //         '<div class="d-flex align-items-center justify-content-center" style="height: 100%; width: 100%; position: absolute; z-index: 999; background: #f7f7f7; bottom: 0;"><i class="fa fa-spin fa-spinner"></i></div>'
-        //         )
-        // },
-
         success: function(response) {
             chatBox.empty();
             $(".chat-area img").attr('src', response.image);
