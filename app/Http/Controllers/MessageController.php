@@ -26,14 +26,27 @@ class MessageController extends Controller
     {
 
         $user = Auth::user();
+
         $student = Student::whereSlug($request->reciver_id)->first();
-        $message = Message::create([
-            'receiver_id' => $student->id,
-            'student_id' => $student->id,
-            'trainer_id' => $user->id,
-            'sender_id' => $user->id,
-            'message' => $request->message,
-        ]);
+        if(Auth::guard('trainer')->check()) {
+            $message = Message::create([
+                'receiver_id' => $student->id,
+                'student_id' => $student->id,
+                'trainer_id' => $user->id,
+                'sender_id' => $user->id,
+                'message' => $request->message,
+                'type' => 'trainer'
+            ]);
+        }else {
+            $message = Message::create([
+                'receiver_id' => $student->id,
+                'student_id' => $student->id,
+                'teacher_id' => $user->id,
+                'sender_id' => $user->id,
+                'message' => $request->message,
+                'type' => 'teacher'
+            ]);
+        }
 
         broadcast(new CreateMessage($message, $user->image));
 
@@ -140,7 +153,7 @@ class MessageController extends Controller
     // get user messages by clicking 
     public function get_user_messages(Request $request)
     {
-        $auth = Auth::auth();
+        $auth = Auth::user();
         if(Auth::guard('student')->check()) {
             $trainer = Trainer::whereSlug($request->slug)->first();
             $teacher = Teacher::whereSlug($request->slug)->first();

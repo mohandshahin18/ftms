@@ -56,6 +56,7 @@ class MessagesController extends Controller
                 'sender_id' => $user->id,
                 'teacher_id' => $teacher->id,
                 'student_id' => $user->id,
+                'type' => 'student',
             ]);
         }
 
@@ -162,21 +163,37 @@ class MessagesController extends Controller
             $trainerLastMessage = 'No messages yet';
         }
 
-        $output .= '<a href="" class="chat-box" data-slug="'.$trainer->slug.'">
-                        <div class="content">
-                            <div class="chat-img">
-                                <img src="'.'http://127.0.0.1:8000/'.$trainer->image.'" alt="">
-                            </div>
-                            <div class="chat-details">
-                                <span><b>'.$trainer->name.'</b></span>
-                                <div class="chat-message">
-                                    <p id="last_msg">'.$trainerLastMessage.'</p>
-                                    <span id="time-send">'.$trainerTime.'</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>';
+       if($trainerMessage->created_at > $teacherMessage->created_at) {
+            $output .= '<a href="" class="chat-box" data-slug="'.$trainer->slug.'">
+            <div class="content">
+                <div class="chat-img">
+                    <img src="'.'http://127.0.0.1:8000/'.$trainer->image.'" alt="">
+                </div>
+                <div class="chat-details">
+                    <span><b>'.$trainer->name.'</b></span>
+                    <div class="chat-message">
+                        <p id="last_msg">'.$trainerLastMessage.'</p>
+                        <span id="time-send">'.$trainerTime.'</span>
+                    </div>
+                </div>
+            </div>
+        </a>';
 
+        $output .= '<a href="" class="chat-box" data-slug="'.$teacher->slug.'">
+                <div class="content">
+                    <div class="chat-img">
+                        <img src="'.'http://127.0.0.1:8000/'.$teacher->image.'" alt="">
+                    </div>
+                    <div class="chat-details">
+                        <span><b>'.$teacher->name.'</b></span>
+                        <div class="chat-message">
+                            <p id="last_msg">'.$teacherLastMessage.'</p>
+                            <span id="time-send">'.$teacherTime.'</span>
+                        </div>
+                    </div>
+                </div>
+            </a>';
+       }else {
         $output .= '<a href="" class="chat-box" data-slug="'.$teacher->slug.'">
                         <div class="content">
                             <div class="chat-img">
@@ -191,6 +208,22 @@ class MessagesController extends Controller
                             </div>
                         </div>
                     </a>';
+
+                    $output .= '<a href="" class="chat-box" data-slug="'.$trainer->slug.'">
+                        <div class="content">
+                            <div class="chat-img">
+                                <img src="'.'http://127.0.0.1:8000/'.$trainer->image.'" alt="">
+                            </div>
+                            <div class="chat-details">
+                                <span><b>'.$trainer->name.'</b></span>
+                                <div class="chat-message">
+                                    <p id="last_msg">'.$trainerLastMessage.'</p>
+                                    <span id="time-send">'.$trainerTime.'</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>';
+       }
     
 
         return $output;
@@ -226,5 +259,15 @@ class MessagesController extends Controller
         return $data;
 
 
+    }
+
+
+    // mark message as read 
+    public function read_message(Request $request)
+    {
+        $message = Message::where('id', $request->msg)->first();
+
+        $message->read_at = now();
+        $message->save();
     }
 }
