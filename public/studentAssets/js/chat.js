@@ -61,9 +61,13 @@ $(document).ready(function() {
         url: 'get/messages',
         data: send_form.serialize(),
         success: function(response) {
-            chatBox.empty();
-            chatBox.append(response);
-            scrollToBottom();
+            if(response != ''){
+                chatBox.empty();
+                chatBox.append(response);
+                scrollToBottom();
+            } else {
+                chatBox.empty();
+            }
         }
     });
 
@@ -98,6 +102,8 @@ const appendChat = function() {
 $(".chat-list .chat-boxes").on("click", ".chat-box", function(e) {
     e.preventDefault();
     const slug = $(this).data('slug');
+    $(this).addClass('active');
+    $(this).siblings().removeClass('active');
     $.ajax({
         type: "get",
         url: "get/user/messages/"+slug,
@@ -137,6 +143,7 @@ $(".chat-list .chat-boxes").on("click", ".chat-box", function(e) {
                 }
             });
             scrollToBottom();
+            
         }
     });
 });

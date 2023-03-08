@@ -105,3 +105,18 @@ $('.restor_form').on('submit', function(e) {
     })
 
 });
+
+$(document).ready(function() {
+    $.ajax({
+        type: "get",
+        url: url,
+        data: {slug: slug},
+        success:function(response) {
+          $("#messages-wrapper").empty();
+          $("#messages-wrapper").append(response);
+          $("#messages-wrapper").append(`<a href="#" class="dropdown-item dropdown-footer">عرض كل الرسائل</a>
+          `);
+        } 
+      });
+      
+})

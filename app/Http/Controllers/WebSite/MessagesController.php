@@ -48,7 +48,8 @@ class MessagesController extends Controller
                 'sender_id' => $user->id,
                 'trainer_id' => $trainer->id,
                 'student_id' => $user->id,
-                'type' => 'trainer',
+                'sender_type' => 'student',
+                'receiver_type' => 'trainer',
             ]);
         }else {
             $messages = Message::create([
@@ -57,7 +58,8 @@ class MessagesController extends Controller
                 'sender_id' => $user->id,
                 'teacher_id' => $teacher->id,
                 'student_id' => $user->id,
-                'type' => 'teacher',
+                'sender_type' => 'student',
+                'receiver_type' => 'teacher',
             ]);
         }
 
@@ -140,12 +142,14 @@ class MessagesController extends Controller
         $trainerMessage = Message::where([
             ['sender_id', $trainer->id],
             ['receiver_id', $user->id],
-            ['type', 'student']
+            ['sender_type', 'trainer'],
+            ['receiver_type', 'student']
         ])
         ->orWhere([
             ['sender_id', $user->id],
             ['receiver_id', $trainer->id],
-            ['type', 'trainer']
+            ['sender_type', 'student'],
+            ['receiver_type', 'trainer'],
         ])
         ->latest('id')
         ->first();
@@ -153,12 +157,14 @@ class MessagesController extends Controller
         $teacherMessage = Message::where([
             ['sender_id', $teacher->id],
             ['receiver_id', $user->id],
-            ['type', 'student']
+            ['sender_type', 'teacher'],
+            ['receiver_type', 'student']
         ])
         ->orWhere([
             ['sender_id', $user->id],
             ['receiver_id', $teacher->id],
-            ['type', 'teacher']
+            ['sender_type', 'student'],
+            ['receiver_type', 'teacher'],
         ])
         ->latest('id')
         ->first();
@@ -181,7 +187,7 @@ class MessagesController extends Controller
 
        if($trainerMessage && $teacherMessage) {
             if($trainerMessage->created_at > $teacherMessage->created_at) {
-                $output .= '<a href="" class="chat-box" data-slug="'.$trainer->slug.'">
+                $output .= '<a href="" class="chat-box active" data-slug="'.$trainer->slug.'">
                                 <div class="content">
                                     <div class="chat-img">
                                         <img src="'.'http://127.0.0.1:8000/'.$trainer->image.'" alt="">
@@ -213,7 +219,7 @@ class MessagesController extends Controller
                             </a>'
                 ;
         }else {
-                $output .= '<a href="" class="chat-box" data-slug="'.$teacher->slug.'">
+                $output .= '<a href="" class="chat-box active" data-slug="'.$teacher->slug.'">
                                 <div class="content">
                                     <div class="chat-img">
                                         <img src="'.'http://127.0.0.1:8000/'.$teacher->image.'" alt="">
@@ -246,7 +252,7 @@ class MessagesController extends Controller
                 ;
         }
        } elseif($trainerMessage) {
-            $output .= '<a href="" class="chat-box" data-slug="'.$trainer->slug.'">
+            $output .= '<a href="" class="chat-box active" data-slug="'.$trainer->slug.'">
                             <div class="content">
                                 <div class="chat-img">
                                     <img src="'.'http://127.0.0.1:8000/'.$trainer->image.'" alt="">
@@ -278,7 +284,7 @@ class MessagesController extends Controller
                         </a>'
             ;
        } elseif($teacherMessage) {
-            $output .= '<a href="" class="chat-box" data-slug="'.$teacher->slug.'">
+            $output .= '<a href="" class="chat-box active" data-slug="'.$teacher->slug.'">
                             <div class="content">
                                 <div class="chat-img">
                                     <img src="'.'http://127.0.0.1:8000/'.$teacher->image.'" alt="">
@@ -310,7 +316,7 @@ class MessagesController extends Controller
                         </a>'
             ;
        } else {
-            $output .= '<a href="" class="chat-box" data-slug="'.$trainer->slug.'">
+            $output .= '<a href="" class="chat-box active" data-slug="'.$trainer->slug.'">
                             <div class="content">
                                 <div class="chat-img">
                                     <img src="'.'http://127.0.0.1:8000/'.$trainer->image.'" alt="">
@@ -362,10 +368,6 @@ class MessagesController extends Controller
             $messages = $auth->messages()->where('teacher_id', $user->id)->orderBy('id', 'desc')->limit(10)->get()->reverse();
         }
 
-        foreach($messages as $message) {
-            $message->read_at = now();
-            // $message->save();
-        }
 
         $image = 'http://127.0.0.1:8000/'.$user->image;
         $data = [

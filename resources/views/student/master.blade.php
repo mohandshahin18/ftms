@@ -355,6 +355,23 @@
             .list-group-item .main-info {
                 /* flex-direction: row-reverse; */
             }
+
+            .chat_box .incoming {
+                flex-direction: row-reverse;
+            }
+            .incoming .details
+            {
+                flex-direction: row-reverse !important; 
+            }
+
+            .outgoing .details {
+                flex-direction: row !important; 
+            }
+
+            .chat-area .typing_area button {
+                right: unset !important;
+                left: 88px !important;
+            }
         </style>
     @endif
 
@@ -408,6 +425,7 @@
     @php
         use App\Models\Company;
         use App\Models\Category;
+        use App\Models\Trainer;
         $auth = Auth::user();
         
         $data = json_decode(File::get(storage_path('app/settings.json')), true);
@@ -581,7 +599,7 @@
                                     ->messages()
                                     ->where('trainer_id', $trainer->id)
                                     ->where('sender_id', $trainer->id)
-                                    ->where('type', 'student')
+                                    ->where('sender_type', 'trainer')
                                     ->latest('id')
                                     ->first();
                                 
@@ -589,7 +607,7 @@
                                     ->messages()
                                     ->where('teacher_id', $teacher->id)
                                     ->where('sender_id', $teacher->id)
-                                    ->where('type', 'student')
+                                    ->where('sender_type', 'teacher')
                                     ->latest('id')
                                     ->first();
                                 
@@ -612,7 +630,7 @@
                                     ->messages()
                                     ->where('trainer_id', $trainer->id)
                                     ->where('sender_id', $trainer->id)
-                                    ->where('type', 'student')
+                                    ->where('sender_type', 'trainer')
                                     ->latest('id')
                                     ->first();
                             @endphp
@@ -632,7 +650,7 @@
                                     ->messages()
                                     ->where('teacher_id', $teacher->id)
                                     ->where('sender_id', $teacher->id)
-                                    ->where('type', 'student')
+                                    ->where('sender_type', 'teacher')
                                     ->latest('id')
                                     ->first();
                             @endphp
@@ -736,14 +754,12 @@
                                             <div class="media mb-0">
 
                                                 <a href="#" class="list-group-item list-group-item-action">
-                                                    <div class="main-info">
+                                                    <div class="main-info" style="justify-content: center;">
 
-                                                        <div class="msg-body" style="width: 100%;">
-                                                            <h3 class="dropdown-item-title">
-                                                            </h3>
-                                                            <p class="text-sm message">You have no messages yet</p>
+                                                        {{-- <div class="msg-body" style="width: 100%;"> --}}
+                                                            <p class="text-sm message" style="margin: 8px 0; color: #292b2c;">You have no messages yet</p>
 
-                                                        </div>
+                                                        {{-- </div> --}}
 
 
                                                     </div>

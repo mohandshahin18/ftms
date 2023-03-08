@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('messages', function (Blueprint $table) {
-            $table->enum('type', ['trainer', 'student', 'teacher'])->default('student');
+            $table->enum('sender_type', ['trainer', 'student', 'teacher'])->after('teacher_id')->default('student');
+            $table->enum('receiver_type', ['trainer', 'student', 'teacher'])->after('sender_type')->default('student');
         });
     }
 

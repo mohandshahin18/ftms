@@ -210,8 +210,9 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     Route::post('messages/get/messages', [MessageController::class, 'get_messages']);
     Route::get('messages/get/chats', [MessageController::class, 'get_chats']);
     Route::get('messages/get/user/messages', [MessageController::class, 'get_user_messages']);
+    Route::get('get/students/messages', [MessageController::class, 'get_students_messages'])->name('students.messages');
+    
     //import university id
-
     Route::get('subscribes/import/', [SubsicribeController::class, 'import'])->name('subscribes.import_view');
     Route::post('subscribes/import/Excel', [SubsicribeController::class, 'importExcel'])->name('subscribes.importExcel');
     // subsicribes
