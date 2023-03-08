@@ -24,7 +24,7 @@ const appendMessage = function(msg, image) {
     const options = { hour: 'numeric', minute: 'numeric', hour12: true };
     const time = created.toLocaleTimeString([], options);
     let message = `<div class="chat incoming message" data-id="">
-                    <img src="${host}/${image}" alt="">
+                    <img src="http://127.0.0.1:8000/${image}" alt="">
                     <div class="details">
                         <p>${msg}</p>
                         <span class="time">${time}</span>
@@ -89,12 +89,6 @@ const appendChat = function() {
         success: function(response) {
             $(".chat-boxes").empty();
             $(".chat-boxes").append(response);
-            let value = $(".input-field").val();
-            $("#last_msg").empty();
-            $("#last_msg").append(value);
-            const sendTime = moment().fromNow();
-            $("#time-send").empty();
-            $("#time-send").append(sendTime);
             $(".input-field").val("");
         }
     })
@@ -104,13 +98,14 @@ const appendChat = function() {
 $(".chat-list .chat-boxes").on("click", ".chat-box", function(e) {
     e.preventDefault();
     const slug = $(this).data('slug');
+    $(this).addClass('active');
+    $(this).siblings().removeClass('active');
     $.ajax({
         type: "get",
         url: "get/user/messages/"+slug,
         data: {
             slug: slug
         },
-
         success: function(response) {
             chatBox.empty();
             $(".chat-area img").attr('src', response.image);
@@ -118,7 +113,7 @@ $(".chat-list .chat-boxes").on("click", ".chat-box", function(e) {
             $("#student_name").append(response.user.name);
             $(".typing_area #receiver_id").val("");
             $(".typing_area #receiver_id").val(response.user.slug);
-            window.history.pushState(host+"/admin/", "messages", response.user.slug);
+            window.history.pushState("localhost/admin/", "messages", response.user.slug);
             $.each(response.messages, function(key, value) {
                 var created = new Date(Date.parse(value.created_at));
                 const options = { hour: 'numeric', minute: 'numeric', hour12: true };
@@ -144,6 +139,7 @@ $(".chat-list .chat-boxes").on("click", ".chat-box", function(e) {
                 }
             });
             scrollToBottom();
+
         }
     });
 });

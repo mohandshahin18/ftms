@@ -703,16 +703,19 @@ html {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+@if(Auth::guard('company')->check())
 
-    <script>
-        let from = 'admin';
-        let companyId = {{ Auth::id() }};
-        let time = "{{ __('admin.1 Seconds ago') }}";
-        let lang = "{{ app()->getLocale() }}" ;
-        let host = "{{ env('APP_URL') }}";
+<script>
+    let from = 'admin';
+    let companyId = {{ Auth::id() }};
+    let time = "{{ __('admin.1 Seconds ago') }}";
+    let lang = "{{ app()->getLocale() }}" ;
+    let host = "{{ env('APP_URL') }}";
 
-    </script>
-    @vite(['resources/js/app.js'])
+</script>
+@vite(['resources/js/app.js'])
+@endif
+
 
     <script>
 

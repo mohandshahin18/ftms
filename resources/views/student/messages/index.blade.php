@@ -62,15 +62,16 @@
     <script>
         const userId = "{{ Auth::user()->id }}";
         // Enable pusher logging - don't include this in production
-        Pusher.logToConsole = true;
+        // Pusher.logToConsole = true;
 
         var pusher = new Pusher('d13948d0184f21111953', {
             cluster: 'ap2',
             authEndpoint: '/broadcasting/auth',
         });
-        
+
         var channel = pusher.subscribe(`private-Messages.${userId}`);
         channel.bind('new-message', function(data) {
+            alert(5);
             appendMessage(data.message.message, data.image);
             scrollToBottom();
             readAt(data.message.id);

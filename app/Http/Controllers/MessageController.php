@@ -176,7 +176,14 @@ class MessageController extends Controller
             return $data;
 
             $student = Student::whereSlug($request->slug)->first();
-            $messages = $auth->messages()->where('student_id', $student->id)->orderBy('id', 'desc')->limit(10)->get()->reverse();
+            $messages = $auth->messages()
+            ->where('student_id', $student->id)
+            ->where('type', 'student')
+            ->orderBy('id', 'desc')
+            ->limit(10)
+            ->get()
+            ->reverse();
+
             $image = 'http://127.0.0.1:8000/'.$student->image;
             $data = [
                 "messages" => $messages,
