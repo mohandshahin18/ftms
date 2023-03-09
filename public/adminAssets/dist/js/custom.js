@@ -109,7 +109,7 @@ $('.restor_form').on('submit', function(e) {
 $(document).ready(function() {
     $.ajax({
         type: "get",
-        url: url,
+        url: urlOnLoad,
         data: {slug: slug},
         success:function(response) {
           $("#messages-wrapper").empty();

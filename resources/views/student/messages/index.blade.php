@@ -61,8 +61,6 @@
     <script src="{{ asset('studentAssets/js/chat.js') }}"></script>
     <script>
         const userId = "{{ Auth::user()->id }}";
-        // Enable pusher logging - don't include this in production
-        // Pusher.logToConsole = true;
 
         var pusher = new Pusher('d13948d0184f21111953', {
             cluster: 'ap2',

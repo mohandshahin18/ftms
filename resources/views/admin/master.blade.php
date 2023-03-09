@@ -659,7 +659,7 @@ html {
 
     <script>
         const slug = "{{ Auth::user()->slug }}"; 
-        const url = "{{ route('admin.students.messages') }}"; 
+        const urlOnLoad = "{{ route('admin.students.messages') }}"; 
     </script>
     <!-- jQuery -->
     <script src="{{ asset('adminAssets/plugins/jquery/jquery.min.js') }}"></script>
