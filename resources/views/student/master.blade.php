@@ -26,7 +26,6 @@
     <link rel="stylesheet" href="{{ asset('studentAssets/css/style.css') }}">
     <link rel="icon" type="image/x-icon" href="{{ asset('adminAssets/dist/img/selection/favicon.ico') }}">
 
-    {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> --}}
     <style>
 
   #center-text {
@@ -98,11 +97,11 @@
   cursor:pointer;
   }
   .chat-box-header {
-  background: #1a2e44;
+  background: #fff;
   height:40px;
   border-top-left-radius:5px;
   border-top-right-radius:5px;
-  color:#fff;
+  color:#000;
   font-size:18px;
   display: flex;
   justify-content: space-between;
@@ -111,6 +110,8 @@
   }
   .chat-box-header p{
     margin: 0 !important;
+    font-weight: 900;
+    font-size: 15px;
   }
   .chat-box-body {
   position: relative;
@@ -1115,7 +1116,7 @@
         </div>
     </div> <!-- END TOP NAVBAR -->
 
-    <div id="body">
+    {{-- <div id="body"> --}}
 
           <div class="chat-box">
             <div class="chat-box-header">
@@ -1156,7 +1157,7 @@
 
 
 
-        </div>
+        {{-- </div> --}}
 
 
     @yield('content')
@@ -1176,6 +1177,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
+          // Restore chat box state from local storage
         $(window).on('beforeunload', function() {
         localStorage.setItem('chatBoxState', $('.chat-box').css('display'));
         });
@@ -1189,32 +1191,42 @@
             // chatBoxState is null or invalid, do nothing
         }
         });
+
+        // show chat box when clicking on chat circle button
         $(function() {
+            $("#chat-circle").click(function(event) {
+                event.preventDefault();
+                $(".chat-box").show();
+                $(".box").css('height','unset');
+                $(".chat-input").show();
+                $(".chat-box-max").remove();
+                $(".chat-box-min").remove();
+                $('.icons-chat').append('<span class="chat-box-min" style="line-height: 0"><i class="fas fa-minus"></i></span>');
+            });
+        });
 
-            $("#chat-circle").click(function() {
-              $(".chat-box").toggle('scale');
-            })
-
-
-        })
+        // hide chat box when clicking on close button
         $(".chat-box-toggle").click(function() {
-          $(".chat-box").toggle('scale');
+          $(".chat-box").hide();
         })
-
-
+        // Minimize chat box
         $(".icons-chat").on("click",".chat-box-min",function() {
           $(".box").css('height','0');
           $(".chat-input").hide();
           $(this).hide();
           $(this).parent().append('<span class="chat-box-max" style="line-height: 0"><i class="fas fas fa-expand"></i></span>')
+            $(this).parent().parent().addClass('test');
         })
-
+        // Maximize chat box
         $(".icons-chat").on("click", ".chat-box-max",function() {
           $(".box").css('height','unset');
           $(".chat-input").show();
           $(this).hide();
           $(this).parent().append('<span class="chat-box-min" style="line-height: 0"><i class="fas fa-minus"></i></span>')
         })
+
+
+
     </script>
     <script>
         let from = 'student';
