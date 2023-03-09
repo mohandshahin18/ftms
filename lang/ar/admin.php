@@ -284,6 +284,8 @@ return [
     "Only an Excel file must be selected, containing the student's name and their university id only"=>"يجب اختيار ملف من نوع اكسل فقط , يوجد به اسم الطالب ورقمه الجامعي فقط" ,
     "Excel File"=>"ملف الإكسل" ,
     "File imported successfully."=>"تم استيراد الملف بنجاح ." ,
-
+    "Active now" => "متصل الآن",
+    "Chats" => "المحادثات",
+    "Type a message here..." => "ارسل رسالة هنا",
 
 ];

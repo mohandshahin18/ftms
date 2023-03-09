@@ -114,7 +114,7 @@ $(".chat-list .chat-boxes").on("click", ".chat-box", function(e) {
                 const options = { hour: 'numeric', minute: 'numeric', hour12: true };
                 const time = created.toLocaleTimeString([], options);
 
-                if (value.sender_id == response.user.id) {
+                if (value.sender_id == response.auth.id) {
                     let msg = `<div class="chat outgoing message" data-id="${value.id}">
                             <div class="details">
                                 <p>${value.message}</p>

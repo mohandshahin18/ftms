@@ -44,10 +44,11 @@
     <script src="{{ asset('adminAssets/dist/js/chat.js') }}"></script>
     <script>
         const userId = "{{ Auth::user()->id }}";
+        const pusherKey = "{{ env('PUSHER_APP_KEY') }}";
         // Enable pusher logging - don't include this in production
         // Pusher.logToConsole = true;
 
-        var pusher = new Pusher('d13948d0184f21111953', {
+        var pusher = new Pusher(pusherKey, {
             cluster: 'ap2',
             authEndpoint: '/broadcasting/auth',
         });

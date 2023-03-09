@@ -284,5 +284,8 @@ return [
     "Only an Excel file must be selected, containing the student's name  and their university id only"=>"Only an Excel file must be selected, containing the student's name and their university id only" ,
     "Excel File"=>"Excel File" ,
     "File imported successfully."=>"File imported successfully." ,
-
+    "Active now" => "Active now",
+    "Chats" => "Chats",
+    "Type a message here..." => "Type a message here...",
+    
 ];

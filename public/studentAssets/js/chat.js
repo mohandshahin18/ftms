@@ -61,9 +61,13 @@ $(document).ready(function() {
         url: 'get/messages',
         data: send_form.serialize(),
         success: function(response) {
-            chatBox.empty();
-            chatBox.append(response);
-            scrollToBottom();
+            if(response != ''){
+                chatBox.empty();
+                chatBox.append(response);
+                scrollToBottom();
+            } else {
+                chatBox.empty();
+            }
         }
     });
 

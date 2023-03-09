@@ -654,7 +654,9 @@ i.far.fa-comments{
 }
 
 .typing_area .input-field:focus {
-  border-color: #2b4d6c;
+  border-color: #2b4d6c37;
+  box-shadow: 0 0 32px rgb(0 0 0 / 8%);
+  background-color: #fefefe;
 }
 
 .chat-wrapper {
@@ -701,6 +703,12 @@ i.far.fa-comments{
 
 
 .chat-list .chat-box:hover {
+  background-color: #fbfbfb;
+  box-shadow: -7px 0px 23px 0px rgb(0 0 0 / 10%);
+  border-color: #fbfbfb;
+}
+
+.chat-list .chat-box.active {
   background-color: #fbfbfb;
   box-shadow: -7px 0px 23px 0px rgb(0 0 0 / 10%);
   border-color: #fbfbfb;
