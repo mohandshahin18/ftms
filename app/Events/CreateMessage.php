@@ -19,7 +19,6 @@ class CreateMessage implements ShouldBroadcast
      * @var \App\Models\Message
      */
     public $message;
-    public $image;
     /**
      * Create a new event instance.
      * 
@@ -27,10 +26,9 @@ class CreateMessage implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct(Message $message, $image)
+    public function __construct(Message $message, )
     {
         $this->message = $message;
-        $this->image = $image;
     }
 
     /**

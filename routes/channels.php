@@ -28,9 +28,8 @@ Broadcast::channel('App.Models.Trainer.{id}', function ($trainer, $id) {
 // Chat channels
 Broadcast::channel('Messages.{id}', function ($student, $id) {
     if($student->id == $id) {
-
         return $student;
     }
-},['guards'=>['student','teacher','trainer']]);
+},['guards' => ['student','teacher','trainer']]);
 
 

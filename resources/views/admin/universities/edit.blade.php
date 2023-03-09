@@ -2,8 +2,8 @@
 
 @section('title',  __('admin.Edit University') )
 @section('sub-title', __('admin.Universities'))
-@section('companies-menu-open', 'menu-open')
-@section('companies-active', 'active')
+@section('universities-menu-open', 'menu-open')
+@section('universities-active', 'active')
 @section('index-university-active', 'active')
 
 @section('styles')

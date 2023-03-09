@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
+use function PHPSTORM_META\type;
+
 class MessagesController extends Controller
 {
     //chats
@@ -38,11 +40,11 @@ class MessagesController extends Controller
     public function send_message(Request $request)
     {
         $user = Auth::user();
-        $trainer = Trainer::whereSlug($request->reciver_id)->first();
-        $teacher = Teacher::whereSlug($request->reciver_id)->first();
+        $trainer = Trainer::whereSlug($request->slug)->first();
+        $teacher = Teacher::whereSlug($request->slug)->first();
 
-        if($trainer) {
-            $messages = Message::create([
+        if($request->type == 'trainer') {
+            $message = Message::create([
                 'message' => $request->message,
                 'receiver_id' => $trainer->id,
                 'sender_id' => $user->id,
@@ -52,7 +54,7 @@ class MessagesController extends Controller
                 'receiver_type' => 'trainer',
             ]);
         }else {
-            $messages = Message::create([
+            $message = Message::create([
                 'message' => $request->message,
                 'receiver_id' => $teacher->id,
                 'sender_id' => $user->id,
@@ -63,26 +65,42 @@ class MessagesController extends Controller
             ]);
         }
 
-        broadcast(new CreateMessage($messages, $user->image));
+        broadcast(new CreateMessage($message));
+
+        $output = '<div class="chat outgoing message" data-id="'.$message->id.'">
+                                <div class="details">
+                                    <p>'.$message->message.'</p>
+                                </div>
+                                </div>';
+        return $output;
     }
 
 
-    // get messages 
+    // get messages
     public function get_messages(Request $request)
     {
-        $slug = $request->reciver_id;
+        $slug = $request->slug;
+        $type = $request->type;
         $user = Auth::user();
-        $trainer = Trainer::whereSlug($slug)->first();
-        $teacher = Teacher::whereSlug($slug)->first();
+        $receiver = '';
+        if($type == 'trainer') {
+            $trainer = Trainer::whereSlug($slug)->first();
+            $receiver = $trainer;
+        } else {
+            $teacher = Teacher::whereSlug($slug)->first();
+            $receiver = $teacher;
+        }
+        
+        
 
-        if($trainer) {
+        if($type == 'trainer') {
             $messages = $user->messages()
             ->where('trainer_id', $trainer->id)
             ->orderBy('id', 'desc')
             ->limit(10)
             ->get()
             ->reverse();
-            
+
         }else {
             $messages = $user->messages()
             ->where('teacher_id', $teacher->id)
@@ -90,22 +108,21 @@ class MessagesController extends Controller
             ->limit(10)
             ->get()
             ->reverse();
-            
+
         }
 
         $output = '';
 
         if($messages) {
             foreach($messages as $message) {
-                $time = $message->created_at->format('h:i');
-                $period = $message->created_at->format('a');
-                $total_time = $time.' '.$period;
+                // $time = $message->created_at->format('h:i');
+                // $period = $message->created_at->format('a');
+                // $total_time = $time.' '.$period;
 
                 if($message->sender_id == $user->id) {
                     $output .= '<div class="chat outgoing message" data-id="'.$message->id.'">
                                 <div class="details">
                                     <p>'.$message->message.'</p>
-                                    <span class="time">'.$total_time.'</span>
                                 </div>
                                 </div>';
                 }else {
@@ -114,18 +131,18 @@ class MessagesController extends Controller
                     }else {
                         $image = $teacher->image;
                     }
-                    $output .= '<div class="chat incoming message" data-id="'.$message->id.'"> 
-                                    <img src="'.'http://127.0.0.1:8000/'.$image.'" alt="">
+                    $output .= '<div class="chat incoming message" data-id="'.$message->id.'">
                                     <div class="details">
                                         <p>'.$message->message.'</p>
-                                        <span class="time">'.$total_time.'</span>
                                     </div>
                                 </div>';
                 }
             }
 
-            
+
         }
+
+        
 
         return $output;
     }
@@ -138,7 +155,7 @@ class MessagesController extends Controller
         $teacher = $user->teacher;
 
         $output = '';
-    
+
         $trainerMessage = Message::where([
             ['sender_id', $trainer->id],
             ['receiver_id', $user->id],
@@ -187,7 +204,7 @@ class MessagesController extends Controller
 
        if($trainerMessage && $teacherMessage) {
             if($trainerMessage->created_at > $teacherMessage->created_at) {
-                $output .= '<a href="" class="chat-box active" data-slug="'.$trainer->slug.'">
+                $output .= '<a href="" class="chat-box " data-slug="'.$trainer->slug.'">
                                 <div class="content">
                                     <div class="chat-img">
                                         <img src="'.'http://127.0.0.1:8000/'.$trainer->image.'" alt="">
@@ -219,7 +236,7 @@ class MessagesController extends Controller
                             </a>'
                 ;
         }else {
-                $output .= '<a href="" class="chat-box active" data-slug="'.$teacher->slug.'">
+                $output .= '<a href="" class="chat-box " data-slug="'.$teacher->slug.'">
                                 <div class="content">
                                     <div class="chat-img">
                                         <img src="'.'http://127.0.0.1:8000/'.$teacher->image.'" alt="">
@@ -252,7 +269,7 @@ class MessagesController extends Controller
                 ;
         }
        } elseif($trainerMessage) {
-            $output .= '<a href="" class="chat-box active" data-slug="'.$trainer->slug.'">
+            $output .= '<a href="" class="chat-box " data-slug="'.$trainer->slug.'">
                             <div class="content">
                                 <div class="chat-img">
                                     <img src="'.'http://127.0.0.1:8000/'.$trainer->image.'" alt="">
@@ -284,7 +301,7 @@ class MessagesController extends Controller
                         </a>'
             ;
        } elseif($teacherMessage) {
-            $output .= '<a href="" class="chat-box active" data-slug="'.$teacher->slug.'">
+            $output .= '<a href="" class="chat-box " data-slug="'.$teacher->slug.'">
                             <div class="content">
                                 <div class="chat-img">
                                     <img src="'.'http://127.0.0.1:8000/'.$teacher->image.'" alt="">
@@ -316,7 +333,7 @@ class MessagesController extends Controller
                         </a>'
             ;
        } else {
-            $output .= '<a href="" class="chat-box active" data-slug="'.$trainer->slug.'">
+            $output .= '<a href="" class="chat-box " data-slug="'.$trainer->slug.'">
                             <div class="content">
                                 <div class="chat-img">
                                     <img src="'.'http://127.0.0.1:8000/'.$trainer->image.'" alt="">
@@ -348,12 +365,12 @@ class MessagesController extends Controller
                         </a>'
             ;
        }
-    
+
 
         return $output;
     }
 
-    // get user messages 
+    // get user messages
     public function get_user_messages($slug)
     {
         $auth = Auth::user();
@@ -361,7 +378,7 @@ class MessagesController extends Controller
         $teacher = Teacher::whereSlug($slug)->first();
 
         if($trainer) {
-            $user = $trainer; 
+            $user = $trainer;
             $messages = $auth->messages()->where('trainer_id', $user->id)->orderBy('id', 'desc')->limit(10)->get()->reverse();
         }else {
             $user = $teacher;
@@ -382,7 +399,7 @@ class MessagesController extends Controller
     }
 
 
-    // mark message as read 
+    // mark message as read
     public function read_message(Request $request)
     {
         $message = Message::where('id', $request->msg)->first();

@@ -42,7 +42,7 @@ class SubsicribeController extends Controller
     {
         $request->validate([
             'name' =>'required',
-            'university_id_st' =>'required'
+            'university_id_st' =>'required|unique:subsicribes,university_id'
         ]);
 
         Subsicribe::create([
@@ -114,11 +114,12 @@ class SubsicribeController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
+            'name'=>'required',
             'university_id_st' =>'required'
         ]);
 
         $subscribes= Subsicribe::where('id',$id)->first();
-
+        
 
 
         $subscribes->name = $request->name;

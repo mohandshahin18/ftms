@@ -118,9 +118,9 @@ Route::prefix('/')->middleware('auth:student','is_verify_email')->name('student.
     Route::post('/edit/task/{id}', [websiteController::class, 'edit_applied_task'])->name('edit.applied.task');
 
     // messages
-    Route::get('/chats/{slug}', [MessagesController::class, 'student_chats'])->name('chats');
+    // Route::get('/chats/{slug}', [MessagesController::class, 'student_chats'])->name('chats');
     Route::post('student/send/message', [MessagesController::class, 'send_message'])->name('send.message');
-    Route::post('chats/get/messages', [MessagesController::class, 'get_messages']);
+    Route::get('get/messages', [MessagesController::class, 'get_messages'])->name('get.messages');
     Route::get('chats/get/chats', [MessagesController::class, 'get_chats']);
     Route::get('chats/get/user/messages/{slug}', [MessagesController::class, 'get_user_messages']);
     Route::get('chats/read/message', [MessagesController::class, 'read_message']);

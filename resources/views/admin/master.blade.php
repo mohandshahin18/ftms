@@ -138,7 +138,7 @@ html {
                             <!-- Message End -->
                         </a>
                         <div class="dropdown-divider"></div>
-                        
+
                     </div>
                 </li>
 @php
@@ -658,8 +658,8 @@ html {
     <!-- REQUIRED SCRIPTS -->
 
     <script>
-        const slug = "{{ Auth::user()->slug }}"; 
-        const urlOnLoad = "{{ route('admin.students.messages') }}"; 
+        const slug = "{{ Auth::user()->slug }}";
+        const urlOnLoad = "{{ route('admin.students.messages') }}";
     </script>
     <!-- jQuery -->
     <script src="{{ asset('adminAssets/plugins/jquery/jquery.min.js') }}"></script>
@@ -672,19 +672,21 @@ html {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+@if(Auth::guard('company')->check())
+
+<script>
+    let from = 'admin';
+    let companyId = {{ Auth::id() }};
+    let time = "{{ __('admin.1 Seconds ago') }}";
+    let lang = "{{ app()->getLocale() }}" ;
+
+</script>
+@vite(['resources/js/app.js'])
+@endif
+
 
     <script>
-        let from = 'admin';
-        let companyId = {{ Auth::id() }};
-        let time = "{{ __('admin.1 Seconds ago') }}";
-        let lang = "{{ app()->getLocale() }}" ;
         let host = "{{ env('APP_URL') }}";
-
-    </script>
-    @vite(['resources/js/app.js'])
-
-    <script>
-
         let text =  '{{ __('admin.It will be deleted') }}';
         let title =  '{{ __("admin.Are you sure?") }}';
         let confirmButtonText =  '{{ __('admin.Yes, delete it!') }}';

@@ -84,7 +84,7 @@ class MessageController extends Controller
                                     </div>
                                 </div>';
                 } else {
-                    $output .= '<div class="chat incoming message" data-id="' . $message->id . '"> 
+                    $output .= '<div class="chat incoming message" data-id="' . $message->id . '">
                                     <img src="' . 'http://127.0.0.1:8000/' . $student->image . '" alt="">
                                     <div class="details">
                                         <p>' . $message->message . '</p>
@@ -98,7 +98,7 @@ class MessageController extends Controller
         }
     }
 
-    // load chats 
+    // load chats
     public function get_chats(Request $request)
     {
         $user = Auth::user();
@@ -162,7 +162,7 @@ class MessageController extends Controller
         return $output;
     }
 
-    // get user messages by clicking 
+    // get user messages by clicking
     public function get_user_messages(Request $request)
     {
         $auth = Auth::user();

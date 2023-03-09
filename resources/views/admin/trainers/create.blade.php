@@ -122,13 +122,8 @@
                     <div class="card-footer">
                         <button class="btn btn-dark" type="button" onclick="history.back()">
                             <i class="fas fa-undo-alt"> </i> {{ __('admin.Return Back') }} </button>
-<<<<<<< HEAD
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-plus"></i> {{ __('admin.Add') }}</button>
-=======
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-plus"></i> {{ __('admin.Add') }}</button>
->>>>>>> 25f7bd83733fdf50d4799eeb51ae766e9177ec6d
 
                     </div>
                 </form>

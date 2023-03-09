@@ -116,7 +116,7 @@ $(document).ready(function() {
           $("#messages-wrapper").append(response);
           $("#messages-wrapper").append(`<a href="#" class="dropdown-item dropdown-footer">عرض كل الرسائل</a>
           `);
-        } 
+        }
       });
-      
+
 })
