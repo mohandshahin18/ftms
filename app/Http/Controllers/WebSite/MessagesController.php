@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
+use function PHPSTORM_META\type;
+
 class MessagesController extends Controller
 {
     //chats
@@ -38,11 +40,11 @@ class MessagesController extends Controller
     public function send_message(Request $request)
     {
         $user = Auth::user();
-        $trainer = Trainer::whereSlug($request->reciver_id)->first();
-        $teacher = Teacher::whereSlug($request->reciver_id)->first();
+        $trainer = Trainer::whereSlug($request->slug)->first();
+        $teacher = Teacher::whereSlug($request->slug)->first();
 
-        if($trainer) {
-            $messages = Message::create([
+        if($request->type == 'trainer') {
+            $message = Message::create([
                 'message' => $request->message,
                 'receiver_id' => $trainer->id,
                 'sender_id' => $user->id,
@@ -52,7 +54,7 @@ class MessagesController extends Controller
                 'receiver_type' => 'trainer',
             ]);
         }else {
-            $messages = Message::create([
+            $message = Message::create([
                 'message' => $request->message,
                 'receiver_id' => $teacher->id,
                 'sender_id' => $user->id,
@@ -63,19 +65,35 @@ class MessagesController extends Controller
             ]);
         }
 
-        broadcast(new CreateMessage($messages, $user->image));
+        broadcast(new CreateMessage($message));
+
+        $output = '<div class="chat outgoing message" data-id="'.$message->id.'">
+                                <div class="details">
+                                    <p>'.$message->message.'</p>
+                                </div>
+                                </div>';
+        return $output;
     }
 
 
     // get messages
     public function get_messages(Request $request)
     {
-        $slug = $request->reciver_id;
+        $slug = $request->slug;
+        $type = $request->type;
         $user = Auth::user();
-        $trainer = Trainer::whereSlug($slug)->first();
-        $teacher = Teacher::whereSlug($slug)->first();
+        $receiver = '';
+        if($type == 'trainer') {
+            $trainer = Trainer::whereSlug($slug)->first();
+            $receiver = $trainer;
+        } else {
+            $teacher = Teacher::whereSlug($slug)->first();
+            $receiver = $teacher;
+        }
+        
+        
 
-        if($trainer) {
+        if($type == 'trainer') {
             $messages = $user->messages()
             ->where('trainer_id', $trainer->id)
             ->orderBy('id', 'desc')
@@ -97,15 +115,14 @@ class MessagesController extends Controller
 
         if($messages) {
             foreach($messages as $message) {
-                $time = $message->created_at->format('h:i');
-                $period = $message->created_at->format('a');
-                $total_time = $time.' '.$period;
+                // $time = $message->created_at->format('h:i');
+                // $period = $message->created_at->format('a');
+                // $total_time = $time.' '.$period;
 
                 if($message->sender_id == $user->id) {
                     $output .= '<div class="chat outgoing message" data-id="'.$message->id.'">
                                 <div class="details">
                                     <p>'.$message->message.'</p>
-                                    <span class="time">'.$total_time.'</span>
                                 </div>
                                 </div>';
                 }else {
@@ -115,10 +132,8 @@ class MessagesController extends Controller
                         $image = $teacher->image;
                     }
                     $output .= '<div class="chat incoming message" data-id="'.$message->id.'">
-                                    <img src="'.'http://127.0.0.1:8000/'.$image.'" alt="">
                                     <div class="details">
                                         <p>'.$message->message.'</p>
-                                        <span class="time">'.$total_time.'</span>
                                     </div>
                                 </div>';
                 }
@@ -126,6 +141,8 @@ class MessagesController extends Controller
 
 
         }
+
+        
 
         return $output;
     }
