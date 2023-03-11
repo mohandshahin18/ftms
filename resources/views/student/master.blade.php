@@ -38,20 +38,6 @@
 
         }
 
-        /*class #chat-circle {
-            position: fixed;
-            bottom: 50px;
-            right: 50px;
-            background: #5A5EB9;
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            color: white;
-            padding: 28px;
-            cursor: pointer;
-            box-shadow: 0px 3px 16px 0px rgba(0, 0, 0, 0.6), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-            } */
-
         .btn#my-btn {
             background: white;
             padding-top: 13px;
@@ -653,7 +639,7 @@
             }
 
             .list-group-item .main-info {
-                /* flex-direction: row-reverse; */
+                flex-direction: row-reverse;
             }
 
             .chat_box .incoming {
@@ -671,6 +657,10 @@
             .chat-area .typing_area button {
                 right: unset !important;
                 left: 88px !important;
+            }
+
+            .msg-body .message {
+                flex-direction: row-reverse;
             }
         </style>
     @endif
@@ -710,6 +700,10 @@
             display: flex;
             flex-direction: column;
             gap: 10px
+        }
+
+        .msg-time {
+            float: right !important;
         }
     </style>
     @yield('styles')
@@ -877,204 +871,16 @@
                         </div> <!-- /.dropdown -->
 
                         {{-- Chats --}}
-
-                        @if ($auth->teacher_id && $auth->trainer_id)
-                            @php
-                                $teacher = $auth->teacher;
-                                $trainer = $auth->trainer;
-                                
-                                $teacherLastMessage = $auth
-                                    ->messages()
-                                    ->where('teacher_id', $teacher->id)
-                                    ->latest('id')
-                                    ->first();
-                                $trainerLastMessage = $auth
-                                    ->messages()
-                                    ->where('trainer_id', $trainer->id)
-                                    ->latest('id')
-                                    ->first();
-                                $activeTrainerMessage = $auth
-                                    ->messages()
-                                    ->where('trainer_id', $trainer->id)
-                                    ->where('sender_id', $trainer->id)
-                                    ->where('sender_type', 'trainer')
-                                    ->latest('id')
-                                    ->first();
-                                $activeTeacherMessage = $auth
-                                    ->messages()
-                                    ->where('teacher_id', $teacher->id)
-                                    ->where('sender_id', $teacher->id)
-                                    ->where('sender_type', 'teacher')
-                                    ->latest('id')
-                                    ->first();
-                                
-                            @endphp
-                        @elseif ($auth->trainer_id)
-                            @php
-                                
-                                // teacher = null
-                                $teacherLastMessage = null;
-                                $activeTeacherMessage = null;
-                                
-                                $trainer = $auth->trainer;
-                                $trainerLastMessage = $auth
-                                    ->messages()
-                                    ->where('trainer_id', $trainer->id)
-                                    ->latest('id')
-                                    ->first();
-                                
-                                $activeTrainerMessage = $auth
-                                    ->messages()
-                                    ->where('trainer_id', $trainer->id)
-                                    ->where('sender_id', $trainer->id)
-                                    ->where('sender_type', 'trainer')
-                                    ->latest('id')
-                                    ->first();
-                            @endphp
-                        @elseif ($auth->teacher_id)
-                            @php
-                                // trainer = null
-                                $activeTrainerMessage = null;
-                                $trainerLastMessage = null;
-                                
-                                $teacher = $auth->teacher;
-                                $teacherLastMessage = $auth
-                                    ->messages()
-                                    ->where('teacher_id', $teacher->id)
-                                    ->latest('id')
-                                    ->first();
-                                $activeTeacherMessage = $auth
-                                    ->messages()
-                                    ->where('teacher_id', $teacher->id)
-                                    ->where('sender_id', $teacher->id)
-                                    ->where('sender_type', 'teacher')
-                                    ->latest('id')
-                                    ->first();
-                            @endphp
-                        @else
-                            @php
-                                // teacher = null
-                                $teacherLastMessage = null;
-                                $activeTeacherMessage = null;
-                                // trainer = null
-                                $activeTrainerMessage = null;
-                                $trainerLastMessage = null;
-                            @endphp
-                        @endif
                         <div class="d-inline dropdown mr-3">
                             <a class="dropdown-toggle" id="messages" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false" href="#"><i class="far fa-envelope"></i>
-                                @if ($auth->trainer_id && $auth->teacher_id)
-                                    @if ($activeTrainerMessage)
-                                        @if ($activeTrainerMessage->read_at == null)
-                                            <span class="notify-number">1</span>
-                                        @endif
-                                    @endif
-                                @endif
+                                <span class="notify-number"></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right pt-0" aria-labelledby="messages">
                                 <!-- <a class="dropdown-item">There are no new messages</a> -->
                                 <div class="list-group">
-                                    <div class="lg">
-                                        @if ($auth->trainer_id && $auth->teacher_id)
-                                            @if ($trainerLastMessage || $teacherLastMessage)
-                                                @if ($trainerLastMessage)
-                                                    <div class="media">
-                                                        <a href="#" data-type="trainer"
-                                                            data-slug="{{ $trainer->slug }}"
-                                                            data-name="{{ $trainer->name }}"
-                                                            class="list-group-item list-group-item-action chat-circle @if ($activeTrainerMessage) @if ($activeTrainerMessage->read_at == null)
-                                                                {{ 'active' }} @endif
-                                                        @endif ">
-                                                            <div class="main-info">
-                                                                <div class="msg-img">
-                                                                    <img
-                                                                        src="{{ asset('http://127.0.0.1:8000/' . $trainer->image) }}">
-                                                                </div>
-                                                                <div class="msg-body" style="width: 100%;">
-                                                                    <h3 class="dropdown-item-title">
-                                                                        {{ $trainer->name }}
-                                                                    </h3>
-                                                                    <p class="text-sm message">
-                                                                        {{ $trainerLastMessage ? Str::words($trainerLastMessage->message, 4, '...') : 'No messages yet' }}
-
-                                                                        <i class="fas fa-circle active-dot"
-                                                                            style="color: #003e83ad !important; font-size: 8px; "></i>
-
-                                                                    </p>
-                                                                    <p class="d-flex justify-content-start align-items-center float-right"
-                                                                        style="gap:4px; font-size: 12px; margin:0 ">
-                                                                        <i class="far fa-clock "
-                                                                            style="line-height: 1; font-size: 12px; color: #464a4c !important; {{ $trainerLastMessage ? 'display: block;' : 'display: none;' }}"></i>
-                                                                        {{ $trainerLastMessage ? $trainerLastMessage->created_at->diffForHumans() : '' }}
-                                                                    </p>
-
-                                                                </div>
-
-
-                                                            </div>
-
-                                                        </a>
-                                                    </div>
-                                                @endif
-                                                @if ($teacherLastMessage)
-                                                    <div class="media">
-                                                        <a href="#" data-type="teacher"
-                                                            data-slug="{{ $teacher->slug }}"
-                                                            data-name="{{ $teacher->name }}"
-                                                            class="list-group-item list-group-item-action chat-circle @if ($activeTeacherMessage) {{ $activeTeacherMessage->read_at == null ? 'active' : '' }} @endif">
-                                                            <div class="main-info">
-                                                                <div class="msg-img">
-                                                                    <img
-                                                                        src="{{ asset('http://127.0.0.1:8000/' . $teacher->image) }}">
-
-                                                                </div>
-                                                                <div class="msg-body" style="width: 100%;">
-                                                                    <h3 class="dropdown-item-title">
-                                                                        {{ $teacher->name }}
-                                                                    </h3>
-                                                                    <p class="text-sm message">
-                                                                        {{ $teacherLastMessage ? Str::words($teacherLastMessage->message, 4, '...') : 'No messages yet' }}
-                                                                        <i class="fas fa-circle  active-dot"
-                                                                            style="color: #003e83ad !important; font-size: 8px; "></i>
-                                                                    </p>
-
-                                                                    <p class="d-flex justify-content-start align-items-center float-right"
-                                                                        style="gap:4px; font-size: 12px; margin:0 ">
-                                                                        <i class="far fa-clock "
-                                                                            style="line-height: 1; font-size: 12px; color: #464a4c !important; {{ $teacherLastMessage ? 'display: block;' : 'display: none;' }}"></i>
-                                                                        {{ $teacherLastMessage ? $teacherLastMessage->created_at->diffForHumans() : '' }}
-                                                                    </p>
-
-
-                                                                </div>
-
-                                                            </div>
-
-                                                        </a>
-                                                    </div>
-                                                @endif
-                                            @endif
-                                        @else
-                                            <div class="media mb-0">
-
-                                                <a href="#" class="list-group-item list-group-item-action">
-                                                    <div class="main-info" style="justify-content: center;">
-
-                                                        {{-- <div class="msg-body" style="width: 100%;"> --}}
-                                                        <p class="text-sm message"
-                                                            style="margin: 8px 0; color: #292b2c;">You have no messages
-                                                            yet</p>
-
-                                                        {{-- </div> --}}
-
-
-                                                    </div>
-
-                                                </a>
-                                            </div>
-                                        @endif
-
+                                    <div class="lg" id="messages-wrapper">
+                                    
 
                                     </div> <!-- /.lg -->
                                 </div> <!-- /.list group -->
@@ -1211,12 +1017,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
-    <script src="{{ asset('studentAssets/js/chat.js') }}"></script>
+
     <script>
         const userId = "{{ Auth::user()->id }}";
         const pusherKey = "{{ env('PUSHER_APP_KEY') }}";
-        // Enable pusher logging - don't include this in production
-        // Pusher.logToConsole = true;
+        const readAtUrl = "{{ route('student.read.message') }}";
 
         var pusher = new Pusher(pusherKey, {
             cluster: 'ap2',
@@ -1236,8 +1041,9 @@
         let lang = "{{ app()->getLocale() }}";
         let host = "{{ env('APP_URL') }}";
         let messagesURL = "{{ route('student.get.messages') }}";
+        let allChatsUrl = "{{ route('student.all.chats') }}";
     </script>
-    <script src="{{ asset('adminAssets/dist/js/chat.js') }}"></script>
+    <script src="{{ asset('studentAssets/js/chat.js') }}"></script>
 
     @vite(['resources/js/app.js'])
 
