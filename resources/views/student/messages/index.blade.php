@@ -62,8 +62,6 @@
     <script>
         const userId = "{{ Auth::user()->id }}";
         const pusherKey = "{{ env('PUSHER_APP_KEY') }}";
-        // Enable pusher logging - don't include this in production
-        // Pusher.logToConsole = true;
 
         var pusher = new Pusher(pusherKey, {
             cluster: 'ap2',

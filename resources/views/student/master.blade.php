@@ -310,6 +310,10 @@
             clear: both;
             margin-bottom: 70px;
         }
+
+        .messages-notify {
+            display: none;
+        }
     </style>
 
     <style>
@@ -874,13 +878,13 @@
                         <div class="d-inline dropdown mr-3">
                             <a class="dropdown-toggle" id="messages" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false" href="#"><i class="far fa-envelope"></i>
-                                <span class="notify-number"></span>
+                                <span class="notify-number messages-notify"></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right pt-0" aria-labelledby="messages">
                                 <!-- <a class="dropdown-item">There are no new messages</a> -->
                                 <div class="list-group">
                                     <div class="lg" id="messages-wrapper">
-                                    
+
 
                                     </div> <!-- /.lg -->
                                 </div> <!-- /.list group -->
@@ -1022,6 +1026,9 @@
         const userId = "{{ Auth::user()->id }}";
         const pusherKey = "{{ env('PUSHER_APP_KEY') }}";
         const readAtUrl = "{{ route('student.read.message') }}";
+    </script>
+     <script src="{{ asset('studentAssets/js/chat.js') }}"></script>
+    <script>
 
         var pusher = new Pusher(pusherKey, {
             cluster: 'ap2',
@@ -1031,7 +1038,7 @@
         var channel = pusher.subscribe(`private-Messages.${userId}`);
         channel.bind('new-message', function(data) {
             appendMessage(data.message.message, data.message.id);
-            // readAt(data.message.id);
+            getAllChats();
         });
     </script>
     <script>
@@ -1043,7 +1050,7 @@
         let messagesURL = "{{ route('student.get.messages') }}";
         let allChatsUrl = "{{ route('student.all.chats') }}";
     </script>
-    <script src="{{ asset('studentAssets/js/chat.js') }}"></script>
+   x
 
     @vite(['resources/js/app.js'])
 
