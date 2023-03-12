@@ -287,5 +287,6 @@ return [
     "Active now" => "متصل الآن",
     "Chats" => "المحادثات",
     "Type a message here..." => "ارسل رسالة هنا",
-
+    "No messages yet!" => "لا يوجد رسائل بعد",
+    
 ];

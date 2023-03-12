@@ -52,12 +52,9 @@ if(from == 'student'){
 });
 
 
-    }else
-     if(from == 'admin'){
-        Echo.private('App.Models.Company.' + companyId)
-            .notification((notification) => {
-                // let massege = `<a href="${host}/${lang}/admin/mark-read/${notification.id}">${notification.name} ${notification.msg}</a>`;
-                // toastr.success(massege);
+    }else if(from == 'admin'){
+         Echo.private('App.Models.Company.' + companyId)
+         .notification((notification) => {
 
                 let notify_number  = $('.notify-number').html();
                 if(notify_number == undefined){
@@ -88,4 +85,6 @@ if(from == 'student'){
                                         `);
 
         });
+    }else {
+        Echo.private('App.Models.Trainer.' + trainerId)
     }

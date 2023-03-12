@@ -34,7 +34,7 @@
 <div class="overlay">
 <div class="container ">
     <div class="box-all   ">
-        <form action="{{ route('update-password' ) }}" class="update_form" method="POST">
+        <form action="{{ route('update-password' ) }}" class="reset-form" method="POST">
             @csrf
         <div class="row justify-content-center ">
 
@@ -87,7 +87,7 @@
 
 
                     <div class="mt-3 text-end">
-                        <button class="btn btn-brand profile-button" > {{ __('admin.Save Edit') }} </button>
+                        <button class="btn btn-brand profile-button" type="button" > {{ __('admin.Save Edit') }} </button>
                     </div>
                 </div>
             </div>
@@ -100,19 +100,19 @@
 @section('scripts')
 
     <script>
-        let form = $(".update_form");
+        let resetForm = $(".reset-form");
         let btn = $(".profile-button");
 
-        form.on('submit' , function(e) {
+
+
+        resetForm.on('submit' , function(e) {
             e.preventDefault();
         })
 
-
-
         btn.on("click", function() {
             btn.attr('disabled', true);
-            let url = form.attr('action');
-            let data = form.serialize();
+            let url = resetForm.attr('action');
+            let data = resetForm.serialize();
 
             $.ajaxSetup({
                 headers: {

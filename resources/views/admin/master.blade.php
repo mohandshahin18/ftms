@@ -679,7 +679,14 @@ html {
     let companyId = {{ Auth::id() }};
     let time = "{{ __('admin.1 Seconds ago') }}";
     let lang = "{{ app()->getLocale() }}" ;
+</script>
+@vite(['resources/js/app.js'])
+@endif
 
+@if(Auth::guard('trainer')->check())
+<script>
+    let from = 'trainer';
+    let trainerId = {{ Auth::id() }};
 </script>
 @vite(['resources/js/app.js'])
 @endif
