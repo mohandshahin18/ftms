@@ -244,7 +244,7 @@ class MessageController extends Controller
                 }
             }
 
-            $output .= '<a href="#" class="dropdown-item '.$active.'">
+            $output .= '<a href="#" class="dropdown-item chat-circle '.$active.'">
                             <div class="media">
                                 <img src="'.'http://127.0.0.1:8000/'.$student->image.'" alt="User Avatar"
                                     class="mr-3 img-circle" style="    width: 47px;

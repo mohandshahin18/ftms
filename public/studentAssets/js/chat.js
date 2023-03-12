@@ -1,66 +1,37 @@
 
-    // Restore chat box state from local storage
-    $(window).on('beforeunload', function() {
-        localStorage.setItem('chatBoxState', $('.chat-box').css('display'));
-        localStorage.setItem('chatBoxMinimized', $(".chat-input").is(":hidden"));
-    });
-
-    $(document).ready(function() {
-        var chatBoxState = localStorage.getItem('chatBoxState');
-        if (chatBoxState == 'block') {
-            $('.chat-box').show();
-            var chatBoxMinimized = localStorage.getItem('chatBoxMinimized');
-            if (chatBoxMinimized == 'true') {
-                $(".box").css('height','0');
-                $(".chat-input").hide();
-                $(".chat-box-max").remove();
-                $(".chat-box-min").remove();
-                $('.icons-chat').append('<span class="chat-box-max" style="line-height: 0"><i class="fas fas fa-expand"></i></span>');
+const getAllChats = function() {
+    $.ajax({
+        type: "get",
+        url: allChatsUrl,
+        success:function(response) {
+            $("#messages-wrapper").empty();
+            $("#messages-wrapper").append(response.output);
+            if(response.number == 0) {
+                $(".messages-notify").css('display', 'none');
             } else {
-                $(".box").css('height','unset');
-                $(".chat-input").show();
-                $(".chat-box-max").remove();
-                $(".chat-box-min").remove();
-                $('.icons-chat').append('<span class="chat-box-min" style="line-height: 0"><i class="fas fa-minus"></i></span>');
+                $(".messages-notify").empty();
+                $(".messages-notify").append(response.number);
+                $(".messages-notify").css('display', 'block');
             }
-
-        } else if (chatBoxState == 'none') {
-            $('.chat-box').hide();
-        } else {
-            // chatBoxState is null or invalid, do nothing
         }
-
-            // Retrieve messages from local storage
-            var chatBoxSlug = localStorage.getItem('chatSlug');
-            var chatType = localStorage.getItem('chatType');
-            var chatName = localStorage.getItem('chatName');
-
-            $("#slug_input").val(chatBoxSlug);
-            $("#type_input").val(chatType);
-            $("#user_name_msg").empty();
-            $("#user_name_msg").append(chatName);
-
-            var storedMessages = localStorage.getItem('chatBoxMessages-' + chatBoxSlug);
-            if (storedMessages) {
-                $('.chat-logs').empty();
-                $('.chat-logs').append(storedMessages);
-                scrollToBottom();
-            }
-
-            const getAllChats = function() {
+    });
+}
+    $(document).ready(function() {
                 $.ajax({
                     type: "get",
                     url: allChatsUrl,
                     success:function(response) {
                         $("#messages-wrapper").empty();
                         $("#messages-wrapper").append(response.output);
-                        $(".notify-number").empty();
-                        $(".notify-number").append(response.number);
+                        if(response.number > 0) {
+                            $(".messages-notify").empty();
+                            $(".messages-notify").css('display', 'block');
+                            $(".messages-notify").append(response.number);
+                        }
                     }
                 });
-            }
 
-            getAllChats();
+
     });
 
 
@@ -73,11 +44,6 @@
             var type = $(this).data('type');
             var name = $(this).data('name');
             var msgId = $(this).data('id');
-
-            // Store slug and type in local storage
-            localStorage.setItem('chatSlug', slug);
-            localStorage.setItem('chatType', type);
-            localStorage.setItem('chatName', name);
 
             $(".chat-box").show();
             $("#user_name_msg").empty();
@@ -114,11 +80,8 @@
                             $('.chat-logs').empty();
                             $('.chat-logs').append(response);
                             scrollToBottom();
-                            readAt(msgId);
-
-                            // Store messages in local storage
-                            var chatBoxSlug = slug;
-                            localStorage.setItem('chatBoxMessages-' + chatBoxSlug, response);
+                            readAt(msgId, type);
+                            getAllChats();
                         }, 1000);
                     }
                 }
@@ -140,8 +103,7 @@
         $(this).hide();
         $(this).parent().append('<span class="chat-box-max" style="line-height: 0"><i class="fas fas fa-expand"></i></span>')
 
-        // Store chat box minimized state in local storage
-        localStorage.setItem('chatBoxMinimized', false);
+
     })
 
     // Maximize chat box
@@ -151,8 +113,6 @@
         $(this).hide();
         $(this).parent().append('<span class="chat-box-min" style="line-height: 0"><i class="fas fa-minus"></i></span>');
 
-        // Store chat box minimized state in local storage
-        localStorage.setItem('chatBoxMinimized', true);
     })
 
     // send message AJAX
@@ -165,34 +125,23 @@
 
     sendBtn.on("click", function() {
         const url = form.attr("action");
-        var empty = $('.chat-logs').find('img');
-        var slug = form.find("#slug_input").val();
+        // var incoming = $('.chat-logs').find('.incoming');
+        // var outgoing = $('.chat-logs').find('.outgoing');
+
         $.ajax({
             type: "post",
             url: url,
             data: form.serialize(),
             success:function(response) {
-                if(empty) {
+                if($('.chat-logs').children().not('img').length > 0) {
+
+                } else {
                     $('.chat-logs').empty();
                 }
-
-                var storedMessages = localStorage.getItem('chatBoxMessages-' + slug);
-                if (storedMessages) {
-                    $('.chat-logs').empty();
-                    $('.chat-logs').append(storedMessages);
-
-                    // get sent message
-                    var sentMessage = localStorage.getItem('response')
-                    $('.chat-logs').append(sentMessage);
-
-                    scrollToBottom();
-                }
-                // store response of sent message (message) in local storage
-                localStorage.setItem('response', response);
-
                 $("#chat-input").val('');
                 $('.chat-logs').append(response);
                 scrollToBottom();
+                getAllChats();
             }
         });
     });
@@ -215,11 +164,14 @@
     }
 
     // message read at
-    const readAt = function(id) {
+    const readAt = function(id, type) {
         $.ajax({
             type: "get",
             url: readAtUrl,
-            data: {id: id},
+            data: {
+                id: id,
+                type: type,
+            },
             success:function(response) {
 
             }

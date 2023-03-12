@@ -116,7 +116,7 @@ class MessagesController extends Controller
                                         data-slug="'.$trainer->slug.'"
                                         data-name="'.$trainer->name.'"
                                         data-id="'.$trainerLastMessage->id.'"
-                                        class="list-group-item list-group-item-action chat-circle">
+                                        class="list-group-item list-group-item-action chat-circle '.$active.'">
                                         <div class="main-info">
                                             <div class="msg-img">
                                                 <img
@@ -190,7 +190,7 @@ class MessagesController extends Controller
                                     data-slug="'.$teacher->slug.'"
                                     data-name="'.$teacher->name.'"
                                     data-id="'.$teacherLastMessage->id.'"
-                                    class="list-group-item list-group-item-action chat-circle">
+                                    class="list-group-item list-group-item-action chat-circle '.$active.'">
                                     <div class="main-info">
                                         <div class="msg-img">
                                             <img
@@ -270,18 +270,21 @@ class MessagesController extends Controller
         }
 
         $msgsNumber = '';
-        if($activeTrainerMessage && $activeTeacherMessage) {
-            if($activeTeacherMessage->read_at == null && $activeTrainerMessage->read_at == null) {
-                $msgsNumber = 2;
+        
+        if($activeTrainerMessage || $activeTeacherMessage) {
+            if($activeTrainerMessage && $activeTeacherMessage) {
+                if($activeTeacherMessage->read_at == null && $activeTrainerMessage->read_at == null) {
+                    $msgsNumber = 2;
+                }
+            } elseif($activeTrainerMessage) {
+                if($activeTrainerMessage->read_at == null) {
+                    $msgsNumber = 1;
+                }
+            } elseif($activeTeacherMessage) {
+                if($activeTeacherMessage->read_at == null) {
+                    $msgsNumber = 1;
+                }
             }
-        } elseif($activeTrainerMessage) {
-            if($activeTrainerMessage->read_at == null) {
-                $msgsNumber = 1;
-        }
-        } elseif($activeTeacherMessage) {
-            if($activeTeacherMessage->read_at == null) {
-                $msgsNumber = 1;
-        }
         }
 
         $data = [
@@ -396,11 +399,28 @@ class MessagesController extends Controller
     // mark message as read
     public function read_message(Request $request)
     {
-        $message = Message::where('id', $request->id)->first();
+        $auth = Auth::user();
+        if($request->type == 'trainer') {
+            $message = $auth->messages()
+            ->where([
+                ['sender_type', 'trainer'],
+                ['sender_id', $auth->trainer_id]
+            ])
+            ->latest('id')
+            ->first();
+        } else {
+            $message = $auth->messages()
+            ->where([
+                ['sender_type', 'teacher'],
+                ['sender_id', $auth->teacher_id]
+            ])
+            ->latest('id')
+            ->first();
+        }
+        
 
         $message->read_at = now();
         $message->save();
 
-        return "ok";
     }
 }
