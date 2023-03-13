@@ -101,7 +101,7 @@ const getAllChats = function() {
         $(".box").css('height','0');
         $(".chat-input").hide();
         $(this).hide();
-        $(this).parent().append('<span class="chat-box-max" style="line-height: 0"><i class="fas fas fa-expand"></i></span>')
+        $(this).parent().append('<span class="chat-box-max" style="line-height: 0"><i class="fas fa-chevron-up"></i></span>')
 
 
     })

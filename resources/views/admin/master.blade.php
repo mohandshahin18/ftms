@@ -25,30 +25,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     @endif
     <!-- Sweat Alert -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.min.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-
-
-    
-
-    @yield('styles')
-    <style>
-        #toast-container>.toast-success{
-            background-image: unset !important;
-        }
-        #toast-container>div{
-            padding: 15px !important;
-            background: #516171 !important;
-        }
-
-        .card-footer{
-            gap: 4px
-        }
- </style>
-
-<style>
-    #center-text {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+  <style>
+         #center-text {
         display: flex;
         flex: 1;
         flex-direction: column;
@@ -79,9 +59,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         display: none;
     }
 
-    p {
-        margin: unset !important;
-    }
+
 
     .chat-box {
         display: none;
@@ -126,12 +104,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     .chat-box-header p {
         margin: 0 !important;
+        font-size: 14px;
+        font-weight: 900;
     }
 
     .chat-box-body {
         position: relative;
         height: 370px;
-        height: auto;
         border: 1px solid #ccc;
         overflow: hidden;
     }
@@ -273,12 +252,8 @@ text-align: left;
         background-color: #5A5EB9;
     }
 
-
-
-    @media only screen and (max-width: 500px) {
-        .chat-logs {
-            height: 40vh;
-        }
+    .messages-notify{
+        display: none;
     }
 
     .chat-msg.user>.msg-avatar img {
@@ -331,9 +306,6 @@ text-align: left;
         margin-bottom: 70px;
     }
 
-    .messages-notify {
-        display: none;
-    }
 </style>
 
 @if(app()->getLocale()=='ar')
@@ -410,7 +382,7 @@ html {
                         <i class="far fa-comments"></i>
                         <span class="badge badge-danger navbar-badge">3</span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="messages-wrapper">
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right chat" id="messages-wrapper">
                         <a href="#" class="dropdown-item">
                             <!-- Message Start -->
                             <div class="media">
@@ -572,40 +544,55 @@ html {
         </nav>
         <!-- /.navbar -->
 
-        <div id="body">
 
-            <div class="chat-box">
-                <div class="chat-box-header">
-                    <p id="user_name_msg"></p>
-                    <div class="icons-chat">
-                        <span class="chat-box-toggle" style="line-height: 0"><i class="fas fa-times"></i></span>
-                        <span class="chat-box-min" style="line-height: 0"><i class="fas fa-minus"></i></span>
-    
-                    </div>
-                </div>
-                <div class="box">
-                    <div class="chat-box-body">
-                        <div class="chat-box-overlay">
-                        </div>
-                        <div class="chat-logs">
-    
-                        </div>
-                    </div>
-                    <!--chat-log -->
-                </div>
-                <div class="chat-input">
-                    <form action="{{ route('student.send.message') }}" method="POST" id="messages_send_form">
-                        @csrf
-                        <input type="text" name="message" id="chat-input" placeholder="Send a message..."
-                            autocomplete="off" />
-                        <input type="hidden" name="slug" value="" id="slug_input">
-                        <input type="hidden" name="type" value="" id="type_input">
-                        <button type="submit" class="chat-submit" id="chat-submit"><i class="fas fa-send"></i></button>
-                    </form>
+    {{-- <div id="body"> --}}
+
+        <div class="chat-box">
+            <div class="chat-box-header">
+                <p id="user_name_msg"></p>
+                <div class="icons-chat">
+                    <span class="chat-box-toggle" style="line-height: 0"><i class="fas fa-times"></i></span>
+                    <span class="chat-box-min" style="line-height: 0"><i class="fas fa-minus"></i></span>
+
                 </div>
             </div>
+            <div class="box">
+                <div class="chat-box-body">
+                    <div class="chat-box-overlay">
+                    </div>
+                    <div class="chat-logs">
+                        <div class="chat outgoing message" >
+                          <div class="details">
+                              <p>Holle </p>
+                          </div>
+                          </div>
+
+                          <div class="chat incoming message" data-id="2">
+                            <div class="details">
+                                <p>Holle</p>
+                            </div>
+                        </div>
+                      </div><!--chat-log -->
+                </div>
+                <!--chat-log -->
+            </div>
+            <div class="chat-input">
+                <form action="{{ route('student.send.message') }}" method="POST" id="messages_send_form">
+                    @csrf
+                    <input type="text" name="message" id="chat-input" placeholder="Send a message..."
+                        autocomplete="off" />
+                    <input type="hidden" name="slug" value="" id="slug_input">
+                    <input type="hidden" name="type" value="" id="type_input">
+                    <button type="submit" class="chat-submit" id="chat-submit"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
         </div>
-    
+
+
+
+
+      {{-- </div> --}}
+
         @php
         $data = json_decode(File::get(storage_path('app/settings.json')), true);
         @endphp
@@ -997,6 +984,50 @@ html {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+
+    <script>
+      $(function() {
+
+          $("#messages-wrapper").on('click','.chat-circle' ,function(event) {
+            event.preventDefault();
+            $(".chat-box").show();
+            $("#user_name_msg").empty();
+            $("#user_name_msg").append(name);
+            $(".box").css('height','unset');
+            $(".chat-input").show();
+            $(".chat-box-max").remove();
+            $(".chat-box-min").remove();
+            $('.icons-chat').append('<span class="chat-box-min" style="line-height: 0"><i class="fas fa-minus"></i></span>');
+          })
+
+              // hide chat box when clicking on close button
+    $(".chat-box-toggle").click(function() {
+        $(".chat-box").hide();
+    })
+    // Minimize chat box
+    $(".icons-chat").on("click",".chat-box-min",function() {
+        $(".box").css('height','0');
+        $(".chat-input").hide();
+        $(this).hide();
+        $(this).parent().append('<span class="chat-box-max" style="line-height: 0"><i class="fas fa-chevron-up"></i></span>')
+
+
+    })
+
+    // Maximize chat box
+    $(".icons-chat").on("click", ".chat-box-max",function() {
+        $(".box").css('height','unset');
+        $(".chat-input").show();
+        $(this).hide();
+        $(this).parent().append('<span class="chat-box-min" style="line-height: 0"><i class="fas fa-minus"></i></span>');
+
+    })
+
+      })
+      $(".chat-box-toggle").click(function() {
+        $(".chat-box").hide();
+      })
+  </script>
 @if(Auth::guard('company')->check())
 
 <script>

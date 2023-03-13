@@ -391,7 +391,6 @@
         let messagesURL = "{{ route('student.get.messages') }}";
         let allChatsUrl = "{{ route('student.all.chats') }}";
     </script>
-   x
 
     @vite(['resources/js/app.js'])
 

@@ -1099,7 +1099,6 @@ input.form-control {
     .chat-box-body {
         position: relative;
         height: 370px;
-        height: auto;
         border: 1px solid #ccc;
         overflow: hidden;
     }
@@ -1241,12 +1240,8 @@ text-align: left;
         background-color: #5A5EB9;
     }
 
-
-
-    @media only screen and (max-width: 500px) {
-        .chat-logs {
-            height: 40vh;
-        }
+    .messages-notify{
+        display: none;
     }
 
     .chat-msg.user>.msg-avatar img {
