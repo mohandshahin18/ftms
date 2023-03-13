@@ -127,8 +127,6 @@ const getAllChats = function() {
 
     sendBtn.on("click", function() {
         const url = form.attr("action");
-        // var incoming = $('.chat-logs').find('.incoming');
-        // var outgoing = $('.chat-logs').find('.outgoing');
         
         $.ajax({
             type: "post",
