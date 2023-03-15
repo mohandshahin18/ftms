@@ -40,7 +40,7 @@
 
         #form_wrapper {
             position: relative;
-            
+
         }
     </style>
 @stop
@@ -50,7 +50,8 @@
 
     <section id="reviews">
         <div class="container">
-            <h1 class="text-white"><img class="task_img" src="{{ asset('studentAssets/img/task.svg') }}" alt="" >{{ $task->main_title }} - {{ $task->sub_title }}</h1>
+            <h1 class="text-white"><img class="task_img" src="{{ asset('studentAssets/img/task.svg') }}"
+                    alt="">{{ $task->main_title }} - {{ $task->sub_title }}</h1>
         </div>
     </section>
 
@@ -60,8 +61,10 @@
             <div class="row ">
                 <div class="col-lg-12 ">
                     <div class="task rounded p-3">
-                        <p><b>{{ __('admin.Opend') }} : </b>{{ Carbon::parse($task->start_date)->format('l, j F Y, g:i A') }}</p>
-                        <p><b>{{ __('admin.Due') }} : </b>{{ Carbon::parse($task->end_date)->format('l, j F Y, g:i A') }}</p>
+                        <p><b>{{ __('admin.Opend') }} :
+                            </b>{{ Carbon::parse($task->start_date)->format('l, j F Y, g:i A') }}</p>
+                        <p><b>{{ __('admin.Due') }} : </b>{{ Carbon::parse($task->end_date)->format('l, j F Y, g:i A') }}
+                        </p>
 
                         <div class="divider"></div>
                         <div class="desc mb-5 mt-3">
@@ -106,27 +109,27 @@
 
                                     @if (!$applied_task)
                                         @if ($end_date->gt(now()))
-                                            @if ($remaining_days && $remaining_hours || $remaining_hours)
-                                                {{ $remaining_days .' '.  __("admin.Days and")  .' '. $remaining_hours .' '. __('admin.hours remaining') }}
+                                            @if (($remaining_days && $remaining_hours) || $remaining_hours)
+                                                {{ $remaining_days . ' ' . __('admin.Days and') . ' ' . $remaining_hours . ' ' . __('admin.hours remaining') }}
                                             @elseif($remaining_hours)
-                                                {{ $remaining_hours .' '. __('admin.hours remaining') }}
+                                                {{ $remaining_hours . ' ' . __('admin.hours remaining') }}
                                             @else
-                                                {{ $remaining_minutes .' '. __('admin.minutes remaining') }}
+                                                {{ $remaining_minutes . ' ' . __('admin.minutes remaining') }}
                                             @endif
                                         @else
                                             <span class="text-danger">
                                                 @if ($time_passed_days && $time_passed_hours)
-                                                    {{ $time_passed_days == 1 ? $time_passed_days .' '. __('admin.Day ago') : $time_passed_days .' '. __('admin.Days ago') }}
+                                                    {{ $time_passed_days == 1 ? $time_passed_days . ' ' . __('admin.Day ago') : $time_passed_days . ' ' . __('admin.Days ago') }}
                                                 @elseif ($time_passed_hours)
-                                                    {{ $time_passed_hours .' '. __('admin.hours ago') }}
+                                                    {{ $time_passed_hours . ' ' . __('admin.hours ago') }}
                                                 @else
-                                                    {{ $time_passed_minutes .' '. __('admin.minutes ago') }}
+                                                    {{ $time_passed_minutes . ' ' . __('admin.minutes ago') }}
                                                 @endif
                                             </span>
                                         @endif
                                     @else
-                                    {{ $applied_task->updated_at->gt($applied_task->created_at) ? __('admin.Updated').$applied_task->updated_at->diffForHumans() : __('admin.Submitted').$applied_task->created_at->diffForHumans()  }}
-                                       <span class="float-right text-success"><i class="fas fa-check"></i></span>
+                                        {{ $applied_task->updated_at->gt($applied_task->created_at) ? __('admin.Updated') . $applied_task->updated_at->diffForHumans() : __('admin.Submitted') . $applied_task->created_at->diffForHumans() }}
+                                        <span class="float-right text-success"><i class="fas fa-check"></i></span>
                                     @endif
                                 </td>
 
@@ -151,17 +154,20 @@
                 <div class="col-lg-12 text-end" id="form_wrapper">
                     @if (!now()->gt($end_date))
                         @if ($applied_task)
-                            <button type="button" id="show_edit_form"  value="edit-btn" class="btn btn-brand">{{ __('admin.Edit submission') }}</button>
+                            <button type="button" id="show_edit_form" value="edit-btn"
+                                class="btn btn-brand">{{ __('admin.Edit submission') }}</button>
 
-                            <form action="{{ route('student.edit.applied.task', $applied_task->id) }}" class="hidden_form" id="edit_form"
-                                method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('student.edit.applied.task', $applied_task->id) }}" class="hidden_form"
+                                id="edit_form" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="task_id" value="{{ $task->id }}">
                                 <div class="file-drop-area">
                                     <span class="fake-btn">{{ __('admin.Choose file') }}</span>
                                     <span class="file-msg">{{ __('admin.or drag and drop file here') }}</span>
                                     <input class="file-input" name="file" id="file_input" type="file" required>
-                                    <span class="validaition">{{ __('admin.Supported file types: doc, docs, pdf, pptx, zip, rar') }} <b>|</b>
+                                    <span
+                                        class="validaition">{{ __('admin.Supported file types: doc, docs, pdf, pptx, zip, rar') }}
+                                        <b>|</b>
                                         {{ __('admin.Max file size: 5 MB') }}</span>
                                     <span class="text-danger">{{ $errors->first('file') }}</span>
                                 </div>
@@ -174,24 +180,28 @@
 
                             </form>
                         @else
-                            <button type="button" id="show_form" class="btn btn-brand">{{ __('admin.Add Submission') }}</button>
+                            <button type="button" id="show_form"
+                                class="btn btn-brand">{{ __('admin.Add Submission') }}</button>
 
 
-                            <form action="{{ route('student.submit.task') }}" class="mt-4 hidden_form" method="POST" id="task_form"
-                                enctype="multipart/form-data">
+                            <form action="{{ route('student.submit.task') }}" class="mt-4 hidden_form" method="POST"
+                                id="task_form" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="task_id" value="{{ $task->id }}">
                                 <div class="file-drop-area">
                                     <span class="fake-btn">{{ __('admin.Choose file') }}</span>
                                     <span class="file-msg">{{ __('admin.or drag and drop file here') }}</span>
                                     <input class="file-input" name="file" id="file_input" type="file" required>
-                                    <span class="validaition">{{ __('admin.Supported file types: doc, docs, pdf, pptx, zip, rar') }}<b>|</b>
+                                    <span
+                                        class="validaition">{{ __('admin.Supported file types: doc, docs, pdf, pptx, zip, rar') }}<b>|</b>
                                         {{ __('admin.Max file size: 5 MB') }}</span>
                                     <span class="text-danger">{{ $errors->first('file') }}</span>
                                 </div>
 
-                                <button type="button" id="hide_form" class="mt-5 btn btn-seconed-brand">{{ __('admin.Cancel') }}</button>
-                                <button type="button" id="submit_btn" class="mt-5 btn btn-brand">{{ __('admin.Submit') }}</button>
+                                <button type="button" id="hide_form"
+                                    class="mt-5 btn btn-seconed-brand">{{ __('admin.Cancel') }}</button>
+                                <button type="button" id="submit_btn"
+                                    class="mt-5 btn btn-brand">{{ __('admin.Submit') }}</button>
 
                             </form>
                         @endif
@@ -260,21 +270,22 @@
                         processData: false,
                         data: formData,
                         beforeSend: function() {
-                            $('#form_wrapper').append('<div class="spinner-div d-flex align-items-center justify-content-center" style="font-size: 36px; width: 100%; position: absolute; width: 100%;height: 100%;z-index: 884;background: #fff; top: 0; right: 0;"><i class="fa fa-spin fa-spinner"></i> Loading...</div>');
+                            $('#form_wrapper').append(
+                                '<div class="spinner-div d-flex align-items-center justify-content-center" style="font-size: 36px; width: 100%; position: absolute; width: 100%;height: 100%;z-index: 884;background: #fff; top: 0; right: 0;"><i class="fa fa-spin fa-spinner"></i> Loading...</div>'
+                                );
                         },
                         success: function(response) {
-                            $('#task_form').hide();
-                            $("#show_form").hide();
-
+                            $(".spinner-div").remove();
+                            $('#task_form').remove();
                             $("#submitted_text").removeClass('text-danger').empty();
-
                             $("#submitted_text").css({
                                 'background': '#d1e7dd',
                                 'color': '#0f5132',
                                 'font-weight': 500
                             }).append('{{ __('admin.Submitted') }}');
 
-                            var editBtn = `<button type="button" id="show_edit_form"  value="edit-btn" class="btn btn-brand">Edit submission</button>`;
+                            var editBtn =
+                                `<button type="button" id="show_edit_form"  value="edit-btn" class="btn btn-brand">Edit submission</button>`;
                             $("#form_wrapper").append(editBtn);
 
                             $("#file_submitted").empty();
@@ -327,76 +338,64 @@
 
         $("#form_wrapper").on("click", '#edit_btn', function() {
             let editForm = $("#edit_form")[0];
-            editForm.onsubmit = function(e) {
-                e.preventDefault();
-            }
+            editForm.on("submit", function(event) {
+                evnet.preventDefault();
+            })
             let url = editForm.getAttribute("action");
             let editData = new FormData(editForm);
-            Swal.fire({
-                title: 'Edit sumbission',
-                text: "You are about to edit your submission!",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#1a2e44',
-                cancelButtonColor: '#d64022',
-                confirmButtonText: 'Edit'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        type: "post",
-                        url: url,
-                        processData: false,
-                        contentType: false,
-                        data: editData,
-                        success: function(response) {
-                            $("#edit_form").hide();
-                            $("#show_edit_form").show();
-                            $("#file_submitted").empty();
-                            $("#file_input").empty();
-                            $(".file-msg").empty();
-                            $(".file-msg").append("{{ __('admin.or drag and drop file here') }}");
-                            let file =
-                                `<a href="{{ asset('uploads/applied-tasks/${response.file}') }}" target="_blank" download>${response.file}</a>`
+            $.ajax({
+                type: "post",
+                url: url,
+                processData: false,
+                contentType: false,
+                data: editData,
+                success: function(response) {
+                    $("#edit_form").hide();
+                    $("#show_edit_form").show();
+                    $("#file_submitted").empty();
+                    $("#file_input").empty();
+                    $(".file-msg").empty();
+                    $(".file-msg").append("{{ __('admin.or drag and drop file here') }}");
+                    let file =
+                        `<a href="{{ asset('uploads/applied-tasks/${response.file}') }}" target="_blank" download>${response.file}</a>`
 
-                            $("#file_submitted").append(file);
-                            $("#time_remaining").empty();
-                            var remaining =
-                                `<span style="font-weight: 500">Updated now</span><span class="float-right text-success"><i class="fas fa-check"></i></span>`;
-                            $("#time_remaining").append(remaining);
+                    $("#file_submitted").append(file);
+                    $("#time_remaining").empty();
+                    var remaining =
+                        `<span style="font-weight: 500">Updated now</span><span class="float-right text-success"><i class="fas fa-check"></i></span>`;
+                    $("#time_remaining").append(remaining);
 
-                            const Toast = Swal.mixin({
-                                toast: true,
-                                position: 'top',
-                                iconColor: '#90da98',
-                                customClass: {
-                                    popup: 'colored-toast'
-                                },
-                                showConfirmButton: false,
-                                timer: 2000,
-                                timerProgressBar: false,
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal
-                                        .stopTimer)
-                                    toast.addEventListener('mouseleave', Swal
-                                        .resumeTimer)
-                                }
-                            })
-
-                            Toast.fire({
-                                icon: 'success',
-                                title: '<p style="color: #000; margin:0">Your edit has been saved</p>'
-                            })
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top',
+                        iconColor: '#90da98',
+                        customClass: {
+                            popup: 'colored-toast'
                         },
-                        error: function(response) {
-                            $('.invalid-feedback').remove();
-                            $.each(response.responseJSON.errors, function(field, error) {
-                                $("input[name='" + field + "']").addClass('is-invalid')
-                                    .after('<small class="invalid-feedback">' + error +
-                                        '</small>');
-                            });
-                        },
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: false,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal
+                                .stopTimer)
+                            toast.addEventListener('mouseleave', Swal
+                                .resumeTimer)
+                        }
                     })
-                }
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: '<p style="color: #000; margin:0">Your edit has been saved</p>'
+                    })
+                },
+                error: function(response) {
+                    $('.invalid-feedback').remove();
+                    $.each(response.responseJSON.errors, function(field, error) {
+                        $("input[name='" + field + "']").addClass('is-invalid')
+                            .after('<small class="invalid-feedback">' + error +
+                                '</small>');
+                    });
+                },
             })
         });
     </script>

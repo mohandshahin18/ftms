@@ -25,30 +25,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     @endif
     <!-- Sweat Alert -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.min.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-
-
-    
-
-    @yield('styles')
-    <style>
-        #toast-container>.toast-success{
-            background-image: unset !important;
-        }
-        #toast-container>div{
-            padding: 15px !important;
-            background: #516171 !important;
-        }
-
-        .card-footer{
-            gap: 4px
-        }
- </style>
-
-<style>
-    #center-text {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+  <style>
+         #center-text {
         display: flex;
         flex: 1;
         flex-direction: column;
@@ -79,9 +59,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         display: none;
     }
 
-    p {
-        margin: unset !important;
-    }
+
 
     .chat-box {
         display: none;
@@ -126,12 +104,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     .chat-box-header p {
         margin: 0 !important;
+        font-size: 14px;
+        font-weight: 900;
     }
 
     .chat-box-body {
         position: relative;
         height: 370px;
-        height: auto;
         border: 1px solid #ccc;
         overflow: hidden;
     }
@@ -273,12 +252,8 @@ text-align: left;
         background-color: #5A5EB9;
     }
 
-
-
-    @media only screen and (max-width: 500px) {
-        .chat-logs {
-            height: 40vh;
-        }
+    .messages-notify{
+        display: none;
     }
 
     .chat-msg.user>.msg-avatar img {
@@ -331,9 +306,6 @@ text-align: left;
         margin-bottom: 70px;
     }
 
-    .messages-notify {
-        display: none;
-    }
 </style>
 
 @if(app()->getLocale()=='ar')
@@ -408,9 +380,9 @@ html {
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-comments"></i>
-                        <span class="badge badge-danger navbar-badge">3</span>
+                        <span class="badge badge-danger navbar-badge" id="messages-num"></span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="messages-wrapper">
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right chat" id="messages-wrapper">
                         <a href="#" class="dropdown-item">
                             <!-- Message Start -->
                             <div class="media">
@@ -572,40 +544,44 @@ html {
         </nav>
         <!-- /.navbar -->
 
-        <div id="body">
 
-            <div class="chat-box">
-                <div class="chat-box-header">
-                    <p id="user_name_msg"></p>
-                    <div class="icons-chat">
-                        <span class="chat-box-toggle" style="line-height: 0"><i class="fas fa-times"></i></span>
-                        <span class="chat-box-min" style="line-height: 0"><i class="fas fa-minus"></i></span>
-    
-                    </div>
-                </div>
-                <div class="box">
-                    <div class="chat-box-body">
-                        <div class="chat-box-overlay">
-                        </div>
-                        <div class="chat-logs">
-    
-                        </div>
-                    </div>
-                    <!--chat-log -->
-                </div>
-                <div class="chat-input">
-                    <form action="{{ route('student.send.message') }}" method="POST" id="messages_send_form">
-                        @csrf
-                        <input type="text" name="message" id="chat-input" placeholder="Send a message..."
-                            autocomplete="off" />
-                        <input type="hidden" name="slug" value="" id="slug_input">
-                        <input type="hidden" name="type" value="" id="type_input">
-                        <button type="submit" class="chat-submit" id="chat-submit"><i class="fas fa-send"></i></button>
-                    </form>
+    {{-- <div id="body"> --}}
+
+        <div class="chat-box">
+            <div class="chat-box-header">
+                <p id="user_name_msg"></p>
+                <div class="icons-chat">
+                    <span class="chat-box-toggle" style="line-height: 0"><i class="fas fa-times"></i></span>
+                    <span class="chat-box-min" style="line-height: 0"><i class="fas fa-minus"></i></span>
+
                 </div>
             </div>
+            <div class="box">
+                <div class="chat-box-body">
+                    <div class="chat-box-overlay">
+                    </div>
+                    <div class="chat-logs">
+                      
+                      </div><!--chat-log -->
+                </div>
+                <!--chat-log -->
+            </div>
+            <div class="chat-input">
+                <form action="{{ route('admin.send.message') }}" method="POST" id="messages_send_form">
+                    @csrf
+                    <input type="text" name="message" id="chat-input" placeholder="Send a message..."
+                        autocomplete="off" />
+                    <input type="hidden" name="slug" value="" id="slug_input">
+                    <button type="submit" class="chat-submit" id="chat-submit"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
         </div>
-    
+
+
+
+
+      {{-- </div> --}}
+
         @php
         $data = json_decode(File::get(storage_path('app/settings.json')), true);
         @endphp
@@ -625,10 +601,7 @@ html {
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                        data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item @yield('home-menu-open') ">
                             <a href="{{ route('admin.home') }}" class="nav-link @yield('home-active')">
                                 <i class="nav-icon fas fa-home"></i>
@@ -985,7 +958,14 @@ html {
     <script>
         const slug = "{{ Auth::user()->slug }}";
         const urlOnLoad = "{{ route('admin.students.messages') }}";
+        const studentMessagesUrl = "{{ route('admin.messages') }}";
+        const readAtUrl = "{{ route('admin.message.read.at') }}";
+        const host = "{{ env('APP_URL') }}";
+        const userId = "{{ Auth::user()->id }}";
+        const pusherKey = "{{ env('PUSHER_APP_KEY') }}";
     </script>
+    <!-- Pusher -->
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
     <!-- jQuery -->
     <script src="{{ asset('adminAssets/plugins/jquery/jquery.min.js') }}"></script>
     <!-- Bootstrap 4 -->
@@ -993,9 +973,11 @@ html {
     <!-- AdminLTE App -->
     <script src="{{ asset('adminAssets/dist/js/adminlte.min.js') }}"></script>
     <script src="{{ asset('adminAssets/dist/js/custom.js') }}"></script>
+    <script src="{{ asset('adminAssets/dist/js/chat.js') }}"></script>
     <!-- Sweat Alert -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
 
 @if(Auth::guard('company')->check())
 
@@ -1004,22 +986,21 @@ html {
     let companyId = {{ Auth::id() }};
     let time = "{{ __('admin.1 Seconds ago') }}";
     let lang = "{{ app()->getLocale() }}" ;
-
 </script>
+@vite(['resources/js/app.js'])
+@endif
 
+@if(Auth::guard('trainer')->check())
 <script>
-    $(function() {
-        $("#messages-wrapper").on("click",".chat-circle",function() {
-            $("#messages-wrapper").addClass("click");
-        })
-    })
+    let from = 'trainer';
+    let trainerId = {{ Auth::id() }};
 </script>
+
 @vite(['resources/js/app.js'])
 @endif
 
 
     <script>
-        let host = "{{ env('APP_URL') }}";
         let text =  '{{ __('admin.It will be deleted') }}';
         let title =  '{{ __("admin.Are you sure?") }}';
         let confirmButtonText =  '{{ __('admin.Yes, delete it!') }}';

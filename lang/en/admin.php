@@ -288,5 +288,6 @@ return [
     "Chats" => "Chats",
     "Type a message here..." => "Type a message here...",
     "No messages yet!" => "No messages yet!",
+    "There is no one to chat with yet!" => "There is no one to chat with yet!",
     
 ];

@@ -52,12 +52,9 @@ if(from == 'student'){
 });
 
 
-    }else
-     if(from == 'admin'){
-        Echo.private('App.Models.Company.' + companyId)
-            .notification((notification) => {
-                // let massege = `<a href="${host}/${lang}/admin/mark-read/${notification.id}">${notification.name} ${notification.msg}</a>`;
-                // toastr.success(massege);
+    }else if(from == 'admin'){
+         Echo.private('App.Models.Company.' + companyId)
+         .notification((notification) => {
 
                 let notify_number  = $('.notify-number').html();
                 if(notify_number == undefined){
@@ -88,4 +85,37 @@ if(from == 'student'){
                                         `);
 
         });
+    }else {
+        Echo.private('App.Models.Trainer.' + trainerId)
+        .notification((notification) => {
+            let notify_number  = $('.notify-number').html();
+            if(notify_number == undefined){
+                $('.notify').append('<span class="badge badge-danger navbar-badge notify-number">1</span>');
+            }else{
+                let new_number  = $('.notify-number').text(parseInt(notify_number) + 1 );
+                $('.notify-number').append(new_number);
+            }
+            let name = notification.name ?? '';
+            let src = `https://ui-avatars.com/api/?background=random&name=${name}`;
+            if(notification.image) {
+                let image = notification.image;
+                src = host+'/'+image;
+              }
+
+            $('#dropNotification').prepend(`<a href="${host}/${lang}/admin/mark-read/${notification.id}" class="dropdown-item unread">
+                                            <div class="media">
+                                           <img src="${src}" class="img-size-50 mr-3 img-circle image-avatar">
+
+                                                <div class="media-body">
+                                                    <h3 class="dropdown-item-title">${notification.name}</h3>
+                                                    <p class="text-sm">${notification.msg}</p>
+                                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i>${time}</p>
+
+                                                </div>
+                                            </div>
+                                        </a>
+                                    `);
+
+    });
+
     }

@@ -15,7 +15,7 @@ const getAllChats = function() {
             }
         }
     });
-} 
+}
     $(document).ready(function() {
                 $.ajax({
                     type: "get",
@@ -30,12 +30,11 @@ const getAllChats = function() {
                         }
                     }
                 });
-         
 
-            
+
     });
-    
-           
+
+
     // show chat box when clicking on chat circle button
     $(function() {
 
@@ -57,8 +56,8 @@ const getAllChats = function() {
             $("#slug_input").val(slug);
             $("#type_input").val(type);
 
-            
-            
+
+
             $.ajax({
                 type: "get",
                 url: messagesURL,
@@ -102,12 +101,11 @@ const getAllChats = function() {
         $(".box").css('height','0');
         $(".chat-input").hide();
         $(this).hide();
-        $(this).parent().append('<span class="chat-box-max" style="line-height: 0"><i class="fas fas fa-expand"></i></span>')
-        // $(this).parent().parent().addClass('test');
+        $(this).parent().append('<span class="chat-box-max" style="line-height: 0"><i class="fas fa-chevron-up"></i></span>')
 
- 
+
     })
-        
+
     // Maximize chat box
     $(".icons-chat").on("click", ".chat-box-max",function() {
         $(".box").css('height','unset');
@@ -116,25 +114,25 @@ const getAllChats = function() {
         $(this).parent().append('<span class="chat-box-min" style="line-height: 0"><i class="fas fa-minus"></i></span>');
 
     })
-      
+
     // send message AJAX
     const sendBtn = $("#chat-submit");
-    const form = $("#messages_send_form");
+    const messagesForm = $("#messages_send_form");
 
-    form.on("submit", function(event) {
+    messagesForm.on("submit", function(event) {
         event.preventDefault();
     });
 
     sendBtn.on("click", function() {
-        const url = form.attr("action");
+        const url = messagesForm.attr("action");
         
         $.ajax({
             type: "post",
             url: url,
-            data: form.serialize(),
+            data: messagesForm.serialize(),
             success:function(response) {
                 if($('.chat-logs').children().not('img').length > 0) {
-                    
+
                 } else {
                     $('.chat-logs').empty();
                 }

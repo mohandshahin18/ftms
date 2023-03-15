@@ -288,5 +288,5 @@ return [
     "Chats" => "المحادثات",
     "Type a message here..." => "ارسل رسالة هنا",
     "No messages yet!" => "لا يوجد رسائل بعد",
-    
+    "There is no one to chat with yet!" => "ليس هناك أحد لمراسلته بعد!"
 ];

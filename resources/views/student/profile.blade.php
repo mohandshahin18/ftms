@@ -146,7 +146,7 @@
     <script src="{{ asset('studentAssets/js/profile.js') }}"></script>
 
     <script>
-        let form = $(".update_form")[0];
+        let form2 = $(".update_form")[0];
         let btn = $(".profile-button");
         let image;
 
@@ -160,9 +160,9 @@
 
         btn.on("click", function() {
             btn.attr('disabled', true);
-            let formData = new FormData(form);
+            let formData = new FormData(form2);
             formData.append('image', image);
-            let url = form.getAttribute("action");
+            let url = form2.getAttribute("action");
             $.ajax({
                 type: "POST",
                 url: url,

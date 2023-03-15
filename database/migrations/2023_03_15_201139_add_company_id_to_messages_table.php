@@ -14,8 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('messages', function (Blueprint $table) {
-            $table->enum('sender_type', ['trainer', 'student', 'teacher', 'company'])->after('teacher_id')->default('student');
-            $table->enum('receiver_type', ['trainer', 'student', 'teacher', 'company'])->after('sender_type')->default('student');
+            $table->foreignId('company_id')->on('companies')->cascadeOnDelete()->nullable()->after('student_id');
         });
     }
 
@@ -27,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('messages', function (Blueprint $table) {
-            //
+            $table->dropColumn('company_id');
         });
     }
 };

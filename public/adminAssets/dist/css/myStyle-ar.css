@@ -166,3 +166,38 @@ float: left!important;
     border-left:unset !important;
     border-right: 2px solid #29B6F6;
 }
+
+
+
+.chat-body {
+    padding: unset;
+    padding-right: 13px;
+}
+
+.list-group-item .main-info {
+    /* flex-direction: row-reverse; */
+}
+
+.chat_box .incoming {
+    flex-direction: row-reverse;
+}
+
+.incoming .details {
+    flex-direction: row-reverse !important;
+}
+
+.outgoing .details {
+    flex-direction: row !important;
+}
+
+.chat-area .typing_area button {
+    right: unset !important;
+    left: 88px !important;
+}
+
+.chat-box {
+
+    right: unset !important;
+    left:30px !important;
+
+}

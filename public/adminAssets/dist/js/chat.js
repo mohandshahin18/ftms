@@ -1,162 +1,169 @@
-var send_form = $(".typing_area");
-var send_btn = $(".message_btn");
-var get_messages_form = $(".get_message");
-var chatBox = $(".chat_box");
-
-send_form.on("submit", function(e) {
-    e.preventDefault();
-})
-
-const addMessage = function(msg) {
-    let created = new Date();
-    const options = { hour: 'numeric', minute: 'numeric', hour12: true };
-    const time = created.toLocaleTimeString([], options);
-    $(".chat_box").append(`<div class="chat outgoing message">
-        <div class="details">
-            <p>${msg}</p>
-            <span class="time">${time}</span>
-        </div>
-    </div>`);
-}
-
-const appendMessage = function(msg, image) {
-    let created = new Date();
-    const options = { hour: 'numeric', minute: 'numeric', hour12: true };
-    const time = created.toLocaleTimeString([], options);
-    let message = `<div class="chat incoming message" data-id="">
-                    <img src="http://127.0.0.1:8000/${image}" alt="">
-                    <div class="details">
-                        <p>${msg}</p>
-                        <span class="time">${time}</span>
-                    </div>
-                </div>`;
-                $(".chat_box").append(message);
-}
-
-chatBox.html(
-    '<div class="d-flex align-items-center justify-content-center" style="height: 100%;"><i class="fa fa-spin fa-spinner"></i></div>'
-    );
-
-
-send_btn.on("click", function() {
-    if (!$(".input-field").val() == "") {
-        url = send_form.attr("action");
-        $.ajax({
-            type: "post",
-            url: url,
-            data: send_form.serialize(),
-            success: function(response) {
-                let value = $(".input-field").val();
-                addMessage(value);
-                $(".input-field").val("");
-                scrollToBottom();
-
-            }
-        });
-    }
-});
-
-
+// get all chats in dropdown once the page reloade
 $(document).ready(function() {
     $.ajax({
-        type: "post",
-        url: 'get/messages',
-        data: send_form.serialize(),
-        success: function(response) {
-            chatBox.empty();
-            chatBox.append(response);
-            scrollToBottom();
+        type: "get",
+        url: urlOnLoad,
+        data: {slug: slug},
+        success:function(response) {
+          $("#messages-wrapper").empty();
+          $("#messages-wrapper").append(response.output);
+          if(response.number == 0) {
+            $("#messages-num").empty();
+          } else {
+            $("#messages-num").empty();
+            $("#messages-num").html(response.number);
+          }
         }
-    });
+      });
 
+})
+
+const getAllChats = function() {
     $.ajax({
         type: "get",
-        url: "get/chats",
-        beforeSend: function() {
-            $(".chat-boxes").append(
-                '<div class="d-flex align-items-center justify-content-center" style="height: 100%;"><i class="fa fa-spin fa-spinner"></i></div>'
-                );
-        },
-        success: function(response) {
-            $(".chat-boxes").empty();
-            $(".chat-boxes").append(response);
+        url: urlOnLoad,
+        data: {slug: slug},
+        success:function(response) {
+          $("#messages-wrapper").empty();
+          $("#messages-wrapper").append(response.output);
+          if(response.number == 0) {
+            $("#messages-wrapper #messages-num").empty();
+          } else {
+            $("#messages-wrapper #messages-num").empty();
+            $("#messages-wrapper #messages-num").html(response.number);
+          }
+          console.log($("#messages-num"));
         }
-    })
-});
-
-// append chat to chat area
-
-$(".chat-list .chat-boxes").on("click", ".chat-box", function(e) {
-    e.preventDefault();
-    const slug = $(this).data('slug');
-    $.ajax({
-        type: "get",
-        url: 'get/user/messages',
-        data: {
-            slug: slug
-        },
-        beforeSend: function() {
-            chatBox.css('position', 'relative');
-            chatBox.append(
-                '<div class="d-flex align-items-center justify-content-center" style="height: 100%; width: 100%; position: absolute; z-index: 999; background: #f7f7f7; top: 0;"><i class="fa fa-spin fa-spinner"></i></div>'
-                )
-        },
-
-        success: function(response) {
-            chatBox.empty();
-            $(".chat-area img").attr('src', response.image);
-            $("#student_name").empty();
-            $("#student_name").append(response.student.name);
-            // $(".chat_box").empty();
-            window.history.pushState("localhost/admin/", "messages", response.student.slug);
-            $.each(response.messages, function(key, value) {
-                var created = new Date(Date.parse(value.created_at));
-                const options = { hour: 'numeric', minute: 'numeric', hour12: true };
-                const time = created.toLocaleTimeString([], options);
-
-                if (value.sender_id == response.auth.id) {
-                    let msg = `<div class="chat outgoing message" data-id="${value.id}">
-                            <div class="details">
-                                <p>${value.message}</p>
-                                <span class="time">${time}</span>
-                            </div>
-                        </div>`;
-                    $(".chat_box").prepend(msg);
-                } else {
-                    let msg = `<div class="chat incoming message" data-id="${value.id}">
-                            <img src="${response.image}" alt="">
-                            <div class="details">
-                                <p>${value.message}</p>
-                                <span class="time">${time}</span>
-                            </div>
-                        </div>`;
-                    $(".chat_box").prepend(msg);
-                }
-            });
-            scrollToBottom();
-        }
-    });
-});
-
-function scrollToBottom() {
-    chatBox.scrollTop(chatBox.prop("scrollHeight"));
+      });
 }
 
+// pusher code
+
+        
+
+        var pusher = new Pusher(pusherKey, {
+            cluster: 'ap2',
+            authEndpoint: '/broadcasting/auth',
+        });
+
+        var channel = pusher.subscribe(`private-Messages.${userId}`);
+        channel.bind('new-message', function(data) {
+            scrollToBottom();
+            getAllChats();
+        });
+
+$(function () {
+
+    $("#messages-wrapper").on('click', '.chat-circle', function (event) {
+        event.preventDefault();
+        let studentSlug = $(this).data('slug');
+        let name = $(this).data('name');
+        let chatWrapper = $(".chat-logs");
+
+        $(".chat-box").show();
+        $(".box").css('height', 'unset');
+        $(".chat-input").show();
+        $(".chat-box-max").remove();
+        $(".chat-box-min").remove();
+        $('.icons-chat').append('<span class="chat-box-min" style="line-height: 0"><i class="fas fa-minus"></i></span>');
+        $("#slug_input").val(studentSlug);
+        readAt(studentSlug);
+        $(this).removeClass('active');
+        $("#messages-num").empty();
+        
+        $.ajax({
+            type: "get",
+            url:studentMessagesUrl,
+            data: {slug: studentSlug},
+            beforeSend: function() {
+                chatWrapper.empty();
+                $("#user_name_msg").empty();
+                chatWrapper.append('<div class="spinner-div d-flex align-items-center justify-content-center" style="width: 100%; position: absolute; width: 100%;height: 100%;z-index: top: 0; right: 0;"><i class="fa fa-spin fa-spinner" style="margin-right: 5px;"></i>Loading...</div>');
+            },
+            success:function(response) {
+                if(response == '') {
+                    $("#user_name_msg").empty();
+                    $("#user_name_msg").append(name);
+                    chatWrapper.empty();
+                } else {
+                    setTimeout(() => {
+                        $("#user_name_msg").empty();
+                        $("#user_name_msg").append(name);
+                        chatWrapper.empty();
+                        chatWrapper.append(response);
+                        scrollToBottom();
+                    }, 1000);
+                }
+            }
+        });
+    });
+
+    // hide chat box when clicking on close button
+    $(".chat-box-toggle").click(function () {
+        $(".chat-box").hide();
+    })
+    // Minimize chat box
+    $(".icons-chat").on("click", ".chat-box-min", function () {
+        $(".box").css('height', '0');
+        $(".chat-input").hide();
+        $(this).hide();
+        $(this).parent().append('<span class="chat-box-max" style="line-height: 0"><i class="fas fa-chevron-up"></i></span>')
 
 
-// overlay
-$(window).scroll(function() {
-    var scroll = $(window).scrollTop();
-    var chatBox = $('.chat_box');
+    })
 
-    if (scroll > 0) {
-        if (!chatBox.find('.overlay').length) {
-            chatBox.append('<div class="overlay"></div>');
+    // Maximize chat box
+    $(".icons-chat").on("click", ".chat-box-max", function () {
+        $(".box").css('height', 'unset');
+        $(".chat-input").show();
+        $(this).hide();
+        $(this).parent().append('<span class="chat-box-min" style="line-height: 0"><i class="fas fa-minus"></i></span>');
+
+    })
+
+})
+$(".chat-box-toggle").click(function () {
+    $(".chat-box").hide();
+})
+
+
+// send message
+let sendMsgForm = $("#messages_send_form");
+let sendMsgBtn = $("#chat-submit");
+
+sendMsgForm.on("submit", function(event) {
+    event.preventDefault();
+})
+
+sendMsgBtn.on("click", function() {
+    let sendMsgUrl = sendMsgForm.attr("action");
+
+    $.ajax({
+        type: "post",
+        url: sendMsgUrl,
+        data: sendMsgForm.serialize(),
+        success:function(response) {
+            $("#chat-input").val('');
+            $(".chat-logs").append(response);
+            scrollToBottom();
+            getAllChats();
         }
-    } else {
-        chatBox.find('.overlay').remove();
-    }
-});
+    })
+})
 
+// message read at
+const readAt = function(studentSlug) {
+    $.ajax({
+        type: "get",
+        url: readAtUrl,
+        data: {slug: studentSlug},
+        success:function(response) {
 
+        },
+    });
+} 
 
+// scroll to bottom function
+function scrollToBottom() {
+    $('.chat-logs').scrollTop($('.chat-logs').prop("scrollHeight"));
+}
