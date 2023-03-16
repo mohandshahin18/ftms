@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('subsicribes', function (Blueprint $table) {
-            $table->string('name')->after('id')->nullable();
+        Schema::table('messages', function (Blueprint $table) {
+            $table->foreignId('company_id')->on('companies')->cascadeOnDelete()->nullable()->after('student_id');
         });
     }
 
@@ -25,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('subsicribes', function (Blueprint $table) {
-            //
+        Schema::table('messages', function (Blueprint $table) {
+            $table->dropColumn('company_id');
         });
     }
 };

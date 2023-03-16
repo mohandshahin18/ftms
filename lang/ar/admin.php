@@ -298,4 +298,9 @@ return [
     "Send Message" => "إرسال الرسالة",
     "Team" => "الفريق",
     "Team Members" => "أعضاء الفريق",
+    "There is no one to chat with yet!" => "ليس هناك أحد لمراسلته بعد!",
+    "Adverts" => "الإعلانات",
+    "All Adverts" => "كل الإعلانات ",
+    "Add Advert" => "إضافة إعلان",
+    "Add New Advert" => "إضافة إعلان جديد",
 ];

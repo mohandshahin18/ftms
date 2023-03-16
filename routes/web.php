@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdvertController;
 use App\Http\Controllers\NotifyController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\StudentController;
@@ -126,8 +127,6 @@ Route::prefix('/')->middleware('auth:student','is_verify_email')->name('student.
     Route::get('chats', [MessagesController::class, 'all_chats'])->name('all.chats');
     Route::post('student/send/message', [MessagesController::class, 'send_message'])->name('send.message');
     Route::get('get/messages', [MessagesController::class, 'get_messages'])->name('get.messages');
-    Route::get('chats/get/chats', [MessagesController::class, 'get_chats']);
-    Route::get('chats/get/user/messages/{slug}', [MessagesController::class, 'get_user_messages']);
     Route::get('chats/read/message', [MessagesController::class, 'read_message'])->name('read.message');
 
 });
@@ -210,18 +209,21 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     Route::resource('tasks', TaskController::class);
 
     // messages
-    Route::get('messages/{slug}', [MessageController::class, 'index'])->name('messages');
-    Route::post('send/message', [MessageController::class, 'send_message'])->name('send.message');
-    Route::post('messages/get/messages', [MessageController::class, 'get_messages']);
-    Route::get('messages/get/chats', [MessageController::class, 'get_chats']);
-    Route::get('messages/get/user/messages', [MessageController::class, 'get_user_messages']);
     Route::get('get/students/messages', [MessageController::class, 'get_students_messages'])->name('students.messages');
+    Route::get('student/messages', [MessageController::class, 'student_messages'])->name('messages');
+    Route::post('send/message', [MessageController::class, 'send_message'])->name('send.message');
+    Route::get('message/read/at', [MessageController::class, 'readAt'])->name('message.read.at');
+
 
     //import university id
     Route::get('subscribes/import/', [SubsicribeController::class, 'import'])->name('subscribes.import_view');
     Route::post('subscribes/import/Excel', [SubsicribeController::class, 'importExcel'])->name('subscribes.importExcel');
     // subsicribes
     Route::resource('subscribes', SubsicribeController::class);
+
+    // adverts
+    Route::resource('adverts', AdvertController::class);
+
 
 
 });

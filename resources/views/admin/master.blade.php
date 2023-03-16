@@ -380,7 +380,7 @@ html {
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-comments"></i>
-                        <span class="badge badge-danger navbar-badge">3</span>
+                        <span class="badge badge-danger navbar-badge" id="messages-num"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right chat" id="messages-wrapper">
                         <a href="#" class="dropdown-item">
@@ -561,28 +561,17 @@ html {
                     <div class="chat-box-overlay">
                     </div>
                     <div class="chat-logs">
-                        <div class="chat outgoing message" >
-                          <div class="details">
-                              <p>Holle </p>
-                          </div>
-                          </div>
 
-                          <div class="chat incoming message" data-id="2">
-                            <div class="details">
-                                <p>Holle</p>
-                            </div>
-                        </div>
                       </div><!--chat-log -->
                 </div>
                 <!--chat-log -->
             </div>
             <div class="chat-input">
-                <form action="{{ route('student.send.message') }}" method="POST" id="messages_send_form">
+                <form action="{{ route('admin.send.message') }}" method="POST" id="messages_send_form">
                     @csrf
                     <input type="text" name="message" id="chat-input" placeholder="Send a message..."
                         autocomplete="off" />
                     <input type="hidden" name="slug" value="" id="slug_input">
-                    <input type="hidden" name="type" value="" id="type_input">
                     <button type="submit" class="chat-submit" id="chat-submit"><i class="fas fa-paper-plane"></i></button>
                 </form>
             </div>
@@ -612,10 +601,7 @@ html {
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                        data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item @yield('home-menu-open') ">
                             <a href="{{ route('admin.home') }}" class="nav-link @yield('home-active')">
                                 <i class="nav-icon fas fa-home"></i>
@@ -870,7 +856,6 @@ html {
 
                         <li class="nav-item @yield('subscribes-menu-open')">
                             <a href="#" class="nav-link @yield('subscribes-active')">
-                                {{-- <i class="fas fa-file-chart-line"></i> --}}
                                 <i class="fas fa-file-signature nav-icon"></i>
                                 <p>
                                     {{ __('admin.University IDs') }}
@@ -890,6 +875,33 @@ html {
                                         class="nav-link @yield('add-subscribe-active')">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>{{ __('admin.Add University ID') }}</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+                        <li class="nav-item @yield('adverts-menu-open')">
+                            <a href="#" class="nav-link @yield('adverts-active')">
+                                <i class="fas fa-ad nav-icon"></i>
+                                <p>
+                                    {{ __('admin.Adverts') }}
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.adverts.index') }}"
+                                        class="nav-link @yield('index-adverts-active')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>{{ __('admin.All Adverts') }}</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.adverts.create') }}"
+                                        class="nav-link @yield('add-subscribe-active')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>{{ __('admin.Add Advert') }}</p>
                                     </a>
                                 </li>
                             </ul>
@@ -972,7 +984,14 @@ html {
     <script>
         const slug = "{{ Auth::user()->slug }}";
         const urlOnLoad = "{{ route('admin.students.messages') }}";
+        const studentMessagesUrl = "{{ route('admin.messages') }}";
+        const readAtUrl = "{{ route('admin.message.read.at') }}";
+        const host = "{{ env('APP_URL') }}";
+        const userId = "{{ Auth::user()->id }}";
+        const pusherKey = "{{ env('PUSHER_APP_KEY') }}";
     </script>
+    <!-- Pusher -->
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
     <!-- jQuery -->
     <script src="{{ asset('adminAssets/plugins/jquery/jquery.min.js') }}"></script>
     <!-- Bootstrap 4 -->
@@ -980,54 +999,12 @@ html {
     <!-- AdminLTE App -->
     <script src="{{ asset('adminAssets/dist/js/adminlte.min.js') }}"></script>
     <script src="{{ asset('adminAssets/dist/js/custom.js') }}"></script>
+    <script src="{{ asset('adminAssets/dist/js/chat.js') }}"></script>
     <!-- Sweat Alert -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 
-    <script>
-      $(function() {
-
-          $("#messages-wrapper").on('click','.chat-circle' ,function(event) {
-            event.preventDefault();
-            $(".chat-box").show();
-            $("#user_name_msg").empty();
-            $("#user_name_msg").append(name);
-            $(".box").css('height','unset');
-            $(".chat-input").show();
-            $(".chat-box-max").remove();
-            $(".chat-box-min").remove();
-            $('.icons-chat').append('<span class="chat-box-min" style="line-height: 0"><i class="fas fa-minus"></i></span>');
-          })
-
-              // hide chat box when clicking on close button
-    $(".chat-box-toggle").click(function() {
-        $(".chat-box").hide();
-    })
-    // Minimize chat box
-    $(".icons-chat").on("click",".chat-box-min",function() {
-        $(".box").css('height','0');
-        $(".chat-input").hide();
-        $(this).hide();
-        $(this).parent().append('<span class="chat-box-max" style="line-height: 0"><i class="fas fa-chevron-up"></i></span>')
-
-
-    })
-
-    // Maximize chat box
-    $(".icons-chat").on("click", ".chat-box-max",function() {
-        $(".box").css('height','unset');
-        $(".chat-input").show();
-        $(this).hide();
-        $(this).parent().append('<span class="chat-box-min" style="line-height: 0"><i class="fas fa-minus"></i></span>');
-
-    })
-
-      })
-      $(".chat-box-toggle").click(function() {
-        $(".chat-box").hide();
-      })
-  </script>
 @if(Auth::guard('company')->check())
 
 <script>
@@ -1045,19 +1022,11 @@ html {
     let trainerId = {{ Auth::id() }};
 </script>
 
-<script>
-    $(function() {
-        $("#messages-wrapper").on("click",".chat-circle",function() {
-            $("#messages-wrapper").addClass("click");
-        })
-    })
-</script>
 @vite(['resources/js/app.js'])
 @endif
 
 
     <script>
-        let host = "{{ env('APP_URL') }}";
         let text =  '{{ __('admin.It will be deleted') }}';
         let title =  '{{ __("admin.Are you sure?") }}';
         let confirmButtonText =  '{{ __('admin.Yes, delete it!') }}';

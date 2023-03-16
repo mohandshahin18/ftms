@@ -50,4 +50,10 @@ class Company extends Authenticatable
     {
         return $this->hasMany(Evaluation::class);
     }
+
+    // with advert
+    public function adverts()
+    {
+        return $this->belongsToMany(Advert::class)->withDefault();
+    }
 }

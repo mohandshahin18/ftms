@@ -117,21 +117,19 @@ const getAllChats = function() {
 
     // send message AJAX
     const sendBtn = $("#chat-submit");
-    const form = $("#messages_send_form");
+    const messagesForm = $("#messages_send_form");
 
-    form.on("submit", function(event) {
+    messagesForm.on("submit", function(event) {
         event.preventDefault();
     });
 
     sendBtn.on("click", function() {
-        const url = form.attr("action");
-        // var incoming = $('.chat-logs').find('.incoming');
-        // var outgoing = $('.chat-logs').find('.outgoing');
-
+        const url = messagesForm.attr("action");
+        
         $.ajax({
             type: "post",
             url: url,
-            data: form.serialize(),
+            data: messagesForm.serialize(),
             success:function(response) {
                 if($('.chat-logs').children().not('img').length > 0) {
 

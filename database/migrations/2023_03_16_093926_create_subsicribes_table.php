@@ -15,7 +15,10 @@ return new class extends Migration
     {
         Schema::create('subsicribes', function (Blueprint $table) {
             $table->id();
-            $table->string('university_id')->unique();
+            $table->string('name');
+            $table->string('student_id')->unique();
+            $table->foreignId('university_id')->references('id')->on('universities')->cascadeOnDelete();
+            $table->foreignId('specialization_id')->references('id')->on('specializations')->cascadeOnDelete();
             $table->timestamps();
         });
     }

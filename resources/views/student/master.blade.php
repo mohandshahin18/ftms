@@ -219,7 +219,7 @@
                         <div class="d-inline dropdown mr-3">
                             <a class="dropdown-toggle" id="messages" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false" href="#"><i class="far fa-envelope"></i>
-                                <span class="notify-number messages-notify"></span>
+                                <span class="messages-notify"></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right pt-0" aria-labelledby="messages">
                                 <!-- <a class="dropdown-item">There are no new messages</a> -->

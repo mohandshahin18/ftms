@@ -298,5 +298,11 @@ return [
     "Send Message" => "Send Message",
     "Team" => "Team",
     "Team Members" => "Team Members",
+    "There is no one to chat with yet!" => "There is no one to chat with yet!",
+    "Adverts" => "Adverts",
+    "All Adverts" => "All Adverts",
+    "Add Advert" => "Add Advert",
+    "Add New Advert" => "Add New Advert",
+
 
 ];
