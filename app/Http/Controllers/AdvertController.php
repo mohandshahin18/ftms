@@ -37,6 +37,9 @@ class AdvertController extends Controller
      */
     public function store(Request $request)
     {
+
+        $auth = Auth::user();
+
         $request->validate([
             'main_title'=> 'required',
             'sub_title'=> 'required',
@@ -45,19 +48,39 @@ class AdvertController extends Controller
         if($request->image){
             $path = $request->file('image')->store('/uploads/advert', 'custom');
         }else{
-            $path = public_path('studenAssets/img/advert/default.png');
+            $path = 'uploads/advert/default.jpg';
         }
         if(Auth::guard('trainer')->check()){
             Advert::create([
                 'main_title' => $request->main_title,
                 'sub_title' => $request->sub_title,
                 'image' => $path,
+                'trainer_id' => $auth->id,
             ]);
+
+            // $advert->companies()->sync(Auth::)
         }elseif(Auth::guard('teacher')->check()){
+            Advert::create([
+                'main_title' => $request->main_title,
+                'sub_title' => $request->sub_title,
+                'image' => $path,
+                'teacher_id' => $auth->id,
+            ]);
 
         }elseif(Auth::guard('company')->check()){
+            Advert::create([
+                'main_title' => $request->main_title,
+                'sub_title' => $request->sub_title,
+                'image' => $path,
+                'company_id' => $auth->id,
+            ]);
 
         }else{
+            Advert::create([
+                'main_title' => $request->main_title,
+                'sub_title' => $request->sub_title,
+                'image' => $path,
+            ]);
 
         }
 

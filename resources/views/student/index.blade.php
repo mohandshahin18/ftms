@@ -3,23 +3,20 @@
 @section('title', 'Home')
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('studentAssets/css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('studentAssets/css/owl.carousel.min.css') }}">
 
     <style>
-
-.slide1 {
-
-    background:linear-gradient(-90deg, rgba(8, 32, 50, 0.8), rgba(8, 32, 50, 0.8)), url({{ asset('studentAssets/img/bg_banner2.jpg') }}), #082032;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
+        /* .slide1 {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        } */
 
 
 
         /* .header {
-            background: url({{ asset('studentAssets/img/bg_banner2.jpg') }});
-        } */
+                background: url({{ asset('studentAssets/img/bg_banner2.jpg') }});
+            } */
 
         .page-todo .tasks {
             background: #fff;
@@ -398,21 +395,27 @@
 @stop
 @section('content')
     {{-- @dump(Auth::guard()) --}}
-  <!-- SLIDER -->
-  <div class="owl-carousel owl-theme hero-slider">
-    <div class="slide slide1">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center text-white">
-                    <h6 class="text-white text-uppercase">design Driven for professional</h6>
-                    <h1 class="display-3 my-4 sub-title">We craft digital<br />experiances</h1>
-                    <a href="#" class="btn btn-slider">Get Started</a>
+    <!-- SLIDER -->
+    <div class="owl-carousel owl-theme hero-slider">
+        @forelse ($adverts as $advert)
+            <div class="slide slide1" style="background:linear-gradient(-90deg, rgba(8, 32, 50, 0.8), rgba(8, 32, 50, 0.8)), url({{ asset($advert->image) }}), #082032;  background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 text-center text-white">
+                            <h6 class="text-white text-uppercase" style="font-size: 28px !important; width: 75%; margin: auto;">{{ $advert->main_title }}</h6>
+                            <h1 class="display-3 my-4 sub-title" style="font-size: 17px !important; line-height: 2 ;width: 80%; margin: auto;">{{ $advert->sub_title }}</h1>
+                            <a href="#" class="btn btn-slider">Get Started</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+        @empty
+            
+        @endforelse
 
-</div>
+    </div>
 
 
 
@@ -468,11 +471,12 @@
                                                     </div>
                                                     <div class="time">
                                                         <div class="date">
-                                                          {{-- @if ($task->applied_tasks->count() > 0)
+                                                            {{-- @if ($task->applied_tasks->count() > 0)
                                                               <p class="done_btn">Done <i class="fas fa-check text-success"></i></p>
                                                           @else --}}
-                                                            Due {{ Carbon::parse($task->end_date)->locale(config('app.locale'))->format('j F') }}
-                                                          {{-- @endif --}}
+                                                            Due
+                                                            {{ Carbon::parse($task->end_date)->locale(config('app.locale'))->format('j F') }}
+                                                            {{-- @endif --}}
                                                         </div>
                                                         <div> {{ $task->created_at->diffForHumans() }}</div>
                                                     </div>
@@ -507,7 +511,7 @@
                 <div class="row">
                     @foreach ($companies as $company)
                         @php
-                           $category= $company->categories->first();
+                            $category = $company->categories->first();
                         @endphp
                         <div class="col-md-4">
                             <article class="blog-post">
@@ -518,7 +522,8 @@
 
                                 <div class="content">
                                     <h5>{{ $company->name }}</h5>
-                                    <p class="mb-4">{{ Str::words(strip_tags(html_entity_decode($company->description)), 6, '...') }}
+                                    <p class="mb-4">
+                                        {{ Str::words(strip_tags(html_entity_decode($company->description)), 6, '...') }}
                                     </p>
 
                                     <a href="{{ route('student.company', [$company->slug, $category->name]) }}"
@@ -528,7 +533,6 @@
                                 </div>
                             </article>
                         </div>
-
                     @endforeach
                     <div class="text-center mt-4">
                         <a href="{{ route('student.allCompanies') }}" class="btn-brand">{{ __('admin.Show More') }}</a>
@@ -543,7 +547,7 @@
 @stop
 
 @section('scripts')
-<script src="{{ asset('studentAssets/js/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('studentAssets/js/owl.carousel.min.js') }}"></script>
 
     <script src="{{ asset('studentAssets/js/app.js') }}"></script>
 

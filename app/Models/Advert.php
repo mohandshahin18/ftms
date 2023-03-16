@@ -12,8 +12,20 @@ class Advert extends Model
     protected $guarded =[];
 
     // with company
-    public function companies()
+    public function company()
     {
-        return $this->belongsToMany(Company::class)->withDefault();
+        return $this->belongsTo(Company::class)->withDefault();
+    }
+
+    // with trainer
+    public function trainer()
+    {
+        return $this->belongsTo(Trainer::class)->withDefault();
+    }
+
+    // with teacher
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class)->withDefault();
     }
 }

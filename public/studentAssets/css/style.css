@@ -92,7 +92,7 @@ section {
 
 .hero-slider .owl-prev:hover,
 .hero-slider .owl-next:hover {
-    background-color: var(--brand) !important;
+    background-color: #d3482d !important;
 }
 
 .owl-dot.active span{

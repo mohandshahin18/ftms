@@ -12,6 +12,7 @@ use App\Rules\TwoSyllables;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Advert;
 use App\Models\AppliedEvaluation;
 use App\Models\AppliedTasks;
 use App\Models\Evaluation;
@@ -29,12 +30,18 @@ class websiteController extends Controller
     public function index()
     {
         $companies = Company::with('categories')->where('status', 1)->inRandomOrder()->limit(3)->latest('id')->get();
-        $company = Company::get();
-        $students = Student::get();
-        $trainers = Trainer::get();
+        // $company = Company::get();
+        // $students = Student::get();
+        // $trainers = Trainer::get();
         $tasks = Task::with('applied_tasks')->where('category_id', Auth::user()->category_id)->where('company_id', Auth::user()->company_id)->get();
 
-        return view('student.index' , compact('companies','company','students' ,'trainers','tasks') );
+        $adverts = Advert::where('trainer_id', Auth::user()->trainer_id)
+        ->orWhere('teacher_id', Auth::user()->teacher_id)
+        ->orWhere('company_id', Auth::user()->company_id)
+        ->latest('created_at')
+        ->limit(10)
+        ->get();
+        return view('student.index' , compact('companies', 'tasks', 'adverts') );
     }
 
     public function task($slug )

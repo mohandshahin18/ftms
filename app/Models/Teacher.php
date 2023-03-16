@@ -55,4 +55,10 @@ class Teacher extends Authenticatable
         return $this->hasMany(Message::class);
     }
 
+    // with adverts
+    public function adverts()
+    {
+        return $this->hasMany(Advert::class);
+    }
+
 }

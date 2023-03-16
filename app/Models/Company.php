@@ -54,6 +54,6 @@ class Company extends Authenticatable
     // with advert
     public function adverts()
     {
-        return $this->belongsToMany(Advert::class)->withDefault();
+        return $this->hasMany(Advert::class);
     }
 }

@@ -2,17 +2,17 @@
 
 $(document).ready(function () {
     //Owl
-    if(lang == 'ar'){
+    if (lang == 'ar') {
         $('.hero-slider').owlCarousel({
-            loop: true,
+            loop: false,
             margin: 0,
             items: 1,
-            rtl:true,
+            rtl: true,
             dots: false,
             navText: ['PREV', 'NEXT'],
             smartSpeed: 1000,
             autoplay: true,
-            autoplayTimeout: 7000,
+            autoplayTimeout: 10000,
             responsive: {
                 0: {
                     nav: false,
@@ -22,16 +22,16 @@ $(document).ready(function () {
                 }
             }
         })
-    }else{
+    } else {
         $('.hero-slider').owlCarousel({
-            loop: true,
+            loop: false,
             margin: 0,
             items: 1,
             dots: false,
             navText: ['PREV', 'NEXT'],
             smartSpeed: 1000,
             autoplay: true,
-            autoplayTimeout: 7000,
+            autoplayTimeout: 10000,
             responsive: {
                 0: {
                     nav: false,
