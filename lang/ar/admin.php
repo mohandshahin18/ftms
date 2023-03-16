@@ -288,5 +288,14 @@ return [
     "Chats" => "المحادثات",
     "Type a message here..." => "ارسل رسالة هنا",
     "No messages yet!" => "لا يوجد رسائل بعد",
-    
+    "Our Services" => "خدماتنا",
+    "Our Team" => "فريقنا",
+    "Ratings" => "التقييمات",
+    "Contact Us" => "تواصل معنا",
+    "First name" => "الاسم الأول",
+    "Last name" => "الاسم الثاني",
+    "Message" => "الرسالة",
+    "Send Message" => "إرسال الرسالة",
+    "Team" => "الفريق",
+    "Team Members" => "أعضاء الفريق",
 ];

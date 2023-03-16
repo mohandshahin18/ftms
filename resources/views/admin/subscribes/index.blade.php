@@ -54,6 +54,8 @@
                                 <th>#</th>
                                 <th>{{ __('admin.Student Name') }}</th>
                                 <th>{{ __('admin.University ID') }}</th>
+                                <th>{{ __('admin.University') }}</th>
+                                <th>{{ __('admin.Specialization') }}</th>
                                 <th>{{ __('admin.Actions') }}</th>
                             </tr>
                         </thead>
@@ -63,13 +65,12 @@
                                 <tr id="row_{{ $subscribe->id }}">
                                     <td>{{ $subscribe->id }}</td>
                                     <td>{{ $subscribe->name }}</td>
-                                    <td>{{ $subscribe->university_id }}</td>
+                                    <td>{{ $subscribe->student_id }}</td>
+                                    <td>{{ $subscribe->university->name }}</td>
+                                    <td>{{ $subscribe->specialization->name }}</td>
                                     <td>
-                                        <button title="{{ __('admin.Edit') }}" type="button" class="btn btn-primary btn-sm btn-edit" data-toggle="modal"
-                                            data-target="#editUniversityID"
-                                            data-url="{{ route('admin.subscribes.update', $subscribe->id) }}"  data-name="{{ $subscribe->name }}"
-                                            data-university_id="{{ $subscribe->university_id }}"> <i class="fas fa-edit"></i>
-                                        </button>
+                                        <a href="{{ route('admin.subscribes.edit',$subscribe->id) }}" title="{{ __('admin.Edit') }}" type="button" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i>
+                                        </a>
                                         <form class="d-inline delete_form"
                                             action="{{ route('admin.subscribes.destroy', $subscribe->id) }}"
                                             method="POST">
@@ -99,54 +100,6 @@
     </div>
 
 
-    <!-- Modal Edit Category -->
-    <div class="modal fade" id="editUniversityID" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class=" modal-dialog modal-dialog-centered ">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title fs-5" id="exampleModalLabel">{{ __('admin.Edit University ID') }}</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form id="edit_form" action="" method="Post">
-                    <div class="modal-body">
-
-
-                        @csrf
-                        @method('put')
-                        <div class="row">
-                            {{-- start name --}}
-                            <div class="col-sm-12 mb-3">
-                                <label class="mb-2">{{ __('admin.Student Name') }}</label>
-                                <input type="text" class="form-control" name="name" placeholder="{{ __('admin.Student Name') }}">
-                            </div>
-                            {{-- end name --}}
-
-                            {{-- start name --}}
-                            <div class="col-sm-12 mb-3">
-                                <label class="mb-2">{{ __('admin.University ID') }}</label>
-                                <input type="text" class="form-control" name="university_id_st" placeholder="{{ __('admin.University ID') }}">
-                            </div>
-                            {{-- end name --}}
-
-
-
-                        </div>
-
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('admin.Close') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('admin.Save Edit') }}</button>
-                    </div>
-
-                </form>
-
-
-            </div>
-        </div>
-    </div>
 
 
 
@@ -157,81 +110,3 @@
 
 @stop
 
-@section('scripts')
-    <script>
-        // get old data from edit button
-        $('.btn-edit').on('click', function() {
-            // $('#editUniversityID').css('display','block');
-
-            let name = $(this).data('name');
-            let university_id = $(this).data('university_id');
-            let url = $(this).data('url');
-
-            $('#editUniversityID form').attr('action', url);
-            $('#editUniversityID input[name=university_id_st]').val(university_id);
-            $('#editUniversityID input[name=name]').val(name);
-
-
-        });
-
-        // send data using ajax
-        $('#edit_form').on('submit', function(e) {
-            e.preventDefault();
-
-
-            let data = $(this).serialize();
-            // send ajax request
-            $.ajax({
-
-                type: 'post',
-                url: $('#editUniversityID form').attr('action'),
-                data: data,
-                success: function(res) {
-                    $('.invalid-feedback').remove();
-                    $('input').removeClass('is-invalid');
-                    // $('#editUniversityID').hide();
-
-                    // $("#edit_form").click(function(){
-                    //     $("#editUniversityID").modal("hide");
-                    // });
-                    $('#row_' + res.id + " td:nth-child(2)").text(res.name);
-                    $('#row_' + res.id + " td:nth-child(3)").text(res.university_id);
-
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: false,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer)
-                            toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        }
-                    })
-
-                    Toast.fire({
-                        icon: 'success',
-                        title:' {{ __('admin.University ID has been updated successfully') }}'
-                    });
-                },
-                error: function(data) {
-
-                    $('.invalid-feedback').remove();
-
-                    $.each(data.responseJSON.errors, function(field, error) {
-                            $("input[name='" + field + "']").addClass('is-invalid').after(
-                                '<small class="invalid-feedback">' + error + '</small>');
-                        });
-                }
-
-            });
-
-        });
-
-
-    </script>
-
-
-
-
-@stop

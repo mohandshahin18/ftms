@@ -98,10 +98,10 @@ class LoginController extends Controller
         if( $request->type == 'admin' ||$request->type == 'teacher' ||
          $request->type == 'company' || $request->type == 'trainer'  ){
 
-            return redirect('selection-type');
+            return redirect()->route('selection');
 
         }elseif(Auth::guard('student')){
-            return redirect('students');
+            return redirect()->route('student.login.show');
         }
 
     }

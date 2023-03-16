@@ -162,3 +162,16 @@ table th {
     left:30px !important;
 
 }
+.chat-submit {
+    right: unset !important;
+     left: 10px;
+
+ }
+ #chat-input {
+
+    padding-right: unset !important;
+    padding-left: unset !important;
+    padding-left: 50px !important;
+    padding-right: 15px !important;
+
+}

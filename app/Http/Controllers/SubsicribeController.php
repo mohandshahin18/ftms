@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Imports\ImportUniversityId;
 use App\Models\Subsicribe;
+use App\Models\University;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\Specialization;
+use App\Imports\ImportUniversityId;
 use Maatwebsite\Excel\Facades\Excel;
 
 class SubsicribeController extends Controller
@@ -28,7 +31,10 @@ class SubsicribeController extends Controller
      */
     public function create()
     {
-        return view('admin.subscribes.create');
+
+        $specializations = Specialization::get();
+        $universities = University::get();
+        return view('admin.subscribes.create',compact('specializations','universities'));
 
     }
 
@@ -42,12 +48,16 @@ class SubsicribeController extends Controller
     {
         $request->validate([
             'name' =>'required',
-            'university_id_st' =>'required|unique:subsicribes,university_id'
+            'university_id_st' =>'required|unique:subsicribes,university_id',
+            'university_id' =>'required',
+            'specialization_id' =>'required'
         ]);
 
         Subsicribe::create([
             'name' => $request->name,
-            'university_id' => $request->university_id_st,
+            'student_id' => $request->university_id_st,
+            'specialization_id' => $request->specialization_id,
+            'university_id' => $request->university_id,
         ]);
 
         return redirect()->route('admin.subscribes.index')->with('msg', __('admin.University has been added successfully'))->with('type', 'success');
@@ -101,7 +111,10 @@ class SubsicribeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $subsicribe = Subsicribe::where('id',$id)->first();
+        $specializations = Specialization::get();
+        $universities = University::get();
+        return view('admin.subscribes.edit',compact('subsicribe','specializations','universities'));
     }
 
     /**
@@ -113,23 +126,26 @@ class SubsicribeController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $subsicribe = Subsicribe::where('id', $id)->first();
         $request->validate([
             'name'=>'required',
-            'university_id_st' =>'required'
+            'university_id_st' =>'required',
+            'university_id' =>'required',
+            'specialization_id' =>'required'
         ]);
 
-        $subscribes= Subsicribe::where('id',$id)->first();
-        
+
+        $subsicribe->update([
+            'name'=>  $request->name ,
+            'student_id' => $request->university_id_st ,
+            'university_id'=> $request->university_id,
+            'specialization_id'=> $request->specialization_id ,
+        ]);
+        return redirect()->route('admin.subscribes.index')->with('msg', __('admin.University ID has been updated successfully'))->with('type', 'success');
 
 
-        $subscribes->name = $request->name;
-        $subscribes->university_id = $request->university_id_st;
 
-
-
-        $subscribes->save();
-
-        return $subscribes;
+        // return $subscribes;
     }
 
     /**
@@ -169,7 +185,7 @@ class SubsicribeController extends Controller
          $request->validate([
              'university_id_st' => 'required',
          ]);
-         $subsicribe = Subsicribe::where('university_id',$request->university_id_st)->first();
+         $subsicribe = Subsicribe::where('student_id',$request->university_id_st)->first();
 
             if($subsicribe){
                  return response()->json([route('student.register-view',$request->university_id_st)],200);

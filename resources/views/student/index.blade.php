@@ -3,11 +3,23 @@
 @section('title', 'Home')
 
 @section('styles')
+<link rel="stylesheet" href="{{ asset('studentAssets/css/owl.carousel.min.css') }}">
 
     <style>
-        .header {
+
+.slide1 {
+
+    background:linear-gradient(-90deg, rgba(8, 32, 50, 0.8), rgba(8, 32, 50, 0.8)), url({{ asset('studentAssets/img/bg_banner2.jpg') }}), #082032;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+
+
+        /* .header {
             background: url({{ asset('studentAssets/img/bg_banner2.jpg') }});
-        }
+        } */
 
         .page-todo .tasks {
             background: #fff;
@@ -386,69 +398,25 @@
 @stop
 @section('content')
     {{-- @dump(Auth::guard()) --}}
-    <!-- SLIDER -->
-    <div class="header">
-        <div class="overlay">
-            <div class="slide ">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12 text-center text-white">
-                            <h6 class="text-white text-uppercase">design Driven for professional</h6>
-                            <h1 class="display-3 my-4">We craft digital<br />experiances</h1>
-                        </div>
-                    </div>
+  <!-- SLIDER -->
+  <div class="owl-carousel owl-theme hero-slider">
+    <div class="slide slide1">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center text-white">
+                    <h6 class="text-white text-uppercase">design Driven for professional</h6>
+                    <h1 class="display-3 my-4 sub-title">We craft digital<br />experiances</h1>
+                    <a href="#" class="btn btn-slider">Get Started</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ABOUT -->
-    <section id="about">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-5 py-5">
-                    <div class="row">
+</div>
 
-                        <div class="col-12">
-                            <div class="info-box">
-                                <img src="{{ asset('studentAssets/img/icon6.png') }}" alt="">
-                                <div class="ms-4">
-                                    <h5>Digital Marketing</h5>
-                                    <p>It is a long established fact that a reader will be distracted by the readable
-                                        content of a page </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 mt-4">
-                            <div class="info-box">
-                                <img src="{{ asset('studentAssets/img/icon4.png') }}" alt="">
-                                <div class="ms-4">
-                                    <h5>E-mail Marketing</h5>
-                                    <p>It is a long established fact that a reader will be distracted by the readable
-                                        content of a page </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 mt-4">
-                            <div class="info-box">
-                                <img src="{{ asset('studentAssets/img/icon5.png') }}" alt="">
-                                <div class="ms-4">
-                                    <h5>Buisness Marketing</h5>
-                                    <p>It is a long established fact that a reader will be distracted by the readable
-                                        content of a page </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-5">
-                    <img src="{{ asset('studentAssets/img/about.png') }}" alt="">
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- MILESTONE -->
+
+    {{-- <!-- MILESTONE -->
     <section id="milestone">
         <div class="container">
             <div class="row text-center justify-content-center gy-4">
@@ -471,7 +439,7 @@
 
             </div>
         </div>
-    </section>
+    </section> --}}
 
     @if (Auth::user()->company_id)
         <section>
@@ -575,6 +543,8 @@
 @stop
 
 @section('scripts')
-    <script src="{{ asset('studentAssets/js/scroll-js.js') }}"></script>
+<script src="{{ asset('studentAssets/js/owl.carousel.min.js') }}"></script>
+
+    <script src="{{ asset('studentAssets/js/app.js') }}"></script>
 
 @stop

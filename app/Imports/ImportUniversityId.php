@@ -16,7 +16,9 @@ class ImportUniversityId implements ToModel
     {
         return new Subsicribe([
             'name'     => $row[0],
-            'university_id'    => $row[1],
+            'student_id'     => $row[1],
+            'specialization_id'     => $row[2],
+            'university_id'    => $row[3],
         ]);
     }
 }

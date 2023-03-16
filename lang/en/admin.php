@@ -288,5 +288,15 @@ return [
     "Chats" => "Chats",
     "Type a message here..." => "Type a message here...",
     "No messages yet!" => "No messages yet!",
-    
+    "Our Services" => "Our Services",
+    "Our Team" => "Our Team",
+    "Ratings" => "Ratings",
+    "Contact Us" => "Contact Us",
+    "First name" => "First name",
+    "Last name" => "Last name",
+    "Message" => "Message",
+    "Send Message" => "Send Message",
+    "Team" => "Team",
+    "Team Members" => "Team Members",
+
 ];

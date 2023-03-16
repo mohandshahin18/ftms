@@ -27,5 +27,11 @@ class University extends Model
         return $this->hasMany(Student::class);
     }
 
+     // with subsicribe
+     public function subsicribes()
+     {
+         return $this->hasMany(Subsicribe::class);
+     }
+
 
 }

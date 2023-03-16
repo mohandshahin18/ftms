@@ -69,7 +69,20 @@
                                 {{-- Student ID  --}}
                                 <div class="col-md-6">
                                     <div class="mb-3 form-group">
-                                        <input type="text" class="form-control" value="{{ $subsicribe->university_id }}" placeholder="{{ __('admin.Student ID') }}" disabled>
+                                        <input type="text" class="form-control" value="{{ $subsicribe->student_id }}" placeholder="{{ __('admin.Student ID') }}" disabled>
+                                    </div>
+                                </div>
+                                {{-- Student ID  --}}
+                                <div class="col-md-6">
+                                    <div class="mb-3 form-group">
+                                        <input type="text" class="form-control" value="{{ $university->name }}" placeholder="{{ __('admin.Student ID') }}" disabled>
+                                    </div>
+                                </div>
+
+                                 {{-- Student ID  --}}
+                                 <div class="col-md-6">
+                                    <div class="mb-3 form-group">
+                                        <input type="text" class="form-control" value="{{ $specialization->name }}" placeholder="{{ __('admin.Student ID') }}" disabled>
                                     </div>
                                 </div>
 
@@ -95,41 +108,7 @@
                                     </div>
                                 </div>
 
-                                @php
-                                    use App\Models\University;
-                                    use App\Models\Specialization;
-                                    $universities = University::get();
-                                    $specializations = Specialization::get();
-                                @endphp
 
-                                {{-- University  --}}
-                                <div class="col-md-6">
-                                    <div class="mb-3 form-group">
-                                        <select name="university_id" class="form-control @error('university_id') error @enderror" id="university_id">
-                                            <option value=" ">{{ __('admin.Select University') }}</option>
-                                            @foreach ($universities as $university)
-                                                <option value="{{ $university->id }}">{{ $university->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('university_id')
-                                            <small>{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                {{-- Specializations  --}}
-                                <div class="col-md-6">
-                                    <div class="mb-3 form-group">
-                                        <select name="specialization_id" class="form-control @error('specialization_id') error @enderror" id="specialization_id">
-                                            <option value=" ">{{ __('admin.Select Specialization') }}</option>
-                                            @foreach ($specializations as $specialization)
-                                            @endforeach
-                                        </select>
-                                        @error('specialization_id')
-                                            <small>{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
 
 
                                 {{-- password --}}
@@ -160,7 +139,6 @@
                                 </div>
 
                         </form>
-                        <p class="p m-0"><span >*</span>{{ __('admin.Make sure your data is correct, you cannot modify it later') }}</p>
                         <div class="account">
 
                             <p> <a href="{{ route('student.login.show') }}"> {{ __('admin.Do you have account ?') }} </a></p>
@@ -187,25 +165,6 @@
 
     {{-- Ajax Request --}}
     <script>
-        $(document).ready(function() {
-            $("#university_id").on("change", function() {
-                var uni_id = $(this).val();
-                if (uni_id) {
-                    $.ajax({
-                        url: "/student/get/specialization/" + uni_id,
-                        type: "GET",
-                        dataType: "json",
-                        success: function(data) {
-                            $("#specialization_id").empty();
-                            $.each(data, function(key, value) {
-                                $("#specialization_id").append('<option value="' + value.id +
-                                    '">' + value.name + '</option>');
-                            });
-                        },
-                    });
-                }
-            });
-        });
 
         // Confirm Password input Check
 

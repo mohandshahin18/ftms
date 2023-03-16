@@ -20,6 +20,7 @@ use App\Http\Controllers\WebSite\websiteController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Website\MessagesController;
+use App\Http\Controllers\guestWebsite\GuestWebsiteController;
 use DebugBar\DataCollector\MessagesCollector;
 use App\Http\Controllers\SubsicribeController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -37,7 +38,11 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 Route::group(['prefix' => LaravelLocalization::setLocale()], function()
 {
+    Route::prefix('/')->middleware('guest')->name('website.')->group(function(){
 
+    Route::get('/', [GuestWebsiteController::class, 'index'])->name('home');
+
+    });
 
 // login to control panle
 Route::group(['namespace' => 'Auth'] ,function() {
@@ -62,7 +67,7 @@ Route::group(['namespace' => 'Student'] ,function() {
 
 // login to website
 Route::group(['namespace' => 'AuthStudent'] ,function() {
-    Route::get('/students', [LoginController::class, 'loginForm_student'])->middleware('guest')->name('student.login.show');
+    Route::get('/students/login', [LoginController::class, 'loginForm_student'])->middleware('guest')->name('student.login.show');
     Route::post('/login/student', [LoginController::class, 'login_studens'])->name('login_studens');
 
 });
@@ -87,7 +92,7 @@ Route::post('reset-password', [ResetPasswordController::class, 'submitResetPassw
 // route of website
 Route::prefix('/')->middleware('auth:student','is_verify_email')->name('student.')->group(function(){
     // home page
-    Route::get('/',[websiteController::class,'index'])->name('home');
+    Route::get('/home',[websiteController::class,'index'])->name('home');
 
     // company page
     Route::get('/company/{slug}/{program}',[websiteController::class,'showCompany'])->name('company');
@@ -211,7 +216,7 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     Route::get('messages/get/chats', [MessageController::class, 'get_chats']);
     Route::get('messages/get/user/messages', [MessageController::class, 'get_user_messages']);
     Route::get('get/students/messages', [MessageController::class, 'get_students_messages'])->name('students.messages');
-    
+
     //import university id
     Route::get('subscribes/import/', [SubsicribeController::class, 'import'])->name('subscribes.import_view');
     Route::post('subscribes/import/Excel', [SubsicribeController::class, 'importExcel'])->name('subscribes.importExcel');

@@ -53,10 +53,11 @@ class RegisterController extends Controller
 
     public function showStudentRegisterForm($student_id)
     {
-        $subsicribe= Subsicribe::where('university_id',$student_id)->first();
-
+        $subsicribe= Subsicribe::where('student_id',$student_id)->first();
+        $university = University::where('id',$subsicribe->university_id)->first();
+        $specialization = Specialization::where('id',$subsicribe->specialization_id)->first();
             if($subsicribe){
-                return view('auth.register' , compact('subsicribe'));
+                return view('auth.register' , compact('subsicribe','university','specialization'));
             }else{
                 abort(403);
             }
@@ -75,8 +76,6 @@ class RegisterController extends Controller
             'phone' => ['required', 'string','min:10', 'max:20', 'unique:students'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'password_confirmation' => ['required'],
-            'university_id' => ['required'],
-            'specialization_id' => ['required'],
         ]);
 
 
@@ -96,9 +95,9 @@ class RegisterController extends Controller
                 'email' => $request->email,
                 'phone' => $request->phone,
                 'teacher_id' => $teacher ? $teacher->id : null,
-                'student_id' => $subsicribe->university_id,
-                'university_id' => $request->university_id,
-                'specialization_id' => $request->specialization_id,
+                'student_id' => $subsicribe->student_id,
+                'university_id' => $subsicribe->university_id,
+                'specialization_id' =>  $subsicribe->specialization_id,
                 'password' => Hash::make($request->password),
                 'slug' => $slug,
             ]);

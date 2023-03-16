@@ -26,4 +26,10 @@ class Specialization extends Model
       {
           return $this->hasMany(Teacher::class);
       }
+
+      // with subsicribe
+      public function subsicribes()
+      {
+          return $this->hasMany(Subsicribe::class);
+      }
 }

@@ -9,5 +9,17 @@ class Subsicribe extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','university_id'];
+    protected $fillable = ['name','student_id','specialization_id','university_id'];
+
+     // with specialization
+     public function specialization()
+     {
+         return $this->belongsTo(Specialization::class);
+     }
+
+     // with university
+     public function university()
+     {
+         return $this->belongsTo(University::class);
+     }
 }

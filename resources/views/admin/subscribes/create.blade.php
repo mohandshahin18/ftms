@@ -43,6 +43,36 @@
                                 </div>
                             </div>
 
+                            {{-- University  --}}
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select name="university_id" class="form-control @error('university_id') is-invalid @enderror" id="university_id">
+                                        <option value=" ">{{ __('admin.Select University') }}</option>
+                                        @foreach ($universities as $university)
+                                            <option value="{{ $university->id }}">{{ $university->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('university_id')
+                                        <small class="invalid-feedback"> {{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            {{-- Specializations  --}}
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select name="specialization_id" class="form-control @error('specialization_id') is-invalid @enderror" id="specialization_id">
+                                        <option value=" ">{{ __('admin.Select Specialization') }}</option>
+                                        @foreach ($specializations as $specialization)
+                                        @endforeach
+                                    </select>
+                                    @error('specialization_id')
+                                        <small class="invalid-feedback"> {{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+
+
 
 
                         </div>
@@ -63,4 +93,29 @@
     </div>
 
 
+@stop
+
+@section('scripts')
+    {{-- Ajax Request --}}
+    <script>
+        $(document).ready(function() {
+            $("#university_id").on("change", function() {
+                var uni_id = $(this).val();
+                if (uni_id) {
+                    $.ajax({
+                        url: "/admin/get/specialization/" + uni_id,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            $("#specialization_id").empty();
+                            $.each(data, function(key, value) {
+                                $("#specialization_id").append('<option value="' + value.id +
+                                    '">' + value.name + '</option>');
+                            });
+                        },
+                    });
+                }
+            });
+        });
+    </script>
 @stop
