@@ -179,7 +179,7 @@ section {
 
   [data-component=navbar] .navbar-toggler {
     line-height: 2.4;
-    color: #444444;
+    color:  rgba(0, 0, 0, 0.5);
     cursor: pointer;
   }
   [data-component=navbar] .navbar-toggler span {
@@ -224,7 +224,7 @@ section {
     background: transparent;
   }
   [data-component=navbar] .right-links i {
-    color: #444444;
+    color: rgba(0, 0, 0, 0.5);
     font-size: 20px;
     line-height: 2.8;
   }

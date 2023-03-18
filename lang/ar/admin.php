@@ -303,4 +303,6 @@ return [
     "All Adverts" => "كل الإعلانات ",
     "Add Advert" => "إضافة إعلان",
     "Add New Advert" => "إضافة إعلان جديد",
+    "Messages" => "الرسائل",
+    
 ];

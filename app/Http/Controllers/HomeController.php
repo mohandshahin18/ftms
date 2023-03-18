@@ -314,6 +314,11 @@ class HomeController extends Controller
         }
 
 
+        public function all_messages_page()
+        {
+            $auth = Auth::user();
+            return view('admin.messages.messages', compact('auth'));
+        }
 
 
 }

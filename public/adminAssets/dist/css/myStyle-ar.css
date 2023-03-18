@@ -214,3 +214,23 @@ float: left!important;
     padding-right: 15px !important;
 
 }
+
+/* all messages page */
+
+
+.heading-line:after {
+    right: 0 !important;
+    width: 50px;
+}
+
+.notification-list--unread {
+    border-right: 2px solid #1a2e44;
+}
+
+.main-msg .open-msg {
+    right: 23px;
+}
+
+.notification-list--unread:hover {  
+    border-right: 80px solid #1a2e44;
+  }

@@ -32,6 +32,10 @@ class Admin extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-
+    // with messages
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
     
 }

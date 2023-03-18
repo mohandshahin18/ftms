@@ -128,7 +128,7 @@
                                             </span>
                                         @endif
                                     @else
-                                        {{ $applied_task->updated_at->gt($applied_task->created_at) ? __('admin.Updated') . $applied_task->updated_at->diffForHumans() : __('admin.Submitted') . $applied_task->created_at->diffForHumans() }}
+                                        {{ $applied_task->updated_at->gt($applied_task->created_at) ? __('admin.Updated') .' '. $applied_task->updated_at->diffForHumans() : __('admin.Submitted') .' '. $applied_task->created_at->diffForHumans() }}
                                         <span class="float-right text-success"><i class="fas fa-check"></i></span>
                                     @endif
                                 </td>
@@ -174,7 +174,7 @@
 
                                 <button type="button" id="hide_edit_form"
                                     class="mt-5 btn btn-seconed-brand btn-sm">{{ __('admin.Cancel') }}</button>
-                                <button type="button" class="btn btn-brand btn-sm mt-5" id="edit_btn"><i
+                                <button type="submit" class="btn btn-brand btn-sm mt-5" id="edit_btn"><i
                                         class="fas fa-edit"></i>
                                     {{ __('admin.Edit') }}</button>
 
@@ -200,7 +200,7 @@
 
                                 <button type="button" id="hide_form"
                                     class="mt-5 btn btn-seconed-brand">{{ __('admin.Cancel') }}</button>
-                                <button type="button" id="submit_btn"
+                                <button type="submit" id="submit_btn"
                                     class="mt-5 btn btn-brand">{{ __('admin.Submit') }}</button>
 
                             </form>
@@ -248,156 +248,6 @@
 
         })
 
-
-        $("#form_wrapper").on("click", '#submit_btn', function() {
-            let form = $('#task_form')[0];
-            let formData = new FormData(form);
-            let url = form.getAttribute("action");
-            Swal.fire({
-                title: 'Sumbission proccess',
-                text: "You are about to submit to this task",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#1a2e44',
-                cancelButtonColor: '#d64022',
-                confirmButtonText: 'Submit'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: url,
-                        type: "post",
-                        contentType: false,
-                        processData: false,
-                        data: formData,
-                        beforeSend: function() {
-                            $('#form_wrapper').append(
-                                '<div class="spinner-div d-flex align-items-center justify-content-center" style="font-size: 36px; width: 100%; position: absolute; width: 100%;height: 100%;z-index: 884;background: #fff; top: 0; right: 0;"><i class="fa fa-spin fa-spinner"></i> Loading...</div>'
-                                );
-                        },
-                        success: function(response) {
-                            $(".spinner-div").remove();
-                            $('#task_form').remove();
-                            $("#submitted_text").removeClass('text-danger').empty();
-                            $("#submitted_text").css({
-                                'background': '#d1e7dd',
-                                'color': '#0f5132',
-                                'font-weight': 500
-                            }).append('{{ __('admin.Submitted') }}');
-
-                            var editBtn =
-                                `<button type="button" id="show_edit_form"  value="edit-btn" class="btn btn-brand">Edit submission</button>`;
-                            $("#form_wrapper").append(editBtn);
-
-                            $("#file_submitted").empty();
-                            let file =
-                                `<a href="{{ asset('uploads/applied-tasks/${response.file}') }}" target="_blank" download>${response.file}</a>`
-                            $("#file_submitted").append(file);
-
-                            $("#time_remaining").empty();
-                            var remaining =
-                                `<span style="font-weight: 500">{{ __('admin.Submitted now') }}</span><span class="float-right text-success"><i class="fas fa-check"></i></span>`;
-                            $("#time_remaining").append(remaining);
-
-                            const Toast = Swal.mixin({
-                                toast: true,
-                                position: 'top',
-                                iconColor: '#90da98',
-                                customClass: {
-                                    popup: 'colored-toast'
-                                },
-                                showConfirmButton: false,
-                                timer: 2000,
-                                timerProgressBar: false,
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal
-                                        .stopTimer)
-                                    toast.addEventListener('mouseleave', Swal
-                                        .resumeTimer)
-                                }
-                            })
-
-                            Toast.fire({
-                                icon: 'success',
-                                title: '<p style="color: #000; margin:0">Your file submitted successfully</p>'
-                            })
-                        },
-                        error: function(response) {
-                            $('.invalid-feedback').remove();
-                            $.each(response.responseJSON.errors, function(field, error) {
-                                $("input[name='" + field + "']").addClass('is-invalid')
-                                    .after('<small class="invalid-feedback">' + error +
-                                        '</small>');
-                            });
-                        },
-                    })
-                }
-            })
-
-        })
-
-
-        $("#form_wrapper").on("click", '#edit_btn', function() {
-            let editForm = $("#edit_form")[0];
-            editForm.on("submit", function(event) {
-                evnet.preventDefault();
-            })
-            let url = editForm.getAttribute("action");
-            let editData = new FormData(editForm);
-            $.ajax({
-                type: "post",
-                url: url,
-                processData: false,
-                contentType: false,
-                data: editData,
-                success: function(response) {
-                    $("#edit_form").hide();
-                    $("#show_edit_form").show();
-                    $("#file_submitted").empty();
-                    $("#file_input").empty();
-                    $(".file-msg").empty();
-                    $(".file-msg").append("{{ __('admin.or drag and drop file here') }}");
-                    let file =
-                        `<a href="{{ asset('uploads/applied-tasks/${response.file}') }}" target="_blank" download>${response.file}</a>`
-
-                    $("#file_submitted").append(file);
-                    $("#time_remaining").empty();
-                    var remaining =
-                        `<span style="font-weight: 500">Updated now</span><span class="float-right text-success"><i class="fas fa-check"></i></span>`;
-                    $("#time_remaining").append(remaining);
-
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top',
-                        iconColor: '#90da98',
-                        customClass: {
-                            popup: 'colored-toast'
-                        },
-                        showConfirmButton: false,
-                        timer: 2000,
-                        timerProgressBar: false,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal
-                                .stopTimer)
-                            toast.addEventListener('mouseleave', Swal
-                                .resumeTimer)
-                        }
-                    })
-
-                    Toast.fire({
-                        icon: 'success',
-                        title: '<p style="color: #000; margin:0">Your edit has been saved</p>'
-                    })
-                },
-                error: function(response) {
-                    $('.invalid-feedback').remove();
-                    $.each(response.responseJSON.errors, function(field, error) {
-                        $("input[name='" + field + "']").addClass('is-invalid')
-                            .after('<small class="invalid-feedback">' + error +
-                                '</small>');
-                    });
-                },
-            })
-        });
     </script>
 
     {{-- Drop and drag input --}}
@@ -430,4 +280,38 @@
             }
         });
     </script>
+
+    @if (session('msg'))
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-right',
+            showConfirmButton: false,
+            timer: 4000,
+            timerProgressBar: false,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+
+        @if (session('type') == 'success')
+            Toast.fire({
+                icon: 'success',
+                title: '{{ session('msg') }}'
+            })
+        @elseif (session('type') == 'danger')
+            Toast.fire({
+                icon: 'error',
+                title: '{{ session('msg') }}'
+            })
+        @else
+            Toast.fire({
+                icon: 'info',
+                title: '{{ session('msg') }}'
+            })
+        @endif
+    </script>
+    @endif
+
 @stop

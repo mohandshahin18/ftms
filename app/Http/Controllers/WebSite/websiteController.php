@@ -44,7 +44,7 @@ class websiteController extends Controller
         return view('student.index' , compact('companies', 'tasks', 'adverts') );
     }
 
-    public function task($slug )
+    public function task($slug)
     {
         $task = Task::with('applied_tasks')->whereSlug($slug)->firstOrFail();
         $applied_task = null;
@@ -267,13 +267,13 @@ class websiteController extends Controller
                         ]);
 
 
-                        return response()->json($applied_task->toArray());
+                        return redirect()->back()->with('msg', 'Task submitted')->with('type', 'success');
                     } 
                 }else {
-                    return response()->json(["size" => "error"]);
+                    return redirect()->back()->with('msg', 'File size is large')->with('type', 'error');
                 }
             }else {
-                return response()->json(["type" => "error"]);
+                return redirect()->back()->with('msg', 'File type is not allowed')->with('type', 'error');
             }
 
 
@@ -301,7 +301,7 @@ class websiteController extends Controller
             'file' => $file,
         ]);
 
-        return response()->json($applied_task->toArray());
+        return redirect()->back()->with('msg', 'Task updated')->with('type', 'success');
 
 
     }

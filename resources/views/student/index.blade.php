@@ -6,18 +6,6 @@
     <link rel="stylesheet" href="{{ asset('studentAssets/css/owl.carousel.min.css') }}">
 
     <style>
-        /* .slide1 {
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        } */
-
-
-
-        /* .header {
-                background: url({{ asset('studentAssets/img/bg_banner2.jpg') }});
-            } */
-
         .page-todo .tasks {
             background: #fff;
             padding: 0;
@@ -418,32 +406,6 @@
     </div>
 
 
-
-    {{-- <!-- MILESTONE -->
-    <section id="milestone">
-        <div class="container">
-            <div class="row text-center justify-content-center gy-4">
-                <div class="col-lg-2 col-sm-6">
-                    <div class="counter">
-                        <h1 class="display-4" data-goal="{{ $students->count() }}">0 </h1>
-                    </div>
-                    <p class="mb-0">{{ __('admin.Students Number') }}</p>
-                </div>
-                <div class="col-lg-2 col-sm-6">
-                    <div class="counter">
-                        <h1 class="display-4" data-goal="{{ $company->count() }}">0</h1>
-                    </div>
-                    <p class="mb-0">{{ __('admin.Companies Number') }}</p>
-                </div>
-                <div class="col-lg-2 col-sm-6">
-                    <h1 class="display-4" data-goal="{{ $trainers->count() }}">0</h1>
-                    <p class="mb-0">{{ __('admin.Trainers Number') }}</p>
-                </div>
-
-            </div>
-        </div>
-    </section> --}}
-
     @if (Auth::user()->company_id)
         <section>
             <div class="container">
@@ -456,12 +418,12 @@
                         </div>
 
                         <div class="container page-todo bootstrap snippets bootdeys">
-                            <div class="col-sm-12 tasks">
+                            <div class="col-sm-12 tasks row">
                                 <div class="task-list">
 
                                     @foreach ($tasks as $task)
                                         @if (now() >= $task->start_date && now() <= $task->end_date)
-                                            <a href="{{ route('student.task', [$task->slug]) }}" style="font-weight: unset">
+                                            <a href="{{ route('student.task', [$task->slug]) }}" style="font-weight: unset" class="task-box">
                                                 <div class="task high">
                                                     <div class="desc">
                                                         <div class="title"><b>{{ $task->main_title }}</b></div>

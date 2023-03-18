@@ -122,11 +122,19 @@ class EvaluationController extends Controller
             'end_date' => ['required'],
         ]);
 
+        $slug = Str::slug($request->name);
+        $slugCount = Evaluation::where('slug' , 'like' , $slug. '%')->count();
+        $count =  $slugCount + 1;
+
+        if($slugCount > 1){
+            $slug = $slug . '-' . $count;
+        }
         $evaluation->update([
             'name' => $request->name,
             'evaluation_type' => $request->evaluation_type,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
+            'slug' => $slug,
         ]);
 
         if($request->has('questions')) {

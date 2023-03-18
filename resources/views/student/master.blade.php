@@ -27,19 +27,22 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('adminAssets/dist/img/selection/favicon.ico') }}">
 
     @if (app()->getLocale() == 'ar')
-    <link rel="stylesheet" href="{{ asset('studentAssets/css/style-ar.css') }}">
+        <link rel="stylesheet" href="{{ asset('studentAssets/css/style-ar.css') }}">
         <style>
-               body {
+            body {
                 direction: rtl
             }
+
             body,
             html {
                 font-family: event-reg;
             }
+
             .btn,
             input {
                 font-family: event-reg !important;
             }
+
             #toast-container>div {
                 font-family: event-reg !important;
             }
@@ -66,23 +69,23 @@
         use App\Models\Category;
         use App\Models\Trainer;
         $auth = Auth::user();
-
+        
         $data = json_decode(File::get(storage_path('app/settings.json')), true);
     @endphp
 
 
     <div data-component="navbar">
-        <div class="container-fluid">
+        
 
             @php
                 $name = Auth::guard()->user()->name ?? '';
                 $src = 'https://ui-avatars.com/api/?background=random&name=' . $name;
-
+                
                 if (Auth::guard()->user()->image) {
                     $img = Auth::guard()->user()->image;
                     $src = asset($img);
                 }
-
+                
             @endphp
             <nav class="navbar p-0 ">
                 <button class="navbar-toggler navbar-toggler-left rounded-0 border-0" type="button"
@@ -148,7 +151,7 @@
                                                 if ($notify->data['from'] == 'apply') {
                                                     $company = Company::where('id', $notify->data['company_id'])->first();
                                                     $company = $company->image;
-
+                                                
                                                     $name = $notify->data['name'] ?? '';
                                                     $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
                                                     if ($company) {
@@ -158,7 +161,7 @@
                                                 } elseif ($notify->data['from'] == 'task') {
                                                     $trainer = Trainer::where('id', $notify->data['trainer_id'])->first();
                                                     $trainer = $trainer->image;
-
+                                                
                                                     $name = $notify->data['name'] ?? '';
                                                     $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
                                                     if ($trainer) {
@@ -166,7 +169,7 @@
                                                         $notifySrc = asset($img);
                                                     }
                                                 }
-
+                                                
                                             @endphp
 
                                             <div class="media">
@@ -302,41 +305,41 @@
                         </div> <!-- /.megamenu-links -->
 
             </nav>
-        </div>
+        
     </div> <!-- END TOP NAVBAR -->
 
     {{-- <div id="body"> --}}
 
-        <div class="chat-box">
-            <div class="chat-box-header">
-                <p id="user_name_msg"></p>
-                <div class="icons-chat">
-                    <span class="chat-box-toggle" style="line-height: 0"><i class="fas fa-times"></i></span>
-                    <span class="chat-box-min" style="line-height: 0"><i class="fas fa-minus"></i></span>
+    <div class="chat-box">
+        <div class="chat-box-header">
+            <p id="user_name_msg"></p>
+            <div class="icons-chat">
+                <span class="chat-box-toggle" style="line-height: 0"><i class="fas fa-times"></i></span>
+                <span class="chat-box-min" style="line-height: 0"><i class="fas fa-minus"></i></span>
 
-                </div>
-            </div>
-            <div class="box">
-                <div class="chat-box-body">
-                    <div class="chat-box-overlay">
-                    </div>
-                    <div class="chat-logs">
-
-                    </div>
-                </div>
-                <!--chat-log -->
-            </div>
-            <div class="chat-input">
-                <form action="{{ route('student.send.message') }}" method="POST" id="messages_send_form">
-                    @csrf
-                    <input type="text" name="message" id="chat-input" placeholder="Send a message..."
-                        autocomplete="off" />
-                    <input type="hidden" name="slug" value="" id="slug_input">
-                    <input type="hidden" name="type" value="" id="type_input">
-                    <button type="submit" class="chat-submit" id="chat-submit"><i class="fas fa-send"></i></button>
-                </form>
             </div>
         </div>
+        <div class="box">
+            <div class="chat-box-body">
+                <div class="chat-box-overlay">
+                </div>
+                <div class="chat-logs">
+
+                </div>
+            </div>
+            <!--chat-log -->
+        </div>
+        <div class="chat-input">
+            <form action="{{ route('student.send.message') }}" method="POST" id="messages_send_form">
+                @csrf
+                <input type="text" name="message" id="chat-input" placeholder="Send a message..."
+                    autocomplete="off" />
+                <input type="hidden" name="slug" value="" id="slug_input">
+                <input type="hidden" name="type" value="" id="type_input">
+                <button type="submit" class="chat-submit" id="chat-submit"><i class="fas fa-send"></i></button>
+            </form>
+        </div>
+    </div>
     </div>
 
 
@@ -368,9 +371,8 @@
         const pusherKey = "{{ env('PUSHER_APP_KEY') }}";
         const readAtUrl = "{{ route('student.read.message') }}";
     </script>
-     <script src="{{ asset('studentAssets/js/chat.js') }}"></script>
+    <script src="{{ asset('studentAssets/js/chat.js') }}"></script>
     <script>
-
         var pusher = new Pusher(pusherKey, {
             cluster: 'ap2',
             authEndpoint: '/broadcasting/auth',

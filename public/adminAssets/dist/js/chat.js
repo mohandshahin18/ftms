@@ -48,13 +48,13 @@ const getAllChats = function() {
 
         var channel = pusher.subscribe(`private-Messages.${userId}`);
         channel.bind('new-message', function(data) {
-            scrollToBottom();
+            appendMessage(data.message.message, data.message.id);
             getAllChats();
         });
 
 $(function () {
 
-    $("#messages-wrapper").on('click', '.chat-circle', function (event) {
+    $(document).on('click', '.chat-circle', function (event) {
         event.preventDefault();
         let studentSlug = $(this).data('slug');
         let name = $(this).data('name');
@@ -150,6 +150,17 @@ sendMsgBtn.on("click", function() {
         }
     })
 })
+
+// append new message
+const appendMessage = function(message, id) {
+    msg = `<div class="chat incoming message" data-id="${id}">
+                <div class="details">
+                    <p>${message}</p>
+                </div>
+            </div>`;
+    $('.chat-logs').append(msg);
+    scrollToBottom();
+}
 
 // message read at
 const readAt = function(studentSlug) {

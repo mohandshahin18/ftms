@@ -397,6 +397,9 @@ html {
                                     <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> منذ 4 ساعات</p>
                                 </div>
                             </div>
+                            <div class="all">
+                                <a href="{{ route('admin.all.messages.page') }}" class="dropdown-item dropdown-footer text-center">Show All Messages</a>
+                            </div>
                             <!-- Message End -->
                         </a>
                         <div class="dropdown-divider"></div>

@@ -63,7 +63,7 @@
                                 <tr id="row_{{ $advert->id }}">
                                     <td>{{ $advert->id }}</td>
                                     <td>{{ $advert->main_title }}</td>
-                                    <td><img src="{{ asset($advert->image) }}" style="object-fit: cover" alt="" width="80" height="80"></td>
+                                    <td><img src="{{ asset($advert->image) }}" style="object-fit: cover; border-radius: 15px;" alt="" width="80" height="80"></td>
                                     <td>{{ $advert->created_at->diffForHumans() }}</td>
 
                                     <td>
@@ -81,7 +81,9 @@
                                 </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">
-                                    {{ __('admin.NO Data Selected') }}
+                                    <img src="{{ asset('adminAssets/dist/img/folder.png') }}" alt="" width="300" >
+                                    <br>
+                                    <h4>{{ __('admin.NO Data Selected') }}</h4>
                                 </td>
                             @endforelse
                         </tbody>

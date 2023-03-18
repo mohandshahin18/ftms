@@ -103,7 +103,7 @@ return [
     "Actions" => "Actions",
     "Edit" => "Edit",
     "Move to recycle bin" => "Move to recycle bin",
-    "NO Data Selected" => "NO Data Selected",
+    "NO Data Selected" => "No data found",
     "Delete" => "Delete",
     "Restore" => "Restore",
     "Companies Page" => "Companies Page",
@@ -239,7 +239,7 @@ return [
     "Edit submission"=>"Edit submission",
     "Add Submission"=>"Add Submission",
     "Choose file"=>"Choose file",
-    "or drag and drop file  here"=>"or drag and drop file here",
+    "or drag and drop file here" => "or drag and drop file here",
     "Supported file types: doc, docs, pdf, pptx, zip, rar"=>"Supported file types: doc, docs, pdf, pptx, zip, rar",
     "Max file size: 5 MB"=>"Max file size: 5 MB",
     "Submit"=>"Submit",
@@ -303,6 +303,6 @@ return [
     "All Adverts" => "All Adverts",
     "Add Advert" => "Add Advert",
     "Add New Advert" => "Add New Advert",
-
-
+    "Messages" => "Messages",
+    "Due" => "Due"
 ];

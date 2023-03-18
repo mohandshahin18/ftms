@@ -22,7 +22,6 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Website\MessagesController;
 use App\Http\Controllers\guestWebsite\GuestWebsiteController;
-use DebugBar\DataCollector\MessagesCollector;
 use App\Http\Controllers\SubsicribeController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -115,7 +114,7 @@ Route::prefix('/')->middleware('auth:student','is_verify_email')->name('student.
 
 
     //notifiacation
-    Route::get('/read-student-notify', [NotifyController::class, 'read_student_notify'])->name('read_notify');
+    Route::get('all/notifications', [NotifyController::class, 'read_student_notify'])->name('read_notify');
     Route::get('/mark-student-read/{id}', [NotifyController::class, 'mark_student_read'])->name('mark_read');
 
     //task
@@ -224,7 +223,11 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     // adverts
     Route::resource('adverts', AdvertController::class);
 
-
+    // All messages page
+    Route::get('all/messages', [HomeController::class, 'all_messages_page'])->name('all.messages.page');
+    Route::get('request/all/messages', [MessageController::class, 'all_messages_request'])->name('all.messages.request');
+    Route::get('request/all/admins/messages', [MessageController::class, 'all_admins_messages'])->name('all.admins.messages');
+    Route::get('search/students/messages', [MessageController::class, 'search_students_messages'])->name('search.students.messages');
 
 });
 

@@ -20,11 +20,16 @@ class Message extends Model
     // with trinaer
     public function trinaer()
     {
-        return $this->belongsTo(Trinaer::class)->withDefault();
+        return $this->belongsTo(Trainer::class)->withDefault();
     }
     // with teacher
     public function teacher()
     {
         return $this->belongsTo(Teacher::class)->withDefault();
+    }
+    // with admin
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class)->withDefault();
     }
 }
