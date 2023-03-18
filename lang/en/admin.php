@@ -303,6 +303,6 @@ return [
     "All Adverts" => "All Adverts",
     "Add Advert" => "Add Advert",
     "Add New Advert" => "Add New Advert",
-    "Messages" => "Messages",
-    "Due" => "Due"
+
+
 ];

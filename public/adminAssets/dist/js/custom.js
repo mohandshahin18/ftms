@@ -1,5 +1,5 @@
 // Delete
-$('.delete_form').on('submit', function(e) {
+$('tbody').on('submit','.delete_form', function(e) {
       e.preventDefault();
 
       let url = $(this).attr('action');

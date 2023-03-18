@@ -72,7 +72,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
         <div class="container">
             <a class="navbar-brand" href="{{ route('website.home') }}">
-                <img src="{{ asset($data['logo']) }}" class="nav-brand" alt="">
+                <img src="{{ asset($data['darkLogo']) }}" class="nav-brand" alt="">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -255,57 +255,25 @@
                 </div>
             </div>
             <div class="row justify-content-center">
-                <div class="col-lg-4 col-md-8">
-                    <div class="team-member">
-                        <div class="image">
-                            <img src="{{ asset('websiteAssets/img/team_1.jpg') }}" alt="">
-                            <div class="social-icons">
-                                <a href="#"><i class='bx bxl-facebook'></i></a>
-                                <a href="#"><i class='bx bxl-twitter'></i></a>
-                                <a href="#"><i class='bx bxl-instagram'></i></a>
-                                <a href="#"><i class='bx bxl-pinterest'></i></a>
-                            </div>
-                            <div class="overlay"></div>
+               @foreach ($members as $member )
+               <div class="col-lg-4 col-md-8">
+                <div class="team-member">
+                    <div class="image">
+                        <img src="{{ asset($member->image) }}" style="height: 400px; object-fit: cover;" alt="">
+                        <div class="social-icons">
+                            <a href="{{ $member->facebook }}" target="__blank"><i class='bx bxl-facebook'></i></a>
+                            <a href="{{ $member->github }}"><i class='bx bxl-github'></i></a>
+                            <a href="{{ $member->linkedin }}"><i class='bx bxl-linkedin'></i></a>
                         </div>
-
-                        <h5>Marvin McKinney</h5>
-                        <p>Marketing Coordinator</p>
+                        <div class="overlay"></div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-8">
-                    <div class="team-member">
-                        <div class="image">
-                            <img src="{{ asset('websiteAssets/img/team_2.jpg') }}" alt="">
-                            <div class="social-icons">
-                                <a href="#"><i class='bx bxl-facebook'></i></a>
-                                <a href="#"><i class='bx bxl-twitter'></i></a>
-                                <a href="#"><i class='bx bxl-instagram'></i></a>
-                                <a href="#"><i class='bx bxl-pinterest'></i></a>
-                            </div>
-                            <div class="overlay"></div>
-                        </div>
 
-                        <h5>Kathryn Murphy</h5>
-                        <p>Ethical Hacker</p>
-                    </div>
+                    <h5>{{ $member->name }}</h5>
+                    <p>{{ $member->specialization }}</p>
                 </div>
-                <div class="col-lg-4 col-md-8">
-                    <div class="team-member">
-                        <div class="image">
-                            <img src="{{ asset('websiteAssets/img/team_3.jpg') }}" alt="">
-                            <div class="social-icons">
-                                <a href="#"><i class='bx bxl-facebook'></i></a>
-                                <a href="#"><i class='bx bxl-twitter'></i></a>
-                                <a href="#"><i class='bx bxl-instagram'></i></a>
-                                <a href="#"><i class='bx bxl-pinterest'></i></a>
-                            </div>
-                            <div class="overlay"></div>
-                        </div>
+            </div>
+               @endforeach
 
-                        <h5>Darrell Steward</h5>
-                        <p>Software Developer</p>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -427,7 +395,6 @@
                         <p>{{ $data['footer_text'] }}</p>
 
                         <div class="col-auto conditions-section">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Contact Us </a>
                             <a href="mailto:{{ $data['email'] }}">Techincle Support</i></a>
                         </div>
                     </div>
@@ -435,7 +402,7 @@
             </div>
         </div>
         <div class="footer-bottom text-center">
-            <p class="mb-0">{{ $data['copy_right']}}</p> Distributed By : {{ $data['distributed_by'] }}</a>
+            <p class="mb-0">{{ $data['copy_right']}}</p> {{ __('admin.Distributed By') }} : {{ $data['distributed_by'] }}</a>
         </div>
     </footer>
 

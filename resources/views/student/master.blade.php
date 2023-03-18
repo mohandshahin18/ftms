@@ -95,7 +95,7 @@
                 </button>
                 <div class="w-100 d-felx justify-content-between">
                     <a class="navbar-brand px-1" href="{{ route('student.home') }}">
-                        <img src="{{ asset($data['logo']) }}" class="d-inline-block mt-1" alt="AgentFire Logo">
+                        <img src="{{ asset($data['darkLogo']) }}" class="d-inline-block mt-1" alt="AgentFire Logo">
                     </a>
 
 

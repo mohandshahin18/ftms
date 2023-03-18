@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Advert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Exception;
+use Illuminate\Support\Facades\Log;
+
 
 class AdvertController extends Controller
 {
@@ -43,6 +47,7 @@ class AdvertController extends Controller
         $request->validate([
             'main_title'=> 'required',
             'sub_title'=> 'required',
+            'image'=> 'image',
         ]);
 
         if($request->image){
@@ -58,7 +63,6 @@ class AdvertController extends Controller
                 'trainer_id' => $auth->id,
             ]);
 
-            // $advert->companies()->sync(Auth::)
         }elseif(Auth::guard('teacher')->check()){
             Advert::create([
                 'main_title' => $request->main_title,
@@ -84,7 +88,7 @@ class AdvertController extends Controller
 
         }
 
-        return redirect()->route('admin.adverts.index');
+        return redirect()->route('admin.adverts.index')->with('msg',__('admin.Advert has been added successfully'))->with('type', 'success');
     }
 
     /**
@@ -106,7 +110,8 @@ class AdvertController extends Controller
      */
     public function edit($id)
     {
-        //
+        $advert = Advert::where('id',$id)->first();
+        return view('admin.adverts.edit',compact('advert'));
     }
 
     /**
@@ -116,9 +121,56 @@ class AdvertController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,Advert $advert)
     {
-        //
+        $auth = Auth::user();
+
+        $request->validate([
+            'main_title'=> 'required',
+            'sub_title'=> 'required',
+        ]);
+
+        $path = $advert->image;
+
+        if($request->image) {
+            File::delete(public_path($advert->image));
+            $path = $request->file('image')->store('/uploads/advert', 'custom');
+        }
+        if(Auth::guard('trainer')->check()){
+            $advert->update([
+                'main_title' => $request->main_title,
+                'sub_title' => $request->sub_title,
+                'image' => $path,
+                'trainer_id' => $auth->id,
+            ]);
+
+        }elseif(Auth::guard('teacher')->check()){
+            $advert->update([
+                'main_title' => $request->main_title,
+                'sub_title' => $request->sub_title,
+                'image' => $path,
+                'teacher_id' => $auth->id,
+            ]);
+
+        }elseif(Auth::guard('company')->check()){
+            $advert->update([
+                'main_title' => $request->main_title,
+                'sub_title' => $request->sub_title,
+                'image' => $path,
+                'company_id' => $auth->id,
+            ]);
+
+        }else{
+            $advert->update([
+                'main_title' => $request->main_title,
+                'sub_title' => $request->sub_title,
+                'image' => $path,
+            ]);
+
+        }
+
+        return redirect()->route('admin.adverts.index')->with('msg',__('admin.Advert has been updated successfully'))->with('type', 'success');
+
     }
 
     /**
@@ -129,6 +181,21 @@ class AdvertController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $member = Advert::where('id',$id)->first();
+        if(!strpos($member->image, 'default')){
+        $path = public_path($member->image);
+            if($path) {
+                        try {
+                            File::delete($path);
+                        } catch(Exception $e) {
+                            Log::error($e->getMessage());
+                        }
+                    }
+                    $member->delete();
+                    return $id;
+        }else{
+                $member->delete();
+                return $id;
+        }
     }
 }

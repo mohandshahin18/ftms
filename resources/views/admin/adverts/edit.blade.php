@@ -1,9 +1,9 @@
 @extends('admin.master')
 
-@section('title',  __('admin.Edit Subscribe') )
-@section('sub-title', __('admin.University IDs'))
-@section('subscribes-active', 'active')
-@section('index-subscribe-active', 'active')
+@section('title',  __('admin.Edit Advert') )
+@section('sub-title', __('admin.Adverts'))
+@section('adverts-active', 'active')
+@section('index-advert-active', 'active')
 
 
 
@@ -13,78 +13,54 @@
         <div class="col-md-12">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title" style="float: unset">{{ __('admin.Edit Subscribe') }}</h3>
+                    <h3 class="card-title" style="float: unset">{{ __('admin.Edit Advert') }}</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form action="{{ route('admin.subscribes.update', $subsicribe->id) }}" method="POST">
+                <form action="{{ route('admin.adverts.update', $advert->id) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="card-body">
                         <div class="row">
                             {{-- name  --}}
-                            <div class=" col-lg-6">
+                            <div class=" col-lg-12">
                                 <div class="form-group">
-                                    <label class="mb-2">{{ __('admin.Name') }}</label>
-                                    <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                        name="name" placeholder="{{ __('admin.university Name') }}" value="{{ old('name', $subsicribe->name) }}">
-                                    @error('name')
+                                    <label class="mb-2">{{ __('admin.Main Title') }}</label>
+                                    <input type="text" class="form-control @error('main_title') is-invalid @enderror"
+                                        name="main_title" placeholder="{{ __('admin.Main Title') }}" value="{{ old('main_title', $advert->main_title) }}">
+                                    @error('main_title')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                     @enderror
                                 </div>
                             </div>
                             {{-- name  --}}
-                            <div class=" col-lg-6">
+                            <div class=" col-lg-12">
                                 <div class="form-group">
-                                    <label class="mb-2">{{ __('admin.University ID') }}</label>
-                                    <input type="text" class="form-control @error('university_id_st') is-invalid @enderror"
-                                        name="university_id_st" placeholder="{{ __('admin.University ID') }}" value="{{ old('student_id', $subsicribe->student_id) }}">
-                                    @error('university_id_st')
+                                    <label class="mb-2">{{ __('admin.Sub Title') }}</label>
+                                    <textarea name="sub_title" class="form-control @error('sub_title') is-invalid @enderror" placeholder="{{ __('admin.Sub Title') }}" id=""  rows="5">{{ old('sub_title', $advert->sub_title) }}</textarea>
+
+                                    @error('sub_title')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                     @enderror
                                 </div>
                             </div>
 
-
-
-
-                            {{-- specializations --}}
-                            <div class="col-md-6">
+                             {{-- name  --}}
+                             <div class=" col-lg-12">
                                 <div class="form-group">
-                                    <label class="mb-2">{{ __('admin.University') }}</label>
-                                    <select name="university_id" class="form-control @error('university_id') is-invalid @enderror" id="university_id">
-                                        @foreach ($universities as $university)
-
-                                                <option @if($subsicribe->university_id == $university->id) selected @endif value="{{ $university->id }}">{{ $university->name }}</option>
-                                            @endforeach
-
-                                    </select>
-                                    @error('university_id')
-                                    <small class="invalid-feedback"> {{ $message }}</small>
-                                @enderror
-
-
+                                    <label class="mb-2">{{ __('admin.Image') }}</label>
+                                    <input type="file" class="form-control @error('image') is-invalid @enderror"
+                                        name="image"  >
+                                    @error('image')
+                                        <small class="invalid-feedback"> {{ $message }}</small>
+                                    @enderror
+                                    <img src="{{ asset($advert->image) }}" width="120" alt="">
                                 </div>
                             </div>
 
-                            {{-- specializations --}}
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="mb-2">{{ __('admin.Program') }}</label>
-                                    <select name="specialization_id" class="form-control @error('specialization_id') is-invalid @enderror" id="specialization_id">
-                                        @foreach ($specializations as $specialization)
-
-                                                <option @if($subsicribe->specialization_id == $specialization->id) selected @endif value="{{ $specialization->id }}">{{ $specialization->name }}</option>
-                                            @endforeach
-
-                                    </select>
-                                    @error('specialization_id')
-                                    <small class="invalid-feedback"> {{ $message }}</small>
-                                @enderror
 
 
-                                </div>
-                            </div>
+
 
 
 
