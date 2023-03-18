@@ -21,7 +21,7 @@
                     <div class="card-body">
                         <div class="row">
                              {{-- name  --}}
-                             <div class="col-md-6">
+                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="mb-2">{{ __('admin.Main Title') }}</label>
                                     <input type="text" class="form-control @error('main_title') is-invalid @enderror"
@@ -31,17 +31,18 @@
                                     @enderror
                                 </div>
                             </div>
-                            {{-- name  --}}
-                            <div class="col-md-6">
+
+
+                            <div class=" col-md-12">
                                 <div class="form-group">
                                     <label class="mb-2">{{ __('admin.Sub Title') }}</label>
-                                    <input type="text" class="form-control @error('sub_title') is-invalid @enderror"
-                                        name="sub_title" placeholder="{{ __('admin.Sub Title') }}" value="{{ old('sub_title') }}">
+                                    <textarea name="sub_title" class="form-control @error('sub_title') is-invalid @enderror" placeholder="{{ __('admin.Sub Title') }}" id=""  rows="5">{{ old('sub_title') }}</textarea>
                                     @error('sub_title')
                                         <small class="invalid-feedback"> {{ $message }}</small>
                                     @enderror
                                 </div>
                             </div>
+
 
                              {{-- name  --}}
                              <div class="col-md-12">

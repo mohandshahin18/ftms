@@ -398,7 +398,7 @@
     <!-- SLIDER -->
     <div class="owl-carousel owl-theme hero-slider">
         @forelse ($adverts as $advert)
-            <div class="slide slide1" style="background:linear-gradient(-90deg, rgba(8, 32, 50, 0.8), rgba(8, 32, 50, 0.8)), url({{ asset($advert->image) }}), #082032;  background-size: cover;
+            <div class="slide slide1" style="background:linear-gradient(-90deg, rgb(8 32 50 / 60%), rgba(8, 32, 50, 0.642)), url({{ asset($advert->image) }}), #082032;  background-size: cover;
                 background-position: center;
                 background-repeat: no-repeat;">
                 <div class="container">
@@ -406,13 +406,25 @@
                         <div class="col-12 text-center text-white">
                             <h6 class="text-white text-uppercase" style="font-size: 28px !important; width: 75%; margin: auto;">{{ $advert->main_title }}</h6>
                             <h1 class="display-3 my-4 sub-title" style="font-size: 17px !important; line-height: 2 ;width: 80%; margin: auto;">{{ $advert->sub_title }}</h1>
-                            <a href="#" class="btn btn-slider">Get Started</a>
+                            @if($advert->company_id)
+                            <p style=" text-decoration: underline"><b>{{ $advert->company->name }}</b></p>
+                            @elseif($advert->teacher_id)
+                            <p  style=" text-decoration: underline"><b>{{ $advert->teacher->name }}</b></p>
+                            @else
+                            <p  style=" text-decoration: underline"><b>{{ $advert->trainer->name }}</b></p>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
         @empty
-            
+        <div class="slide slide1" style="background:linear-gradient(-90deg, rgba(8, 32, 50, 0.8), rgba(8, 32, 50, 0.8)), url({{ asset('studentAssets/img/advert/default.jpg') }}), #082032;  background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;">
+            <div class="container">
+
+            </div>
+        </div>
         @endforelse
 
     </div>
@@ -547,8 +559,13 @@
 @stop
 
 @section('scripts')
+
+
     <script src="{{ asset('studentAssets/js/owl.carousel.min.js') }}"></script>
 
     <script src="{{ asset('studentAssets/js/app.js') }}"></script>
-
+    <script>
+        let next = '{{ __('admin.NEXT') }}';
+        let prev = '{{ __('admin.PREV') }}';
+    </script>
 @stop

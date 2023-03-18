@@ -591,7 +591,7 @@ html {
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="{{ route('admin.home') }}" class="brand-link text-center">
-                <img src="{{ asset($data['logo']) }}" style="opacity: .8 ; width: 100px;">
+                <img id="logo" src="{{ asset($data['logo']) }}" style="opacity: .8 ; width: 100px;">
 
             </a>
 

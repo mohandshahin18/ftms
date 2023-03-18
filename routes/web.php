@@ -202,7 +202,11 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
 
     //settings
     Route::get('settings', [HomeController::class, 'settings'])->name('settings');
-    Route::post('settings', [HomeController::class, 'settings_store'])->name('settings_store');
+    Route::post('settings/team', [HomeController::class, 'settings_store'])->name('settings_store');
+    Route::put('settings/edit/member/{id}', [HomeController::class, 'editMember'])->name('editMember');
+    Route::delete('settings/delete/member/{id}', [HomeController::class, 'deleteMember'])->name('deleteMember');
+
+    Route::post('settings', [HomeController::class, 'settings_website'])->name('settings_website');
 
     // tasks
     Route::get('tasks/{slug}/edit', [TaskController::class, 'edit'])->name('task.edit');

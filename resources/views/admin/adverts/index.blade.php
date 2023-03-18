@@ -51,6 +51,7 @@
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
                                 <th>{{ __('admin.Main Title') }}</th>
+                                <th>{{ __('admin.Sub Title') }}</th>
                                 <th>{{ __('admin.Image') }}</th>
                                 <th>{{ __('admin.Created at') }}</th>
 
@@ -63,6 +64,7 @@
                                 <tr id="row_{{ $advert->id }}">
                                     <td>{{ $advert->id }}</td>
                                     <td>{{ $advert->main_title }}</td>
+                                    <td>{{ Str::words(strip_tags(html_entity_decode($advert->sub_title)), 4, '...') }}</td>
                                     <td><img src="{{ asset($advert->image) }}" style="object-fit: cover" alt="" width="80" height="80"></td>
                                     <td>{{ $advert->created_at->diffForHumans() }}</td>
 

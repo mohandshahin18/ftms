@@ -303,6 +303,17 @@ return [
     "All Adverts" => "All Adverts",
     "Add Advert" => "Add Advert",
     "Add New Advert" => "Add New Advert",
-
+    "NEXT" => "NEXT",
+    "PREV" => "PREV",
+    "Advert has been added successfully" => "Advert has been added successfully",
+    "Advert has been updated successfully" => "Advert has been updated successfully",
+    "Edit Advert" => "Edit Advert",
+    "Facebook Link" => "Facebook Link",
+    "GitHub Link" => "GitHub Link",
+    "Linkedin Link" => "Linkedin Link",
+    "Add new member" => "Add new member",
+    "Logo Website & Control Panle" => "Logo Website & Control Panle",
+    "Dark Logo" => "Dark Logo",
+    "Distributed By" => "Distributed By",
 
 ];

@@ -8,6 +8,7 @@ use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\Trainer;
 use App\Models\Category;
+use App\Models\SettingWebsite;
 use App\Rules\TextLength;
 use App\Models\University;
 use App\Rules\TwoSyllables;
@@ -16,6 +17,9 @@ use App\Models\Specialization;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Exception;
+
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
@@ -37,7 +41,7 @@ class HomeController extends Controller
      */
     public function home()
     {
-        
+
         return view('admin.home');
     }
 
@@ -48,7 +52,8 @@ class HomeController extends Controller
      */
     public function settings()
     {
-        return view('admin.settings');
+        $team_members =SettingWebsite::latest('id')->get();
+        return view('admin.settings',compact('team_members'));
     }
 
 
@@ -66,12 +71,19 @@ class HomeController extends Controller
             'copy_right' => ['required'] ,
             'distributed_by' => ['required'] ,
             'logo' => [$rule,'mimes:png,jpg,jpeg,svg,jfif','max:2048'] ,
+            'darkLogo' => [$rule,'mimes:png,jpg,jpeg,svg,jfif','max:2048'] ,
         ]);
 
         $logo = settings()->get('logo');
         if($request->has('logo')){
             $logo = $request->file('logo')->store('uploads/settings/logo' , 'custom');
             settings()->set('logo' , $logo);
+        }
+
+        $darkLogo = settings()->get('darkLogo');
+        if($request->has('darkLogo')){
+            $darkLogo = $request->file('darkLogo')->store('uploads/settings/logo' , 'custom');
+            settings()->set('darkLogo' , $darkLogo);
         }
 
         settings()->set('footer_text' , $request->footer_text);
@@ -81,11 +93,86 @@ class HomeController extends Controller
 
 
         settings()->save();
-        return redirect()->back()->with('msg' ,__('admin.Settings Updated succssfully')) ->with('type' , 'success');
+        return response()->json([$logo]);
 
     }
 
+    public function settings_website(Request $request)
+    {
+        $request->validate([
+            'name' => ['required'],
+            'specialization' => ['required'] ,
+            'linkedin' => ['required'] ,
+            'facebook' => ['required'] ,
+            'github' => ['required'] ,
+            'image' => ['required','mimes:png,jpg,jpeg,svg,jfif','max:2048'] ,
+        ]);
 
+
+        $path = $request->file('image')->store('/uploads/settings/team', 'custom');
+
+        $member = SettingWebsite::create([
+            'name' => $request->name,
+            'specialization' => $request->specialization,
+            'linkedin' =>$request->linkedin,
+            'facebook' => $request->facebook,
+            'github' => $request->github ,
+            'image' =>$path ,
+        ]);
+
+        return $member;
+
+    }
+
+    public function editMember(Request $request,$id)
+    {
+        $request->validate([
+            'name' => 'required',
+            'name' => ['required'],
+            'specialization' => ['required'] ,
+            'linkedin' => ['required'] ,
+            'facebook' => ['required'] ,
+            'github' => ['required'] ,
+        ]);
+        $members= SettingWebsite::where('id',$id)->first();
+
+        $path = $members->image;
+
+        if($request->image) {
+            File::delete(public_path($members->image));
+
+            $path = $request->file('image')->store('/uploads/settings/team', 'custom');
+        }
+
+        $members->name = $request->name;
+        $members->specialization = $request->specialization;
+        $members->linkedin = $request->linkedin;
+        $members->github = $request->github;
+        $members->facebook = $request->facebook;
+        $members->image = $path;
+
+
+        $members->save();
+
+        return $members;
+    }
+
+
+    public function deleteMember($id)
+    {
+        $member = SettingWebsite::where('id',$id)->first();
+        $path = public_path($member->image);
+
+        if($path) {
+            try {
+                File::delete($path);
+            } catch(Exception $e) {
+                Log::error($e->getMessage());
+            }
+        }
+        $member->delete();
+        return $id;
+    }
         /**
      * Show the application profile.
      *
