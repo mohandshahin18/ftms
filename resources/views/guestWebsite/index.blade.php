@@ -13,8 +13,12 @@
     <link rel="stylesheet" href="{{ asset('websiteAssets/css/owl.theme.default.min.css') }}">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="{{ asset('websiteAssets/css/style.css') }}">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" />
+    <!-- Sweat Alert -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="icon" type="image/x-icon" href="{{ asset('adminAssets/dist/img/selection/favicon.ico') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ env('APP_NAME') }}</title>
 
@@ -352,31 +356,33 @@
 
             <div class="row justify-content-center">
                 <div class="col-lg-8">
-                    <form class="p-lg-5 col-12 row g-3">
+                    <form class="p-lg-5 col-12 row g-3 contact-form" method="POST" action="{{ route('website.contact_us') }}">
+                        @csrf
 
                         <div class="col-lg-6">
                             <label for="firstName" class="form-label">{{ __('admin.First name') }}</label>
-                            <input type="text" class="form-control" id="firstName"
+                            <input type="text" class="form-control" name="firstname" id="firstName"
                                 aria-describedby="emailHelp">
                         </div>
                         <div class="col-lg-6">
                             <label for="lastName" class="form-label">{{ __('admin.Last name') }}</label>
-                            <input type="text" class="form-control"  id="lastName"
+                            <input type="text" class="form-control" name="lastname"  id="lastName"
                                 aria-describedby="emailHelp">
                         </div>
                         <div class="col-12">
                             <label for="email" class="form-label">{{ __('admin.Email') }}</label>
                             <input type="email" class="form-control"
-                                id="email" aria-describedby="emailHelp">
+                                id="email" name="email" aria-describedby="emailHelp">
                         </div>
                         <div class="col-12">
                             <label for="message" class="form-label">{{ __('admin.Message') }}</label>
-                            <textarea name=""
+                            <textarea name="message"
                                 class="form-control" id="" rows="4"></textarea>
                         </div>
 
                         <div class="col-12 text-end">
-                            <button type="submit" class="btn btn-brand">{{ __('admin.Send Message') }}</button>
+
+                            <button type="button" class="btn btn-brand btn-contact">{{ __('admin.Send Message') }}</button>
                         </div>
                     </form>
                 </div>
@@ -411,11 +417,100 @@
     let lang = "{{ app()->getLocale() }}" ;
 
     </script>
-    <script src="{{ asset('websiteAssets/js/milestone.min.js') }}"></script>
     <script src="{{ asset('websiteAssets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('websiteAssets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('websiteAssets/js/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('websiteAssets/js/app.js') }}"></script>
+    <!-- Sweat Alert -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script>
+          let btn = $('.btn-contact');
+          let form = $(".contact-form");
+        // console.log(form.getAttribute("action"));
+
+
+            form.onsubmit = (e)=> {
+                    e.preventDefault();
+
+            }
+
+            let formData = form.serialize();
+            let url = form.attr("action");
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            btn.on("click", function() {
+                btn.attr("disabled", true)
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: form.serialize(),
+                    beforeSend: function(data) {
+                    btn.html('<i class="fa fa-spin fa-spinner "></i>');
+                         $('.invalid-feedback').remove();
+                        $('input').removeClass('is-invalid');
+                        $('textarea').removeClass('is-invalid');
+                    } ,
+                    success: function(data) {
+                        setTimeout(() => {
+
+                        btn.html('<i class="fas fa-check"></i>');
+
+                        $('input').val('');
+                        $('textarea').val('');
+
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-right',
+                            customClass: {
+                                popup: 'colored-toast'
+                            },
+                            showConfirmButton: false,
+                            timer: 2000,
+                            timerProgressBar: false,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                            })
+
+                            Toast.fire({
+                            icon: 'success',
+                            title: '{{ __('admin.Message has been send') }}'
+                            })
+                            }, 1500);
+
+                    setTimeout(() => {
+                        btn.html('{{ __('admin.Send Message') }}');
+                        btn.removeAttr("disabled");
+                    }, 2000);
+
+
+                    } ,
+                    error: function(data) {
+                        btn.attr("disabled", false)
+                        btn.html('{{ __('admin.Send Message') }}');
+                        $('.invalid-feedback').remove();
+                        $.each(data.responseJSON.errors, function (field, error) {
+                            if(field == 'message') {
+                        $("textarea").addClass('is-invalid').after('<small class="invalid-feedback">' +error+ '</small>');
+                       } else {
+                        $("input[name='" + field + "']").addClass('is-invalid').after('<small class="invalid-feedback">' +error+ '</small>');
+                       }
+                        });
+                    } ,
+                })
+
+            });
+
+
+    </script>
 </body>
 
 </html>

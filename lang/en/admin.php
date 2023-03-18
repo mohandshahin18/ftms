@@ -303,6 +303,17 @@ return [
     "All Adverts" => "All Adverts",
     "Add Advert" => "Add Advert",
     "Add New Advert" => "Add New Advert",
-
+    "NEXT" => "NEXT",
+    "PREV" => "PREV",
+    "GitHub Link" => "GitHub Link",
+    "Facebook Link" => "Facebook Link",
+    "Linkedin Link" => "Linkedin Link",
+    "Add new member" => "Add new member",
+    "Logo Website & Control Panle" => "Logo Website & Control Panle",
+    "Dark Logo" => "Dark Logo",
+    "Message has been send" => "Message has been send",
+    "Dear Admin" => "Dear Admin",
+    "Hope this mail finds you well" => "Hope this mail finds you well",
+    "There is a new contact us entry as below :"=>"There is a new contact us entry as below :",
 
 ];

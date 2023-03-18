@@ -28,6 +28,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
   <style>
+
+.alert-warning {
+    color: #664d03;
+    background-color: #fff3cd;
+    border: 1px solid;
+    border-color: #ffecb5;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
          #center-text {
         display: flex;
         flex: 1;
@@ -80,9 +90,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         cursor: pointer;
     }
 
-    .box {
-        /* transition: all 0.2s ease-i; */
-    }
 
     .chat-box-min,
     .chat-box-max {

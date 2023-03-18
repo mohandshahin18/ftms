@@ -218,6 +218,10 @@ return [
         "student_id"            => "الرقم الجامعي",
         "reason"                => "سبب التقدم ",
         "university_id_st"      => "الرقم الجامعي",
+        "firstname"         => "الاسم الأول",
+        "lastname"         => "الاسم التاني",
+        "message"         => "الرسالة",
+
 
     ],
 
