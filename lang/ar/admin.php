@@ -318,5 +318,11 @@ return [
     "Logo Website & Control Panle" => "لوقو الموقع ولوحة التحكم",
     "Dark Logo" => "لوقو قاتم ",
     "Distributed By" => "تم النشر بواسطة",
-    "Search here" => "أبحث هنا"
+    "Search here" => "أبحث هنا",
+    "Message has been send" => "تم إرسال الرسالة",
+    "Dear Admin" => "عزيزي المسؤول",
+    "Hope this mail finds you well" => "أتمنى أن يصلك هذا البريد الإلكترونى وأنت بخير",
+    "There is a new contact us entry as below :"=>"هناك إدخال جديد للاتصال بنا على النحو التالي:",
+    
+
 ];

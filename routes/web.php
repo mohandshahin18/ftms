@@ -41,6 +41,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function()
     Route::prefix('/')->middleware('guest')->name('website.')->group(function(){
 
     Route::get('/', [GuestWebsiteController::class, 'index'])->name('home');
+    Route::post('/contact-us', [GuestWebsiteController::class, 'contact_us'])->name('contact_us');
 
     });
 

@@ -180,6 +180,8 @@ return [
         "university_id"      => "university",
         "company_id"         => "company",
         "university_id_st"         => "university id",
+        "firstname"         => "first name",
+        "lastname"         => "last name",
 
 
     ],

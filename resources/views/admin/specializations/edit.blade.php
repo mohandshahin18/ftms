@@ -35,23 +35,6 @@
 
 
 
-                            {{-- University --}}
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label class="mb-2">{{ __('admin.University Name') }}</label>
-                                    <select name="university_id" class="form-control @error('university_id') is-invalid @enderror" id="">
-                                        @foreach ($universities as $university)
-                                            <option @selected($specialization->university_id == $university->id) value="{{ $university->id }}">
-                                                {{ $university->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('university_id')
-                                        <small class="invalid-feedback"> {{ $message }}</small>
-                                    @enderror
-                                </div>
-                            </div>
-
-
                         </div>
                     </div>
                     <!-- /.card-body -->

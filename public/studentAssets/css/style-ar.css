@@ -124,6 +124,9 @@ table th {
     padding-left: 2.25rem !important;
     background-position: left calc(0.375em + 0.1875rem) center;
 }
+.was-validated textarea.form-control:invalid, textarea.form-control.is-invalid{
+background-position: top calc(0.375em + 0.1875rem) left calc(0.375em + 0.1875rem) !important;
+}
 
 [data-component=navbar] .dropdown span {
     right: 9px;

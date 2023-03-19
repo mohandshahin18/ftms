@@ -248,6 +248,7 @@
             });
         @endif
         btn.on("click", function() {
+            btn.attr('disabled', true);
 
             let formData = new FormData(form);
             formData.append('image',image);
@@ -265,37 +266,38 @@
                 dataType: "json",
                 processData: false,
                 contentType: false,
-                success: function(data) {
+                beforeSend: function(data) {
+                    btn.html('<i class="fa fa-spin fa-spinner "></i>');
                     $('.invalid-feedback').remove();
                     $('input').removeClass('is-invalid');
-                    btn.attr("disabled", true)
+                } ,
+                success: function(data) {
+
+                    setTimeout(() => {
+                        btn.html('<i class="fas fa-check"></i>');
+                        toastr.success('{{ __('admin.Profile Updated successfully') }}');
+
+                    }, 2000);
+
                     setTimeout(() => {
                         btn.removeAttr("disabled");
-                    }, 5000);
+                        btn.html('{{ __('admin.Save Edit') }}');
+                    }, 2000);
+
                     $("#name").empty();
                     $("#name").append(data.name);
                     $("#dropdown_name").empty();
                     $("#dropdown_name").append(data.name);
                     $("#email").empty();
                     $("#email").append(data.email);
-                    $("#nav_img").attr("src", "http://127.0.0.1:8000/"+data.image);
+                    if(data.image){
+                        $("#nav_img").attr("src", "http://127.0.0.1:8000/"+data.image);
                     $("#dropdown_image").css({
                         'background-image': 'url('+'http://127.0.0.1:8000/'+data.image+')'
                     });
-                    const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top',
-                    customClass: {
-                        popup: 'colored-toast'
-                    },
-                    showConfirmButton: false,
-                    timer: 2000,
-                    timerProgressBar: false,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+
                     }
-                    })
+
 
                     Toast.fire({
                     icon: 'success',

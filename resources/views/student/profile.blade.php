@@ -150,7 +150,7 @@
         let btn = $(".profile-button");
         let image;
 
-        form.onsubmit = (e) => {
+        form2.onsubmit = (e) => {
             e.preventDefault();
         }
 
@@ -172,17 +172,17 @@
                 contentType: false,
                 beforeSend: function(data) {
                     btn.html('<i class="fa fa-spin fa-spinner "></i>');
-
+                    $('.invalid-feedback').remove();
+                    $('input').removeClass('is-invalid');
 
                 } ,
                 success: function(data) {
-                    $('.invalid-feedback').remove();
-                    $('input').removeClass('is-invalid');
+
                     setTimeout(() => {
                         btn.html('<i class="fas fa-check"></i>');
                         toastr.success('{{ __('admin.Profile Updated successfully') }}');
 
-                    }, 1000);
+                    }, 2000);
 
                     setTimeout(() => {
                         btn.removeAttr("disabled");

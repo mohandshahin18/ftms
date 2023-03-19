@@ -43,7 +43,7 @@
         {!! $company->address !!}
     </section>
 
-    
+
 
 @if(Auth::user()->company_id)
     @if (!$evaluated)
