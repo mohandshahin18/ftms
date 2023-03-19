@@ -316,7 +316,7 @@ return [
     "Linkedin Link" => "رابط لينكد ان",
     "Add new member" => "إضافة عضو جديد",
     "Logo Website & Control Panle" => "لوقو الموقع ولوحة التحكم",
-    "Dark Logo" => "لوقو غامق ",
-    "Distributed By" => "نُشر بواسطة",
-
+    "Dark Logo" => "لوقو قاتم ",
+    "Distributed By" => "تم النشر بواسطة",
+    "Search here" => "أبحث هنا"
 ];

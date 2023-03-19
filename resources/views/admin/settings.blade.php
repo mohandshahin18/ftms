@@ -414,7 +414,7 @@ let url = form.getAttribute("action");
                                             <div style="display: flex; gap: 5px" class="">
                                               <a title="{{ __('admin.Edit') }}" href="" class="btn btn-primary btn-sm btn-edit"
                                               data-toggle="modal"  data-target="#editMember" data-name="${data.name}"
-                                              data-specialization="${data.specialization}" data-facebook="{{ $member->facebook }}"
+                                              data-specialization="${data.specialization}" data-facebook="${data.facebook}"
                                               data-linkedin="${data.linkedin}" data-image="${data.image}" data-github="${data.github}"
                                               data-url="admin/settings/edit/member/${data.id}"
                                               > <i class="fas fa-edit"></i> </a>

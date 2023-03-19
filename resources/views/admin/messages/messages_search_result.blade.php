@@ -23,7 +23,17 @@
             <p class="open-msg">open</p>
             <div class="notification-list_content">
                 <div class="notification-list_img">
-                    <img src="{{ asset($student->image) }}" width="60" height="60" alt="user"
+                    @if($student->image) 
+                        @php
+                            $src = asset($student->image);
+                        @endphp
+                    @else 
+                        @php
+                            $src = 'https://ui-avatars.com/api/?background=random&name=' . $student->name;
+                        @endphp
+                    @endif
+
+                    <img src="{{ $src }}" width="60" height="60" alt="user"
                         style="object-fit: cover; border-radius: 50%">
                 </div>
                 <div style="width: 100%">

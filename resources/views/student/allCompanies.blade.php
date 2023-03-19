@@ -202,7 +202,7 @@
                         $("#load-more").append(btn);
                     } else {
                         $("#load-more").empty();
-                        $("#load-more").html('<span style="color = #1a2e44">{{ __('admin.There is no more to load.') }}</span>');
+                        $("#load-more").html('<span style="color = #1a2e44">{{ __("admin.There is no more to load.") }}</span>');
                     }
                 },
                 error: function(xhr) {

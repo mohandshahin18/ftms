@@ -303,6 +303,8 @@ return [
     "All Adverts" => "All Adverts",
     "Add Advert" => "Add Advert",
     "Add New Advert" => "Add New Advert",
-
-
+    "Dark Logo" => "Dark Logo",
+    "Distributed By" => "Distributed By",
+    "Messages" => "Messages",
+    "Search here" => "Search here",
 ];

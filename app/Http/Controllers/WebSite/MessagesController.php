@@ -75,6 +75,12 @@ class MessagesController extends Controller
                     $notifyNum++;
                 }
 
+                if($roleObj->image) {
+                    $src = asset($roleObj->image);
+                } else {
+                    $src = 'https://ui-avatars.com/api/?background=random&name=' . $roleObj->name;
+                }
+
                 $output .= '<div class="media">
                                 <a href="#" data-type="' . $role . '"
                                     data-slug="' . $roleObj->slug . '"
@@ -83,7 +89,7 @@ class MessagesController extends Controller
                                     class="list-group-item list-group-item-action chat-circle ' . $roleActive . '">
                                     <div class="main-info">
                                         <div class="msg-img">
-                                            <img src="http://127.0.0.1:8000/' . $roleObj->image . '">
+                                            <img src="'. $src . '">
                                         </div>
                                         <div class="msg-body" style="width: 100%;">
                                             <h3 class="dropdown-item-title">' . $roleObj->name . '</h3>
@@ -102,6 +108,13 @@ class MessagesController extends Controller
                                 </a>
                             </div>';
             } else {
+
+                if($roleObj->image) {
+                    $src = asset($roleObj->image);
+                } else {
+                    $src = 'https://ui-avatars.com/api/?background=random&name=' . $roleObj->name;
+                }
+                
                 $output .= '<div class="media">
                                      <a href="#" data-type="' . $role . '"
                                          data-slug="'.$roleObj->slug.'"
@@ -110,7 +123,7 @@ class MessagesController extends Controller
                                          <div class="main-info">
                                              <div class="msg-img">
                                                  <img
-                                                    src="http://127.0.0.1:8000/' . $roleObj->image . '">
+                                                    src="'. $src . '">
                                             </div>
                                             <div class="msg-body" style="width: 100%;">
                                                 <h3 class="dropdown-item-title">

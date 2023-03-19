@@ -30,6 +30,6 @@ Broadcast::channel('Messages.{id}', function ($student, $id) {
     if($student->id == $id) {
         return $student;
     }
-},['guards' => ['student','teacher','trainer']]);
+},['guards' => ['student','teacher','trainer', 'company', 'admin']]);
 
 

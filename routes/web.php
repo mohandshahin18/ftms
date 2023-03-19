@@ -232,6 +232,10 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     Route::get('request/all/messages', [MessageController::class, 'all_messages_request'])->name('all.messages.request');
     Route::get('request/all/admins/messages', [MessageController::class, 'all_admins_messages'])->name('all.admins.messages');
     Route::get('search/students/messages', [MessageController::class, 'search_students_messages'])->name('search.students.messages');
+    Route::get('request/all/companies/messages', [MessageController::class, 'all_companies_messages'])->name('all.companeis.messages');
+    Route::get('request/all/teachers/messages', [MessageController::class, 'all_teachers_messages'])->name('all.teachers.messages');
+    Route::get('load/more/compnaies', [MessageController::class, 'load_more_companies'])->name('load.more.companies');
+    Route::get('load/more/teachers', [MessageController::class, 'load_more_teachers'])->name('load.more.teachers');
 
 });
 

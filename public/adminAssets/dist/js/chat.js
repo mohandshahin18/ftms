@@ -56,7 +56,7 @@ $(function () {
 
     $(document).on('click', '.chat-circle', function (event) {
         event.preventDefault();
-        let studentSlug = $(this).data('slug');
+        let userSlug = $(this).data('slug');
         let name = $(this).data('name');
         let chatWrapper = $(".chat-logs");
 
@@ -66,15 +66,15 @@ $(function () {
         $(".chat-box-max").remove();
         $(".chat-box-min").remove();
         $('.icons-chat').append('<span class="chat-box-min" style="line-height: 0"><i class="fas fa-minus"></i></span>');
-        $("#slug_input").val(studentSlug);
-        readAt(studentSlug);
+        $("#slug_input").val(userSlug);
+        readAt(userSlug);
         $(this).removeClass('active');
         $("#messages-num").empty();
         
         $.ajax({
             type: "get",
             url:studentMessagesUrl,
-            data: {slug: studentSlug},
+            data: {slug: userSlug},
             beforeSend: function() {
                 chatWrapper.empty();
                 $("#user_name_msg").empty();
@@ -163,11 +163,11 @@ const appendMessage = function(message, id) {
 }
 
 // message read at
-const readAt = function(studentSlug) {
+const readAt = function(userSlug) {
     $.ajax({
         type: "get",
         url: readAtUrl,
-        data: {slug: studentSlug},
+        data: {slug: userSlug},
         success:function(response) {
 
         },
