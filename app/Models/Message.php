@@ -32,4 +32,9 @@ class Message extends Model
     {
         return $this->belongsTo(Admin::class)->withDefault();
     }
+    // with company
+    public function company()
+    {
+        return $this->belongsTo(Company::class)->withDefault();
+    }
 }

@@ -333,7 +333,7 @@ html {
 
 </style>
 @endif
-
+@yield('style')
 
 </head>
 
@@ -391,33 +391,15 @@ html {
                         <span class="badge badge-danger navbar-badge" id="messages-num"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right chat" id="messages-wrapper">
-                        <a href="#" class="dropdown-item">
-                            <!-- Message Start -->
-                            <div class="media">
-                                <img src="" alt="User Avatar"
-                                    class="img-size-50 mr-3 img-circle">
-                                <div class="media-body">
-                                    <h3 class="dropdown-item-title">
-                                        اسماعيل النباهين
-
-                                    </h3>
-                                    <p class="text-sm">Call me whenever you can...</p>
-                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> منذ 4 ساعات</p>
-                                </div>
-                            </div>
-                            <div class="all">
-                                <a href="{{ route('admin.all.messages.page') }}" class="dropdown-item dropdown-footer text-center">Show All Messages</a>
-                            </div>
-                            <!-- Message End -->
-                        </a>
-                        <div class="dropdown-divider"></div>
+                        
+                        
 
                     </div>
                 </li>
-@php
-        use App\Models\Student;
-            $auth =Auth::user();
-@endphp
+                @php
+                    use App\Models\Student;
+                    $auth =Auth::user();
+                @endphp
 
                 <!-- Notifications Dropdown Menu -->
                 <li class="nav-item dropdown">

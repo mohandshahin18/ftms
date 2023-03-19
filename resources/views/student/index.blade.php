@@ -527,7 +527,7 @@
 
     <script src="{{ asset('studentAssets/js/app.js') }}"></script>
     <script>
-        let next = '{{ __('admin.NEXT') }}';
-        let prev = '{{ __('admin.PREV') }}';
+        let next = "{{ __('admin.NEXT') }}";
+        let prev = "{{ __('admin.PREV') }}";
     </script>
 @stop
