@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\guestWebsite;
 
+use App\Models\Comment;
 use App\Models\Company;
 use App\Models\Student;
 use App\Models\Trainer;
@@ -19,7 +20,11 @@ class GuestWebsiteController extends Controller
         $student = Student::get();
         $trainer = Trainer::get();
         $company = Company::get();
-        return view('guestWebsite.index',compact('student','trainer','company','members'));
+        $comments = Comment::with('student')->latest('id')->limit(20)->get();
+
+
+
+        return view('guestWebsite.index',compact('student','trainer','company','members','comments'));
      }
 
      public function contact_us(Request $request)

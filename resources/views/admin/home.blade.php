@@ -5,20 +5,14 @@
 @section('home-active', 'active')
 
 @section('styles')
+@if(app()->getLocale()=='ar')
 <style>
-    .alert-warning {
-        color: #7d5a29;
-        background-color: #fcefdc;
-        border-color: #fbe8cd;
-        font-size: 16px;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 2px;
-    }
-
+.card-title {
+    display: inline-block !important
+}
 
     </style>
+    @endif
 @stop
 
 @section('content')
@@ -33,24 +27,101 @@
         </div>
         @endif
 
-        {{-- <div class="col-lg-3 col-6">
-            <!-- small card -->
-            <div class="small-box bg-warning">
-              <div class="inner">
-                <h3>44</h3>
+      <div class="row">
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3>{{ $companies }}</h3>
 
-                <p>User Registrations</p>
-              </div>
-              <div class="icon">
-                <i class="fas fa-user-plus"></i>
-              </div>
-              <a href="#" class="small-box-footer">
-                More info <i class="fas fa-arrow-circle-right"></i>
-              </a>
+                            <p>{{ __('admin.Companies Number') }}</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <a href="{{ route('admin.companies.index') }}" class="small-box-footer">{{ __('admin.More info') }} <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
             </div>
-          </div> --}}
+            <div class="col-lg-3 col-6">
+                    <!-- small card -->
+                    <div class="small-box bg-warning">
+                        <div class="inner">
+                            <h3>{{ $students }}</h3>
+
+                            <p>{{ __('admin.Students Number') }}</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <a href="{{ route('admin.students.index') }}" class="small-box-footer">
+                            {{ __('admin.More info') }} <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-danger">
+                  <div class="inner">
+                    <h3>{{ $specializations }}</h3>
+
+                    <p>{{ __('admin.Specializations Number') }}</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-graduation-cap"></i>
+                  </div>
+                  <a href="{{ route('admin.specializations.index') }}" class="small-box-footer"> {{ __('admin.More info') }} <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-success">
+                  <div class="inner">
+                    <h3>{{ $categories }}</h3>
+
+                    <p>{{ __('admin.Categories Number') }}</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-book"></i>
+                  </div>
+                  <a href="{{ route('admin.categories.index') }}" class="small-box-footer">{{ __('admin.More info') }} <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+      </div>
+
+      <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                      <h3 class="card-title" @if(app()->getLocale()=='en') style="float: left !important"  @endif @if(app()->getLocale()=='ar') style="display: inline-block !important" @endif >{{ __('admin.Last Advert') }}</h3>
+
+                      <div class="card-tools" @if(app()->getLocale()=='ar') style="float: left !important;" @endif>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                          <i class="fas fa-minus"></i>
+                        </button>
+
+                      </div>
+                    </div>
+                    <div class="card-body" style="display: block;">
+                      {{ $lastAdvert->sub_title }}
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer" style="display: block;">
+                        @if($lastAdvert->company_id)
+                        {{ $lastAdvert->company->name }}
+                            @elseif($lastAdvert->teacher_id)
+                            {{ $lastAdvert->teacher->name }}
+                            @else
+                            {{ $lastAdvert->trainer->name }}
+                            @endif
+
+                    </div>
+                    <!-- /.card-footer-->
+                  </div>
+            </div>
+      </div>
+
+
 @stop
-{{-- @dump(app()->getLocale()) --}}
 
 @section('scripts')
 

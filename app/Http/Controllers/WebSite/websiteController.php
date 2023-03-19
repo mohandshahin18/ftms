@@ -2,25 +2,26 @@
 
 namespace App\Http\Controllers\WebSite;
 
+use Carbon\Carbon;
 use App\Models\Task;
+use App\Models\Advert;
+use App\Models\Comment;
 use App\Models\Company;
 use App\Models\Student;
 use App\Models\Trainer;
 use App\Models\Category;
+use App\Models\Evaluation;
 use App\Models\Application;
 use App\Rules\TwoSyllables;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Advert;
-use App\Models\AppliedEvaluation;
 use App\Models\AppliedTasks;
-use App\Models\Evaluation;
+use Illuminate\Http\Request;
+use App\Models\AppliedEvaluation;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\Notifications\AppliedNotification;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 
 class websiteController extends Controller
 {
@@ -184,6 +185,24 @@ class websiteController extends Controller
     }
 
 
+    public function comment(Request $request)
+    {
+
+    //    $student = Student::whereSlug($slug)->first();
+
+    $request->validate([
+        'body'=>'required'
+    ]);
+
+    $comment = Comment::create([
+        'body' => $request->body,
+        'student_id' => Auth::user()->id,
+    ]);
+
+    return $comment;
+    }
+
+
 
     public function allCompanies(){
         $companies = Company::with('categories')->where('status' , 1)->latest('id')->take(3)->get();
@@ -225,7 +244,7 @@ class websiteController extends Controller
         ]);
 
 
-        
+
         $student->update([
             'email' => $request->email,
             'phone' => $request->phone,
@@ -268,7 +287,7 @@ class websiteController extends Controller
 
 
                         return redirect()->back()->with('msg', 'Task submitted')->with('type', 'success');
-                    } 
+                    }
                 }else {
                     return redirect()->back()->with('msg', 'File size is large')->with('type', 'error');
                 }

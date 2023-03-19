@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\Advert;
 use App\Models\Company;
 use App\Models\Student;
 use App\Models\Teacher;
@@ -41,8 +42,13 @@ class HomeController extends Controller
      */
     public function home()
     {
+        $students= Student::count();
+        $companies= Company::count();
+        $specializations= Specialization::count();
+        $categories= Category::count();
+        $lastAdvert= Advert::latest('id')->limit(1)->first();
 
-        return view('admin.home');
+        return view('admin.home',compact('students','companies','specializations','categories','lastAdvert'));
     }
 
      /**

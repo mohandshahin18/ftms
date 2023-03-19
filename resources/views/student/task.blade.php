@@ -50,8 +50,8 @@
 
     <section id="reviews">
         <div class="container">
-            <h1 class="text-white"><img class="task_img" src="{{ asset('studentAssets/img/task.svg') }}"
-                    alt="">{{ $task->main_title }} - {{ $task->sub_title }}</h1>
+            <h2 class="text-white"><img class="task_img" src="{{ asset('studentAssets/img/task.svg') }}"
+                    alt="">{{ $task->main_title }} - {{ $task->sub_title }}</h2>
         </div>
     </section>
 

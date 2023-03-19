@@ -69,23 +69,23 @@
         use App\Models\Category;
         use App\Models\Trainer;
         $auth = Auth::user();
-        
+
         $data = json_decode(File::get(storage_path('app/settings.json')), true);
     @endphp
 
 
     <div data-component="navbar">
-        
+
 
             @php
                 $name = Auth::guard()->user()->name ?? '';
                 $src = 'https://ui-avatars.com/api/?background=random&name=' . $name;
-                
+
                 if (Auth::guard()->user()->image) {
                     $img = Auth::guard()->user()->image;
                     $src = asset($img);
                 }
-                
+
             @endphp
             <nav class="navbar p-0 ">
                 <button class="navbar-toggler navbar-toggler-left rounded-0 border-0" type="button"
@@ -145,13 +145,21 @@
                                 aria-labelledby="notifications">
                                 <div class="list-group">
                                     <div class="lg" id="dropNotification">
+                                        @php
+                                            if ($auth->unreadNotifications->count()){
+                                                $myNotifications = $auth->notifications()->latest('read_at',null)->limit(5)->get();
+                                            }else{
+                                                $myNotifications = $auth->notifications()->limit(5)->get();
 
-                                        @forelse ($auth->notifications as $notify)
+                                            }
+
+                                        @endphp
+                                        @forelse ($myNotifications as $notify)
                                             @php
                                                 if ($notify->data['from'] == 'apply') {
                                                     $company = Company::where('id', $notify->data['company_id'])->first();
                                                     $company = $company->image;
-                                                
+
                                                     $name = $notify->data['name'] ?? '';
                                                     $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
                                                     if ($company) {
@@ -161,7 +169,7 @@
                                                 } elseif ($notify->data['from'] == 'task') {
                                                     $trainer = Trainer::where('id', $notify->data['trainer_id'])->first();
                                                     $trainer = $trainer->image;
-                                                
+
                                                     $name = $notify->data['name'] ?? '';
                                                     $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
                                                     if ($trainer) {
@@ -169,7 +177,7 @@
                                                         $notifySrc = asset($img);
                                                     }
                                                 }
-                                                
+
                                             @endphp
 
                                             <div class="media">
@@ -212,7 +220,7 @@
 
                                     </div> <!-- /.lg -->
                                     <div class="all-notify">
-                                        <p><a href="{{ route('student.read_notify') }}">Show All Notifications</a></p>
+                                        <p><a href="{{ route('student.read_notify') }}" >{{ __('admin.Show All Notifications') }}</a></p>
                                     </div>
                                 </div> <!-- /.list group -->
                             </div> <!-- /.dropdown-menu -->
@@ -305,7 +313,7 @@
                         </div> <!-- /.megamenu-links -->
 
             </nav>
-        
+
     </div> <!-- END TOP NAVBAR -->
 
     {{-- <div id="body"> --}}
@@ -353,7 +361,7 @@
 
         <div class="footer-bottom text-center">
             <p class="mb-0">{{ $data['copy_right'] }}</p>
-            Distributed By {{ $data['distributed_by'] }}
+            {{ __('admin.Distributed By') }} : {{ $data['distributed_by'] }}
         </div>
     </footer>
 

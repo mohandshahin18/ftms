@@ -29,6 +29,11 @@
 @section('content')
 
 
+<section class="bg-light" id="reviews">
+    <div class="container">
+        <h2 class="text-white">{{ __('admin.Edit Password') }}</h2>
+    </div>
+</section>
 
 <div class="bg " >
 <div class="overlay">

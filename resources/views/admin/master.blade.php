@@ -20,6 +20,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('adminAssets/dist/css/mystyle.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="icon" type="image/x-icon" href="{{ asset('adminAssets/dist/img/selection/favicon.ico') }}">
+    @yield('styles')
     @if(app()->getLocale()=='ar')
     <link rel="stylesheet" href="{{ asset('adminAssets/dist/css/myStyle-ar.css') }}">
 
@@ -28,16 +29,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
   <style>
-
-.alert-warning {
-    color: #664d03;
-    background-color: #fff3cd;
-    border: 1px solid;
-    border-color: #ffecb5;
-    padding: 15px;
-    border-radius: 6px;
-    margin-bottom: 20px;
-}
+    .alert-warning {
+        color: #7d5a29;
+        background-color: #fcefdc;
+        border-color: #fbe8cd;
+        font-size: 16px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 2px;
+    }
          #center-text {
         display: flex;
         flex: 1;
@@ -432,7 +433,17 @@ html {
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right " id="dropNotification">
-                        @foreach ($auth->notifications as $notify )
+
+                        @php
+                        if ($auth->unreadNotifications->count()){
+                            $myNotifications = $auth->notifications()->latest('read_at',null)->limit(5)->get();
+                        }else{
+                            $myNotifications = $auth->notifications()->limit(5)->get();
+
+                        }
+
+                    @endphp
+                        @foreach ($myNotifications as $notify )
                         <a href="{{ route('admin.mark_read',$notify->id) }}"   class="dropdown-item {{ $notify->read_at ? '' : 'unread' }}">
                             <!-- Message Start -->
                             <div class="media">

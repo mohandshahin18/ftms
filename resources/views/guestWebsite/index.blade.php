@@ -142,8 +142,8 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12 col-lg-10 offset-lg-1 text-white">
-                        <h6 class="text-white text-uppercase">We craft digital experiances</h6>
-                        <h1 class="display-3 my-4">Design Driven For <br />Professionals</h1>
+                        <h6 class="text-white text-uppercase">{{ __('admin.University training programme') }}</h6>
+                        <h1 class="display-5 my-4">{{ __('admin.You can login') }}<br />{{ __('admin.or create a new account') }}</h1>
                         <a href="{{ route('student.login.show') }}" class="btn btn-brand">{{ __('admin.Login') }}</a>
                         <a href="{{ route('student.subsicribeId') }}" class="btn btn-outline-light ms-3">{{ __('admin.Register') }}</a>
                     </div>
@@ -151,33 +151,6 @@
             </div>
         </div>
     </div>
-
-
-    <!-- MILESTONE -->
-    <section id="milestone">
-        <div class="container">
-            <div class="row text-center justify-content-center gy-4">
-                <div class="col-lg-2 col-sm-6">
-                    <div class="counter">
-                        <h1 class="display-4" data-goal="{{ $student->count() }}">0 </h1>
-                    </div>
-                    <p class="mb-0">{{ __('admin.Students Number') }}</p>
-                </div>
-                <div class="col-lg-2 col-sm-6">
-                    <div class="counter">
-                        <h1 class="display-4" data-goal="{{ $company->count() }}">0</h1>
-                    </div>
-                    <p class="mb-0">{{ __('admin.Companies Number') }}</p>
-                </div>
-                <div class="col-lg-2 col-sm-6">
-                    <h1 class="display-4" data-goal="{{ $trainer->count() }}">0</h1>
-                    <p class="mb-0">{{ __('admin.Trainers Number') }}</p>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
 
 
     <section id="services" class="text-center">
@@ -244,6 +217,33 @@
             </div>
         </div>
     </section>
+    <!-- MILESTONE -->
+    <section id="milestone">
+        <div class="container">
+            <div class="row text-center justify-content-center gy-4">
+                <div class="col-lg-2 col-sm-6">
+                    <div class="counter">
+                        <h1 class="display-4" data-goal="{{ $student->count() }}">0 </h1>
+                    </div>
+                    <p class="mb-0">{{ __('admin.Students Number') }}</p>
+                </div>
+                <div class="col-lg-2 col-sm-6">
+                    <div class="counter">
+                        <h1 class="display-4" data-goal="{{ $company->count() }}">0</h1>
+                    </div>
+                    <p class="mb-0">{{ __('admin.Companies Number') }}</p>
+                </div>
+                <div class="col-lg-2 col-sm-6">
+                    <h1 class="display-4" data-goal="{{ $trainer->count() }}">0</h1>
+                    <p class="mb-0">{{ __('admin.Trainers Number') }}</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
 
 
     <section id="team">
@@ -285,60 +285,40 @@
     <section class="bg-light" id="reviews">
 
         <div class="owl-theme owl-carousel reviews-slider container">
-            <div class="review">
-                <div class="person">
-                    <img src="{{ asset('websiteAssets/img/team_1.jpg') }}" alt="">
-                    <h5>Ralph Edwards</h5>
-                    <small>Market Development Manager</small>
+
+           @forelse ($comments as $comment )
+                @php
+                        if($comment->student){
+                            $name = $comment->student->name ?? '';
+                            if ($comment->student->image) {
+                                    $img = Auth::guard()->user()->image;
+                                    $src = asset($img);
+                            }
+                        }else{
+                            $name = __('admin.Deleted account');
+                        }
+                        $src = 'https://ui-avatars.com/api/?background=random&name=' . $name;
+
+
+                @endphp
+                <div class="review">
+                    <div class="person">
+                        <img src="{{ $src }}" alt="">
+                        <h5>{{ $name }}</h5>
+                    </div>
+                    <h3>{{ $comment->body }}</h3>
+                    <div class="stars">
+                        <i class='bx bxs-star'></i>
+                        <i class='bx bxs-star'></i>
+                        <i class='bx bxs-star'></i>
+                        <i class='bx bxs-star'></i>
+                        <i class="bx bxs-star-half"></i>
+                    </div>
+                    <i class='bx bxs-quote-alt-left'></i>
                 </div>
-                <h3>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aut quis, rem culpa labore voluptate
-                    ullam! In, nostrum. Dicta, vero nihil. Delectus minus vitae rerum voluptatum, excepturi incidunt ut,
-                    enim nam exercitationem optio ducimus!</h3>
-                <div class="stars">
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class="bx bxs-star-half"></i>
-                </div>
-                <i class='bx bxs-quote-alt-left'></i>
-            </div>
-            <div class="review">
-                <div class="person">
-                    <img src="{{ asset('websiteAssets/img/team_2.jpg') }}" alt="">
-                    <h5>Ralph Edwards</h5>
-                    <small>Market Development Manager</small>
-                </div>
-                <h3>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aut quis, rem culpa labore voluptate
-                    ullam! In, nostrum. Dicta, vero nihil. Delectus minus vitae rerum voluptatum, excepturi incidunt ut,
-                    enim nam exercitationem optio ducimus!</h3>
-                <div class="stars">
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class="bx bxs-star-half"></i>
-                </div>
-                <i class='bx bxs-quote-alt-left'></i>
-            </div>
-            <div class="review">
-                <div class="person">
-                    <img src="{{ asset('websiteAssets/img/team_3.jpg') }}" alt="">
-                    <h5>Ralph Edwards</h5>
-                    <small>Market Development Manager</small>
-                </div>
-                <h3>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aut quis, rem culpa labore voluptate
-                    ullam! In, nostrum. Dicta, vero nihil. Delectus minus vitae rerum voluptatum, excepturi incidunt ut,
-                    enim nam exercitationem optio ducimus!</h3>
-                <div class="stars">
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class="bx bxs-star-half"></i>
-                </div>
-                <i class='bx bxs-quote-alt-left'></i>
-            </div>
+           @empty
+
+           @endforelse
         </div>
     </section>
 
@@ -349,7 +329,7 @@
                 <div class="col-12">
                     <div class="intro">
                         <h1>{{ __('admin.Contact Us') }}</h1>
-                        <p class="mx-auto">Fell free to contact us and we will get back to you as soon as possible</p>
+                        <p class="mx-auto">{{ __('admin.You can contact us via email') }}</p>
                     </div>
                 </div>
             </div>
@@ -428,7 +408,6 @@
     <script>
           let btn = $('.btn-contact');
           let form = $(".contact-form");
-        // console.log(form.getAttribute("action"));
 
 
             form.onsubmit = (e)=> {
