@@ -69,4 +69,10 @@ class Student extends Authenticatable
         return $this->hasMany(Message::class);
     }
 
+
+    // with comments
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

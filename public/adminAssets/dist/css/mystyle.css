@@ -18,7 +18,7 @@
     -o-border-radius: 2px;
     transition: all 0.4s ease;
     }
-    
+
     .btn-brand:hover {
       background-color: #1a2e44;
       border-color: #1a2e44;
@@ -26,7 +26,7 @@
       text-decoration: none;
 
     }
-   
+
    /* pagination2 */
     .pagination2 {
         display: flex;
@@ -101,7 +101,7 @@
       background-color: #5d78ff !important;
       border-color: transparent;
   }
-  
+
   .btn-primary:hover {
       background-color: #4257c3 !important;
       border-color: #4257c3 !important;
@@ -568,7 +568,7 @@ i.far.fa-comments{
 
 .chat_box .chat .details:hover .time {
   opacity: 1;
-} 
+}
 
 .chat_box .outgoing {
   display: flex;
@@ -583,16 +583,16 @@ i.far.fa-comments{
 
 .chat_box .outgoing .details {
   flex-direction: row-reverse;
-} 
+}
 
 .chat_box .incoming .details {
   flex-direction: row;
-} 
+}
 
 .chat_box .outgoing .details {
   margin-left: auto;
   max-width: calc(100% - 130px);
-  
+
 }
 
 .chat_box .outgoing .details p {
@@ -786,7 +786,7 @@ i.far.fa-comments{
   .chat-area .typing_area button {
     right: 56px;
   }
-  
+
 }
 
 @media(max-width: 830px) {
@@ -904,7 +904,7 @@ i.far.fa-comments{
   transition: all 0.3s ease-in-out;
 }
 
-.notification-list--unread:hover {  
+.notification-list--unread:hover {
   border-left: 80px solid #1a2e44;
 }
 
@@ -950,7 +950,6 @@ a:hover {
 }
 
 .search-box label {
-  /* width: 80%; */
   color: #1a2e44;
   font-size: 18px;
   font-weight: unset !important;

@@ -323,5 +323,22 @@ return [
     "File size is large" => "File size is large",
     "File type is not allowed" => "File type is not allowed",
     "Due" => "Due",
-    "There is no informations for this task" => "There is no informations for this task."
+    "There is no informations for this task" => "There is no informations for this task.",
+    "Students Number" => "Students Number",
+    "Companies Number" => "Companies Number",
+    "Specializations Number" => "Specializations Number",
+    "Categories Number" => "Categories Number",
+    "More info" => "More info",
+    "New Students" => "New Students",
+    "Last Advert" => "Last Advert",
+    "You can login" => "You can login",
+    "or create a new account" => "or create a new account",
+    "University training programme" => "University training programme",
+    "You can contact us via email" => "You can contact us via email",
+    "Provide your opinion on the company" => "Provide your opinion on the company",
+    "Send" => "Send",
+    "Comment has been send" => "Comment has been send",
+    "Your comment will be displayed on the homepage" => "Your comment will be displayed on the homepage",
+    "Deleted account" => "Deleted account",
+
 ];

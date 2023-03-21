@@ -3,6 +3,8 @@
 @section('title', $company->name)
 
 @section('styles')
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
     <style>
         iframe {
             width: 100%;
@@ -19,7 +21,7 @@
 
     <section class="bg-light" id="reviews">
         <div class="container">
-            <h1 class="text-white">{{ $company->name }} - {{ $program }}</h1>
+            <h2 class="text-white">{{ $company->name }} - {{ $program }}</h2>
         </div>
     </section>
 
@@ -30,8 +32,8 @@
                 <div class="col-lg-7 ">
                     {!! $company->description !!}
                 </div>
-                <div class="col-lg-4">
-                    <img src="{{ asset($company->image) }}" style="border-radius: 20px;" alt="">
+                <div class="col-lg-5">
+                    <img src="{{ asset($company->image) }}" style="border-radius: 7px;" alt="">
                 </div>
             </div>
         </div>
@@ -46,12 +48,36 @@
 
 
 @if(Auth::user()->company_id)
-    @if (!$evaluated)
 
-        <section id="services" class="text-center bg-light">
-            <a href="{{ route('student.evaluate.company', $company->slug) }}" class="btn btn-brand">Rate {{ $company->name }}</a>
-        </section>
-    @endif
+    <section class="bg-light">
+        <div class="container">
+                <div class="row justify-content-center text-start">
+                    <div class="col-12">
+                        <div class="intro">
+                            <h3>{{ __('admin.Provide your opinion on the company') }}</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-8" >
+                        <form action="{{ route('student.comment',Auth::user()->slug) }}" method="POST"  class="comment-form">
+                            @csrf
+                                <div class=" col-md-12">
+                                    <div class="mb-3">
+                                        <textarea name="body" class="form-control @error('body') is-invalid @enderror" rows="5"></textarea>
+                                        @error('body')
+                                            <small class="invalid-feedback"> {{ $message }}</small>
+                                        @enderror
+                                        <p><b class="text-danger">* </b> {{ __('admin.Your comment will be displayed on the homepage') }}</p>
+                                    </div>
+                                </div>
+                            <div class="text-end apply-div">
+                                <button type="button" class="btn px-5 btn-brand btn-comment" >{{ __('admin.Send') }}</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+        </div>
+    </section>
 
 @else
 <section id="services" class="text-center bg-light">
@@ -173,5 +199,86 @@
 
     </script>
 
+
+<script>
+    let btn_comment = $('.btn-comment');
+    let form_comment = $(".comment-form");
+
+
+    form_comment.onsubmit = (e)=> {
+              e.preventDefault();
+
+      }
+
+      let formData = form_comment.serialize();
+      let url = form_comment.attr("action");
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+      });
+
+      btn_comment.on("click", function() {
+          btn_comment.attr("disabled", true)
+
+          $.ajax({
+              type: "POST",
+              url: url,
+              data: form_comment.serialize(),
+              beforeSend: function(data) {
+              btn_comment.html('<i class="fa fa-spin fa-spinner "></i>');
+                   $('.invalid-feedback').remove();
+                  $('textarea').removeClass('is-invalid');
+              } ,
+              success: function(data) {
+                  setTimeout(() => {
+
+                  btn_comment.html('<i class="fas fa-check"></i>');
+
+                  $('textarea').val('');
+
+                  const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-right',
+                      customClass: {
+                          popup: 'colored-toast'
+                      },
+                      showConfirmButton: false,
+                      timer: 2000,
+                      timerProgressBar: false,
+                      didOpen: (toast) => {
+                          toast.addEventListener('mouseenter', Swal.stopTimer)
+                          toast.addEventListener('mouseleave', Swal.resumeTimer)
+                      }
+                      })
+
+                      Toast.fire({
+                      icon: 'success',
+                      title: '{{ __('admin.Comment has been send') }}'
+                      })
+                      }, 1500);
+
+              setTimeout(() => {
+                  btn_comment.html('{{ __('admin.Send') }}');
+                  btn_comment.removeAttr("disabled");
+              }, 2000);
+
+
+              } ,
+              error: function(data) {
+                  btn_comment.attr("disabled", false)
+                  btn_comment.html('{{ __('admin.Send') }}');
+                  $('.invalid-feedback').remove();
+                  $.each(data.responseJSON.errors, function (field, error) {
+                  $("textarea").addClass('is-invalid').after('<small class="invalid-feedback">' +error+ '</small>');
+
+                  });
+              } ,
+          })
+
+      });
+
+
+</script>
 
 @stop

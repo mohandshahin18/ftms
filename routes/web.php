@@ -99,6 +99,7 @@ Route::prefix('/')->middleware('auth:student','is_verify_email')->name('student.
     Route::get('/company/{slug}/{program}',[websiteController::class,'showCompany'])->name('company');
     Route::get('/company/{slug}',[websiteController::class,'company_apply'])->name('company_apply');
     Route::get('/company/cancel/{id}/request', [websiteController::class, 'company_cancel'])->name('company_cancel');
+    Route::post('/company/comment', [websiteController::class, 'comment'])->name('comment');
     Route::get('evaluate/{slug}', [websiteController::class, 'evaluate_company'])->name('evaluate.company');
     Route::post('student/apply_evaluation/{id}', [websiteController::class, 'apply_evaluation'])->name('apply_evaluation');
 

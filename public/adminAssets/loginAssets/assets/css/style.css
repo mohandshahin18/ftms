@@ -262,12 +262,12 @@ ol {
 
 .btn-primary {
   color: #fff;
-  background-color: var(--mainColor);
+  background-color: #ff4d29;
 }
 
 .btn-primary:hover {
   color: #fff;
-  background-color: var(--secondColor);
+  background-color: #d64022;
 }
 
 .bg-dark {

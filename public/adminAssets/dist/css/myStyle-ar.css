@@ -231,6 +231,14 @@ float: left!important;
     right: 23px;
 }
 
-.notification-list--unread:hover {  
+.notification-list--unread:hover {
     border-right: 80px solid #1a2e44;
+  }
+
+  .small-box .icon>i{
+    right: unset !important;
+    left: 15px !important;
+  }
+  i.fas.fa-arrow-circle-right{
+    rotate: 180deg;
   }

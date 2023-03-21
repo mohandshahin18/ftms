@@ -107,7 +107,7 @@
             <div class="notification-ui_dd-content">
                 {{-- @dump($noti ); --}}
                 @forelse ($auth->notifications as $notify)
-                    <a href="{{ $notify->data['url'] }}" style="font-weight: unset">
+                    <a href="{{ route('student.mark_read', $notify->id) }}" style="font-weight: unset">
                         <div class="notification-list {{ $notify->read_at ? '' : 'notification-list--unread' }} ">
                             <div class="notification-list_content">
                                 <div class="notification-list_img">

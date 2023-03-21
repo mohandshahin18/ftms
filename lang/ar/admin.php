@@ -327,5 +327,22 @@ return [
     "File size is large" => "حجم الملف كبير جداً!",
     "File type is not allowed" => "نوع الملف غير مسموح به",
     "There is no informations for this task" => "ليس هنالك تعليمات لهذه المهمة.",
-    
+    "Students Number" => "عدد الطلاب",
+    "Companies Number" => "عدد الشركات",
+    "Specializations Number" => "عدد التخصصات",
+    "Categories Number" => "عدد البرامج",
+    "More info" => "مزيد من المعلومات",
+    "New Students" => "الطلاب الجدد",
+    "Last Advert" => "أحدث إعلان",
+    "You can login" => "يمكنك تسجيل الدخول",
+    "or create a new account" => "أو إنشاء حساب جديد",
+    "University training programme" => "برنامج التدريب الجامعي",
+    "You can contact us via email" => "يمكنك الاتصال بنا عبر البريد الإلكتروني",
+    "Provide your opinion on the company" => "أبدي رأيك في الشركة",
+    "Send" => "إرسال",
+    "Comment has been send" => "تم إرسال التعليق",
+    "Your comment will be displayed on the homepage" => "سوف يتم عرض تعليقك في الصفحة الرئيسية",
+    "Deleted account" => "حساب محذوف",
+
+
 ];
