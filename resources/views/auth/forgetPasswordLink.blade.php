@@ -132,7 +132,7 @@
                                 </div>
 
                                 <div class="btn-web">
-                                    <button class="btn btn-primary bold ">{{ __('admin.Reset Password') }}</button>
+                                    <button class="btn btn-primary bold w-100">{{ __('admin.Reset Password') }}</button>
 
                                 </div>
 
