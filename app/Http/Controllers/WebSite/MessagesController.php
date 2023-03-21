@@ -87,24 +87,31 @@ class MessagesController extends Controller
                                     data-name="' . $roleObj->name . '"
                                     data-id="' . $lastMessage->id . '"
                                     class="list-group-item list-group-item-action chat-circle ' . $roleActive . '">
-                                    <div class="main-info">
+                                    <div class="d-flex" style="gap: 10px">
                                         <div class="msg-img">
                                             <img src="'. $src . '">
                                         </div>
-                                        <div class="msg-body" style="width: 100%;">
-                                            <h3 class="dropdown-item-title">' . $roleObj->name . '</h3>
-                                            <p class="text-sm message">' . $lastMessageText . '
-                                                <i class="fas fa-circle active-dot"
-                                                    style="color: #003e83ad !important; font-size: 8px; "></i>
-                                            </p>
-                                            <p class="d-flex justify-content-end align-items-center msg-time"
-                                                style="gap:4px; font-size: 12px; margin:0 ">
-                                                <i class="far fa-clock "
-                                                    style="line-height: 1; font-size: 12px; color: #464a4c !important;"></i>
-                                                    ' . $time . '
-                                            </p>
+                                        <div class="main-info">
+
+                                            <div class="msg-body" style="width: 100%;">
+                                                <h3 class="dropdown-item-title text-start">' . $roleObj->name . '</h3>
+                                                <p class="text-sm message m-0 mt-1">' . $lastMessageText . '
+                                                    <i class="fas fa-circle active-dot"
+                                                        style="color: #003e83ad !important; font-size: 8px; "></i>
+                                                </p>
+
+                                                <div>
+                                                            <p class="d-flex justify-content-start align-items-center "
+                                                                style="gap:4px; font-size: 12px; margin:0 ">
+                                                                <i class="far fa-clock "
+                                                                    style="line-height: 1; font-size: 12px; color: #464a4c !important"></i>
+                                                                    ' . $time . '
+                                                            </p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+
                                 </a>
                             </div>';
             } else {
@@ -114,22 +121,23 @@ class MessagesController extends Controller
                 } else {
                     $src = 'https://ui-avatars.com/api/?background=random&name=' . $roleObj->name;
                 }
-                
+
                 $output .= '<div class="media">
                                      <a href="#" data-type="' . $role . '"
                                          data-slug="'.$roleObj->slug.'"
                                          data-name="'.$roleObj->name.'"
                                          class="list-group-item list-group-item-action chat-circle">
+                                         <div class="d-flex" style="gap: 10px">
+                                            <div class="msg-img">
+                                                    <img src="'. $src . '">
+                                                </div>
                                          <div class="main-info">
-                                             <div class="msg-img">
-                                                 <img
-                                                    src="'. $src . '">
-                                            </div>
+
                                             <div class="msg-body" style="width: 100%;">
-                                                <h3 class="dropdown-item-title">
+                                                <h3 class="dropdown-item-title text-start">
                                                     '.$roleObj->name.'
                                                 </h3>
-                                                <p class="text-sm message">
+                                                <p class="text-sm message  m-0 mt-1">
                                                     '.__('admin.No messages yet!').'
 
                                                 </p>
@@ -138,7 +146,7 @@ class MessagesController extends Controller
 
 
                                         </div>
-
+                                        </div>
                                     </a>
                                 </div>';
             }

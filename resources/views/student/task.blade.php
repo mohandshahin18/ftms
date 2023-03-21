@@ -51,7 +51,7 @@
     <section id="reviews">
         <div class="container">
             <h2 class="text-white"><img class="task_img" src="{{ asset('studentAssets/img/task.svg') }}"
-                    alt="">{{ $task->main_title }} - {{ $task->sub_title }}</h2>
+                    alt="">{{ $task->main_title }}</h2>
         </div>
     </section>
 
@@ -65,8 +65,8 @@
                             </b>{{ Carbon::parse($task->start_date)->format('l, j F Y, g:i A') }}</p>
                         <p><b>{{ __('admin.Due') }} : </b>{{ Carbon::parse($task->end_date)->format('l, j F Y, g:i A') }}
                         </p>
-
                         <div class="divider"></div>
+                        <p class="my-3">{{ $task->sub_title }}</p>
                         <div class="desc mb-5 mt-3">
                             {!! $task->description !!}
 

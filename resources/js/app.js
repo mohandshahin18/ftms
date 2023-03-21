@@ -23,31 +23,48 @@ if(from == 'student'){
                 let image = notification.image;
                 src = host+'/'+image;
               }
-            $('#dropNotification').prepend(`<div class="media">
-                                                <a href="${host}/${lang}/mark-student-read/${notification.id}" class="list-group-item list-group-item-action active" style="font-weight: unset">
+            $('#dropNotification').prepend(`             <div class="media">
+            <a href="${host}/${lang}/mark-student-read/${notification.id}"
+                class="list-group-item list-group-item-action active"
+                style="font-weight: unset">
 
-                                                    <div class="main-info">
-                                                        <div class="d-flex align-items-center" style="gap:
-                                                        8px !important;">
-                                                            <img src="${src}">
-                                                            <h3 class="dropdown-item-title">${notification.name}</h3>
-                                                        </div>
-                                                        <div>
-                                                            <p class="d-flex justify-content-start align-items-center float-right" style="gap:4px; font-size: 12px; margin:0 ">
-                                                                <i class="far fa-clock " style="line-height: 1; font-size: 12px; color: #464a4c !important"></i>
-                                                                ${time}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="media-body mt-2">
+                <div class="d-flex" style="gap: 10px">
+                    <div>
+                    <img src="${src}">
 
-                                                        <p class="text-sm">${notification.msg}</p>
+                    </div>
+                <div>
+                    <div class="main-info">
+                        <div class="d-flex align-items-center"
+                            style="gap:8px !important;">
+                                    <h3 class="dropdown-item-title">${notification.name}</h3>
+                            </h3>
+                        </div>
 
-                                                    </div>
+                    </div>
+                    <div class="media-body mt-1">
 
-                                                </a>
-                                            </div>
+                        <p class="text-sm">${notification.msg}</p>
+
+
+                    </div>
+
+                    <div>
+                        <p class="d-flex justify-content-start align-items-center "
+                            style="gap:4px; font-size: 12px; margin:0 ">
+                            <i class="far fa-clock "
+                                style="line-height: 1; font-size: 12px; color: #464a4c !important"></i>
+                                ${time}
+                        </p>
+                    </div>
+                </div>
+                </div>
+            </a>
+        </div>
                                     `)
+
+
+
 
 });
 
