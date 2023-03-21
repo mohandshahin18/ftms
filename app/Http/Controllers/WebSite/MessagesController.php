@@ -46,25 +46,28 @@ class MessagesController extends Controller
             $roles = [];
         }
 
+        
        if($roles != []) {
         foreach($roles as $role) {
             $roleActive = '';
             $roleObj = $auth->{$role};
 
             $lastMessage = $auth->messages()
-            ->where($role.'_id', $roleObj->id)
-            ->latest('created_at')
-            ->first();
+                ->where($role.'_id', $roleObj->id)
+                ->latest('created_at')
+                ->first();
 
             $activeMessage = $auth->messages()
-            ->where([
-                [$role.'_id', $roleObj->id],
-                ['sender_id', $roleObj->id],
-                ['sender_type', $role],
-            ])
-            ->orderBy('created_at', 'desc')
-            ->first();
+                ->where([
+                    [$role.'_id', $roleObj->id],
+                    ['sender_id', $roleObj->id],
+                    ['sender_type', $role],
+                ])
+                ->orderBy('created_at', 'desc')
+                ->first();
 
+            
+            
             if($lastMessage) {
                 $lastMessageText = Str::words($lastMessage->message, 4, '...');
                 $time = $lastMessage->created_at->diffForHumans();

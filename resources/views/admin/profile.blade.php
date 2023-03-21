@@ -13,6 +13,48 @@
     .select2-selection__choice {
         color: #333;
     }
+
+    .info-icon {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        text-align: center;
+        font-weight: bold;
+        font-size: 12px;
+        line-height: 16px;
+        cursor: pointer;
+        margin-left: 5px;
+    }
+
+    .status-main {
+        position: relative;
+    }
+
+    .tooltip {
+        display: block;
+        /* display: none; */
+        position: absolute;
+        z-index: 1;
+        background-color: #000;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        padding: 12px;
+        font-size: 14px;
+        width: 300px;
+        text-align: left;
+    }
+
+    .tooltip::after {
+        content: "";
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent transparent #fff transparent;
+    }
 </style>
 @endsection
 
@@ -162,8 +204,9 @@
                         </div>
 
 
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-6 mb-3 status-main">
                             <label class="labels">{{ __('admin.Status') }}</label>
+                            <i class="fas fa-info info-icon" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></i>
                             <select name="status" class="form-control" >
                                 <option @selected(Auth::guard()->user()->status == 1) value="1"> {{ __('admin.Avilable') }}</option>
                                 <option  @selected(Auth::guard()->user()->status == 0) value="0"> {{ __('admin.Unavilable') }} </option>
@@ -214,6 +257,20 @@
 <script>
     $(document).ready(function() {
             $('.select2').select2();
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
+        });
+
+        var infoIcon = document.querySelector('.info-icon');
+        var tooltip = document.querySelector('.tooltip');
+
+        infoIcon.addEventListener('mouseenter', function() {
+            tooltip.style.display = 'block';
+        });
+
+        infoIcon.addEventListener('mouseleave', function() {
+            tooltip.style.display = 'none';
         });
 </script>
 

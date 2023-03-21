@@ -10,9 +10,9 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 
     <style>
-        .select2-container--default {
+        /* .select2-container--default {
             width: 100% !important;
-        }
+        } */
 
         .select2-container--default .select2-selection--multiple .select2-selection__choice {
             color: #333;
@@ -75,8 +75,8 @@
                                 <div class="form-group">
                                     <label class="mb-2">{{ __('admin.Program') }}</label>
                                     <select name="category_id[]"
-                                        class="js-example-basic-multiple wide @error('category_id') is-invalid @enderror"
-                                        data-placeholder="{{ __('admin.Select Program') }}" multiple="multiple">
+                                        class="js-example-basic-multiple @error('category_id') is-invalid @enderror"
+                                        data-placeholder="{{ __('admin.Select Program') }}" multiple="multiple" style="width: 100%">
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach

@@ -154,4 +154,5 @@
                 </div>
             </div>
         </a>
-    @endif
+    @endforeach
+@endif

@@ -48,7 +48,10 @@ const getAllChats = function() {
 
         var channel = pusher.subscribe(`private-Messages.${userId}`);
         channel.bind('new-message', function(data) {
-            if(data.message.receiver_type == user) {
+            var receiverType = $("#type_input").val();
+            var senderId = $("#id_input").val();
+
+            if(data.message.receiver_type == user && receiverType == data.message.sender_type && data.message.sender_id == senderId) {
                 appendMessage(data.message.message, data.message.id);
                 getAllChats();
             }
@@ -58,8 +61,12 @@ $(function () {
 
     $(document).on('click', '.chat-circle', function (event) {
         event.preventDefault();
+
         let userSlug = $(this).data('slug');
+        let userType = $(this).data('type');
         let name = $(this).data('name');
+        let chatUserId = $(this).data('id');
+
         let chatWrapper = $(".chat-logs");
 
         $(".chat-box").show();
@@ -68,7 +75,11 @@ $(function () {
         $(".chat-box-max").remove();
         $(".chat-box-min").remove();
         $('.icons-chat').append('<span class="chat-box-min" style="line-height: 0"><i class="fas fa-minus"></i></span>');
+        
         $("#slug_input").val(userSlug);
+        $("#type_input").val(userType);
+        $("#id_input").val(chatUserId);
+        
         readAt(userSlug);
         $(this).removeClass('active');
         $("#messages-num").empty();

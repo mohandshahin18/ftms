@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap'); */
+
 
 :root {
     /* #2A3166 , #01345B, #252669*/
@@ -9,11 +10,18 @@
     --shadow: 0px 6px 30px rgba(0, 0, 0, 0.08);
 
 }
+
+@font-face {
+  font-family: SFPRODISPLAYBLACKITALIC;
+  src: url(../fonts/ArbFONTS-DINNextLTArabic-Regular-2.ttf);
+}
+
 * {
   scroll-behavior: smooth;
 }
 body {
-    font-family: "Barlow", sans-serif;
+    /* font-family: "Barlow", sans-serif; */
+    font-family: SFPRODISPLAYBLACKITALIC;
     /* color: var(--body); */
     line-height: 1.7;
 }

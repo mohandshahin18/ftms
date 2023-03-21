@@ -575,6 +575,8 @@ html {
                     <input type="text" name="message" id="chat-input" placeholder="Send a message..."
                         autocomplete="off" />
                     <input type="hidden" name="slug" value="" id="slug_input">
+                    <input type="hidden" name="type" value="" id="type_input">
+                    <input type="hidden" name="id" value="" id="id_input">
                     <button type="submit" class="chat-submit" id="chat-submit"><i class="fas fa-paper-plane"></i></button>
                 </form>
             </div>

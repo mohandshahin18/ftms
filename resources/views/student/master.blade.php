@@ -49,7 +49,7 @@
 
             @font-face {
                 font-family: event-reg;
-                src: url({{ asset('adminAssets/dist/fonts/JF-Flat-regular.ttf') }});
+                src: url({{ asset('studentAssets/fonts/ArbFONTS-DINNextLTArabic-Regular-2.ttf') }});
             }
         </style>
     @endif
@@ -390,7 +390,7 @@
 
         var channel = pusher.subscribe(`private-Messages.${userId}`);
         channel.bind('new-message', function(data) {
-            if(userId == data.message.receiver_id) {
+            if(userId == data.message.receiver_id && data.message.receiver_type == 'student') {
                 appendMessage(data.message.message, data.message.id);
                 getAllChats();
             }
