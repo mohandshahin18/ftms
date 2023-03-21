@@ -95,6 +95,9 @@
                 $.ajax({
                     type: "get",
                     url: allMsgsRequest,
+                    beforeSend:function() {
+                        $(".students-wrapper").append('<div class="spinner-div d-flex align-items-center justify-content-center" style="width: 100%; height: 100%; position:absolute; top: 0; right: 0; z-index: 5455; background: #fff; font-size: 24px;"><i class="fa fa-spin fa-spinner" style="margin-right: 5px;"></i>Loading...</div>');
+                    },
                     success: function(response) {
                         $(".students-wrapper").empty();
                         $(".students-wrapper").append(response);

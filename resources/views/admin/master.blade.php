@@ -984,6 +984,24 @@ html {
 
     <!-- REQUIRED SCRIPTS -->
 
+    @if (Auth::guard('company')->check())
+        <script>
+            const user = 'company';
+        </script>
+    @elseif (Auth::guard('trainer')->check())
+        <script>
+            const user = 'trainer';
+        </script>
+    @elseif (Auth::guard('teacher')->check())
+        <script>
+            const user = 'teacher';
+        </script>
+    @else
+        <script>
+            const user = 'admin';
+        </script>
+    @endif
+
     <script>
         const slug = "{{ Auth::user()->slug }}";
         const urlOnLoad = "{{ route('admin.students.messages') }}";

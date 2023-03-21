@@ -408,6 +408,8 @@
     </script>
     <script src="{{ asset('studentAssets/js/chat.js') }}"></script>
     <script>
+
+  
         var pusher = new Pusher(pusherKey, {
             cluster: 'ap2',
             authEndpoint: '/broadcasting/auth',
@@ -415,8 +417,10 @@
 
         var channel = pusher.subscribe(`private-Messages.${userId}`);
         channel.bind('new-message', function(data) {
-            appendMessage(data.message.message, data.message.id);
-            getAllChats();
+            if(userId == data.message.receiver_id) {
+                appendMessage(data.message.message, data.message.id);
+                getAllChats();
+            }
         });
     </script>
     <script>

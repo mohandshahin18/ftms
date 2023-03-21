@@ -151,10 +151,6 @@ class websiteController extends Controller
 
 
 
-
-
-
-
     public function company_cancel($id){
         $applied = Application::findOrFail($id);
 
@@ -286,13 +282,13 @@ class websiteController extends Controller
                         ]);
 
 
-                        return redirect()->back()->with('msg', 'Task submitted')->with('type', 'success');
-                    }
+                        return redirect()->back()->with('msg', __('admin.Task submitted'))->with('type', 'success');
+                    } 
                 }else {
-                    return redirect()->back()->with('msg', 'File size is large')->with('type', 'error');
+                    return redirect()->back()->with('msg', __('admin.File size is large'))->with('type', 'danger');
                 }
             }else {
-                return redirect()->back()->with('msg', 'File type is not allowed')->with('type', 'error');
+                return redirect()->back()->with('msg', __('admin.File type is not allowed'))->with('type', 'danger');
             }
 
 
