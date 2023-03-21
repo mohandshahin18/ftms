@@ -440,7 +440,7 @@
                                                     <div class="desc">
                                                         <div class="title"><b>{{ $task->main_title }}</b></div>
                                                         <div>
-                                                            <p>{{ $task->sub_title }}</p>
+                                                            <p>{{ Str::words(strip_tags(html_entity_decode($task->sub_title)), 6, '...')  }}</p>
                                                         </div>
                                                     </div>
                                                     <div class="time">

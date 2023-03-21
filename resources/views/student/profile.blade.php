@@ -41,7 +41,7 @@
 
 
                                     <span class="font-weight-bold mt-3" id="primary_name">{{ $student->name }}</span>
-                                    <span class="text-black-50 mb-3" id="primary_email">{{ $student->email }}</span><span>
+                                    <span class="text-black-50 mb-3" id="primary_email" style="font-family: Arial, Helvetica, sans-serif !important">{{ $student->email }}</span><span>
                                     </span>
                                     <div class="alert  alert-success d-none" >
                                         <ul>
@@ -77,7 +77,7 @@
                                         <label class="labels">{{ __('admin.Email') }}</label>
                                         <input type="text" name="email" id="email"
                                             class="form-control @error('name') is-invalid @enderror"
-                                            value="{{ $student->email }}" placeholder="{{ __('admin.Email') }}">
+                                            value="{{ $student->email }}" placeholder="{{ __('admin.Email') }}" style="font-family: Arial, Helvetica, sans-serif !important">
                                         @error('name')
                                             <small class="invalid-feedback"> {{ $message }}</small>
                                         @enderror
@@ -99,23 +99,23 @@
                                     <div class="col-md-6 mb-3">
                                         <label class="labels">{{ __('admin.University') }}</label>
                                         <input type="text" name="" class="form-control " disabled
-                                            value="{{ $student->university->name }}">
+                                            value="{{ $student->university->name }}" style="font-family: Arial, Helvetica, sans-serif !important">
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="labels">{{ __('admin.Specialization') }}</label>
                                         <input type="text" name="" class="form-control " disabled
-                                            value="{{ $student->specialization->name }}">
+                                            value="{{ $student->specialization->name }}" style="font-family: Arial, Helvetica, sans-serif !important">
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="labels">{{ __('admin.Your Teacher') }}</label>
                                         <input type="text" name="" class="form-control " disabled
-                                            value="{{ $student->teacher->name ? $student->teacher->name : 'No teacher yet' }}">
+                                            value="{{ $student->teacher->name ? $student->teacher->name : 'No teacher yet' }}" style="font-family: Arial, Helvetica, sans-serif !important">
                                     </div>
                                     @if ($student->company_id)
                                         <div class="col-md-6 mb-3">
                                             <label class="labels">{{ __('admin.Your Company') }}</label>
                                             <input type="text" name="" class="form-control " disabled
-                                                value="{{ $student->company->name }}">
+                                                value="{{ $student->company->name }}" style="font-family: Arial, Helvetica, sans-serif !important">
                                         </div>
                                     @endif
 

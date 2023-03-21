@@ -92,7 +92,7 @@
                                 </div>
 
                                 <div class="btn-web">
-                                    <button class="btn btn-primary bold">{{ __('admin.Send Password Reset Link') }}</button>
+                                    <button class="btn btn-primary bold w-100">{{ __('admin.Send Password Reset Link') }}</button>
 
                                 </div>
 

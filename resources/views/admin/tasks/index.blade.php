@@ -43,7 +43,7 @@
                             @forelse ($tasks as $task)
                                 <tr id="row_{{ $task->slug }}">
                                     <td>{{ $task->id }}</td>
-                                    <td>{{ $task->sub_title }}</td>
+                                    <td>{{Str::words(strip_tags(html_entity_decode($task->sub_title)), 4, '...')  }}</td>
                                     <td>{{ $task->category->name }}</td>
 
                                     <td>{{ Carbon::parse($task->start_date)->locale(config('app.locale'))->format('j F') }} <b>at</b> {{ Carbon::parse($task->start_date)->format('h:i A') }}</td>

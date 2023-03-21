@@ -95,7 +95,7 @@
 
 
                                 <div class="btn-web mb-5">
-                                    <button type="button" class="btn btn-primary bold check-button ">{{ __('admin.Check') }}</button>
+                                    <button type="button" class="btn btn-primary bold check-button  w-100">{{ __('admin.Check') }}</button>
 
                                 </div>
 

@@ -51,9 +51,28 @@
                 font-family: event-reg;
                 src: url({{ asset('studentAssets/fonts/ArbFONTS-DINNextLTArabic-Regular-2.ttf') }});
             }
+
+            .task_img {
+
+                margin-right: unset !important;
+                margin-left: 8px !important;
+}
         </style>
     @endif
 
+    <style>
+        .msg-body h3 ,
+        /* .msg-body p , */
+        .chat-box-body .details p ,
+        .chat-box-header p{
+            font-family: Arial, Helvetica, sans-serif
+        }
+
+    .msg-body p {
+    font-size: 13px !important;
+}
+
+    </style>
     @yield('styles')
 
 
@@ -108,15 +127,15 @@
                                 {{-- <i class="fas fa-globe-europe"> --}}
                                 <span class="badge badge-danger navbar-badge"></span><i class="far fa-globe-europe"></i>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right rounded-0 "
-                                style="min-width: unset !important; width: 120px;" aria-labelledby="messages">
+                            <div class="dropdown-menu dropdown-menu-right rounded-0  pt-0"
+                                style="min-width: unset !important; width: 110px;" aria-labelledby="messages">
 
-                                <div class="dropdown-links pl-3">
+                                <div class="dropdown-links text-center">
 
                                     @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                                         <a rel="alternate" class="text-secondary" hreflang="{{ $localeCode }}"
                                             href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}"
-                                            style="width:110px !important">
+                                             >
                                             {{ $properties['native'] }}
                                             ({{ $properties['regional'] }})
                                         </a>
@@ -185,15 +204,29 @@
                                                     class="list-group-item list-group-item-action {{ $notify->read_at ? '' : 'active' }}"
                                                     style="font-weight: unset">
 
-                                                    <div class="main-info">
-                                                        <div class="d-flex align-items-center"
-                                                            style="gap:8px !important;">
-                                                            <img src="{{ $notifySrc }}">
-                                                            <h3 class="dropdown-item-title">{{ $notify->data['name'] }}
-                                                            </h3>
-                                                        </div>
+                                                    <div class="d-flex" style="gap: 10px">
                                                         <div>
-                                                            <p class="d-flex justify-content-start align-items-center float-right"
+                                                            <img src="{{ $notifySrc }}">
+
+                                                        </div>
+                                                    <div>
+                                                        <div class="main-info">
+                                                            <div class="d-flex align-items-center"
+                                                                style="gap:8px !important;">
+                                                                <h3 class="dropdown-item-title" style="font-family: Arial, Helvetica, sans-serif">{{ $notify->data['name'] }}
+                                                                </h3>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="media-body mt-1">
+
+                                                            <p class="text-sm">{{ $notify->data['msg'] }}</p>
+
+
+                                                        </div>
+
+                                                        <div>
+                                                            <p class="d-flex justify-content-start align-items-center "
                                                                 style="gap:4px; font-size: 12px; margin:0 ">
                                                                 <i class="far fa-clock "
                                                                     style="line-height: 1; font-size: 12px; color: #464a4c !important"></i>
@@ -201,13 +234,7 @@
                                                             </p>
                                                         </div>
                                                     </div>
-                                                    <div class="media-body mt-2">
-
-                                                        <p class="text-sm">{{ $notify->data['msg'] }}</p>
-
-
                                                     </div>
-
                                                 </a>
                                             </div>
                                         @empty

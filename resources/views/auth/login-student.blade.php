@@ -101,45 +101,30 @@
                                       </div>
                                     </div>
 
-                                <div class="mb-3 form-group">
+                                <div class="mb-3 form-group d-flex aligin-items-center justify-content-between">
                                     <label class="checkbox-lable"> {{ __('admin.Keep me signed in') }}
-                                        {{-- <input type="checkbox"> --}}
                                         <input  type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                                         <span class="checkbox-mark"></span>
                                     </label>
+
+                                    <p class="mt-0 ">  <a href="{{ route('forget.password.get' ,'student') }}" class="tex-danger">{{ __('admin.Forget Your Password ?') }}</a></p>
+
                                 </div>
 
                                 <div class="btn-web">
-                                    <button class="btn btn-primary bold ">{{ __('admin.Login') }}</button>
+                                    <button class="btn btn-primary bold w-100">{{ __('admin.Login') }}</button>
 
                                 </div>
 
                             </form>
 
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="account d-flex flex-column">
-                                    <p><a href="{{ route('forget.password.get' ,'student') }}">{{ __('admin.Forget Your Password ?') }}</a></p>
+                                <div class="mt-3">
 
                                     <p class="m-0"> <a href="{{ route('student.select-id') }}">{{ __("admin.Don't have account ?") }}  </a>
 
                                     </p>
                                 </div>
-                                <div class="dropdown">
-                                    @if( app()->getLocale() == 'ar')
-                                        <span>العربية  <img src="{{ asset('adminAssets/dist/img/lang/ar.png') }}"  width="25" ></span>
-                                        @else
-                                        <span> Enghish <img src="{{ asset('adminAssets/dist/img/lang/en.png') }}"  width="25" > </span>
-                                        @endif                        <div class="dropdown-content">
-                                        @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                                        <a rel="alternate" class="text-secondary " href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" >
-                                            {{ $properties['native'] }}
-                                            <img src="{{ asset('adminAssets/dist/img/lang/'.$properties['flag']) }}"  alt="" class="mr-2 image-lang">
 
-                                        </a>
-                                        @endforeach
-                                    </div>
-                                  </div>
-                            </div>
                         </div>
                         <div class="col-md-6 text-center signin_img">
                             <img src="{{ asset('adminAssets/loginAssets/assets/images/signin.png') }}" alt="" class="img-responsive">
