@@ -48,8 +48,10 @@ const getAllChats = function() {
 
         var channel = pusher.subscribe(`private-Messages.${userId}`);
         channel.bind('new-message', function(data) {
-            appendMessage(data.message.message, data.message.id);
-            getAllChats();
+            if(data.message.receiver_type == user) {
+                appendMessage(data.message.message, data.message.id);
+                getAllChats();
+            }
         });
 
 $(function () {

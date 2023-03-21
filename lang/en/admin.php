@@ -240,7 +240,7 @@ return [
     "Add Submission"=>"Add Submission",
     "Choose file"=>"Choose file",
     "or drag and drop file here" => "or drag and drop file here",
-    "Supported file types: doc, docs, pdf, pptx, zip, rar"=>"Supported file types: doc, docs, pdf, pptx, zip, rar",
+    "Supported file types: doc, docs, pdf, pptx, zip, rar"=>"Supported file types: doc, docs, pdf, pptx, zip, rar ",
     "Max file size: 5 MB"=>"Max file size: 5 MB",
     "Submit"=>"Submit",
     "Submitted"=>"Submitted ",
@@ -319,5 +319,9 @@ return [
     "Dear Admin" => "Dear Admin",
     "Hope this mail finds you well" => "Hope this mail finds you well",
     "There is a new contact us entry as below :"=>"There is a new contact us entry as below :",
-
+    "Task submitted" => "Task submitted",
+    "File size is large" => "File size is large",
+    "File type is not allowed" => "File type is not allowed",
+    "Due" => "Due",
+    "There is no informations for this task" => "There is no informations for this task."
 ];

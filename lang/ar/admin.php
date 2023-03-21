@@ -239,7 +239,7 @@ return [
     "Add Submission"=>"إضافة تسليم",
     "Choose file"=>"إختار ملف",
     "or drag and drop file here"=>"أو اسحب الملف وأفلته هنا",
-    "Supported file types: doc, docs, pdf, pptx, zip, rar"=>"أنواع الملفات المدعومة: doc و docx و pdf و pptx و zip و rar",
+    "Supported file types: doc, docs, pdf, pptx, zip, rar"=>"أنواع الملفات المدعومة: doc و docx و pdf و pptx و zip و rar ",
     "Max file size: 5 MB"=>"الحد الأقصى لحجم الملف: 5 ميغابايت",
     "Submit"=>"إرسال",
     "Submitted"=>"تم التسليم ",
@@ -323,6 +323,9 @@ return [
     "Dear Admin" => "عزيزي المسؤول",
     "Hope this mail finds you well" => "أتمنى أن يصلك هذا البريد الإلكترونى وأنت بخير",
     "There is a new contact us entry as below :"=>"هناك إدخال جديد للاتصال بنا على النحو التالي:",
+    "Task submitted" => "تم التسليم",
+    "File size is large" => "حجم الملف كبير جداً!",
+    "File type is not allowed" => "نوع الملف غير مسموح به",
+    "There is no informations for this task" => "ليس هنالك تعليمات لهذه المهمة.",
     
-
 ];

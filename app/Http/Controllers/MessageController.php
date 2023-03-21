@@ -265,7 +265,7 @@ class MessageController extends Controller
         $auth = Auth::user();
         $slug = $request->slug;
 
-        if(!Auth::guard('admin')->check()) {
+        if(Auth::guard('admin')->check()) {
             $trainer = Trainer::whereSlug($slug)->first();
             $company = Company::whereSlug($slug)->first();
 
