@@ -218,7 +218,7 @@ return [
     "This password reset link will expire in 60 minutes ."=>"This password reset link will expire in 60 minutes .",
     "Best Regards"=>"Best Regards",
     "Hello!"=>"Hello!",
-    "We have sent you an activation code, please check your email."=>"We have sent you an activation code, please check your email.",
+    "We have sent you an activation code to your email, please check your email."=>"We have sent you an activation code, please check your email.",
     "Sorry your email cannot be identified."=>"Sorry your email cannot be identified.",
     "Your email is already verified. You can now login."=>"Your email is already verified. You can now login.",
     "Your email is verified. You can now login."=>"Your email is verified. You can now login.",
@@ -340,5 +340,10 @@ return [
     "Comment has been send" => "Comment has been send",
     "Your comment will be displayed on the homepage" => "Your comment will be displayed on the homepage",
     "Deleted account" => "Deleted account",
+    "Email must be confirmed" => "Email must be confirmed",
+    "Email verification" => "Email verification",
+    "Email verified" => "Email verified",
+    "Your email is already verified." => "Your email is already verified.",
+    "OK"=>"OK",
 
 ];

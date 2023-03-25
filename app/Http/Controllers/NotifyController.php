@@ -178,8 +178,15 @@ class NotifyController extends Controller
        $auth = Auth::user();
        $notify =$auth->notifications()->find($id);
        $notify->markAsRead();
+        $langURL =  app()->getLocale();
 
-       return redirect($notify->data['url']);
+            $notifyURL = $notify->data['url'];
+            $appURL = env('APP_URL');
+            if (strpos($notifyURL, $appURL) !== false) {
+                 // Remove the appURL from the notifyURL
+                $notifyURL = str_replace($appURL, $appURL .'/' . $langURL , $notifyURL);
+                return redirect($notifyURL); // The updated notifyURL without appURL
+            }
     }
 
 

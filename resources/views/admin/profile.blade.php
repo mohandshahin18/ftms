@@ -148,7 +148,7 @@
                             <label class="labels">{{ __('admin.Specialization') }}</label>
                             <select name="specialization_id" class="form-control" id="specialization_id">
                                 @foreach ($specializations as $specialization)
-                                <option @selected(Auth::guard()->user()->specialization_id == $specialization->id) value="{{ $specialization->id }}">
+                                <option @selected(Auth::user()->specialization_id == $specialization->id) value="{{ $specialization->id }}">
                                     {{ $specialization->name }}</option>
                                 @endforeach
                             </select>
@@ -166,7 +166,7 @@
                             <label class="labels">{{ __('admin.Program') }}</label>
                             <select name="category_id" class="form-control">
                                 @foreach ($categories as $category)
-                                <option @selected(Auth::guard()->user()->category_id == $category->id) value="{{ $category->id }}">
+                                <option @selected(Auth::user()->category_id == $category->id) value="{{ $category->id }}">
                                     {{ $category->name }}</option>
                                 @endforeach
 
@@ -279,7 +279,7 @@
 
 {{-- AJAX Reauest --}}
     <script>
-
+        let authEmail = '{{ Auth::user()->email }}';
         let form = $(".update_form")[0];
 
         let btn = $(".profile-button");
@@ -327,39 +327,62 @@
                     btn.html('<i class="fa fa-spin fa-spinner "></i>');
                     $('.invalid-feedback').remove();
                     $('input').removeClass('is-invalid');
+
                 } ,
                 success: function(data) {
 
-                    setTimeout(() => {
+                    if(data.email != authEmail ){
+
+                        btn.html('<i class="fas fa-check"></i>');
+                        toastr.warning('{{ __('admin.Email must be confirmed') }}');
+
+
+                        setTimeout(() => {
+
+                            Swal.fire({
+                                    text: '{{ __('admin.We have sent you an activation code to your email, please check your email.') }}',
+                                    icon: 'warning',
+                                    confirmButtonText: '{{ __('admin.OK') }}'
+                            });
+                        }, 2000);
+
+                        setTimeout(() => {
+                            btn.removeAttr("disabled");
+                            btn.html('{{ __('admin.Save Edit') }}');
+                        }, 2000);
+
+                    }else{
+
+                        setTimeout(() => {
                         btn.html('<i class="fas fa-check"></i>');
                         toastr.success('{{ __('admin.Profile Updated successfully') }}');
 
-                    }, 2000);
+                        }, 2000);
 
-                    setTimeout(() => {
-                        btn.removeAttr("disabled");
-                        btn.html('{{ __('admin.Save Edit') }}');
-                    }, 2000);
+                        setTimeout(() => {
+                            btn.removeAttr("disabled");
+                            btn.html('{{ __('admin.Save Edit') }}');
+                        }, 2000);
 
-                    $("#name").empty();
-                    $("#name").append(data.name);
-                    $("#dropdown_name").empty();
-                    $("#dropdown_name").append(data.name);
-                    $("#email").empty();
-                    $("#email").append(data.email);
-                    if(data.image){
-                        $("#nav_img").attr("src", "http://127.0.0.1:8000/"+data.image);
-                    $("#dropdown_image").css({
-                        'background-image': 'url('+'http://127.0.0.1:8000/'+data.image+')'
-                    });
+                        $("#name").empty();
+                        $("#name").append(data.name);
+                        $("#dropdown_name").empty();
+                        $("#dropdown_name").append(data.name);
+                        $("#email").empty();
+                        $("#email").append(data.email);
+                        if(data.image){
+                            $("#nav_img").attr("src", "http://127.0.0.1:8000/"+data.image);
+                        $("#dropdown_image").css({
+                            'background-image': 'url('+'http://127.0.0.1:8000/'+data.image+')'
+                        });
+
+                        }
+                        Toast.fire({
+                        icon: 'success',
+                        title: '{{ __('admin.Profile Updated successfully') }}'
+                        })
 
                     }
-
-
-                    Toast.fire({
-                    icon: 'success',
-                    title: '{{ __('admin.Profile Updated successfully') }}'
-                    })
                 } ,
                 error: function(data) {
                     $('.invalid-feedback').remove();

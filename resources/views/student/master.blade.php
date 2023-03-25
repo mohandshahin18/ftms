@@ -38,10 +38,6 @@
                 font-family: event-reg;
             }
 
-            .btn,
-            input {
-                font-family: event-reg !important;
-            }
 
             #toast-container>div {
                 font-family: event-reg !important;
@@ -61,12 +57,7 @@
     @endif
 
     <style>
-        .msg-body h3 ,
-        /* .msg-body p , */
-        .chat-box-body .details p ,
-        .chat-box-header p{
-            font-family: Arial, Helvetica, sans-serif
-        }
+
 
     .msg-body p {
     font-size: 13px !important;
@@ -409,7 +400,7 @@
     <script src="{{ asset('studentAssets/js/chat.js') }}"></script>
     <script>
 
-  
+
         var pusher = new Pusher(pusherKey, {
             cluster: 'ap2',
             authEndpoint: '/broadcasting/auth',

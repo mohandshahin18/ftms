@@ -217,7 +217,7 @@ return [
     "This password reset link will expire in 60 minutes ."=>"ستنتهي صلاحية رابط إعادة تعيين كلمة المرور هذا خلال 60 دقيقة.",
     "Best Regards"=>"أطيب التحيات",
     "Hello!"=>"مرحباً!",
-    "We have sent you an activation code, please check your email."=>"لقد أرسلنا لك رمز التفعيل ، يرجى التحقق من بريدك الإلكتروني.",
+    "We have sent you an activation code to your email, please check your email."=>"لقد أرسلنا لك رمز التفعيل على البريد الإلكتروني ، يرجى التحقق من بريدك الإلكتروني.",
     "Sorry your email cannot be identified."=>"آسف لا يمكن تحديد البريد الإلكتروني الخاص بك.",
     "Your email is already verified. You can now login."=>"تم التحقق من بريدك الإلكتروني بالفعل. يمكنك الآن تسجيل الدخول.",
     "Your email is verified. You can now login."=>"تم التحقق من بريدك الإلكتروني. يمكنك الآن تسجيل الدخول.",
@@ -343,6 +343,11 @@ return [
     "Comment has been send" => "تم إرسال التعليق",
     "Your comment will be displayed on the homepage" => "سوف يتم عرض تعليقك في الصفحة الرئيسية",
     "Deleted account" => "حساب محذوف",
+    "Email must be confirmed" => "يجب تأكيد البريد الإلكتروني",
+    "Email verification" => " التحقق من البريد الإلكتروني",
+    "Email verified" => " تم التحقق من البريد الإلكتروني",
+    "Your email is already verified." => "تم التحقق من بريدك الإلكتروني بالفعل .",
+    "OK"=>"موافق",
 
 
 ];

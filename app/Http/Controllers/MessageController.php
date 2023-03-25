@@ -105,7 +105,7 @@ class MessageController extends Controller
                     }
                 }
 
-                $output .= '<a href="#" class="dropdown-item chat-circle ' . $active . '" data-slug="' . $student->slug . '" data-name="' . $student->name . '">
+                $output .= '<a href="#" class="dropdown-item chat-circle ' . $active . '" data-slug="' . $student->slug . '" data-name="' . $student->name . '" data-type="student" data-id="'.$student->id.'">
                             <div class="media">
                                 <img src="' . env('APP_URL') . '/' . $student->image . '" alt="User Avatar"
                                     class="mr-3 img-circle" style="    width: 47px;
@@ -163,7 +163,7 @@ class MessageController extends Controller
                 $sender_type = 'trainer';
             } elseif(Auth::guard('company')->check()) {
                 $sender_type = 'company';
-            } 
+            }
 
             $output = '';
             if ($messages) {
@@ -188,7 +188,7 @@ class MessageController extends Controller
             $trainer = Trainer::whereSlug($request->slug)->first();
             $teacher = Teacher::whereSlug($request->slug)->first();
 
-            
+
             if($company) {
                 $messages = $auth->messages()->where('company_id', $company->id)->latest('created_at')->limit(10)->get()->reverse();
             } elseif($trainer) {
@@ -216,7 +216,7 @@ class MessageController extends Controller
                 }
             }
 
-            
+
         }
 
         return $output;
@@ -289,6 +289,7 @@ class MessageController extends Controller
                     'sender_type' => 'company',
                     'receiver_type' => 'student'
                 ]);
+
             } else {
                 $message = Message::create([
                     'message' => $request->message,
@@ -300,7 +301,7 @@ class MessageController extends Controller
                     'receiver_type' => 'admin'
                 ]);
             }
-        
+
         } else {
             if($company) {
                 $message = Message::create([
@@ -345,7 +346,7 @@ class MessageController extends Controller
         return $output;
     }
 
-    // message read at 
+    // message read at
     public function readAt(Request $request)
     {
         $auth = Auth::user();
@@ -456,14 +457,14 @@ class MessageController extends Controller
                                             <div style="width: 100%">
                                                 <div class="notification-list_detail">
                                                     <p><b>' . $student->name . '</b>
-                                                        <br>' . $Lastmessage . ' 
+                                                        <br>' . $Lastmessage . '
                                                     </p>
                                                     <p class="text-muted">' . $time . '</p>
                                                 </div>
-    
-    
-    
-    
+
+
+
+
                                             </div>
                                         </div>
                                     </div>
@@ -481,7 +482,7 @@ class MessageController extends Controller
         return $output;
     }
 
-    // all admins messages 
+    // all admins messages
     public function all_admins_messages()
     {
         $admins = Admin::all();
@@ -530,14 +531,14 @@ class MessageController extends Controller
                                         <div style="width: 100%">
                                             <div class="notification-list_detail">
                                                 <p><b>' . $admin->name . '</b>
-                                                    <br>' . $Lastmessage . ' 
+                                                    <br>' . $Lastmessage . '
                                                 </p>
                                                 <p class="text-muted">' . $time . '</p>
                                             </div>
-    
-    
-    
-    
+
+
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -601,7 +602,7 @@ class MessageController extends Controller
                                         <div style="width: 100%">
                                             <div class="notification-list_detail">
                                                 <p><b>' . $company->name . '</b>
-                                                    <br>' . $lastMessage . ' 
+                                                    <br>' . $lastMessage . '
                                                 </p>
                                                 <p class="text-muted">' . $time . '</p>
                                             </div>
@@ -656,14 +657,14 @@ class MessageController extends Controller
                                         <div style="width: 100%">
                                             <div class="notification-list_detail">
                                                 <p><b>' . $teacher->name . '</b>
-                                                    <br>' . $lastMessage . ' 
+                                                    <br>' . $lastMessage . '
                                                 </p>
                                                 <p class="text-muted">' . $time . '</p>
                                             </div>
-    
-    
-    
-    
+
+
+
+
                                         </div>
                                     </div>
                                 </div>
