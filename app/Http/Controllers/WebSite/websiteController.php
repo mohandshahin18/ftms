@@ -266,9 +266,9 @@ class websiteController extends Controller
 
 
         if(in_array($file, $allowed_types)) {
-            $size = $request->file('file')->getSize();
-            $size = number_format($size / 1048576, 2);
-                if($size <= 5) {
+            // $size = $request->file('file')->getSize();
+            // $size = number_format($size / 1048576, 2);
+                // if($size <= 5) {
                     $file = $request->file('file');
                     if($file->isValid()) {
                         $file_name = $request->file('file')->getClientOriginalName();
@@ -284,9 +284,9 @@ class websiteController extends Controller
 
                         return redirect()->back()->with('msg', __('admin.Task submitted'))->with('type', 'success');
                     } 
-                }else {
-                    return redirect()->back()->with('msg', __('admin.File size is large'))->with('type', 'danger');
-                }
+                // }else {
+                //     return redirect()->back()->with('msg', __('admin.File size is large'))->with('type', 'danger');
+                // }
             }else {
                 return redirect()->back()->with('msg', __('admin.File type is not allowed'))->with('type', 'danger');
             }

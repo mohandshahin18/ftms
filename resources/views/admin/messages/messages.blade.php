@@ -12,12 +12,12 @@
     <section class="section-50" style="position: relative;">
         <h3 class="m-b-50 heading-line">{{ __('admin.Messages') }} <i class="fas fa-comment-dots text-muted"></i></h3>
 
-        @if (!Auth::guard('admin')->check())
+        @if (Auth::guard('company')->check() || Auth::guard('teacher')->check())
             <h3 class="m-3">{{ __('admin.Admins') }}</h3>
             <div class="admins-wrapper m-3">
 
             </div>
-        @else
+        @elseif (Auth::guard('admin')->check())
             <h3 class="m-3">{{ __('admin.Companies') }}</h3>
             <div class="companies-wrapper m-3">
 

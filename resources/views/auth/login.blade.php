@@ -133,7 +133,7 @@
 
                                     <div class="pass" style="z-index: 0">
                                         <input type="password" class=" form-control " name="password" id="password"  placeholder="{{ __('admin.Password') }}">
-                                        <i class="far fa-eye show-pass activehgj0ww\ns"></i>
+                                        <i class="far fa-eye show-pass active"></i>
                                       </div>
                                 </div>
 

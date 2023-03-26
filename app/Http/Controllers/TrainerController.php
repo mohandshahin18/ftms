@@ -48,7 +48,7 @@ class TrainerController extends Controller
      */
     public function store(TrainerRequest $request)
     {
-
+        dd("ok");
         $path = $request->file('image')->store('/uploads/trainer', 'custom');
 
         $slug = Str::slug($request->name);
@@ -59,12 +59,18 @@ class TrainerController extends Controller
             $slug = $slug . '-' . $count;
         }
 
+        if(Auth::guard('admin')->check()) {
+            $company_id = $request->company_id;
+        } else {
+            $company_id = Auth::user()->id;
+        }
+
         Trainer::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
-            'company_id' => $request->company_id,
+            'company_id' => $company_id,
             'image' => $path,
             'slug' => $slug,
             'category_id' => $request->category_id
