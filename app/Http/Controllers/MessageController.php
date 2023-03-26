@@ -196,7 +196,7 @@ class MessageController extends Controller
                 $sender_type = 'trainer';
             } elseif(Auth::guard('company')->check()) {
                 $sender_type = 'company';
-            } 
+            }
 
             $output = '';
             if ($messages) {
@@ -221,7 +221,7 @@ class MessageController extends Controller
             $trainer = Trainer::whereSlug($request->slug)->first();
             $teacher = Teacher::whereSlug($request->slug)->first();
 
-            
+
             if($company) {
                 $messages = Message::where([
                         ['sender_id', $auth->id],
@@ -294,7 +294,7 @@ class MessageController extends Controller
                 }
             }
 
-            
+
         }
 
         return $output;
@@ -357,6 +357,7 @@ class MessageController extends Controller
                     'sender_type' => 'company',
                     'receiver_type' => 'student'
                 ]);
+
             } else {
                 $message = Message::create([
                     'message' => $request->message,
@@ -366,7 +367,7 @@ class MessageController extends Controller
                     'receiver_type' => 'admin'
                 ]);
             }
-        
+
         } else {
             if($company) {
                 $message = Message::create([
@@ -405,7 +406,7 @@ class MessageController extends Controller
         return $output;
     }
 
-    // message read at 
+    // message read at
     public function readAt(Request $request)
     {
         $auth = Auth::user();
@@ -417,21 +418,30 @@ class MessageController extends Controller
             $teacher = Teacher::whereSlug($slug)->first();
 
             if($company) {
-                $message = $auth->messages()
-                    ->where('sender_type', 'company')
-                    ->where('sender_id', $company->id)
+                $message = Message::where([
+                        ['sender_type', 'company'],
+                        ['receiver_type', 'admin'],
+                        ['sender_id', $company->id],
+                        ['receiver_id', $auth->id],
+                    ])  
                     ->latest('created_at')
                     ->first();
             } elseif($trainer) {
-                $message = $auth->messages()
-                    ->where('sender_type', 'trainer')
-                    ->where('sender_id', $trainer->id)
+                $message = Message::where([
+                        ['sender_type', 'trainer'],
+                        ['receiver_type', 'admin'],
+                        ['sender_id', $trainer->id],
+                        ['receiver_id', $auth->id],
+                    ])
                     ->latest('created_at')
                     ->first();
             } else {
-                $message = $auth->messages()
-                    ->where('sender_type', 'teacher')
-                    ->where('sender_id', $teacher->id)
+                $message = Message::where([
+                    ['sender_type', 'teacher'],
+                    ['receiver_type', 'admin'],
+                    ['sender_id', $teacher->id],
+                    ['receiver_id', $auth->id],
+                ])
                     ->latest('created_at')
                     ->first();
             }
@@ -445,16 +455,30 @@ class MessageController extends Controller
             $student = Student::whereSlug($slug)->first();
             $admin = Admin::whereSlug($slug)->first();
 
+            if(Auth::guard('trainer')->check()) {
+                $role = 'trainer';
+            } elseif(Auth::guard('teacher')->check()) {
+                $role = 'teacher';
+            
+            } else {
+                $role = 'company';
+            }
             if($student) {
-                $message = $auth->messages()
-                ->where('sender_id', $student->id)
-                ->where('sender_type', 'student')
+                $message = Message::where([
+                    ['sender_type', $role],
+                    ['receiver_type', 'admin'],
+                    ['sender_id', $student->id],
+                    ['receiver_id', $auth->id],
+                ])
                 ->latest('created_at')
                 ->first();
             } else {
-                $message = $auth->messages()
-                ->where('sender_id', $admin->id)
-                ->where('sender_type', 'admin')
+                $message = Message::where([
+                    ['sender_type', $role],
+                    ['receiver_type', 'admin'],
+                    ['sender_id', $student->id],
+                    ['receiver_id', $auth->id],
+                ])
                 ->latest('created_at')
                 ->first();
             }
@@ -483,8 +507,18 @@ class MessageController extends Controller
                     $role = 'teacher';
                 }
                 foreach ($auth->students as $student) {
-                    $message = Message::where($role.'_id', $auth->id)
-                        ->where('student_id', $student->id)
+                    $message = Message::where([
+                            ['sender_type', 'student'],
+                            ['receiver_type', $role],
+                            ['sender_id', $student->id],
+                            ['receiver_id', $auth->id],
+                        ])
+                        ->orWhere([
+                            ['sender_type', $role],
+                            ['receiver_type', 'student'],
+                            ['sender_id', $auth->id],
+                            ['receiver_id', $student->id],
+                        ])
                         ->latest('created_at')
                         ->first();
                     $Lastmessage = __('admin.No messages yet!');
@@ -523,14 +557,14 @@ class MessageController extends Controller
                                             <div style="width: 100%">
                                                 <div class="notification-list_detail">
                                                     <p><b>' . $student->name . '</b>
-                                                        <br>' . $Lastmessage . ' 
+                                                        <br>' . $Lastmessage . '
                                                     </p>
                                                     <p class="text-muted">' . $time . '</p>
                                                 </div>
-    
-    
-    
-    
+
+
+
+
                                             </div>
                                         </div>
                                     </div>
@@ -548,7 +582,7 @@ class MessageController extends Controller
         return $output;
     }
 
-    // all admins messages 
+    // all admins messages
     public function all_admins_messages()
     {
         $admins = Admin::all();
@@ -613,14 +647,14 @@ class MessageController extends Controller
                                         <div style="width: 100%">
                                             <div class="notification-list_detail">
                                                 <p><b>' . $admin->name . '</b>
-                                                    <br>' . $Lastmessage . ' 
+                                                    <br>' . $Lastmessage . '
                                                 </p>
                                                 <p class="text-muted">' . $time . '</p>
                                             </div>
-    
-    
-    
-    
+
+
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -697,7 +731,7 @@ class MessageController extends Controller
                                         <div style="width: 100%">
                                             <div class="notification-list_detail">
                                                 <p><b>' . $company->name . '</b>
-                                                    <br>' . $lastMessage . ' 
+                                                    <br>' . $lastMessage . '
                                                 </p>
                                                 <p class="text-muted">' . $time . '</p>
                                             </div>
@@ -765,14 +799,14 @@ class MessageController extends Controller
                                         <div style="width: 100%">
                                             <div class="notification-list_detail">
                                                 <p><b>' . $teacher->name . '</b>
-                                                    <br>' . $lastMessage . ' 
+                                                    <br>' . $lastMessage . '
                                                 </p>
                                                 <p class="text-muted">' . $time . '</p>
                                             </div>
-    
-    
-    
-    
+
+
+
+
                                         </div>
                                     </div>
                                 </div>

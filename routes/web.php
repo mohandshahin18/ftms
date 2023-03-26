@@ -239,6 +239,10 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     Route::get('load/more/compnaies', [MessageController::class, 'load_more_companies'])->name('load.more.companies');
     Route::get('load/more/teachers', [MessageController::class, 'load_more_teachers'])->name('load.more.teachers');
 
+
+
+    // verify email
+    Route::get('account/verify/{slug}/{actor}', [HomeController::class, 'verifyAccount'])->name('Eamilverify');
 });
 
 

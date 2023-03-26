@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Admin;
 use App\Models\Advert;
 use App\Models\Company;
@@ -9,18 +10,21 @@ use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\Trainer;
 use App\Models\Category;
-use App\Models\SettingWebsite;
+use App\Mail\ContactMail;
+use App\Mail\verifyEmail ;
 use App\Rules\TextLength;
 use App\Models\University;
 use App\Rules\TwoSyllables;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\SettingWebsite;
 use App\Models\Specialization;
+use Illuminate\Support\Facades\Log;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
-use Exception;
-
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -189,7 +193,7 @@ class HomeController extends Controller
         if(Auth::guard('teacher')->check()){
             $teacher = Teacher::with('university')->where('id',  Auth::guard()->user()->id)->first();
             $university = $teacher->university->name;
-            $specializations = Specialization::where('university_id', $teacher->university_id)->get();
+            $specializations = Specialization::get();
             return view('admin.profile' , compact('university','specializations'));
 
         }elseif(Auth::guard('trainer')->check()){
@@ -227,20 +231,30 @@ class HomeController extends Controller
         }
 
 
-        $validator = validator($request->all(),[
+        $request->validate([
             'name' => ['required',new TwoSyllables()] ,
             'email' => 'required|email',
             'phone' => 'required',
             'image' => 'nullable|max:4096'
         ]);
+            $is_email_verified = 1;
+        if($request->email != Auth::user()->email){
+            $actor = 'admin';
+            $is_email_verified = 0;
+            
+        Mail::send('emails.virefyEmailAdmins', ['actor'=>$actor , 'slug'=> $admin->slug], function($message) use($request){
+            $message->to($request->email);
+            $message->subject('Email Verification Mail');
+        });
 
-
-        $admin->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'image' => $path,
-        ]);
+        }
+            $admin->update([
+                'is_email_verified' =>$is_email_verified,
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'image' => $path,
+            ]);
 
             return json_encode(array("email"=>$admin->email, "name"=>$admin->name, "image" =>$admin->image));
 
@@ -275,14 +289,24 @@ class HomeController extends Controller
             }
 
         }
+            $is_email_verified = 1;
+        if($request->email != Auth::user()->email){
+            $actor = 'teacher';
+            $is_email_verified = 0;
 
-        $teacher->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'specialization_id' => $request->specialization_id,
-            'image' => $path,
-        ]);
+            Mail::send('emails.virefyEmailAdmins', ['actor'=>$actor , 'slug'=> $teacher->slug], function($message) use($request){
+                $message->to($request->email);
+                $message->subject('Email Verification Mail');
+            });
+        }
+            $teacher->update([
+                'is_email_verified' =>$is_email_verified,
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'specialization_id' => $request->specialization_id,
+                'image' => $path,
+            ]);
 
 
         $students = Student::where('university_id', $teacher->university_id)->where('specialization_id', $request->specialization_id)->get();
@@ -314,14 +338,25 @@ class HomeController extends Controller
                 'image' => 'nullable',
                 'category_id' => 'required'
             ]);
+                $is_email_verified = 1;
+            if($request->email != Auth::user()->email){
+                $actor = 'trainer';
+                $is_email_verified = 0;
 
+            Mail::send('emails.virefyEmailAdmins', ['actor'=>$actor , 'slug'=> $trainer->slug], function($message) use($request){
+                $message->to($request->email);
+                $message->subject('Email Verification Mail');
+            });
+        }
             $trainer->update([
+                'is_email_verified' =>$is_email_verified,
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone' => $request->phone,
                 'image' => $path,
                 'category_id' => $request->category_id
             ]);
+
 
             return json_encode(array("email"=>$trainer->email, "name"=>$trainer->name, "image" =>$trainer->image));
 
@@ -343,8 +378,20 @@ class HomeController extends Controller
             'address' => 'required',
             'description'=>['required',new TextLength()],
         ]);
+        $is_email_verified = 1;
+        if($request->email != Auth::user()->email){
+            $actor = 'company';
 
+            $is_email_verified = 0;
+
+            Mail::send('emails.virefyEmailAdmins', ['actor'=>$actor , 'slug'=> $company->slug], function($message) use($request){
+                $message->to($request->email);
+                $message->subject('Email Verification Mail');
+            });
+
+        }
         $company->update([
+            'is_email_verified' =>$is_email_verified,
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
@@ -354,12 +401,46 @@ class HomeController extends Controller
             'description' => $request->description,
         ]);
 
+
+
+
         $company->categories()->sync( $request->category_id);
 
         return json_encode(array("email"=>$company->email, "name"=>$company->name, "image" =>$company->image));
 
 
       }
+    }
+
+
+     /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+    public function verifyAccount($slug , $actor)
+    {
+        $gurad = '';
+        if($actor == 'company'){
+            $gurad = Company::whereSlug($slug)->first();
+        }elseif($actor == 'trainer'){
+            $gurad = Trainer::whereSlug($slug)->first();
+        }elseif($actor == 'teacher'){
+            $gurad = Teacher::whereSlug($slug)->first();
+        }else{
+            $gurad = Admin::whereSlug($slug)->first();
+        }
+        if($gurad->is_email_verified == 0){
+            $gurad->update([
+                'is_email_verified'=>1
+            ]);
+            $message = __("admin.Email verified");
+            $type = 'success';
+        }else{
+            $message = __("admin.Your email is already verified.");
+            $type = 'warning';
+        }
+        return redirect()->route('admin.home')->with('verify', $message)->with('verify_type' , $type);
     }
 
 

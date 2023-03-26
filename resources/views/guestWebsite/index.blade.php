@@ -290,20 +290,23 @@
                 @php
                         if($comment->student){
                             $name = $comment->student->name ?? '';
+                            $src = 'https://ui-avatars.com/api/?background=random&name=' . $name;
                             if ($comment->student->image) {
-                                    $img = Auth::guard()->user()->image;
+                                    $img = $comment->student->image;
                                     $src = asset($img);
                             }
                         }else{
                             $name = __('admin.Deleted account');
+                            $src = 'https://ui-avatars.com/api/?background=random&name=' . $name;
+
                         }
-                        $src = 'https://ui-avatars.com/api/?background=random&name=' . $name;
+
 
 
                 @endphp
                 <div class="review">
                     <div class="person">
-                        <img src="{{ $src }}" alt="">
+                        <img src="{{ $src }}" style="object-fit: cover;" alt="">
                         <h5>{{ $name }}</h5>
                     </div>
                     <h3>{{ $comment->body }}</h3>

@@ -182,6 +182,7 @@ return [
         "university_id_st"         => "university id",
         "firstname"         => "first name",
         "lastname"         => "last name",
+        "body"         => "comment",
 
 
     ],

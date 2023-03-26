@@ -27,6 +27,13 @@
         </div>
         @endif
 
+        @if (session('verify'))
+        <div class="alert alert-{{ session('verify_type') }}">
+            {{ session('verify') }}
+
+        </div>
+        @endif
+
       <div class="row">
             <div class="col-lg-3 col-6">
                 <!-- small box -->

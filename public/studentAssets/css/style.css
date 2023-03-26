@@ -20,10 +20,7 @@
   scroll-behavior: smooth;
 }
 body {
-    /* font-family: "Barlow", sans-serif; */
     font-family: SFPRODISPLAYBLACKITALIC;
-    /* color: var(--body); */
-    line-height: 1.7;
 }
 
 h1,h2,h3,h4,h5,h6,
@@ -639,6 +636,7 @@ section {
 
 .btn {
     padding: 8px 26px;
+    line-height: unset !important;
 }
 
 .btn-brand{
@@ -1253,10 +1251,7 @@ input.form-control {
         padding: 6px 11px;
         box-shadow: 0 0 32px rgb(0 0 0 / 8%), 0 16px 16px -16px rgb(0 0 0 / 10%);
     }
-/*
-    .details {
-        margin-bottom: 15px;
-    } */
+
 
     .details p {
         display: inline-block;
@@ -1265,13 +1260,13 @@ input.form-control {
     .incoming .details p {
         color: #333;
         background: #fff;
-        border-radius: 18px 18px 18px 18px;
+        border-radius: 18px 18px 18px 0;
         font-size: 15px;
         margin-bottom: 5px;
-        -webkit-border-radius: 18px 18px 18px 18px;
-        -moz-border-radius: 18px 18px 18px 18px;
-        -ms-border-radius: 18px 18px 18px 18px;
-        -o-border-radius: 18px 18px 18px 18px;
+        -webkit-border-radius: 18px 18px 18px 0;
+        -moz-border-radius: 18px 18px 18px 0;
+        -ms-border-radius: 18px 18px 18px 0;
+        -o-border-radius: 18px 18px 18px 0;
 }
 
     .chat-logs::-webkit-scrollbar-track {
