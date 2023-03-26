@@ -90,7 +90,7 @@
                                 <div class="form-group">
                                     <label class="mb-2">{{ __('admin.Logo Website & Control Panle') }}</label>
                                     <input type="file" class="form-control @error('logo') is-invalid @enderror"
-                                        name="logo">
+                                        name="logo" >
                                         <img width="70"  class="bg-dark" src="{{ asset(settings()->get('logo')) }}" alt="">
 
                                     @error('logo')
@@ -139,7 +139,7 @@
                         <div class="form-group">
                             <label class="mb-2">{{ __('admin.Name') }}</label>
                             <input type="text" class="form-control members @error('name') is-invalid @enderror"
-                                name="name" placeholder=" {{ __('admin.Name') }}" value="{{ old('name') }}">
+                                name="name" id="name" placeholder=" {{ __('admin.Name') }}" value="{{ old('name') }}">
                             @error('name')
                                 <small class="invalid-feedback"> {{ $message }}</small>
                             @enderror
@@ -152,7 +152,7 @@
                         <div class="form-group">
                             <label class="mb-2">{{ __('admin.Specialization') }}</label>
                             <input type="text" class="form-control members @error('specialization') is-invalid @enderror"
-                                name="specialization" placeholder=" {{ __('admin.Specialization') }}" value="{{ old('specialization') }}">
+                                name="specialization" id="specialization" placeholder=" {{ __('admin.Specialization') }}" value="{{ old('specialization') }}">
                             @error('specialization')
                                 <small class="invalid-feedback"> {{ $message }}</small>
                             @enderror
@@ -166,7 +166,7 @@
                         <div class="form-group">
                             <label class="mb-2">{{ __('admin.Facebook Link') }}</label>
                             <input type="text" class="form-control members @error('facebook') is-invalid @enderror"
-                                name="facebook" placeholder=" {{ __('admin.Facebook Link') }}" value="{{ old('facebook') }}">
+                                name="facebook" id="facebook" placeholder=" {{ __('admin.Facebook Link') }}" value="{{ old('facebook') }}">
                             @error('facebook')
                                 <small class="invalid-feedback"> {{ $message }}</small>
                             @enderror
@@ -178,7 +178,7 @@
                         <div class="form-group">
                             <label class="mb-2">{{ __('admin.GitHub Link') }}</label>
                             <input type="text" class="form-control members @error('github') is-invalid @enderror"
-                                name="github" placeholder=" {{ __('admin.GitHub Link') }}" value="{{ old('github') }}">
+                                name="github" id="github" placeholder=" {{ __('admin.GitHub Link') }}" value="{{ old('github') }}">
                             @error('github')
                                 <small class="invalid-feedback"> {{ $message }}</small>
                             @enderror
@@ -190,7 +190,7 @@
                         <div class="form-group">
                             <label class="mb-2">{{ __('admin.Linkedin Link') }}</label>
                             <input type="text" class="form-control members @error('linkedin') is-invalid @enderror"
-                                name="linkedin" placeholder=" {{ __('admin.Linkedin Link') }}" value="{{ old('linkedin') }}">
+                                name="linkedin" id="linkedin" placeholder=" {{ __('admin.Linkedin Link') }}" value="{{ old('linkedin') }}">
                             @error('linkedin')
                                 <small class="invalid-feedback"> {{ $message }}</small>
                             @enderror
@@ -202,7 +202,7 @@
                         <div class="form-group">
                             <label class="mb-2">{{ __('admin.Image') }}</label>
                             <input type="file" class="form-control members @error('image') is-invalid @enderror"
-                                name="image" >
+                                name="image" id="image">
                             @error('image')
                                 <small class="invalid-feedback"> {{ $message }}</small>
                             @enderror
@@ -453,7 +453,7 @@ let url = form.getAttribute("action");
                     $('.invalid-feedback').remove();
                     $.each(data.responseJSON.errors, function (field, error) {
 
-                        $("input[name='" + field + "']").addClass('is-invalid').after('<small class="invalid-feedback">' +error+ '</small>');
+                        $("input[id='"+field+"']").addClass('is-invalid').after('<small class="invalid-feedback">' +error+ '</small>');
                     });
                 } ,
             })

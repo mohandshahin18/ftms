@@ -222,6 +222,10 @@ return [
         "lastname"         => "الاسم التاني",
         "message"         => "الرسالة",
         "body"         => "التعليق",
+        "specialization"         => "التخصص",
+        "facebook"         => "الفيس بوك",
+        "github"         => "القيت هب ",
+        "linkedin"         => "لينكد ان",
 
 
     ],
