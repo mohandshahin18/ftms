@@ -69,31 +69,43 @@
                                 </div>
                             </div>
 
-                            {{-- company --}}
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label class="mb-2">{{ __('admin.Company Name') }}</label>
-                                    <select name="company_id" id="company_id" class="form-control @error('company_id') is-invalid @enderror" id="company_id">
-                                        <option value=" ">{{ __('admin.Select Company') }}</option>
-                                        @foreach ($companies as $company)
-                                            <option value="{{ $company->id }}">{{ $company->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('company_id')
-                                        <small class="invalid-feedback"> {{ $message }}</small>
-                                    @enderror
+                            @if (Auth::guard('admin')->check())
+                                {{-- company --}}
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="mb-2">{{ __('admin.Company Name') }}</label>
+                                        <select name="company_id" id="company_id" class="form-control @error('company_id') is-invalid @enderror" id="company_id">
+                                            <option value=" ">{{ __('admin.Select Company') }}</option>
+                                            @foreach ($companies as $company)
+                                                <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('company_id')
+                                            <small class="invalid-feedback"> {{ $message }}</small>
+                                        @enderror
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
 
                              {{-- Program --}}
-                             <div class="col-lg-6">
+                             <div class="@if (Auth::guard('admin')->check())
+                                {{ 'col-lg-6' }}
+                                @else
+                                {{ 'col-lg-12' }}
+                             @endif">
                                 <div class="form-group">
                                     <label class="mb-2">{{ __('admin.Program') }}</label>
                                     <select name="category_id" id="category_id" class="form-control @error('category_id') is-invalid @enderror" id="category_id">
                                         <option value=" ">{{ __('admin.Select Program') }}</option>
-                                        @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach
+                                        @if (Auth::guard('admin')->check())
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        @else
+                                            @foreach (Auth::user()->categories as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        @endif
                                     </select>
                                     @error('category_id')
                                         <small class="invalid-feedback"> {{ $message }}</small>
@@ -134,6 +146,8 @@
 
 @stop
 @section('scripts')
+
+@if (Auth::guard('admin')->check())
     <script>
         $(document).ready(function() {
             $("#company_id").on("change", function() {
@@ -157,4 +171,6 @@
             });
         });
     </script>
+@endif
+
 @stop

@@ -12,8 +12,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
-use function PHPSTORM_META\type;
-use function PHPUnit\Framework\isEmpty;
 
 class MessagesController extends Controller
 {
@@ -52,16 +50,33 @@ class MessagesController extends Controller
             $roleActive = '';
             $roleObj = $auth->{$role};
 
-            $lastMessage = $auth->messages()
-                ->where($role.'_id', $roleObj->id)
+            $lastMessage = Message::where([
+                    ['sender_type', 'student'],
+                    ['receiver_type', $role],
+                    ['sender_id', $auth->id],
+                    ['receiver_id', $roleObj->id],
+                ])
+                ->orWhere([
+                    ['sender_type', $role],
+                    ['receiver_type', 'student'],
+                    ['sender_id', $roleObj->id],
+                    ['receiver_id', $auth->id],
+                ])
                 ->latest('created_at')
                 ->first();
 
-            $activeMessage = $auth->messages()
+
+            $activeMessage = Message::where([
+                    ['sender_id', $auth->id],
+                    ['receiver_id', $roleObj->id],
+                    ['sender_type', 'student'],
+                    ['receiver_type', $role],
+                ])
                 ->where([
-                    [$role.'_id', $roleObj->id],
                     ['sender_id', $roleObj->id],
+                    ['receiver_id', $auth->id],
                     ['sender_type', $role],
+                    ['receiver_type', 'student'],
                 ])
                 ->orderBy('created_at', 'desc')
                 ->first();
@@ -191,37 +206,24 @@ class MessagesController extends Controller
         $teacher = Teacher::whereSlug($request->slug)->first();
         $company = Company::whereSlug($request->slug)->first();
 
-        if ($request->type == 'trainer') {
-            $message = Message::create([
-                'message' => $request->message,
-                'receiver_id' => $trainer->id,
-                'sender_id' => $user->id,
-                'trainer_id' => $trainer->id,
-                'student_id' => $user->id,
-                'sender_type' => 'student',
-                'receiver_type' => 'trainer',
-            ]);
-        } elseif($request->type == 'teacher') {
-            $message = Message::create([
-                'message' => $request->message,
-                'receiver_id' => $teacher->id,
-                'sender_id' => $user->id,
-                'teacher_id' => $teacher->id,
-                'student_id' => $user->id,
-                'sender_type' => 'student',
-                'receiver_type' => 'teacher',
-            ]);
+        if($trainer) {
+            $role = 'trainer';
+            $roleObj = $trainer;
+        } elseif($company) {
+            $role = 'company';
+            $roleObj = $company;
         } else {
-            $message = Message::create([
-                'message' => $request->message,
-                'receiver_id' => $company->id,
-                'sender_id' => $user->id,
-                'company_id' => $company->id,
-                'student_id' => $user->id,
-                'sender_type' => 'student',
-                'receiver_type' => 'company',
-            ]);
+            $role = 'teacher';
+            $roleObj = $teacher;
         }
+
+        $message = Message::create([
+            'message' => $request->message,
+            'sender_id' => $user->id,
+            'sender_type' => 'student',
+            'receiver_id' => $roleObj->id,
+            'receiver_type' => $role,
+        ]);
 
         broadcast(new CreateMessage($message));
 
@@ -239,33 +241,58 @@ class MessagesController extends Controller
     {
         $slug = $request->slug;
         $type = $request->type;
-        $user = Auth::user();
+        $auth = Auth::user();
 
-        if ($type == 'trainer') {
-            $trainer = Trainer::whereSlug($slug)->first();
-            $messages = $user->messages()
-                ->where('trainer_id', $trainer->id)
-                ->orderBy('id', 'desc')
-                ->limit(10)
-                ->get()
-                ->reverse();
+        if($type == 'trainer') {
+            $role = Trainer::whereSlug($slug)->first();
         } elseif($type == 'teacher') {
-            $teacher = Teacher::whereSlug($slug)->first();
-            $messages = $user->messages()
-                ->where('teacher_id', $teacher->id)
-                ->orderBy('id', 'desc')
-                ->limit(10)
-                ->get()
-                ->reverse();
+            $role = Teacher::whereSlug($slug)->first();
         } else {
-            $company = Company::whereSlug($slug)->first();
-            $messages = $user->messages()
-                ->where('company_id', $company->id)
-                ->orderBy('id', 'desc')
-                ->limit(10)
-                ->get()
-                ->reverse();
+            $role = Company::whereSlug($slug)->first();
         }
+
+        $messages = Message::where([
+                ['sender_id', $auth->id],
+                ['sender_type', 'student'],
+                ['receiver_id', $role->id],
+                ['receiver_type', $type],
+            ])
+            ->orWhere([
+                ['sender_id', $role->id],
+                ['sender_type', $type],
+                ['receiver_id', $auth->id],
+                ['receiver_type', 'student'],
+            ])
+            ->orderBy('id', 'desc')
+            ->limit(10)
+            ->get()
+            ->reverse();
+
+        // if ($type == 'trainer') {
+        //     $trainer = Trainer::whereSlug($slug)->first();
+        //     $messages = Message::where('student_id', $auth->id)
+        //         ->where('trainer_id', $trainer->id)
+        //         ->orderBy('id', 'desc')
+        //         ->limit(10)
+        //         ->get()
+        //         ->reverse();
+        // } elseif($type == 'teacher') {
+        //     $teacher = Teacher::whereSlug($slug)->first();
+        //     $messages = Message::where('student_id', $auth->id)
+        //         ->where('teacher_id', $teacher->id)
+        //         ->orderBy('id', 'desc')
+        //         ->limit(10)
+        //         ->get()
+        //         ->reverse();
+        // } else {
+        //     $company = Company::whereSlug($slug)->first();
+        //     $messages = Message::where('student_id', $auth->id)
+        //         ->where('company_id', $company->id)
+        //         ->orderBy('id', 'desc')
+        //         ->limit(10)
+        //         ->get()
+        //         ->reverse();
+        // }
 
 
         $output = '';
@@ -273,7 +300,7 @@ class MessagesController extends Controller
         if ($messages) {
             foreach ($messages as $message) {
 
-                if ($message->sender_id == $user->id && $message->sender_type == 'student') {
+                if ($message->sender_id == $auth->id && $message->sender_type == 'student') {
                     $output .= '<div class="chat outgoing message" data-id="' . $message->id . '">
                                 <div class="details">
                                     <p>' . $message->message . '</p>
@@ -300,29 +327,50 @@ class MessagesController extends Controller
     {
         $auth = Auth::user();
         if($request->type == 'trainer') {
-            $message = $auth->messages()
-            ->where([
-                ['sender_type', 'trainer'],
-                ['sender_id', $auth->trainer_id]
-            ])
-            ->latest('id')
-            ->first();
+            $message = Message::where([
+                    ['sender_type', 'student'],
+                    ['receiver_type', 'trainer'],
+                    ['sender_id', $auth->id],
+                    ['receiver_id', $auth->trainer_id],
+                ])
+                ->orWhere([
+                    ['sender_type', 'trainer'],
+                    ['receiver_type', 'student'],
+                    ['sender_id', $auth->trainer_id],
+                    ['receiver_id', $auth->id],
+                ])
+                ->latest('id')
+                ->first();
         } elseif($request->type == 'teacher') {
-            $message = $auth->messages()
-            ->where([
-                ['sender_type', 'teacher'],
-                ['sender_id', $auth->teacher_id]
-            ])
-            ->latest('id')
-            ->first();
+            $message = Message::where([
+                    ['sender_type', 'student'],
+                    ['receiver_type', 'teacher'],
+                    ['sender_id', $auth->id],
+                    ['receiver_id', $auth->teacher_id],
+                ])
+                ->orWhere([
+                    ['sender_type', 'teacher'],
+                    ['receiver_type', 'student'],
+                    ['sender_id', $auth->teacher_id],
+                    ['receiver_id', $auth->id],
+                ])  
+                ->latest('id')
+                ->first();
         } else {
-            $message = $auth->messages()
-            ->where([
-                ['sender_type', 'company'],
-                ['sender_id', $auth->company_id]
-            ])
-            ->latest('id')
-            ->first();
+            $message = Message::where([
+                    ['sender_type', 'student'],
+                    ['receiver_type', 'company'],
+                    ['sender_id', $auth->id],
+                    ['receiver_id', $auth->company_id],
+                ])
+                ->orWhere([
+                    ['sender_type', 'company'],
+                    ['receiver_type', 'student'],
+                    ['sender_id', $auth->company_id],
+                    ['receiver_id', $auth->id],
+                ])
+                ->latest('id')
+                ->first();
         }
 
 

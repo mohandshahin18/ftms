@@ -1,5 +1,6 @@
 @php
     $auth = Auth::user();
+    use App\Models\Message;
 @endphp
 
 @if ($companies)
@@ -9,9 +10,18 @@
             $time = '';
             $unread = '';
             
-            $message = $auth
-                ->messages()
-                ->where('company_id', $company->id)
+            $message = Message::where([
+                    ['sender_id', $auth->id],
+                    ['sender_type', 'admin'],
+                    ['receiver_id', $company->id],
+                    ['receiver_type', 'company'],
+                ])
+                ->orWhere([
+                    ['sender_id', $company->id],
+                    ['sender_type', 'company'],
+                    ['receiver_id', $auth->id],
+                    ['receiver_type', 'admin'],
+                ])
                 ->latest('created_at')
                 ->first();
             
@@ -60,9 +70,18 @@
             $time = '';
             $unread = '';
             
-            $message = $auth
-                ->messages()
-                ->where('trainer_id', $trainer->id)
+            $message = Message::where([
+                    ['sender_id', $auth->id],
+                    ['sender_type', 'admin'],
+                    ['receiver_id', $trainer->id],
+                    ['receiver_id', 'trainer'],
+                ])
+                ->orWhere([
+                    ['sender_id', $trainer->id],
+                    ['sender_type', 'trainer'],
+                    ['receiver_id', $auth->id],
+                    ['receiver_id', 'amdin'],
+                ])
                 ->latest('created_at')
                 ->first();
             
@@ -110,10 +129,28 @@
             $lastMessage = __('admin.No messages yet!');
             $time = '';
             $unread = '';
+
+            if(Auth::guard('company')->check()) {
+                $role = 'company';
+            } elseif (Auth::guard('trainer')->check()) {
+                $role = 'trainer';
+                
+            } else {
+                $role = 'teacher';
+            }
             
-            $message = $auth
-                ->messages()
-                ->where('student_id', $student->id)
+            $message = Message::where([
+                    ['sender_id', $auth->id],
+                    ['sender_type', $role],
+                    ['receiver_id', $student->id],
+                    ['receiver_type', 'student'],
+                ])
+                ->orWhere([
+                    ['sender_id', $student->id],
+                    ['sender_type', 'student'],
+                    ['receiver_id', $auth->id],
+                    ['receiver_type', $role],
+                ])
                 ->latest('created_at')
                 ->first();
             

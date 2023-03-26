@@ -683,7 +683,7 @@ section {
 
   .form-control:focus {
     box-shadow: none;
-    border-color: #d64022 !important;
+    border-color: #0f79d2 !important;
     }
 .btn-seconed-brand{
     background-color: #d64022;
@@ -1114,10 +1114,6 @@ input.form-control {
     .chat-box-toggle {
         float: right;
         cursor: pointer;
-    }
-
-    .box {
-        /* transition: all 0.2s ease-i; */
     }
 
     .chat-box-min,

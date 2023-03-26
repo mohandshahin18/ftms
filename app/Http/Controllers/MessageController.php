@@ -23,6 +23,7 @@ class MessageController extends Controller
     {
         $auth = Auth::user();
 
+
         if (Auth::guard('admin')->check()) {
             $output = '<div class="all">
                             <a href="' . route('admin.all.messages.page') . '" class="dropdown-item dropdown-footer text-center">Show All Messages</a>
@@ -40,7 +41,7 @@ class MessageController extends Controller
                 $type = 'teacher';
             } else {
                 $type = 'company';
-            }
+            }            
 
             $output = '';
             $number = 0;
@@ -48,7 +49,7 @@ class MessageController extends Controller
 
             foreach ($students as $student) {
                 $active = '';
-                $message = $auth->messages()->where([
+                $message = Message::where([
                     ['sender_id', $auth->id],
                     ['receiver_id', $student->id],
                     ['sender_type', $type],
@@ -63,8 +64,7 @@ class MessageController extends Controller
                     ->latest('id')
                     ->first();
 
-                $activelastMessage = $auth->messages()
-                    ->where([
+                $activelastMessage = Message::where([
                         ['sender_id', $student->id],
                         ['receiver_id', $auth->id],
                         ['sender_type', 'student'],
@@ -83,15 +83,19 @@ class MessageController extends Controller
                     $clock = '';
                 }
 
-                $studentMessage = $auth->messages()
-                    ->where([
+                $studentMessage = Message::where([
+                        ['receiver_type', $type],
+                        ['receiver_id', $auth->id],
                         ['sender_id', $student->id]
                     ])
                     ->first();
 
                 if ($studentMessage) {
 
-                    $activelastMessage = $auth->messages()
+                    $activelastMessage = Message::where([
+                            ['receiver_id', $auth->id],
+                            ['receiver_type', $type],
+                        ])
                         ->where([
                             ['sender_id', $student->id],
                             ['sender_type', 'student']
@@ -105,7 +109,7 @@ class MessageController extends Controller
                     }
                 }
 
-                $output .= '<a href="#" class="dropdown-item chat-circle ' . $active . '" data-slug="' . $student->slug . '" data-name="' . $student->name . '">
+                $output .= '<a href="#" class="dropdown-item chat-circle ' . $active . '" data-slug="' . $student->slug . '" data-name="' . $student->name . '" data-name="' . $student->name . '" data-id="'.$student->id.'" data-type="student">
                             <div class="media">
                                 <img src="' . env('APP_URL') . '/' . $student->image . '" alt="User Avatar"
                                     class="mr-3 img-circle" style="    width: 47px;
@@ -142,16 +146,45 @@ class MessageController extends Controller
             $student = Student::whereSlug($request->slug)->first();
             $admin = Admin::whereSlug($request->slug)->first();
 
+            if (Auth::guard('trainer')->check()) {
+                $type = 'trainer';
+            } elseif (Auth::guard('teacher')->check()) {
+                $type = 'teacher';
+            } else {
+                $type = 'company';
+            }  
+
             if ($student) {
-                $messages = $auth->messages()
-                    ->where('student_id', $student->id)
+                $messages = Message::where([
+                        ['receiver_type', $type],
+                        ['receiver_id', $auth->id],
+                        ['sender_type', 'student'],
+                        ['sender_id', $student->id],
+                    ])
+
+                    ->orWhere([
+                        ['sender_type', $type],
+                        ['sender_id', $auth->id],
+                        ['receiver_type', 'student'],
+                        ['receiver_id', $student->id],
+                    ])
                     ->latest('id')
                     ->limit(10)
                     ->get()
                     ->reverse();
             } else {
-                $messages = $auth->messages()
-                    ->where('admin_id', $admin->id)
+                $messages = Message::where([
+                        ['receiver_type', $type],
+                        ['receiver_id', $auth->id],
+                        ['sender_type', 'admin'],
+                        ['sender_id', $admin->id],   
+                    ])
+                    ->orWhere([
+                        ['sender_type', $type],
+                        ['sender_id', $auth->id],
+                        ['receiver_type', 'admin'],
+                        ['receiver_id', $admin->id], 
+                    ])
                     ->latest('id')
                     ->limit(10)
                     ->get()
@@ -190,11 +223,56 @@ class MessageController extends Controller
 
             
             if($company) {
-                $messages = $auth->messages()->where('company_id', $company->id)->latest('created_at')->limit(10)->get()->reverse();
+                $messages = Message::where([
+                        ['sender_id', $auth->id],
+                        ['sender_type', 'admin'],
+                        ['receiver_id', $company->id],
+                        ['receiver_type', 'company'],
+                    ])
+                    ->orWhere([
+                        ['sender_id', $company->id],
+                        ['sender_type', 'company'],
+                        ['receiver_id', $auth->id],
+                        ['receiver_type', 'admin'],
+                    ])
+                    ->latest('created_at')
+                    ->limit(10)
+                    ->get()
+                    ->reverse();
             } elseif($trainer) {
-                $messages = $auth->messages()->where('trainer_id', $trainer->id)->latest('created_at')->limit(10)->get()->reverse();
+                $messages = Message::where([
+                    ['sender_id', $auth->id],
+                    ['sender_type', 'admin'],
+                    ['receiver_id', $trainer->id],
+                    ['receiver_type', 'trainer'],
+                ])
+                ->orWhere([
+                    ['sender_id', $trainer->id],
+                    ['sender_type', 'trainer'],
+                    ['receiver_id', $auth->id],
+                    ['receiver_type', 'admin'],
+                ])
+                ->latest('created_at')
+                ->limit(10)
+                ->get()
+                ->reverse();
             } else {
-                $messages = $auth->messages()->where('teacher_id', $teacher->id)->latest('created_at')->limit(10)->get()->reverse();
+                $messages = Message::where([
+                    ['sender_id', $auth->id],
+                    ['sender_type', 'admin'],
+                    ['receiver_id', $teacher->id],
+                    ['receiver_type', 'teacher'],
+                ])
+                ->orWhere([
+                    ['sender_id', $teacher->id],
+                    ['sender_type', 'teacher'],
+                    ['receiver_id', $auth->id],
+                    ['receiver_type', 'admin'],
+                ])
+                ->latest('created_at')
+                ->limit(10)
+                ->get()
+                ->reverse();
             }
 
             $output = '';
@@ -238,8 +316,6 @@ class MessageController extends Controller
             if($student) {
                 $message = Message::create([
                     'message' => $request->message,
-                    'trainer_id' => $auth->id,
-                    'student_id' => $student->id,
                     'sender_id' => $auth->id,
                     'receiver_id' => $student->id,
                     'sender_type' => 'trainer',
@@ -248,8 +324,6 @@ class MessageController extends Controller
             } else {
                 $message = Message::create([
                     'message' => $request->message,
-                    'trainer_id' => $auth->id,
-                    'admin_id' => $admin->id,
                     'sender_id' => $auth->id,
                     'receiver_id' => $admin->id,
                     'sender_type' => 'trainer',
@@ -260,8 +334,6 @@ class MessageController extends Controller
             if($student) {
                 $message = Message::create([
                     'message' => $request->message,
-                    'teacher_id' => $auth->id,
-                    'student_id' => $student->id,
                     'sender_id' => $auth->id,
                     'receiver_id' => $student->id,
                     'sender_type' => 'teacher',
@@ -270,8 +342,6 @@ class MessageController extends Controller
             } else {
                 $message = Message::create([
                     'message' => $request->message,
-                    'teacher_id' => $auth->id,
-                    'admin_id' => $admin->id,
                     'sender_id' => $auth->id,
                     'receiver_id' => $admin->id,
                     'sender_type' => 'teacher',
@@ -282,8 +352,6 @@ class MessageController extends Controller
             if($student) {
                 $message = Message::create([
                     'message' => $request->message,
-                    'company_id' => $auth->id,
-                    'student_id' => $student->id,
                     'sender_id' => $auth->id,
                     'receiver_id' => $student->id,
                     'sender_type' => 'company',
@@ -292,8 +360,6 @@ class MessageController extends Controller
             } else {
                 $message = Message::create([
                     'message' => $request->message,
-                    'company_id' => $auth->id,
-                    'admin_id' => $admin->id,
                     'sender_id' => $auth->id,
                     'receiver_id' => $admin->id,
                     'sender_type' => 'company',
@@ -305,8 +371,6 @@ class MessageController extends Controller
             if($company) {
                 $message = Message::create([
                     'message' => $request->message,
-                    'admin_id' => $auth->id,
-                    'company_id' => $company->id,
                     'sender_id' => $auth->id,
                     'receiver_id' => $company->id,
                     'sender_type' => 'admin',
@@ -315,8 +379,6 @@ class MessageController extends Controller
             } elseif($trainer) {
                 $message = Message::create([
                     'message' => $request->message,
-                    'admin_id' => $auth->id,
-                    'trainer_id' => $trainer->id,
                     'sender_id' => $auth->id,
                     'receiver_id' => $trainer->id,
                     'sender_type' => 'admin',
@@ -325,8 +387,6 @@ class MessageController extends Controller
             } else {
                 $message = Message::create([
                     'message' => $request->message,
-                    'admin_id' => $auth->id,
-                    'teacher_id' => $teacher->id,
                     'sender_id' => $auth->id,
                     'receiver_id' => $teacher->id,
                     'sender_type' => 'admin',
@@ -415,8 +475,15 @@ class MessageController extends Controller
         if (Auth::guard('admin')->check()) {
         } else {
             if ($auth->students) {
+                if(Auth::guard('trainer')->check()) {
+                    $role = 'trainer';
+                } elseif(Auth::guard('company')->check()) {
+                    $role = 'company';
+                } else {
+                    $role = 'teacher';
+                }
                 foreach ($auth->students as $student) {
-                    $message = $auth->messages()
+                    $message = Message::where($role.'_id', $auth->id)
                         ->where('student_id', $student->id)
                         ->latest('created_at')
                         ->first();
@@ -486,12 +553,28 @@ class MessageController extends Controller
     {
         $admins = Admin::all();
         $output = '';
+        $auth = Auth::user();
 
         if (Auth::guard('admin')->check()) {
-        } else {
+        } elseif(Auth::guard('company')->check() || Auth::guard('teacher')->check()) {
             foreach ($admins as $admin) {
-                $message = Auth::user()->messages()
-                    ->where('admin_id', $admin->id)
+                if(Auth::guard('company')->check()) {
+                    $role = 'company';
+                } else {
+                    $role = 'teacher';
+                }
+                $message = Message::where([
+                        ['sender_id', $auth->id],
+                        ['sender_type', $role],
+                        ['receiver_id', $admin->id],
+                        ['receiver_type', 'admin']
+                    ])
+                    ->orWhere([
+                        ['sender_id', $admin->id],
+                        ['sender_type', 'admin'],
+                        ['receiver_id', $auth->id],
+                        ['receiver_type', $role]
+                    ])
                     ->latest('created_at')
                     ->first();
 
@@ -571,7 +654,20 @@ class MessageController extends Controller
             $time = '';
             $unread = '';
 
-            $message = $auth->messages()->where('company_id', $company->id)->latest('created_at')->first();
+            $message = Message::where([
+                    ['sender_type', 'admin'],
+                    ['sender_id', $auth->id],
+                    ['receiver_type', 'company'],
+                    ['receiver_id', $company->id],
+                ])
+                ->orWhere([
+                    ['sender_type', 'company'],
+                    ['sender_id', $company->id],
+                    ['receiver_type', 'admin'],
+                    ['receiver_id', $auth->id],
+                ])
+                ->latest('created_at')
+                ->first();
 
             if ($message) {
                 $lastMessage = $message->message;
@@ -626,7 +722,20 @@ class MessageController extends Controller
             $time = '';
             $unread = '';
 
-            $message = $auth->messages()->where('teacher_id', $teacher->id)->latest('created_at')->first();
+            $message = Message::where([
+                    ['sender_id', $auth->id],
+                    ['sender_type', 'admin'],
+                    ['receiver_id', $teacher->id],
+                    ['receiver_type', 'teacher'],
+                ])
+                ->orWhere([
+                    ['sender_id', $teacher->id],
+                    ['sender_type', 'teacher'],
+                    ['receiver_id', $auth->id],
+                    ['receiver_type', 'admin'],
+                ])
+                ->latest('created_at')
+                ->first();
 
             if ($message) {
                 $lastMessage = $message->message;
