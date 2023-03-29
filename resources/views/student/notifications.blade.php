@@ -90,7 +90,21 @@
         a:hover {
             text-decoration: none
         }
+
+        @media (min-width: 767px) {
+            .empty-state-img {
+                width: 430px;
+            }
+        }
     </style>
+
+    @if (app()->getLocale()=='ar')
+        <style>
+            .heading-line:after {
+                bottom: -8px;
+            }
+        </style>
+    @endif
 @stop
 @php
     use App\Models\Company;
@@ -102,7 +116,7 @@
 
     <div class="container mt-5">
         <section class="section-50">
-            <h3 class="m-b-50 heading-line">Notifications <i class="fa fa-bell text-muted"></i></h3>
+            <h3 class="m-b-50 heading-line">{{ __('admin.Notifications') }} <i class="fa fa-bell text-muted"></i></h3>
 
             <div class="notification-ui_dd-content">
                 {{-- @dump($noti ); --}}
@@ -155,15 +169,20 @@
                         </div>
                     </a>
                 @empty
-                    <p class=" mt-3 mb-5 text-center">There are no Notifications yet</p>
+                    <div class="text-center">
+                        <img src="{{ asset('studentAssets/img/notifications.jpg') }}" class="img-responsive empty-state-img" alt="">
+                        <h5>{{ __('admin.There is no Notifications.') }}</h5>
+                    </div>
                 @endforelse
 
             </div>
 
 
-            <div class="text-center">
-                <button type="button" class="btn-brand ">Load more activity</button>
-            </div>
+            @if ($auth->notifications->count() > 5)
+                <div class="text-center">
+                    <button type="button" class="btn-brand ">Load more activity</button>
+                </div>
+            @endif
 
         </section>
 

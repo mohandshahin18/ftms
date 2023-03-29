@@ -57,6 +57,7 @@ class Company extends Authenticatable
         return $this->hasMany(Advert::class);
     }
 
+<<<<<<< HEAD
     // with message
     public function messages()
     {
@@ -68,4 +69,6 @@ class Company extends Authenticatable
         {
             return $this->belongsTo(Role::class)->withDefault();
         }
+=======
+>>>>>>> 5fac50ed4736d30afbd2aa4575421f5981d3751c
 }

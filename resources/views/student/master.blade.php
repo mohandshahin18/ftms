@@ -229,8 +229,7 @@
                                                 </a>
                                             </div>
                                         @empty
-                                            <p class=" mt-3 mb-5 text-center " id="no_notification">There are no
-                                                Notifications yet</p>
+                                            <p class=" mt-3 mb-5 text-center " id="no_notification">{{ __('admin.There is no Notifications.') }}</p>
                                         @endforelse
 
 
@@ -396,6 +395,7 @@
         const userId = "{{ Auth::user()->id }}";
         const pusherKey = "{{ env('PUSHER_APP_KEY') }}";
         const readAtUrl = "{{ route('student.read.message') }}";
+        const noMessage = "{{__('admin.There is no Messages')}}";
     </script>
     <script src="{{ asset('studentAssets/js/chat.js') }}"></script>
     <script>

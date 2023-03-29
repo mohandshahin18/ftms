@@ -357,5 +357,7 @@ return [
     "Ability Name"=>"Ability Name",
     "Select" => "Check" ,
     "Select All" => "Select All" ,
+    "There is no Notifications." => "There is no Notifications.",
+    "There is no Messages" => "There is no Messages",
 
 ];

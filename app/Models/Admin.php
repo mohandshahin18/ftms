@@ -32,6 +32,7 @@ class Admin extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+<<<<<<< HEAD
     // with messages
     public function messages()
     {
@@ -43,4 +44,7 @@ class Admin extends Authenticatable
     {
         return $this->belongsTo(Role::class)->withDefault();
     }
+=======
+    
+>>>>>>> 5fac50ed4736d30afbd2aa4575421f5981d3751c
 }

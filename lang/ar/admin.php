@@ -360,4 +360,6 @@ return [
     "Ability Name" => "اسم الصلاحية" ,
     "Select" => "تحديد" ,
     "Select All" => "تحديد الكل" ,
+    "There is no Notifications." => "لا يوجد اشعارات.",
+    "There is no Messages" => "لا يوجد رسائل بعد",
 ];
