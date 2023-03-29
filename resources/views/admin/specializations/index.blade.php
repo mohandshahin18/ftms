@@ -21,11 +21,9 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
+                @can('add_specialization')
                 <div class="card-header">
                     <div class="d-flex  justify-content-between">
-
-
-
 
                         <div class="btn-website">
                             <a title="{{ __('admin.Add Specialization') }}" href="{{ route('admin.specializations.create') }}" class="btn btn-primary"><i
@@ -36,6 +34,7 @@
 
                     </div>
                 </div>
+                @endcan
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
                     <table class="table table-striped  table-hover ">
@@ -43,7 +42,9 @@
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
                                 <th>{{ __('admin.Specialization') }}</th>
+                                @canAny(['delete_specialization','edit_specialization'])
                                 <th>{{ __('admin.Actions') }}</th>
+                                @endcanAny
                             </tr>
                         </thead>
 
@@ -52,17 +53,24 @@
                                 <tr id="row_{{ $specialization->slug }}">
                                     <td>{{ $specialization->id }}</td>
                                     <td>{{ $specialization->name }}</td>
+                                    @canAny(['delete_specialization','edit_specialization'])
                                     <td>
+                                        @can('edit_specialization')
                                         <a title="{{ __('admin.Edit') }}" href="{{ route('admin.specializations.edit', $specialization->slug) }}" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i> </a>
 
+                                        @endcan
+                                        @can('delete_specialization')
                                         <form class="d-inline delete_form"
-                                            action="{{ route('admin.specializations.destroy', $specialization->slug) }}" method="POST">
-                                            @csrf
-                                            @method('delete')
-                                            <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"
-                                                   ></i> </button>
-                                        </form>
+                                        action="{{ route('admin.specializations.destroy', $specialization->slug) }}" method="POST">
+                                        @csrf
+                                        @method('delete')
+                                        <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"
+                                               ></i> </button>
+                                    </form>
+                                        @endcan
+
                                     </td>
+                                    @endcanAny
                                 </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">

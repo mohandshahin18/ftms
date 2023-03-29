@@ -261,10 +261,12 @@ html {
                             <i class="fas fa-key mr-2 text-secondary"></i> {{ __('admin.Edit Password') }}
                         </a>
 
+                        @can('settings')
                         <a href="{{ route('admin.settings') }}" class="dropdown-item text-secondary mb-2">
                             <i class="fas fa-cog mr-2 text-secondary"></i>{{ __('admin.Settings') }}
                         </a>
 
+                        @endcan
                         @if(auth('teacher')->check())
                             <form method="GET" action="{{ route('logout','teacher') }}"></form>
                                 <a href="{{ route('logout','teacher') }}" class="dropdown-item text-secondary">
@@ -378,111 +380,136 @@ html {
                         </li>
 
 
-                        <li class="nav-item @yield('admins-menu-open')">
-                            <a href="#" class="nav-link @yield('admins-active')">
-                                <i class="fas fa-user-shield nav-icon"></i>
-                                <p>
-                                    {{ __('admin.Admins') }}
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
+                        @canAny(['add_admin','all_admins'])
+                       <li class="nav-item @yield('admins-menu-open')">
+                        <a href="#" class="nav-link @yield('admins-active')">
+                            <i class="fas fa-user-shield nav-icon"></i>
+                            <p>
+                                {{ __('admin.Admins') }}
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                           @can('all_admins')
                                 <li class="nav-item">
                                     <a href="{{ route('admin.admins.index') }}" class="nav-link @yield('index-admin-active')">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>{{ __('admin.All Admins') }}</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.admins.create') }}" class="nav-link @yield('add-admin-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.Add Admin') }}</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-item @yield('universities-menu-open')">
-                            <a href="#" class="nav-link @yield('universities-active')">
-                                <i class="nav-icon fas fa-university"></i>
-                                <p>
-                                    {{ __('admin.Universities') }}
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
+                           @endcan
+                           @can('add_admin')
+                           <li class="nav-item">
+                            <a href="{{ route('admin.admins.create') }}" class="nav-link @yield('add-admin-active')">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>{{ __('admin.Add Admin') }}</p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.universities.index') }}"
-                                        class="nav-link @yield('index-university-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.All Universities') }}</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.universities.create') }}"
-                                        class="nav-link @yield('add-university-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.Add University') }}</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                            </li>
+                           @endcan
+                        </ul>
+                    </li>
+                       @endcanAny
 
-
-                        <li class="nav-item @yield('specializations-menu-open')">
-                            <a href="#" class="nav-link @yield('specializations-active')">
-                                <i class="nav-icon fas fa-graduation-cap"></i>
-                                <p>
-                                    {{ __('admin.Specializations') }}
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
+                       @canAny(['all_universities','add_university'])
+                       <li class="nav-item @yield('universities-menu-open')">
+                        <a href="#" class="nav-link @yield('universities-active')">
+                            <i class="nav-icon fas fa-university"></i>
+                            <p>
+                                {{ __('admin.Universities') }}
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                           @can('all_universities')
+                           <li class="nav-item">
+                            <a href="{{ route('admin.universities.index') }}"
+                                class="nav-link @yield('index-university-active')">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>{{ __('admin.All Universities') }}</p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.specializations.index') }}"
-                                        class="nav-link @yield('index-specialization-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.All Specializations') }}</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.specializations.create') }}"
-                                        class="nav-link @yield('add-specialization-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.Add Specialization') }}</p>
-                                    </a>
-                                </li>
-                            </ul>
                         </li>
+                           @endcan
+
+                            @can('add_university')
+                            <li class="nav-item">
+                                <a href="{{ route('admin.universities.create') }}"
+                                    class="nav-link @yield('add-university-active')">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>{{ __('admin.Add University') }}</p>
+                                </a>
+                            </li>
+                            @endcan
+                        </ul>
+                    </li>
+
+                       @endcanAny
 
 
-                        <li class="nav-item @yield('teachers-menu-open')">
-                            <a href="#" class="nav-link @yield('teachers-active')">
-                                <i class="nav-icon fas fa-chalkboard-teacher"></i>
-                                <p>
-                                    {{ __('admin.Teachers') }}
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
+                       @canAny(['add_specialization','all_specializations'])
+                       <li class="nav-item @yield('specializations-menu-open')">
+                        <a href="#" class="nav-link @yield('specializations-active')">
+                            <i class="nav-icon fas fa-graduation-cap"></i>
+                            <p>
+                                {{ __('admin.Specializations') }}
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                           @can('all_specializations')
+                           <li class="nav-item">
+                            <a href="{{ route('admin.specializations.index') }}"
+                                class="nav-link @yield('index-specialization-active')">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>{{ __('admin.All Specializations') }}</p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.teachers.index') }}"
-                                        class="nav-link @yield('index-teacher-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.All Teachers') }}</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.teachers.create') }}"
-                                        class="nav-link @yield('add-teacher-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.Add Teacher') }}</p>
-                                    </a>
-                                </li>
-                            </ul>
                         </li>
+                           @endcan
+                            @can('add_specialization')
+                            <li class="nav-item">
+                                <a href="{{ route('admin.specializations.create') }}"
+                                    class="nav-link @yield('add-specialization-active')">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>{{ __('admin.Add Specialization') }}</p>
+                                </a>
+                            </li>
+                            @endcan
+                        </ul>
+                    </li>
+                       @endcanAny
+                       @canAny(['add_teacher','all_teachers'])
 
+                       <li class="nav-item @yield('teachers-menu-open')">
+                        <a href="#" class="nav-link @yield('teachers-active')">
+                            <i class="nav-icon fas fa-chalkboard-teacher"></i>
+                            <p>
+                                {{ __('admin.Teachers') }}
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @can('all_teachers')
+                            <li class="nav-item">
+                                <a href="{{ route('admin.teachers.index') }}"
+                                    class="nav-link @yield('index-teacher-active')">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>{{ __('admin.All Teachers') }}</p>
+                                </a>
+                            </li>
+                            @endcan
+                            @can('add_teacher')
+                            <li class="nav-item">
+                                <a href="{{ route('admin.teachers.create') }}"
+                                    class="nav-link @yield('add-teacher-active')">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>{{ __('admin.Add Teacher') }}</p>
+                                </a>
+                            </li>
+                            @endcan
+                        </ul>
+                    </li>
+                       @endcanAny
 
+                        @canAny(['add_program','all_programs'])
 
                         <li class="nav-item @yield('categories-menu-open')">
                             <a href="#" class="nav-link @yield('categories-active')">
@@ -493,6 +520,7 @@ html {
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
+                                @can('all_programs')
                                 <li class="nav-item">
                                     <a href="{{ route('admin.categories.index') }}"
                                         class="nav-link @yield('index-category-active')">
@@ -500,15 +528,21 @@ html {
                                         <p>{{ __('admin.All Programs') }}</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.categories.create') }}"
-                                        class="nav-link @yield('add-category-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.Add Program') }} </p>
-                                    </a>
-                                </li>
+                                @endcan
+                               @can('add_program')
+                               <li class="nav-item">
+                                <a href="{{ route('admin.categories.create') }}"
+                                    class="nav-link @yield('add-category-active')">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>{{ __('admin.Add Program') }} </p>
+                                </a>
+                            </li>
+
+                               @endcan
                             </ul>
                         </li>
+                        @endcanAny
+                        @canAny(['all_companies','add_company'])
 
                         <li class="nav-item @yield('companies-menu-open')">
                             <a href="#" class="nav-link @yield('companies-active')">
@@ -519,6 +553,7 @@ html {
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
+                                @can('all_companies')
                                 <li class="nav-item">
                                     <a href="{{ route('admin.companies.index') }}"
                                         class="nav-link @yield('index-company-active')">
@@ -526,6 +561,8 @@ html {
                                         <p>{{ __('admin.All Companies') }}</p>
                                     </a>
                                 </li>
+                                @endcan
+                                @can('add_company')
                                 <li class="nav-item">
                                     <a href="{{ route('admin.companies.create') }}"
                                         class="nav-link @yield('add-company-active')">
@@ -533,9 +570,11 @@ html {
                                         <p>{{ __('admin.Add Company') }}</p>
                                     </a>
                                 </li>
+                                @endcan
                             </ul>
                         </li>
-
+                        @endcanAny
+                        @canAny(['add_trainer','all_trainers'])
 
                         <li class="nav-item @yield('trainers-menu-open')">
                             <a href="#" class="nav-link @yield('trainers-active')">
@@ -546,6 +585,7 @@ html {
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
+                                @can('all_trainers')
                                 <li class="nav-item">
                                     <a href="{{ route('admin.trainers.index') }}"
                                         class="nav-link @yield('index-trainer-active')">
@@ -553,16 +593,19 @@ html {
                                         <p>{{ __('admin.All Trainers') }}</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.trainers.create') }}"
-                                        class="nav-link @yield('add-trainer-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.Add Trainer') }}</p>
-                                    </a>
-                                </li>
+                                @endcan
+                               @can('add_trainer')
+                               <li class="nav-item">
+                                <a href="{{ route('admin.trainers.create') }}"
+                                    class="nav-link @yield('add-trainer-active')">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>{{ __('admin.Add Trainer') }}</p>
+                                </a>
+                            </li>
+                               @endcan
                             </ul>
                         </li>
-
+                        @endcanAny
                         @if (Auth::guard('trainer')->check())
                         <li class="nav-item @yield('tasks-menu-open')">
                             <a href="#" class="nav-link @yield('tasks-active')">
@@ -590,61 +633,72 @@ html {
                         @endif
 
 
-                        <li class="nav-item @yield('evaluations-menu-open')">
-                            <a href="#" class="nav-link @yield('evaluations-active')">
-                                {{-- <i class="fas fa-file-chart-line"></i> --}}
-                                <i class="fas fa-file-signature nav-icon"></i>
-                                <p>
-                                    {{ __('admin.Evaluations') }}
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
+                      @canAny(['all_evaluations','add_evaluation'])
+                      <li class="nav-item @yield('evaluations-menu-open')">
+                        <a href="#" class="nav-link @yield('evaluations-active')">
+                            {{-- <i class="fas fa-file-chart-line"></i> --}}
+                            <i class="fas fa-file-signature nav-icon"></i>
+                            <p>
+                                {{ __('admin.Evaluations') }}
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                           @can('all_evaluations')
+                           <li class="nav-item">
+                            <a href="{{ route('admin.evaluations.index') }}"
+                                class="nav-link @yield('index-evaluations-active')">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>{{ __('admin.All Evaluations') }}</p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.evaluations.index') }}"
-                                        class="nav-link @yield('index-evaluations-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.All Evaluations') }}</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.evaluations.create') }}"
-                                        class="nav-link @yield('add-evaluations-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.Add Evaluation') }}</p>
-                                    </a>
-                                </li>
-                            </ul>
                         </li>
+                           @endcan
+                            @can('add_evaluation')
+                            <li class="nav-item">
+                                <a href="{{ route('admin.evaluations.create') }}"
+                                    class="nav-link @yield('add-evaluations-active')">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>{{ __('admin.Add Evaluation') }}</p>
+                                </a>
+                            </li>
+                            @endcan
+                        </ul>
+                    </li>
+                      @endcanAny
 
+                      @canAny(['all_university_ids','add_university_id'])
 
-
-                        <li class="nav-item @yield('subscribes-menu-open')">
-                            <a href="#" class="nav-link @yield('subscribes-active')">
-                                <i class="fas fa-file-signature nav-icon"></i>
-                                <p>
-                                    {{ __('admin.University IDs') }}
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
+                      <li class="nav-item @yield('subscribes-menu-open')">
+                        <a href="#" class="nav-link @yield('subscribes-active')">
+                            <i class="fas fa-file-signature nav-icon"></i>
+                            <p>
+                                {{ __('admin.University IDs') }}
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                           @can('all_university_ids')
+                           <li class="nav-item">
+                            <a href="{{ route('admin.subscribes.index') }}"
+                                class="nav-link @yield('index-subscribes-active')">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>{{ __('admin.All University IDs') }}</p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.subscribes.index') }}"
-                                        class="nav-link @yield('index-subscribes-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.All University IDs') }}</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.subscribes.create') }}"
-                                        class="nav-link @yield('add-subscribe-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.Add University ID') }}</p>
-                                    </a>
-                                </li>
-                            </ul>
                         </li>
-
+                           @endcan
+                           @can('add_university_id')
+                           <li class="nav-item">
+                            <a href="{{ route('admin.subscribes.create') }}"
+                                class="nav-link @yield('add-subscribe-active')">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>{{ __('admin.Add University ID') }}</p>
+                            </a>
+                        </li>
+                           @endcan
+                        </ul>
+                    </li>
+                      @endcanAny
+                        @canAny(['all_adverts','add_advert'])
 
                         <li class="nav-item @yield('adverts-menu-open')">
                             <a href="#" class="nav-link @yield('adverts-active')">
@@ -655,13 +709,16 @@ html {
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.adverts.index') }}"
-                                        class="nav-link @yield('index-adverts-active')">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ __('admin.All Adverts') }}</p>
-                                    </a>
-                                </li>
+                               @can('all_adverts')
+                               <li class="nav-item">
+                                <a href="{{ route('admin.adverts.index') }}"
+                                    class="nav-link @yield('index-adverts-active')">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>{{ __('admin.All Adverts') }}</p>
+                                </a>
+                            </li>
+                               @endcan
+                                @can('add_advert')
                                 <li class="nav-item">
                                     <a href="{{ route('admin.adverts.create') }}"
                                         class="nav-link @yield('add-subscribe-active')">
@@ -669,18 +726,54 @@ html {
                                         <p>{{ __('admin.Add Advert') }}</p>
                                     </a>
                                 </li>
+                                @endcan
                             </ul>
                         </li>
+                        @endcanAny
 
 
                         <li class="nav-item @yield('students-menu-open')">
                             <a href="{{ route('admin.students.index') }}" class="nav-link @yield('students-active')">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
-                                    {{ __('admin.Students') }}
+                                    {{ __('admin.All Students') }}
                                 </p>
                             </a>
                         </li>
+
+                      @canAny(['add_role','all_roles'])
+                      <li class="nav-item @yield('roles-menu-open')">
+                        <a href="#" class="nav-link @yield('roles-active')">
+                            <i class="fas fa-user-lock"></i>
+                            <p>
+                                {{ __('admin.Roles') }}
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @can('all_roles')
+                            <li class="nav-item">
+                                <a href="{{ route('admin.roles.index') }}"
+                                    class="nav-link @yield('index-roles-active')">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>{{ __('admin.All Roles') }}</p>
+                                </a>
+                            </li>
+                            @endcan
+                           @can('add_role')
+                           <li class="nav-item">
+                            <a href="{{ route('admin.roles.create') }}"
+                                class="nav-link @yield('add-role-active')">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>{{ __('admin.Add Role') }}</p>
+                            </a>
+                        </li>
+                           @endcan
+                        </ul>
+                    </li>
+                      @endcanAny
+
+
 
 
                     </ul>

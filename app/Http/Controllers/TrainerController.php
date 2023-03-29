@@ -12,6 +12,7 @@ use App\Models\CategoryCompany;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\TrainerRequest;
 
@@ -24,6 +25,8 @@ class TrainerController extends Controller
      */
     public function index()
     {
+        Gate::authorize('all_trainers');
+
         $trainers = Trainer::with('company')->latest('id')->paginate(env('PAGINATION_COUNT'));
         return view('admin.trainers.index', compact('trainers'));
     }
@@ -35,6 +38,8 @@ class TrainerController extends Controller
      */
     public function create()
     {
+        Gate::authorize('add_trainer');
+
         $companies = Company::get();
         $categories = Category::get();
         return view('admin.trainers.create', compact('companies','categories'));
@@ -48,7 +53,6 @@ class TrainerController extends Controller
      */
     public function store(TrainerRequest $request)
     {
-        dd("ok");
         $path = $request->file('image')->store('/uploads/trainer', 'custom');
 
         $slug = Str::slug($request->name);
@@ -126,6 +130,8 @@ class TrainerController extends Controller
      */
     public function destroy($slug)
     {
+        Gate::authorize('delete_trainer');
+
         $trainer = Trainer::whereSlug($slug)->first();
         if(public_path($trainer->image)) {
             try {

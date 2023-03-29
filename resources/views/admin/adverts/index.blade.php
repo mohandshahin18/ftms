@@ -30,20 +30,18 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
+                @can('add_advert')
                 <div class="card-header">
                     <div class="d-flex  justify-content-between">
-
-
 
                         <div class="btn-website ">
                             <a title="{{ __('admin.Add New Advert') }}" href="{{ route('admin.adverts.create') }}" class="btn btn-primary"><i
                                     class="fas fa-plus"></i> {{ __('admin.Add New Advert') }}</a>
 
-
-
                         </div>
                     </div>
                 </div>
+                @endcan
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
                     <table class="table table-striped  table-hover ">
@@ -55,7 +53,9 @@
                                 <th>{{ __('admin.Image') }}</th>
                                 <th>{{ __('admin.Created at') }}</th>
 
-                                <th>{{ __('admin.Actions') }}</th>
+                               @canAny(['delete_advert','edit_advert'])
+                               <th>{{ __('admin.Actions') }}</th>
+                               @endcan
                             </tr>
                         </thead>
 
@@ -67,19 +67,25 @@
                                     <td>{{ Str::words(strip_tags(html_entity_decode($advert->sub_title)), 4, '...') }}</td>
                                     <td><img src="{{ asset($advert->image) }}" style="object-fit: cover" alt="" width="80" height="80"></td>
                                     <td>{{ $advert->created_at->diffForHumans() }}</td>
+                                    @canAny(['delete_advert','edit_advert'])
 
                                     <td>
+                                        @can('edit_advert')
                                         <a href="{{ route('admin.adverts.edit',$advert->id) }}" title="{{ __('admin.Edit') }}" type="button" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i>
                                         </a>
-                                        <form class="d-inline delete_form"
-                                            action="{{ route('admin.adverts.destroy', $advert->id) }}"
-                                            method="POST">
-                                            @csrf
-                                            @method('delete')
-                                            <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
+                                        @endcan
+                                       @can('delete_advert')
+                                       <form class="d-inline delete_form"
+                                       action="{{ route('admin.adverts.destroy', $advert->id) }}"
+                                       method="POST">
+                                       @csrf
+                                       @method('delete')
+                                       <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i>
+                                       </button>
+                                   </form>
+                                       @endcan
                                     </td>
+                                    @endcan
                                 </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">

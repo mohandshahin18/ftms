@@ -73,7 +73,7 @@ return [
     "Return Back" => "رجوع للخف",
     "Student Evaluation" => "تقييم الطالب",
     "Evaluation Page" => "صفحة التقييم",
-    "Students" => "الطلاب",
+    "All Students" => "كل الطلاب",
     "Recycle Bin" => "سلة المحذوفات",
     "Search by Student Name" => "ابحث عن اسم الطالب أو رقمه",
     "Evaluated" => "تم التقييم",
@@ -348,6 +348,16 @@ return [
     "Email verified" => " تم التحقق من البريد الإلكتروني",
     "Your email is already verified." => "تم التحقق من بريدك الإلكتروني بالفعل .",
     "OK"=>"موافق",
-
-
+    "Roles"=>"الأدوار",
+    "Add Role"=>"إضافة دور",
+    "Add New Role"=>"إضاة دور جديدة",
+    "All Roles"=>"كل الأدوار",
+    "Role Name" => "اسم الدور",
+    "Role has been added successfully"=>"تم إضافة الدور بنجاح",
+    "Edit Role"=>"تعديل الدور",
+    "Role has been updated successfully"=>"تم تعديل الدور بنجاح",
+    "Abilities Count" => "عدد الصلاحيات" ,
+    "Ability Name" => "اسم الصلاحية" ,
+    "Select" => "تحديد" ,
+    "Select All" => "تحديد الكل" ,
 ];

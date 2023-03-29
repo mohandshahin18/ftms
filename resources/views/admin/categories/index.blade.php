@@ -12,6 +12,14 @@
         .modal-body {
             height: 150px;
         }
+
+        .modal-body::-webkit-scrollbar {
+            display: none;
+        }
+        .modal-body {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
     </style>
 @stop
 
@@ -20,24 +28,30 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header">
-                    <div class="d-flex  justify-content-between">
+               @canAny(['recycle_programs','add_program'])
+               <div class="card-header">
+                <div class="d-flex  justify-content-between">
 
-                        <div class="card-tools">
-                            <a title="{{ __('admin.Add Program') }}" href="{{ route('admin.categories.create') }}" class="btn btn-primary"><i
-                                class="fas fa-plus"></i> {{ __('admin.Add Program') }}</a>
-                        </div>
-
-
-                        <div class="btn-website">
-
-                            <a title="{{ __('admin.Recycle Bin') }}" href="{{ route('admin.categories.trash') }}" class="btn btn-outline-secondary"><i
-                                    class="fas fa-trash"></i> {{ __('admin.Recycle Bin') }}</a>
-                        </div>
-
-
+                    <div class="card-tools">
+                        @can('add_program')
+                        <a title="{{ __('admin.Add Program') }}" href="{{ route('admin.categories.create') }}" class="btn btn-primary"><i
+                            class="fas fa-plus"></i> {{ __('admin.Add Program') }}</a>
+                        @endcan
                     </div>
+
+                    @can('recycle_programs')
+
+                    <div class="btn-website">
+
+                        <a title="{{ __('admin.Recycle Bin') }}" href="{{ route('admin.categories.trash') }}" class="btn btn-outline-secondary"><i
+                                class="fas fa-trash"></i> {{ __('admin.Recycle Bin') }}</a>
+                    </div>
+
+                    @endcan
+
                 </div>
+            </div>
+               @endcan
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
                     <table class="table table-striped  table-hover ">
@@ -46,7 +60,9 @@
                                 <th>#</th>
                                 <th>{{ __('admin.Program Name') }}</th>
                                 <th>{{ __('admin.Companies no.') }}</th>
+                                @canAny(['edit_program','delete_program'])
                                 <th>{{ __('admin.Actions') }}</th>
+                                @endcan
                             </tr>
                         </thead>
 
@@ -56,19 +72,25 @@
                                     <td>{{ $category->id }}</td>
                                     <td>{{ $category->name }}</td>
                                     <td>{{ $category->companies->count() }}</td>
+                                    @canAny(['edit_program','delete_program'])
                                     <td>
-                                        <button title="{{ __('admin.Edit') }}" type="button" class="btn btn-primary btn-sm btn-edit" data-toggle="modal"
-                                            data-target="#editCategory" data-name="{{ $category->name }}"
-                                            data-url="{{ route('admin.categories.update', $category->slug) }}"> <i
-                                                class="fas fa-edit"></i> </button>
+                                       @can('edit_program')
+                                       <button title="{{ __('admin.Edit') }}" type="button" class="btn btn-primary btn-sm btn-edit" data-toggle="modal"
+                                       data-target="#editCategory" data-name="{{ $category->name }}"
+                                       data-url="{{ route('admin.categories.update', $category->slug) }}"> <i
+                                           class="fas fa-edit"></i> </button>
+                                       @endcan
+                                        @can('delete_program')
                                         <form class="d-inline delete_form"
-                                            action="{{ route('admin.categories.destroy', $category->slug) }}" method="POST">
-                                            @csrf
-                                            @method('delete')
-                                            <button title="{{ __('admin.Move to recycle bin') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"
-                                                    data-totalPost="{{ $categories->total() }}"></i> </button>
-                                        </form>
+                                        action="{{ route('admin.categories.destroy', $category->slug) }}" method="POST">
+                                        @csrf
+                                        @method('delete')
+                                        <button title="{{ __('admin.Move to recycle bin') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"
+                                                data-totalPost="{{ $categories->total() }}"></i> </button>
+                                    </form>
+                                        @endcan
                                     </td>
+                                    @endcanAny
                                 </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">
@@ -125,7 +147,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('admin.Close') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('admin.Save Edit') }}</button>
+                        <button type="submit" class="btn btn-primary btn-save">{{ __('admin.Save Edit') }}</button>
                     </div>
 
                 </form>
@@ -196,7 +218,6 @@
                         icon: 'success',
                         title: '{{ __('admin.Program has been updated successfully') }}'
                     });
-                    $('#editCategory').modal('hide');
                 },
                 error: function(err) {
                     $('#editCategory .alert ul').html('');
@@ -211,6 +232,16 @@
 
         });
 
+
+          // to close the modal when click to save button
+          $(document).ready(function(){
+
+                $('.btn-save').on("click", function(){
+                    $(this).prev().click();
+
+                })
+
+            });
 
     </script>
 

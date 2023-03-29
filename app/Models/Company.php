@@ -62,4 +62,10 @@ class Company extends Authenticatable
     {
         return $this->hasMany(Message::class);
     }
+
+        // with role
+        public function role()
+        {
+            return $this->belongsTo(Role::class)->withDefault();
+        }
 }

@@ -7,8 +7,9 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Specialization;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\CssSelector\Node\Specificity;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\UniversityRequest;
+use Symfony\Component\CssSelector\Node\Specificity;
 
 class UniversityController extends Controller
 {
@@ -19,6 +20,8 @@ class UniversityController extends Controller
      */
     public function index()
     {
+        Gate::authorize('all_universities');
+
         $universities = University::latest('id')->paginate(env('PAGINATION_COUNT '));
 
         return view('admin.universities.index' , compact('universities'));
@@ -31,6 +34,8 @@ class UniversityController extends Controller
      */
     public function create()
     {
+        Gate::authorize('add_university');
+
         $specializations = Specialization::all();
         return view('admin.universities.create', compact('specializations'));
     }
@@ -84,6 +89,8 @@ class UniversityController extends Controller
      */
     public function edit(University $university)
     {
+        Gate::authorize('edit_university');
+
         $attached_specializations = $university->specializations()->get()->map(function($specialization) {
             return $specialization->id;
         })->toArray();
@@ -133,6 +140,8 @@ class UniversityController extends Controller
      */
     public function destroy($slug)
     {
+        Gate::authorize('delete_university');
+
         $universities = University::whereSlug($slug)->first();
         $universities->delete();
         return $slug;

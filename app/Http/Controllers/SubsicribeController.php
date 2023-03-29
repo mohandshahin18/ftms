@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Specialization;
 use App\Imports\ImportUniversityId;
+use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
 
 class SubsicribeController extends Controller
@@ -19,6 +20,8 @@ class SubsicribeController extends Controller
      */
     public function index()
     {
+        Gate::authorize('all_university_ids');
+
         $subscribes = Subsicribe::latest('id')->paginate(env('PAGINATION_COUNT'));
 
         return view('admin.subscribes.index' , compact('subscribes'));
@@ -31,6 +34,7 @@ class SubsicribeController extends Controller
      */
     public function create()
     {
+        Gate::authorize('add_university_id');
 
         $specializations = Specialization::get();
         $universities = University::get();
@@ -71,6 +75,8 @@ class SubsicribeController extends Controller
      */
     public function import()
     {
+        Gate::authorize('import_university_id');
+
         return view('admin.subscribes.importUniversityId');
 
     }
@@ -111,6 +117,8 @@ class SubsicribeController extends Controller
      */
     public function edit($id)
     {
+        Gate::authorize('edit_university_id');
+
         $subsicribe = Subsicribe::where('id',$id)->first();
         $specializations = Specialization::get();
         $universities = University::get();
@@ -156,6 +164,8 @@ class SubsicribeController extends Controller
      */
     public function destroy($id)
     {
+        Gate::authorize('delete_university_id');
+
         $subscribes= Subsicribe::where('id',$id)->first();
 
         $subscribes->destroy($id);

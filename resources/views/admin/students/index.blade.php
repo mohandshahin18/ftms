@@ -136,12 +136,14 @@
                         </div>
 
 
-                        <div class="btn-website">
+                       @can('recycle_students')
+                       <div class="btn-website">
 
-                            <a href="{{ route('admin.students.trash') }}" class="btn btn-outline-secondary"><i
-                                    class="fas fa-trash"></i> {{ __('admin.Recycle Bin') }}</a>
-                        </div>
+                        <a href="{{ route('admin.students.trash') }}" class="btn btn-outline-secondary"><i
+                                class="fas fa-trash"></i> {{ __('admin.Recycle Bin') }}</a>
+                    </div>
 
+                       @endcan
 
                     </div>
                 </div>
@@ -157,7 +159,9 @@
                                 <th>{{ __('admin.University Name') }}</th>
                                 <th>{{ __('admin.Specialization') }}</th>
                                 <th>{{ __('admin.Evaluation Status') }}</th>
+                                @canAny(['evaluate_student','evaluation_student','delete_student'])
                                 <th>{{ __('admin.Actions') }}</th>
+                                @endcanAny
                             </tr>
                         </thead>
 
@@ -190,38 +194,43 @@
 
                                         @endif
                                     </td>
+                                    @canAny(['evaluate_student','evaluation_student','delete_student'])
                                     <td>
                                         <div>
-                                            @if ($isEvaluated)
-                                                <a title="{{ __('admin.Evaluation') }}" href="{{ route('admin.show_evaluation', $student->slug) }}"
-                                                    class="btn btn-info btn-sm" data-disabled="true"
-                                                    title="show evaluation">{{ __('admin.Evaluation') }}</a>
-                                            @else
-                                                <a title="{{ __('admin.Evaluate') }}" href="{{ route('admin.students.show', $student->slug) }}"
-                                                    class="btn btn-sm  btn-outline-secondary" data-disabled="true"
-                                                    title="evaluate">{{ __('admin.Evaluate') }}</a>
-                                            @endif
-                                            @if (Auth::guard('company')->check())
-                                                <form class="d-inline delete_form"
-                                                    action="{{ route('admin.students.delete.from.company', $student->slug) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i
-                                                            class="fas fa-trash"></i> </button>
-                                                </form>
-                                            @else
-                                                <form class="d-inline delete_form"
-                                                    action="{{ route('admin.students.destroy', $student->slug) }}"method="POST">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button title="{{ __('admin.Move to recycle bin') }}" class="btn btn-danger btn-sm btn-delete"> <i
-                                                            class="fas fa-trash"></i> </button>
-                                                </form>
-                                            @endif
-                                                <a href="{{ route('admin.messages', $student->slug) }}" class="btn btn-sm"><i class="fas fa-paper-plane"></i></a>
+                                           @canAny(['evaluate_student','evaluation_student'])
+                                           @if ($isEvaluated)
+                                           <a title="{{ __('admin.Evaluation') }}" href="{{ route('admin.show_evaluation', $student->slug) }}"
+                                               class="btn btn-info btn-sm" data-disabled="true"
+                                               title="show evaluation">{{ __('admin.Evaluation') }}</a>
+                                       @else
+                                           <a title="{{ __('admin.Evaluate') }}" href="{{ route('admin.students.show', $student->slug) }}"
+                                               class="btn btn-sm  btn-outline-secondary" data-disabled="true"
+                                               title="evaluate">{{ __('admin.Evaluate') }}</a>
+                                       @endif
+                                           @endcanAny
+                                           @can('delete_student')
+                                           @if (Auth::guard('company')->check())
+                                           <form class="d-inline delete_form"
+                                               action="{{ route('admin.students.delete.from.company', $student->slug) }}"
+                                               method="POST">
+                                               @csrf
+                                               @method('delete')
+                                               <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i
+                                                       class="fas fa-trash"></i> </button>
+                                           </form>
+                                       @else
+                                           <form class="d-inline delete_form"
+                                               action="{{ route('admin.students.destroy', $student->slug) }}"method="POST">
+                                               @csrf
+                                               @method('delete')
+                                               <button title="{{ __('admin.Move to recycle bin') }}" class="btn btn-danger btn-sm btn-delete"> <i
+                                                       class="fas fa-trash"></i> </button>
+                                           </form>
+                                       @endif
+                                           @endcan
                                         </div>
                                     </td>
+                                    @endcanAny
                                 </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">

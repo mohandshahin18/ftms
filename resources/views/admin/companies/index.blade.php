@@ -35,10 +35,18 @@
                          </div>
 
 
-                        <div class="btn-website ">
-                            <a title="{{ __('admin.Add Company') }}" href="{{ route('admin.companies.create') }}" class="btn btn-primary btn-flat"><i class="fas fa-plus"></i> {{ __('admin.Add Company') }}</a>
-                            <a title="{{ __('admin.Trashed Companies') }}" href="{{ route('admin.companies.trash') }}" class="btn btn-outline-secondary btn-flat"><i class="fas fa-trash"></i> {{ __('admin.Recycle Bin') }}</a>
-                        </div>
+                       @canAny(['add_company','recycle_companies'])
+                       <div class="btn-website ">
+                        @can('add_company')
+                        <a title="{{ __('admin.Add Company') }}" href="{{ route('admin.companies.create') }}" class="btn btn-primary btn-flat"><i class="fas fa-plus"></i> {{ __('admin.Add Company') }}</a>
+
+                        @endcan
+                        @can('recycle_companies')
+                        <a title="{{ __('admin.Trashed Companies') }}" href="{{ route('admin.companies.trash') }}" class="btn btn-outline-secondary btn-flat"><i class="fas fa-trash"></i> {{ __('admin.Recycle Bin') }}</a>
+
+                        @endcan
+                    </div>
+                       @endcanAny
 
 
                     </div>
@@ -54,7 +62,9 @@
                                 <th>{{ __('admin.Email') }}</th>
                                 <th>{{ __('admin.Phone') }}</th>
                                 <th>{{ __('admin.Created at') }}</th>
-                                <th>{{ __('admin.Actions') }}</th>
+                               @canAny(['edit_company','delete_company'])
+                               <th>{{ __('admin.Actions') }}</th>
+                               @endcanAny
                             </tr>
                         </thead>
                         <tbody>
@@ -66,18 +76,24 @@
                                     <td>{{ $company->email }}</td>
                                     <td>{{ $company->phone }}</td>
                                     <td>{{ $company->created_at->toDateString() }}</td>
+                                    @canAny(['edit_company','delete_company'])
                                     <td>
                                         <div style="display: flex; gap: 5px" class="">
-                                          <a title="{{ __('admin.Edit') }}" href="{{ route('admin.companies.edit', $company->slug) }}" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i> </a>
+                                            @can('edit_company')
+                                            <a title="{{ __('admin.Edit') }}" href="{{ route('admin.companies.edit', $company->slug) }}" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i> </a>
 
-                                          <form class="delete_form" method="POST" action="{{ route('admin.companies.destroy', $company->slug) }}">
+                                            @endcan
+                                         @can('delete_company')
+                                         <form class="delete_form" method="POST" action="{{ route('admin.companies.destroy', $company->slug) }}">
                                             @csrf
                                             @method('delete')
                                             <button title="{{ __('admin.Move to recycle bin') }}" class="btn btn-danger btn-sm delete_btn"> <i class="fas fa-trash"></i> </button>
                                           </form>
+                                         @endcan
                                         </div>
 
                                     </td>
+                                      @endcanAny
                                 </tr>
                             @empty
                               <td colspan="12" style="text-align: center">

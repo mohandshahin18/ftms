@@ -6,6 +6,7 @@ use App\Models\University;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Specialization;
+use Illuminate\Support\Facades\Gate;
 
 class SpecializationsController extends Controller
 {
@@ -16,6 +17,8 @@ class SpecializationsController extends Controller
      */
     public function index()
     {
+        Gate::authorize('all_specializations');
+
         $specializations = Specialization::latest('id')->paginate(env('PAGINATION_COUNT'));
         return view('admin.specializations.index',compact('specializations'));
     }
@@ -27,6 +30,8 @@ class SpecializationsController extends Controller
      */
     public function create()
     {
+        Gate::authorize('add_specialization');
+
         return view('admin.specializations.create');
     }
 
@@ -80,6 +85,8 @@ class SpecializationsController extends Controller
      */
     public function edit($slug)
     {
+        Gate::authorize('edit_specialization');
+
         $specialization = Specialization::whereSlug($slug)->first();
         return view('admin.specializations.edit', compact('specialization'));
     }
@@ -129,6 +136,8 @@ class SpecializationsController extends Controller
      */
     public function destroy($slug)
     {
+        Gate::authorize('delete_specialization');
+
         $specialization = Specialization::whereSlug($slug)->first();
         $specialization->destroy($specialization->id);
         return $slug;

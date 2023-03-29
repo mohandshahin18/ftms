@@ -15,20 +15,16 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
+                @can('add_admin')
                 <div class="card-header">
                     <div class="d-flex  justify-content-between">
-
-
-
-
                         <div class="btn-website">
                             <a title="{{ __('admin.Add Admin') }}" href="{{ route('admin.admins.create') }}" class="btn btn-primary"><i
                                     class="fas fa-plus"></i> {{ __('admin.Add Admin') }}</a>
                         </div>
-
-
                     </div>
                 </div>
+                @endcan
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
                     <table class="table table-striped  table-hover ">
@@ -38,7 +34,9 @@
                                 <th>{{ __('admin.Admin Name') }}</th>
                                 <th>{{ __('admin.Email') }}</th>
                                 <th>{{ __('admin.Phone') }}</th>
+                                 @can('delete_admin')
                                 <th>{{ __('admin.Actions') }}</th>
+                                @endcan
                             </tr>
                         </thead>
 
@@ -49,6 +47,7 @@
                                     <td>{{ $admin->name }}</td>
                                     <td>{{ $admin->email }}</td>
                                     <td>{{ $admin->phone }}</td>
+                                    @can('delete_admin')
                                     <td>
                                         <form class="d-inline delete_form" action="{{ route('admin.admins.destroy', $admin->slug) }}" method="POST">
                                             @csrf
@@ -56,6 +55,7 @@
                                             <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i> </button>
                                         </form>
                                     </td>
+                                    @endcan
                                 </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">

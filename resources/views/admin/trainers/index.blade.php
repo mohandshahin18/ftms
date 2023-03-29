@@ -15,17 +15,19 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header">
-                    <div class="d-flex  justify-content-between">
+              @can('add_trainer')
+              <div class="card-header">
+                <div class="d-flex  justify-content-between">
 
-                        <div class="btn-website">
-                            <a title="{{ __('admin.Add Trainer') }}" href="{{ route('admin.trainers.create') }}" class="btn btn-primary"><i
-                                    class="fas fa-plus"></i> {{ __('admin.Add Trainer') }}</a>
-                        </div>
-
-
+                    <div class="btn-website">
+                        <a title="{{ __('admin.Add Trainer') }}" href="{{ route('admin.trainers.create') }}" class="btn btn-primary"><i
+                                class="fas fa-plus"></i> {{ __('admin.Add Trainer') }}</a>
                     </div>
+
+
                 </div>
+            </div>
+              @endcan
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
                     <table class="table table-striped  table-hover ">
@@ -37,7 +39,9 @@
                                 <th>{{ __('admin.Phone') }}</th>
                                 <th>{{ __('admin.Company Name') }}</th>
                                 <th>{{ __('admin.Program') }}</th>
+                                @can('delete_trainer')
                                 <th>{{ __('admin.Actions') }}</th>
+                                @endcan
                             </tr>
                         </thead>
 
@@ -50,14 +54,16 @@
                                     <td>{{ $trainer->phone }}</td>
                                     <td>{{ $trainer->company->name }}</td>
                                     <td>{{ $trainer->category->name }}</td>
-                                    <td>
-                                        <form class="d-inline delete_form"
-                                            action="{{ route('admin.trainers.destroy', $trainer->slug) }}" method="POST">
-                                            @csrf
-                                            @method('delete')
-                                            <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i> </button>
-                                        </form>
-                                    </td>
+                                   @can('delete_trainer')
+                                   <td>
+                                    <form class="d-inline delete_form"
+                                        action="{{ route('admin.trainers.destroy', $trainer->slug) }}" method="POST">
+                                        @csrf
+                                        @method('delete')
+                                        <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i> </button>
+                                    </form>
+                                </td>
+                                   @endcan
                                 </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">

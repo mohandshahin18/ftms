@@ -12,6 +12,7 @@ use App\Models\Specialization;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\TeacherRequest;
 
@@ -24,6 +25,8 @@ class TeacherController extends Controller
      */
     public function index()
     {
+        Gate::authorize('all_teachers');
+
         $teachers = Teacher::with('university','specialization')->latest('id')->paginate(env('PAGINATION_COUNT '));
         return view('admin.teachers.index',compact('teachers'));
     }
@@ -35,6 +38,8 @@ class TeacherController extends Controller
      */
     public function create()
     {
+        Gate::authorize('add_teacher');
+
         $universities = University::get();
         $specializations = Specialization::get();
         return view('admin.teachers.create',compact('universities','specializations'));
@@ -127,6 +132,8 @@ class TeacherController extends Controller
      */
     public function destroy($slug)
     {
+        Gate::authorize('delete_teacher');
+
         $teacher = Teacher::whereSlug($slug)->first();
         $photo_path = public_path($teacher->image);
 
