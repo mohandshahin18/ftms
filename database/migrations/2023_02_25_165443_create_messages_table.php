@@ -18,9 +18,6 @@ return new class extends Migration
             $table->text('message');
             $table->string('sender_id');
             $table->string('receiver_id');
-            $table->foreignId('student_id')->on('students')->cascadeOnDelete()->nullable();
-            $table->foreignId('trainer_id')->on('trainers')->cascadeOnDelete()->nullable();
-            $table->foreignId('teacher_id')->on('teachers')->cascadeOnDelete()->nullable();
             $table->timestamps();
         });
     }

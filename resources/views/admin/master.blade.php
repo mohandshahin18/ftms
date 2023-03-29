@@ -53,14 +53,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
          #center-text {
-        display: flex;
-        flex: 1;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
 
-    }
+        }
 
     .btn#my-btn {
         background: white;
@@ -93,7 +93,6 @@ html {
 
 </style>
 @endif
-@yield('style')
 
 </head>
 
@@ -772,6 +771,7 @@ html {
         const host = "{{ env('APP_URL') }}";
         const userId = "{{ Auth::user()->id }}";
         const pusherKey = "{{ env('PUSHER_APP_KEY') }}";
+        const noMessage = "{{__('admin.There is no Messages')}}";
     </script>
     <!-- Pusher -->
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>

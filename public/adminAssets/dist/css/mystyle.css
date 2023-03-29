@@ -865,7 +865,8 @@ i.far.fa-comments{
   margin-bottom: 30px;
 }
 
-.notification-list {
+.notification-list,
+.messages-list {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -879,13 +880,14 @@ i.far.fa-comments{
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
 }
 
-.notification-list_detail {
+.message-list_detail {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.notification-list--unread {
+.notification-list--unread,
+.messages-list--unread {
   border-left: 2px solid #1a2e44;
   transition: all 0.3s ease-in-out;
 }
@@ -905,22 +907,24 @@ i.far.fa-comments{
   transition: all 0.3s ease-in-out;
 }
 
-.notification-list--unread:hover {
+.messages-list--unread:hover {
   border-left: 80px solid #1a2e44;
 }
 
-.notification-list--unread:hover .open-msg {
+.messages-list--unread:hover .open-msg {
   opacity: 1;
 }
 
-.notification-list .notification-list_content {
+.notification-list .notification-list_content,
+.messages-list .notification-list_content {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   width: 100%
 }
 
-.notification-list .notification-list_content .notification-list_img img {
+.notification-list .notification-list_content .notification-list_img img,
+.messages-list .notification-list_content .notification-list_img img {
   height: 48px;
   width: 48px;
   object-fit: cover;
@@ -928,12 +932,14 @@ i.far.fa-comments{
   margin-right: 20px;
 }
 
-.notification-list .notification-list_content .notification-list_detail p {
+.notification-list .notification-list_content .notification-list_detail p,
+.messages-list .notification-list_content .notification-list_detail p  {
   margin-bottom: 5px;
   line-height: 1.2;
 }
 
-.notification-list .notification-list_feature-img img {
+.notification-list .notification-list_feature-img img,
+.messages-list .notification-list_feature-img img {
   height: 48px;
   width: 48px;
   border-radius: 5px;
@@ -1173,6 +1179,10 @@ a:hover {
 
 .messages-notify{
     display: none;
+}
+
+.no-messages-img {
+  width: 314px;
 }
 
 .chat-msg.user>.msg-avatar img {

@@ -345,5 +345,7 @@ return [
     "Email verified" => "Email verified",
     "Your email is already verified." => "Your email is already verified.",
     "OK"=>"OK",
+    "There is no Notifications." => "There is no Notifications.",
+    "There is no Messages" => "There is no Messages",
 
 ];

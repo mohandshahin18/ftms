@@ -77,13 +77,7 @@ class MessageController extends Controller
                     $messageTime = $message->created_at->diffForHumans();
                     $lastMessage = Str::words($message->message, 4, '...');
                     $clock = '<p class="text-sm text-muted"><i class="far fa-clock mr-1"></i>' . $messageTime . '</p>';
-                } else {
-                    $messageTime = '';
-                    $lastMessage = 'No messages yet';
-                    $clock = '';
-                }
-
-                $studentMessage = Message::where([
+                    $studentMessage = Message::where([
                         ['receiver_type', $type],
                         ['receiver_id', $auth->id],
                         ['sender_id', $student->id]
@@ -109,9 +103,15 @@ class MessageController extends Controller
                     }
                 }
 
+                if($student->image) {
+                    $src = asset($student->image);
+                } else {
+                    $src = 'https://ui-avatars.com/api/?background=random&name=' . $student->name;
+                }
+
                 $output .= '<a href="#" class="dropdown-item chat-circle ' . $active . '" data-slug="' . $student->slug . '" data-name="' . $student->name . '" data-name="' . $student->name . '" data-id="'.$student->id.'" data-type="student">
                             <div class="media">
-                                <img src="' . env('APP_URL') . '/' . $student->image . '" alt="User Avatar"
+                                <img src="'. $src . '" alt="User Avatar"
                                     class="mr-3 img-circle" style="    width: 47px;
                                     height: 47px;
                                     object-fit: cover;">
@@ -126,6 +126,9 @@ class MessageController extends Controller
                             </div>
                         </a>
                         <div class="dropdown-divider"></div>';
+                } 
+
+                
             }
             $output .= '<div class="all">
                         <a href="' . route('admin.all.messages.page') . '" class="dropdown-item dropdown-footer text-center">Show All Messages</a>
@@ -476,7 +479,7 @@ class MessageController extends Controller
                 $message = Message::where([
                     ['sender_type', $role],
                     ['receiver_type', 'admin'],
-                    ['sender_id', $student->id],
+                    ['sender_id', $admin->id],
                     ['receiver_id', $auth->id],
                 ])
                 ->latest('created_at')
@@ -547,7 +550,7 @@ class MessageController extends Controller
                     data-name="' . $student->name . '"
                     data-type="student"
                     data-id="' . $student->id . '">
-                                    <div class="notification-list ' . $unread . '">
+                                    <div class="messages-list ' . $unread . '">
                                         <p class="open-msg">open</p>
                                         <div class="notification-list_content">
                                             <div class="notification-list_img">
@@ -555,7 +558,7 @@ class MessageController extends Controller
                                                     style="object-fit: cover; border-radius: 50%">
                                             </div>
                                             <div style="width: 100%">
-                                                <div class="notification-list_detail">
+                                                <div class="message-list_detail">
                                                     <p><b>' . $student->name . '</b>
                                                         <br>' . $Lastmessage . '
                                                     </p>

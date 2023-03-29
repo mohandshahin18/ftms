@@ -57,9 +57,4 @@ class Company extends Authenticatable
         return $this->hasMany(Advert::class);
     }
 
-    // with message
-    public function messages()
-    {
-        return $this->hasMany(Message::class);
-    }
 }

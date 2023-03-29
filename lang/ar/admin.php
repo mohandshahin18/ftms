@@ -348,6 +348,6 @@ return [
     "Email verified" => " تم التحقق من البريد الإلكتروني",
     "Your email is already verified." => "تم التحقق من بريدك الإلكتروني بالفعل .",
     "OK"=>"موافق",
-
-
+    "There is no Notifications." => "لا يوجد اشعارات.",
+    "There is no Messages" => "لا يوجد رسائل بعد",
 ];

@@ -11,7 +11,7 @@ $(document).ready(function() {
             $("#messages-num").empty();
           } else {
             $("#messages-num").empty();
-            $("#messages-num").html(response.number);
+            $("#messages-num").append(response.number);
           }
         }
       });
@@ -30,9 +30,9 @@ const getAllChats = function() {
             $("#messages-wrapper #messages-num").empty();
           } else {
             $("#messages-wrapper #messages-num").empty();
-            $("#messages-wrapper #messages-num").html(response.number);
+            $("#messages-wrapper #messages-num").append(response.number);
           }
-          console.log($("#messages-num"));
+          
         }
       });
 }
@@ -48,10 +48,14 @@ const getAllChats = function() {
 
         var channel = pusher.subscribe(`private-Messages.${userId}`);
         channel.bind('new-message', function(data) {
-            var receiverType = $("#type_input").val();
+            var senderType = $("#type_input").val();
             var senderId = $("#id_input").val();
 
-            if(data.message.receiver_type == user && receiverType == data.message.sender_type && data.message.sender_id == senderId) {
+            if(data.message.receiver_type == user && data.receiver_id == userId) {
+                getAllChats();
+            }
+
+            if(data.message.receiver_type == user && senderType == data.message.sender_type && data.message.sender_id == senderId && data.message.receiver_id == userId) {
                 appendMessage(data.message.message, data.message.id);
                 getAllChats();
             }
@@ -98,6 +102,7 @@ $(function () {
                     $("#user_name_msg").empty();
                     $("#user_name_msg").append(name);
                     chatWrapper.empty();
+                    chatWrapper.append(`<img src="${host}/adminAssets/dist/img/no-message-found.png" class="no-messages-img img-responsive" width="200" alt="">`);
                 } else {
                     setTimeout(() => {
                         $("#user_name_msg").empty();
@@ -156,6 +161,12 @@ sendMsgBtn.on("click", function() {
         url: sendMsgUrl,
         data: sendMsgForm.serialize(),
         success:function(response) {
+
+            if($('.chat-logs').children().not('img').length > 0) {
+
+            } else {
+                $('.chat-logs').empty();
+            }
             $("#chat-input").val('');
             $(".chat-logs").append(response);
             scrollToBottom();
