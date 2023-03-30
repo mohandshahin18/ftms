@@ -34,10 +34,14 @@
             }
 
             body,
-            html {
-                font-family: event-reg;
+            html ,button {
+                font-family: event-reg !important;
             }
-
+            .chat-logs ,
+            #messages-wrapper,
+            #user_name_msg{
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important
+            }
 
             #toast-container>div {
                 font-family: event-reg !important;
@@ -45,7 +49,7 @@
 
             @font-face {
                 font-family: event-reg;
-                src: url({{ asset('studentAssets/fonts/ArbFONTS-DINNextLTArabic-Regular-2.ttf') }});
+                src: url({{ asset('adminAssets/dist/fonts/JF-Flat-regular.ttf') }});
             }
 
             .task_img {
@@ -120,7 +124,7 @@
                 </button>
                 <div class="w-100 d-felx justify-content-between">
                     <a class="navbar-brand px-1" href="{{ route('student.home') }}">
-                        <img src="{{ asset($data['darkLogo']) }}" class="d-inline-block mt-1" alt="AgentFire Logo">
+                        <img src="{{ asset($data['darkLogo']) }}" class="d-inline-block" style="    margin-top: 10px !important;" alt="AgentFire Logo">
                     </a>
 
 

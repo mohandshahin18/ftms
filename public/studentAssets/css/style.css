@@ -11,17 +11,12 @@
 
 }
 
-@font-face {
-  font-family: SFPRODISPLAYBLACKITALIC;
-  src: url(../fonts/ArbFONTS-DINNextLTArabic-Regular-2.ttf);
-}
+
 
 * {
   scroll-behavior: smooth;
 }
-body {
-    font-family: SFPRODISPLAYBLACKITALIC;
-}
+
 
 h1,h2,h3,h4,h5,h6,
 .display-1,.display-2,.display-3,.display-4 {
