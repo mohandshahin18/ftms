@@ -166,9 +166,19 @@
                         </thead>
 
                         <tbody>
+                            @php
+                                $count = $students->count();
+                            @endphp
                             @forelse ($students as $student)
                                 <tr id="row_{{ $student->slug }}">
-                                    <td>{{ $student->id }}</td>
+                                    <td>
+                                        {{ $count }}
+                                        
+                                        @php
+                                            $count--;
+                                        @endphp
+                                     
+                                    </td>
                                     <td>{{ $student->name }}</td>
                                     <td>{{ $student->phone }}</td>
                                     <td>{{ $student->student_id }}</td>
@@ -208,7 +218,7 @@
                                             @else
                                             @can('evaluate_student')
                                            <a title="{{ __('admin.Evaluate') }}" href="{{ route('admin.students.show', $student->slug) }}"
-                                               class="btn btn-sm  btn-outline-secondary" data-disabled="true"
+                                               class="btn btn-sm btn-flat btn-outline-secondary" data-disabled="true"
                                                title="evaluate">{{ __('admin.Evaluate') }}</a>
                                                @endcan
                                                @endif

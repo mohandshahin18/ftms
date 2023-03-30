@@ -359,5 +359,7 @@ return [
     "Select All" => "Select All" ,
     "There is no Notifications." => "There is no Notifications.",
     "There is no Messages" => "There is no Messages",
-
+    "edit this after saving" => "edit this after saving",
+    "cant" => "can't",
+    "Careful" => " Careful:  ",
 ];

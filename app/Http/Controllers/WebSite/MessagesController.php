@@ -67,12 +67,6 @@ class MessagesController extends Controller
 
 
             $activeMessage = Message::where([
-                    ['sender_id', $auth->id],
-                    ['receiver_id', $roleObj->id],
-                    ['sender_type', 'student'],
-                    ['receiver_type', $role],
-                ])
-                ->where([
                     ['sender_id', $roleObj->id],
                     ['receiver_id', $auth->id],
                     ['sender_type', $role],

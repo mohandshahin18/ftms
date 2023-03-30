@@ -46,9 +46,18 @@
                         </thead>
 
                         <tbody>
+
+                            @php
+                                $count = $trainers->count();
+                            @endphp
                             @forelse ($trainers as $trainer)
                                 <tr id="row_{{ $trainer->slug }}">
-                                    <td>{{ $trainer->id }}</td>
+                                    <td>
+                                        {{ $count }}
+                                        @php
+                                            $count--;
+                                        @endphp
+                                    </td>
                                     <td>{{ $trainer->name }}</td>
                                     <td>{{ $trainer->email }}</td>
                                     <td>{{ $trainer->phone }}</td>

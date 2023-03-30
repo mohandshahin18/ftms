@@ -2,126 +2,6 @@
 
 @section('title' ,  __('admin.Avilable Companies'))
 
-@section('styles')
-    <style>
-        #categories_wrapper {
-            min-height: 400px;
-        }
-
-        #companies_dropdown{
-            background: #333;
-            border: 1px solid rgba(0,0,0,.15);
-            border-radius: 0.25rem;
-            /* border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0; */
-            background-color: #fff;
-            box-shadow: 0px 30px 30px 6px rgba(0, 0, 0, 0.2);
-            border-color: transparent;
-            position: absolute;
-            padding: 0;
-            top: 46px;
-            left: 0;
-            width: 100%;
-            z-index: 999;
-        }
-
-        #dropdown_item {
-            display: inline-block;
-            width: 100%;
-            padding: 10px;
-            cursor: pointer;
-        }
-        #dropdown_item:hover {
-            background-color: rgb(222, 225, 230) !important;
-        }
-        .input-box {
-            position: relative;
-            width: 100%;
-            max-width: 53px;
-            height: 44px;
-            margin: 0 50px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            border-radius: 6px;
-            transition: all 0.5s ease-in-out;
-            display: flex;
-            justify-content: center;
-        }
-        .input-box.open {
-            max-width: 350px;
-        }
-        .input-box input {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            font-size: 16px;
-            font-weight: 400;
-            color: #333;
-            background-color: #fff;
-            padding: 0 15px;
-            border: none;
-            border-radius: 6px;
-            outline: none;
-            transition: all 0.5s ease-in-out;
-        }
-
-        .input-box #clear_input {
-            position: absolute;
-            right: 12px;
-            top: 15px;
-            cursor: pointer;
-        }
-        .input-box.open input {
-            padding: 0 15px 0 65px;
-        }
-
-        .input-box .search {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            max-width: 53px;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #fff;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-        .input-box.open .search {
-            border-radius: 6px 0 0 6px;
-        }
-        .search .search-icon {
-            font-size: 21px;
-            font-weight: lighter;
-            color: #1c1c1c;
-        }
-        .input-box .close-icon {
-            position: absolute;
-            top: 50%;
-            right: -45px;
-            font-size: 26px;
-            font-weight: lighter;
-            color: #1c1c1c;
-            padding: 5px;
-            transform: translateY(-50%);
-            transition: all 0.5s ease-in-out;
-            cursor: pointer;
-            pointer-events: none;
-            opacity: 0;
-        }
-        .input-box.open .close-icon {
-            transform: translateY(-50%) rotate(180deg);
-            pointer-events: auto;
-            opacity: 1;
-        }
-        .search_wrapper {
-            display: flex;
-            justify-content: center;
-        }
-    </style>
-@endsection
 
 @section('content')
 
@@ -137,7 +17,7 @@
 
             <div class="input-box">
                 <input type="text" placeholder="{{ __('admin.Search by Company Name...') }}"  id="search_input" autocomplete="off"/>
-                <span><i class="fas fa-times" id="clear_input"></i></span>
+                <span><i class="fas fa-times hide" id="clear_input"></i></span>
                 <span class="search">
                   <i class="fas fa-search search-icon"></i>
                 </span>
@@ -218,19 +98,18 @@
     $(document).ready(function() {
         $("#companies_dropdown").hide();
         var input = $("#search_input");
-        $("#clear_input").hide();
 
         input.on("keyup", function() {
             let search = $(this).val();
 
             if(search.length > 0) {
-                $("#clear_input").show();
+                $("#clear_input").removeClass('hide');
                 $("#clear_input").on("click", function() {
                     input.val("");
-                    $("#clear_input").hide();
+                    $("#clear_input").addClass('hide');
                 })
             } else {
-                $("#clear_input").hide();
+                $("#clear_input").addClass('hide');
             }
 
             if(search.length > 1 || search.length == 0) {
@@ -305,15 +184,22 @@
     let inputBox = document.querySelector('.input-box'),
     searchIcon = document.querySelector('.search'),
     closeIcon = document.querySelector('.close-icon');
+    inputSearch = document.querySelector('#search_input');
 
     // ---- ---- Open Input ---- ---- //
     searchIcon.addEventListener('click', () => {
         inputBox.classList.add('open');
         $("#search_input").focus();
+        if(inputSearch.value != 0) {
+            setTimeout(() => {
+                $("#clear_input").removeClass('hide');
+            }, 350);
+        }
     });
     // ---- ---- Close Input ---- ---- //
     closeIcon.addEventListener('click', () => {
         inputBox.classList.remove('open');
+        $("#clear_input").addClass('hide');
     });
 
 

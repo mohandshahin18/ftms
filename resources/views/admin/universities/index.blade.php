@@ -48,9 +48,17 @@
                         </thead>
 
                         <tbody>
+                            @php
+                                $count = $universities->count();
+                            @endphp
                             @forelse ($universities as $university)
                                 <tr id="row_{{ $university->slug }}">
-                                    <td>{{ $university->id }}</td>
+                                    <td>
+                                        {{ $count }}
+                                        @php
+                                            $count--;
+                                        @endphp
+                                    </td>
                                     <td>{{ $university->name }}</td>
                                     <td>{{ $university->email }}</td>
                                     <td>{{ $university->phone }}</td>

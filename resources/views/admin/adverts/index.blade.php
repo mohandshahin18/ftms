@@ -60,9 +60,17 @@
                         </thead>
 
                         <tbody>
+                            @php
+                                $count = $adverts->count();
+                            @endphp
                             @forelse ($adverts as $advert)
                                 <tr id="row_{{ $advert->id }}">
-                                    <td>{{ $advert->id }}</td>
+                                    <td>
+                                        {{ $count }}
+                                        @php
+                                            $count--;
+                                        @endphp
+                                    </td>
                                     <td>{{ $advert->main_title }}</td>
                                     <td>{{ Str::words(strip_tags(html_entity_decode($advert->sub_title)), 4, '...') }}</td>
                                     <td><img src="{{ asset($advert->image) }}" style="object-fit: cover" alt="" width="80" height="80"></td>

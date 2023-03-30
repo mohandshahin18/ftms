@@ -145,9 +145,9 @@ html {
 
                 <!-- Messages Dropdown Menu -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
+                    <a class="nav-link messages-dropdown" data-toggle="dropdown" href="#">
                         <i class="far fa-comments"></i>
-                        <span class="badge badge-danger navbar-badge" id="messages-num"></span>
+                        {{-- <span class="badge badge-danger navbar-badge" id="messages-num"></span> --}}
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right chat" id="messages-wrapper">
 
@@ -852,7 +852,7 @@ html {
         <script>
             const user = 'teacher';
         </script>
-    @else
+    @elseif (Auth::guard('admin')->check())
         <script>
             const user = 'admin';
         </script>

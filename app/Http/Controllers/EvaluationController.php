@@ -203,6 +203,11 @@ class EvaluationController extends Controller
         $evaluation = Evaluation::findOrFail($id);
         $student = Student::findOrFail($request->student_id);
 
+        $request->validate([
+            'answer' => ['required'],
+            'student_id' => ['required'],
+        ]);
+
         AppliedEvaluation::create([
             'evaluation_type' => $evaluation->evaluation_type,
             'evaluation_id' => $id,

@@ -49,9 +49,17 @@
                         </thead>
 
                         <tbody>
+                            @php
+                                $count = $specializations->count();
+                            @endphp
                             @forelse ($specializations as $specialization)
                                 <tr id="row_{{ $specialization->slug }}">
-                                    <td>{{ $specialization->id }}</td>
+                                    <td>
+                                        {{ $count }}
+                                        @php
+                                            $count--;
+                                        @endphp
+                                    </td>
                                     <td>{{ $specialization->name }}</td>
                                     @canAny(['delete_specialization','edit_specialization'])
                                     <td>
