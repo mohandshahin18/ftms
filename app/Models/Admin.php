@@ -32,9 +32,9 @@ class Admin extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-     // with role
-     public function role()
-     {
-         return $this->belongsTo(Role::class)->withDefault();
-     }
+// with role
+public function role()
+{
+    return $this->belongsTo(Role::class)->withDefault();
+}
 }

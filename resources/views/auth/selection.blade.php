@@ -224,12 +224,13 @@
             @endforeach
         </div>
     </div>
-
+    @php
+    $data = json_decode(File::get(storage_path('app/settings.json')), true);
+    @endphp
     <div class="container">
         <div class="row boxes">
             <div class="logo mt-5">
-                <img src="{{ asset('adminAssets/dist/img/logo/logo-11.png') }}" class="img-responsive" width="100px"
-                    alt="">
+                <a href="{{ route('website.home') }}"><img src="{{ asset($data['darkLogo']) }}" class="img-responsive" style="width: 170px" alt=""></a>
             </div>
             <div class="wrapper mt-5">
                 <div class="typing-demo">

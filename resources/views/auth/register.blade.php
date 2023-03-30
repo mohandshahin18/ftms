@@ -47,10 +47,13 @@
 </head>
 
 <body>
+    @php
+    $data = json_decode(File::get(storage_path('app/settings.json')), true);
+    @endphp
     <div class="bg">
         <div class="overlay">
             <div class="signin">
-                <div class="logo"><img src="{{ asset('adminAssets/dist/img/logo/logo-11.png') }}"  style="width: 115px" alt="">
+                <div class="logo"><a href="{{ route('website.home') }}"><img src="{{ asset($data['darkLogo']) }}"  style="width: 170px" alt=""></a></div>
                 </div>
                 <div class="signin-form register">
                     <div class="row">

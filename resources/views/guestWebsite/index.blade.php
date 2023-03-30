@@ -80,7 +80,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
         <div class="container">
             <a class="navbar-brand" href="{{ route('website.home') }}">
-                <img src="{{ asset($data['darkLogo']) }}" class="nav-brand" alt="">
+                <img src="{{ asset($data['darkLogo']) }}" class="nav-brand" style="width: 130px">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -380,7 +380,7 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-6 text-center">
-                        <img src="{{ asset($data['logo']) }}" class="navbar-brand-footer mb-5" alt="">
+                        <img src="{{ asset($data['logo']) }}" class="navbar-brand-footer mb-4" alt="">
                         <p>{{ $data['footer_text'] }}</p>
 
                         <div class="col-auto conditions-section">
