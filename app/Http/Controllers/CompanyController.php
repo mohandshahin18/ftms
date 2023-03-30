@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Company;
 use App\Models\Category;
 use Illuminate\Support\Str;
+use App\Models\CategoryCompany;
+
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\CompanyRequest;
-use App\Models\CategoryCompany;
-use Exception;
-
-use Illuminate\Support\Facades\Log;
 
 
 
@@ -26,6 +27,8 @@ class CompanyController extends Controller
      */
     public function index()
     {
+        Gate::authorize('all_companies');
+
         if(request()->has('keyword')){
             $companies = Company::where('name' , 'like' , '%' .request()->keyword.'%')
             ->paginate(env('PAGINATION_COUNT'));
@@ -42,6 +45,8 @@ class CompanyController extends Controller
      */
     public function create()
     {
+        Gate::authorize('add_company');
+
         $categories = Category::get();
         return view('admin.companies.create', compact('categories'));
     }
@@ -97,6 +102,8 @@ class CompanyController extends Controller
      */
     public function edit($slug)
     {
+        Gate::authorize('edit_company');
+
         $company = Company::whereSlug($slug)->first();
 
         $attached_categories = $company->categories()->get()->map(function($category) {
@@ -159,6 +166,8 @@ class CompanyController extends Controller
      */
     public function destroy($slug)
     {
+        Gate::authorize('delete_company');
+
         $company = Company::whereSlug($slug)->first();
 
         $students = $company->students;
@@ -183,6 +192,8 @@ class CompanyController extends Controller
      */
     public function trash()
     {
+        Gate::authorize('recycle_companies');
+
         if(request()->has('keyword')){
             $companies = Company::onlyTrashed()->where('name' , 'like' , '%' .request()->keyword.'%')
             ->latest('id')->paginate(env('PAGINATION_COUNT'));
@@ -200,6 +211,8 @@ class CompanyController extends Controller
      */
     public function restore($slug)
     {
+        Gate::authorize('restore_company');
+
         $company = Company::onlyTrashed()->whereSlug($slug)->first();
 
         $company->restore();
@@ -214,6 +227,8 @@ class CompanyController extends Controller
      */
     public function forceDelete($slug)
     {
+        Gate::authorize('forceDelete_company');
+
         $company = Company::onlyTrashed()->whereSlug($slug)->first();
 
         $path = public_path($company->image);

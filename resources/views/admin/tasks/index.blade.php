@@ -12,19 +12,16 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header">
-                    <div class="d-flex  justify-content-between">
-
-
-                        <div class="btn-website">
-                            <a title="{{ __('admin.Add Task') }}" href="{{ route('admin.tasks.create') }}" class="btn btn-primary"><i
-                                    class="fas fa-plus"></i> {{ __('admin.Add Task') }}</a>
-
-                        </div>
-
-
+               @can('add_task')
+               <div class="card-header">
+                <div class="d-flex  justify-content-between">
+                    <div class="btn-website">
+                        <a title="{{ __('admin.Add Task') }}" href="{{ route('admin.tasks.create') }}" class="btn btn-primary"><i
+                                class="fas fa-plus"></i> {{ __('admin.Add Task') }}</a>
                     </div>
                 </div>
+            </div>
+               @endcan
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
                     <table class="table table-striped  table-hover ">
@@ -35,7 +32,9 @@
                                 <th>{{ __('admin.Program Name') }}</th>
                                 <th>{{ __('admin.Starts Date') }}</th>
                                 <th>{{ __('admin.Ends Date') }}</th>
-                                <th>{{ __('admin.Actions') }}</th>
+                               @canAny(['edit_task','delete_task'])
+                               <th>{{ __('admin.Actions') }}</th>
+                               @endcan
                             </tr>
                         </thead>
 
@@ -49,17 +48,25 @@
                                     <td>{{ Carbon::parse($task->start_date)->locale(config('app.locale'))->format('j F') }} <b>at</b> {{ Carbon::parse($task->start_date)->format('h:i A') }}</td>
 
                                     <td>{{ Carbon::parse($task->end_date)->locale(config('app.locale'))->format('j F') }} <b>at</b> {{ Carbon::parse($task->end_date)->format('h:i A') }}</td>
+                                    @canAny(['edit_task','delete_task'])
+
                                     <td>
+                                        @can('edit_task')
                                         <a  title="{{ __('admin.Edit') }}" href="{{ route('admin.task.edit', $task->slug) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+
+                                        @endcan
+                                        @can('delete_task')
                                         <form class="d-inline delete_form"
-                                            action="{{ route('admin.tasks.destroy', $task->slug) }}"
-                                            method="POST">
-                                            @csrf
-                                            @method('delete')
-                                            <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
+                                        action="{{ route('admin.tasks.destroy', $task->slug) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('delete')
+                                        <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                        @endcan
                                     </td>
+                                    @endcan
                                 </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">

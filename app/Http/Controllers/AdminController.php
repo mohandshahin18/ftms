@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
@@ -19,6 +20,7 @@ class AdminController extends Controller
      */
     public function index()
     {
+        Gate::authorize('all_admins');
         $admins = Admin::latest('id')->paginate(env('PGINATION_COUNT'));
         return view('admin.admins.index', compact('admins'));
     }
@@ -30,6 +32,8 @@ class AdminController extends Controller
      */
     public function create()
     {
+        Gate::authorize('add_admin');
+
         return view('admin.admins.create');
     }
 
@@ -118,6 +122,8 @@ class AdminController extends Controller
      */
     public function destroy($slug)
     {
+        Gate::authorize('delete_admin');
+
         $admin = Admin::whereSlug($slug)->first();
 
         $path = public_path($admin->image);

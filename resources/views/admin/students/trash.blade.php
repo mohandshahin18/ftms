@@ -27,7 +27,7 @@
 
 
                         <div class="btn-website">
-                            <a href="{{ route('admin.students.index') }}" class="btn btn-primary">{{ __('admin.Students') }}</a>
+                            <a href="{{ route('admin.students.index') }}" class="btn btn-primary">{{ __('admin.All Students') }}</a>
                         </div>
 
 
@@ -45,7 +45,9 @@
                                 <th>{{ __('admin.University Name') }}</th>
                                 <th>{{ __('admin.Specialization') }}</th>
                                 <th>{{ __('admin.Evaluation Status') }}</th>
+                                @canAny(['restore_student','forceDelete_student'])
                                 <th>{{ __('admin.Actions') }}</th>
+                                @endcanAny
                             </tr>
                         </thead>
 
@@ -59,20 +61,26 @@
                                 <td>{{ $student->student_id }}</td>
                                 <td>{{ $student->university->name }}</td>
                                 <td>{{ $student->specialization->name }}</td>
+                                @canAny(['restore_student','forceDelete_student'])
                                     <td>
                                         <div style="display: flex; gap: 5px">
+                                            @can('restore_student')
                                             <form action="{{ route('admin.students.restore', $student->slug) }}" method="POST" class="restor_form">
-                                              @csrf
-                                              <button class="btn btn-warning btn-sm btn_restore" title="Restore"><i class="fas fa-trash-restore"></i></button>
-                                            </form>
+                                                @csrf
+                                                <button class="btn btn-warning btn-sm btn_restore" title="Restore"><i class="fas fa-trash-restore"></i></button>
+                                              </form>
+                                            @endcan
+                                            @can('forceDelete_student')
                                             <form action="{{ route('admin.students.forcedelete', $student->slug) }}" method="POST" class="delete_form">
-                                              @csrf
-                                              @method('delete')
-                                              <button class="btn btn-danger btn-sm delete_btn" title="Delete"> <i class="fas fa-times"></i> </button>
-                                            </form>
+                                                @csrf
+                                                @method('delete')
+                                                <button class="btn btn-danger btn-sm delete_btn" title="Delete"> <i class="fas fa-times"></i> </button>
+                                              </form>
+                                            @endcan
+
                                           </div>
                                     </td>
-
+                                    @endcanAny
                                 </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">

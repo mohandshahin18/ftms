@@ -22,6 +22,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Website\MessagesController;
 use App\Http\Controllers\guestWebsite\GuestWebsiteController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SubsicribeController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -239,6 +240,8 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     Route::get('load/more/compnaies', [MessageController::class, 'load_more_companies'])->name('load.more.companies');
     Route::get('load/more/teachers', [MessageController::class, 'load_more_teachers'])->name('load.more.teachers');
 
+      // roles
+      Route::resource('roles', RoleController::class);
 
 
     // verify email

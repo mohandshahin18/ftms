@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="icon" type="image/x-icon" href="{{ asset('adminAssets/dist/img/selection/favicon.ico') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
     <title>{{ env('APP_NAME') }}</title>
 
@@ -163,7 +164,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <div class="intro">
+                    <div class="intro"  data-aos="fade-up" data-aos-duration="1500"  data-aos-once="true">
                         <h6>{{ __('admin.Our Services') }}</h6>
                         <h1>What We Do?</h1>
                         <p class="mx-auto">Contrary to popular belief, Lorem Ipsum is not simply random text. It has
@@ -171,8 +172,8 @@
                     </div>
                 </div>
             </div>
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6">
+            <div class="row g-4" >
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="100" data-aos-once="true">
                     <div class="service">
                         <img src="{{ asset('websiteAssets/img/icon1.png') }}" alt="">
                         <h5>Digital Marketing</h5>
@@ -180,7 +181,7 @@
                             classical Latin literature from</p>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="200" data-aos-once="true">
                     <div class="service">
                         <img src="{{ asset('websiteAssets/img/icon2.png') }}" alt="">
                         <h5>Logo Designing</h5>
@@ -188,7 +189,7 @@
                             classical Latin literature from</p>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="300" data-aos-once="true">
                     <div class="service">
                         <img src="{{ asset('websiteAssets/img/icon3.png') }}" alt="">
                         <h5>Buisness consulting</h5>
@@ -196,7 +197,7 @@
                             classical Latin literature from</p>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="400" data-aos-once="true">
                     <div class="service">
                         <img src="{{ asset('websiteAssets/img/icon4.png') }}" alt="">
                         <h5>Videography</h5>
@@ -204,7 +205,7 @@
                             classical Latin literature from</p>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="500" data-aos-once="true">
                     <div class="service">
                         <img src="{{ asset('websiteAssets/img/icon5.png') }}" alt="">
                         <h5>Brand Identity</h5>
@@ -212,7 +213,7 @@
                             classical Latin literature from</p>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="600" data-aos-once="true">
                     <div class="service">
                         <img src="{{ asset('websiteAssets/img/icon6.png') }}" alt="">
                         <h5>Ethical Hacking</h5>
@@ -224,7 +225,7 @@
         </div>
     </section>
     <!-- MILESTONE -->
-    <section id="milestone">
+    <section id="milestone" >
         <div class="container">
             <div class="row text-center justify-content-center gy-4">
                 <div class="col-lg-2 col-sm-6">
@@ -252,11 +253,11 @@
 
 
 
-    <section id="team">
+    <section id="team"  >
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <div class="intro">
+                    <div class="intro" data-aos="fade-up" data-aos-duration="1500"  data-aos-once="true">
                         <h6>{{ __('admin.Team') }}</h6>
                         <h1>{{ __('admin.Team Members') }}</h1>
                         <p class="mx-auto">Contrary to popular belief, Lorem Ipsum is not simply random text. It has
@@ -264,24 +265,18 @@
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-center">
-                @foreach ($members as $member)
-                    <div class="col-lg-4 col-md-8">
-                        <div class="team-member">
-                            <div class="image">
-                                <img src="{{ asset($member->image) }}" style="height: 400px; object-fit: cover;"
-                                    alt="">
-                                <div class="social-icons">
-                                    <a href="{{ $member->facebook }}" target="__blank"><i
-                                            class='bx bxl-facebook'></i></a>
-                                    <a href="{{ $member->github }}"><i class='bx bxl-github'></i></a>
-                                    <a href="{{ $member->linkedin }}"><i class='bx bxl-linkedin'></i></a>
-                                </div>
-                                <div class="overlay"></div>
-                            </div>
+            <div class="row justify-content-center" >
 
-                            <h5>{{ $member->name }}</h5>
-                            <p>{{ $member->specialization }}</p>
+               @foreach ($members as $member )
+
+               <div class="col-lg-4 col-md-8" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="{{ $member->id * 100 }}" data-aos-once="true">
+                <div class="team-member">
+                    <div class="image">
+                        <img src="{{ asset($member->image) }}" style="height: 400px; object-fit: cover;" alt="">
+                        <div class="social-icons">
+                            <a href="{{ $member->facebook }}" target="__blank"><i class='bx bxl-facebook'></i></a>
+                            <a href="{{ $member->github }}"><i class='bx bxl-github'></i></a>
+                            <a href="{{ $member->linkedin }}"><i class='bx bxl-linkedin'></i></a>
                         </div>
                     </div>
                 @endforeach
@@ -290,7 +285,7 @@
         </div>
     </section>
 
-    <section class="bg-light" id="reviews">
+    <section class="bg-light" id="reviews" >
 
         <div class="owl-theme owl-carousel reviews-slider container">
 
@@ -334,14 +329,14 @@
 
             <div class="row">
                 <div class="col-12">
-                    <div class="intro">
+                    <div class="intro"  data-aos="fade-up" data-aos-duration="1500"  data-aos-once="true">
                         <h1>{{ __('admin.Contact Us') }}</h1>
                         <p class="mx-auto">{{ __('admin.You can contact us via email') }}</p>
                     </div>
                 </div>
             </div>
 
-            <div class="row justify-content-center">
+            <div class="row justify-content-center"  data-aos="fade-up" data-aos-duration="1500"  data-aos-delay="100" data-aos-once="true">
                 <div class="col-lg-8">
                     <form class="p-lg-5 col-12 row g-3 contact-form" method="POST"
                         action="{{ route('website.contact_us') }}">
@@ -412,6 +407,11 @@
     <!-- Sweat Alert -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
 
     <script>
         let btn = $('.btn-contact');

@@ -21,20 +21,17 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header">
-                    <div class="d-flex  justify-content-between">
+               @can('add_university')
+               <div class="card-header">
+                <div class="d-flex  justify-content-between">
 
-
-
-                        <div class="btn-website">
-                            <a title="{{ __('admin.Add University') }}" href="{{ route('admin.universities.create') }}" class="btn btn-primary"><i
-                                    class="fas fa-plus"></i> {{ __('admin.Add University') }}</a>
-
-                        </div>
-
-
+                    <div class="btn-website">
+                        <a title="{{ __('admin.Add University') }}" href="{{ route('admin.universities.create') }}" class="btn btn-primary"><i
+                                class="fas fa-plus"></i> {{ __('admin.Add University') }}</a>
                     </div>
                 </div>
+            </div>
+               @endcan
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
                     <table class="table table-striped  table-hover ">
@@ -44,7 +41,9 @@
                                 <th>{{ __('admin.University Name') }}</th>
                                 <th>{{ __('admin.Email') }}</th>
                                 <th>{{ __('admin.Phone') }}</th>
+                                @canAny(['delete_university','edit_university'])
                                 <th>{{ __('admin.Actions') }}</th>
+                                @endcanAny
                             </tr>
                         </thead>
 
@@ -63,18 +62,24 @@
                                     <td>{{ $university->name }}</td>
                                     <td>{{ $university->email }}</td>
                                     <td>{{ $university->phone }}</td>
+                                     @canAny(['delete_university','edit_university'])
                                     <td>
+                                        @can('edit_university')
                                         <a href="{{ route('admin.universities.edit', $university) }}" title="{{ __('admin.Edit') }}" type="button" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i>
                                         </a>
-                                        <form class="d-inline delete_form"
-                                            action="{{ route('admin.universities.destroy', $university->slug) }}"
-                                            method="POST">
-                                            @csrf
-                                            @method('delete')
-                                            <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
+                                        @endcan
+                                       @can('delete_university')
+                                       <form class="d-inline delete_form"
+                                       action="{{ route('admin.universities.destroy', $university->slug) }}"
+                                       method="POST">
+                                       @csrf
+                                       @method('delete')
+                                       <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i>
+                                       </button>
+                                   </form>
+                                       @endcan
                                     </td>
+                                     @endcanAny
                                 </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">

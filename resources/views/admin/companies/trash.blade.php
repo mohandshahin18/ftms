@@ -40,7 +40,9 @@
                                 <th>{{ __('admin.Email') }}</th>
                                 <th>{{ __('admin.Phone') }}</th>
                                 <th>{{ __('admin.Created at') }}</th>
+                                @canAny(['restore_company','forceDelete_company'])
                                 <th>{{ __('admin.Actions') }}</th>
+                                @endcanAny
                             </tr>
                         </thead>
                         <tbody>
@@ -52,25 +54,31 @@
                                     <td>{{ $company->email }}</td>
                                     <td>{{ $company->phone }}</td>
                                     <td>{{ $company->deleted_at->toDateString() }}</td>
+                                    @canAny(['restore_company','forceDelete_company'])
                                     <td>
                                       <div style="display: flex; gap: 5px">
-                                        <form action="{{ route('admin.companies.restore', $company->slug) }}" method="POST" class="restor_form">
-                                          @csrf
-                                          <button title="{{ __('admin.Restore') }}" class="btn btn-primary btn-sm btn_restore"><i class="fas fa-trash-restore"></i></button>
-                                        </form>
-                                        <form action="{{ route('admin.companies.forcedelete', $company->slug) }}" method="POST" class="delete_form">
-                                          @csrf
-                                          @method('delete')
-                                          <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm delete_btn"> <i class="fas fa-times"></i> </button>
-                                        </form>
+                                       @can('restore_company')
+                                       <form action="{{ route('admin.companies.restore', $company->slug) }}" method="POST" class="restor_form">
+                                        @csrf
+                                        <button title="{{ __('admin.Restore') }}" class="btn btn-primary btn-sm btn_restore"><i class="fas fa-trash-restore"></i></button>
+                                      </form>
+                                       @endcan
+                                       @can('forceDelete_company')
+                                       <form action="{{ route('admin.companies.forcedelete', $company->slug) }}" method="POST" class="delete_form">
+                                        @csrf
+                                        @method('delete')
+                                        <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm delete_btn"> <i class="fas fa-times"></i> </button>
+                                      </form>
+                                       @endcan
                                       </div>
                                     </td>
+                                      @endcanAny
                                 </tr>
                             @empty
                               <td colspan="12" style="text-align: center">
                                 <img src="{{ asset('adminAssets/dist/img/folder.png') }}" alt="" width="300" >
                                 <br>
-                                <h4>{{ __('admin.NO Data Selected') }}</h4>
+                                {{ __('admin.NO Data Selected') }}
                               </td>
                             @endforelse
                         </tbody>

@@ -177,17 +177,20 @@
 
                 } ,
                 success: function(data) {
-
                     setTimeout(() => {
+
                         btn.html('<i class="fas fa-check"></i>');
+
                         toastr.success('{{ __('admin.Profile Updated successfully') }}');
 
-                    }, 2000);
+
+                        }, 2000);
 
                     setTimeout(() => {
                         btn.removeAttr("disabled");
                         btn.html('{{ __('admin.Save Edit') }}');
-                    }, 2000);
+                    }, 3500);
+
 
                 window.history.pushState("localhost/", "profile", data.slug);
                 $("#primary_name").empty();

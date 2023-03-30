@@ -30,22 +30,25 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header">
-                    <div class="d-flex  justify-content-between">
+               @canAny(['import_university_id','add_university_id'])
+               <div class="card-header">
+                <div class="d-flex  justify-content-between">
 
 
 
-                        <div class="btn-website ">
-                            <a title="{{ __('admin.Add University ID') }}" href="{{ route('admin.subscribes.create') }}" class="btn btn-primary"><i
-                                    class="fas fa-plus"></i> {{ __('admin.Add University ID') }}</a>
-
-
-
+                   @can('add_university_id')
+                    <div class="btn-website ">
+                        <a title="{{ __('admin.Add University ID') }}" href="{{ route('admin.subscribes.create') }}" class="btn btn-primary"><i
+                                class="fas fa-plus"></i> {{ __('admin.Add University ID') }}</a>
                         </div>
-                        <a title="{{ __('admin.Import') }}" href="{{ route('admin.subscribes.import_view') }}" class="btn btn-primary"><i
-                            class="fas fa-file-import"></i> {{ __('admin.Import') }} </a>
-                    </div>
+                   @endcan
+                    @can('import_university_id')
+                    <a title="{{ __('admin.Import') }}" href="{{ route('admin.subscribes.import_view') }}" class="btn btn-primary"><i
+                        class="fas fa-file-import"></i> {{ __('admin.Import') }} </a>
+                    @endcan
                 </div>
+            </div>
+               @endcanAny
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
                     <table class="table table-striped  table-hover ">
@@ -56,7 +59,9 @@
                                 <th>{{ __('admin.University ID') }}</th>
                                 <th>{{ __('admin.University') }}</th>
                                 <th>{{ __('admin.Specialization') }}</th>
+                                @canAny(['delete_university_id','edit_university_id'])
                                 <th>{{ __('admin.Actions') }}</th>
+                                @endcanAny
                             </tr>
                         </thead>
 
@@ -76,18 +81,24 @@
                                     <td>{{ $subscribe->student_id }}</td>
                                     <td>{{ $subscribe->university->name }}</td>
                                     <td>{{ $subscribe->specialization->name }}</td>
+                                    @canAny(['delete_university_id','edit_university_id'])
                                     <td>
-                                        <a href="{{ route('admin.subscribes.edit',$subscribe->id) }}" title="{{ __('admin.Edit') }}" type="button" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i>
-                                        </a>
+                                       @can('edit_university_id')
+                                       <a href="{{ route('admin.subscribes.edit',$subscribe->id) }}" title="{{ __('admin.Edit') }}" type="button" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i>
+                                       </a>
+                                       @endcan
+                                        @can('delete_university_id')
                                         <form class="d-inline delete_form"
-                                            action="{{ route('admin.subscribes.destroy', $subscribe->id) }}"
-                                            method="POST">
-                                            @csrf
-                                            @method('delete')
-                                            <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
+                                        action="{{ route('admin.subscribes.destroy', $subscribe->id) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('delete')
+                                        <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                        @endcan
                                     </td>
+                                     @endcanAny
                                 </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">

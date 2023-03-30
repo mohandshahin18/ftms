@@ -362,7 +362,7 @@
                         setTimeout(() => {
                             btn.removeAttr("disabled");
                             btn.html('{{ __('admin.Save Edit') }}');
-                        }, 2000);
+                        }, 3500);
 
                         $("#name").empty();
                         $("#name").append(data.name);

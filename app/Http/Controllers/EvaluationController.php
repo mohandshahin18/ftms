@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\AppliedEvaluation;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class EvaluationController extends Controller
 {
@@ -20,6 +21,8 @@ class EvaluationController extends Controller
      */
     public function index()
     {
+        Gate::authorize('all_evaluations');
+
         $evaluations = Evaluation::latest('id')->paginate(env('PAGINATION_COUNT'));
         return view('admin.evaluations.index', compact('evaluations'));
     }
@@ -31,6 +34,7 @@ class EvaluationController extends Controller
      */
     public function create()
     {
+        Gate::authorize('add_evaluation');
 
         return view('admin.evaluations.create');
     }
@@ -100,6 +104,8 @@ class EvaluationController extends Controller
      */
     public function edit($slug)
     {
+        Gate::authorize('edit_evaluation');
+
         $evaluation = Evaluation::whereSlug($slug)->first();
         return view('admin.evaluations.edit', compact('evaluation'));
     }
@@ -161,6 +167,8 @@ class EvaluationController extends Controller
      */
     public function destroy($slug)
     {
+        Gate::authorize('delete_evaluation');
+
         $evaluation = Evaluation::whereSlug($slug)->first();
 
         Question::where('evaluation_id', $evaluation->id)->delete();

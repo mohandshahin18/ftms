@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Advert;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-use Exception;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Gate;
 
 
 class AdvertController extends Controller
@@ -19,6 +20,8 @@ class AdvertController extends Controller
      */
     public function index()
     {
+        Gate::authorize('all_adverts');
+
         $adverts = Advert::latest('id')->paginate(env('PAGINATION_COUNT'));
         return view('admin.adverts.index',compact('adverts'));
     }
@@ -30,6 +33,8 @@ class AdvertController extends Controller
      */
     public function create()
     {
+        Gate::authorize('add_advert');
+
         return view('admin.adverts.create');
     }
 
@@ -110,6 +115,8 @@ class AdvertController extends Controller
      */
     public function edit($id)
     {
+        Gate::authorize('edit_advert');
+
         $advert = Advert::where('id',$id)->first();
         return view('admin.adverts.edit',compact('advert'));
     }
@@ -181,6 +188,8 @@ class AdvertController extends Controller
      */
     public function destroy($id)
     {
+        Gate::authorize('delete_advert');
+
         $member = Advert::where('id',$id)->first();
         if(!strpos($member->image, 'default')){
         $path = public_path($member->image);
