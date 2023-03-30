@@ -79,14 +79,14 @@ class RolesDataSeeder extends Seeder
     ];
     public function run()
     {
-        // $data = [
-        //     ['name' => 'Super Admin'] ,
-        //     ['name' => 'Sub Admin'] ,
-        //     ['name' => 'Teacher'] ,
-        //     ['name' => 'Company'] ,
-        //     ['name' => 'Trainer'] ,
-        // ];
-        // Role::insert($data);
+        $data = [
+            ['name' => 'Super Admin'] ,
+            ['name' => 'Sub Admin'] ,
+            ['name' => 'Teacher'] ,
+            ['name' => 'Company'] ,
+            ['name' => 'Trainer'] ,
+        ];
+        Role::insert($data);
 
         foreach($this->ability as $code=>$name){
             Ability::create([
