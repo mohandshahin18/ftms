@@ -68,11 +68,8 @@
                         <div class="divider"></div>
                         <p class="my-3">{{ $task->sub_title }}</p>
                         <div class="desc mb-5 mt-3">
-                            @if ($task->description)
                                 {!! $task->description !!}
-                            @else
-                                {{ __('admin.There is no informations for this task') }}
-                            @endif
+
 
                         </div>
                         {{-- <a href="{{ asset('files/example.pdf') }}" download>Download Example PDF</a> --}}

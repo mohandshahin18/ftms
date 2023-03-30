@@ -57,7 +57,23 @@
     @endif
 
     <style>
+        .asside{
+            position: fixed;
 
+            height: 100%;
+            left: 0;
+            width: 20%;
+            top: 55px;
+            background-color: #e9ecef;
+            z-index: 999;
+            transition: all 0.3s ease-in-out;
+            }
+
+            .asside.close {
+
+                left: -20%;
+
+            }
 
     .msg-body p {
     font-size: 13px !important;
@@ -83,7 +99,6 @@
         $data = json_decode(File::get(storage_path('app/settings.json')), true);
     @endphp
 
-
     <div data-component="navbar">
 
 
@@ -98,8 +113,8 @@
 
             @endphp
             <nav class="navbar p-0 ">
-                <button class="navbar-toggler navbar-toggler-left rounded-0 border-0" type="button"
-                    data-toggle="collapse" data-target="#megamenu-dropdown" aria-controls="megamenu-dropdown"
+                <button class="navbar-toggler navbar-toggler-left rounded-0 border-0" id="button_navbar" type="button"
+
                     aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
@@ -110,12 +125,10 @@
 
 
                     <div class="right-links float-right mr-4">
-                        {{-- <a href="{{ route('student.home') }}" class="home"><i class="fa fa-home mr-3"></i></a> --}}
 
                         <div class="d-inline dropdown mr-3">
                             <a class="dropdown-toggle" id="messages" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false" href="#">
-                                {{-- <i class="fas fa-globe-europe"> --}}
                                 <span class="badge badge-danger navbar-badge"></span><i class="far fa-globe-europe"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right rounded-0  pt-0"
@@ -305,6 +318,21 @@
                     $category = Category::where('id', $category_id)->first();
                 @endphp
 
+
+                    <div class="asside close">
+
+                        @if (Auth::user()->company_id)
+                        <a class="btn rounded-0 border-0 d-flex w-100 justify-content-between p-3 pl-5"
+                            href="{{ route('student.company', [$company2->slug, $category->name]) }}">
+                            {{ __('admin.Company') }}
+                        </a>
+                    @else
+                        <a class="btn rounded-0 border-0 d-flex w-100 justify-content-between p-3 pl-5"
+                            href="{{ route('student.allCompanies') }}">
+                            {{ __('admin.Avilable Companies') }}
+                        </a>
+                    @endif
+                    </div>
                 <div class="megamenu w-100">
                     <div class="collapse navbar-collapse" id="megamenu-dropdown">
                         <div class="megamenu-links">
@@ -426,7 +454,12 @@
 
     @vite(['resources/js/app.js'])
 
-
+    <script>
+        $('#button_navbar').on('click',function(){
+            $('.asside').toggleClass('close');
+            // $('body').removeClass('close');
+        })
+    </script>
     @yield('scripts')
 </body>
 
