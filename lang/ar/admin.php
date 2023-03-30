@@ -350,4 +350,7 @@ return [
     "OK"=>"موافق",
     "There is no Notifications." => "لا يوجد اشعارات.",
     "There is no Messages" => "لا يوجد رسائل بعد",
+    "edit this after saving" => "التعديل بعد الحفظ",
+    "cant" => "لا يمكنك",
+    "Careful" => " انتبه : ",
 ];

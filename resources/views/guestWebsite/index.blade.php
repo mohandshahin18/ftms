@@ -15,7 +15,8 @@
     <link rel="stylesheet" href="{{ asset('websiteAssets/css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" />
     <!-- Sweat Alert -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.min.css" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="icon" type="image/x-icon" href="{{ asset('adminAssets/dist/img/selection/favicon.ico') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -23,11 +24,12 @@
     <title>{{ env('APP_NAME') }}</title>
 
     @if (app()->getLocale() == 'ar')
-    <link rel="stylesheet" href="{{ asset('studentAssets/css/style-ar.css') }}">
+        <link rel="stylesheet" href="{{ asset('studentAssets/css/style-ar.css') }}">
         <style>
-               body {
+            body {
                 direction: rtl
             }
+
             body,
             html {
                 font-family: event-reg;
@@ -35,18 +37,19 @@
 
             .ms-auto {
                 margin-left: unset !important;
-                margin-right: auto!important;
+                margin-right: auto !important;
             }
+
             @font-face {
                 font-family: event-reg;
                 src: url({{ asset('adminAssets/dist/fonts/JF-Flat-regular.ttf') }});
             }
 
-            @media (min-width: 992px){
+            @media (min-width: 992px) {
                 .ms-lg-3 {
-                margin-left: unset!important;
-                margin-right: 1rem!important;
-            }
+                    margin-left: unset !important;
+                    margin-right: 1rem !important;
+                }
             }
 
             .navbar-brand {
@@ -57,8 +60,8 @@
             }
 
             .ms-4 {
-                margin-left: unset!important;
-                margin-right: 1.5rem!important;
+                margin-left: unset !important;
+                margin-right: 1.5rem !important;
             }
         </style>
     @endif
@@ -67,7 +70,7 @@
 <body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="70">
     @php
         $data = json_decode(File::get(storage_path('app/settings.json')), true);
-
+        
     @endphp
 
 
@@ -95,57 +98,60 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#team">{{ __('admin.Our Team') }}</a>
                     </li>
-                                        <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link" href="#reviews">{{ __('admin.Ratings') }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#contact-us">{{ __('admin.Contact Us') }}</a>
                     </li>
                     <li class="nav-item dropdown d-flex">
-                        @if( app()->getLocale() == 'ar')
-                        <button class=" dropdown-toggle" type="button" style="border: unset; background: unset" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ asset('adminAssets/dist/img/lang/ar.png') }}" style="width: 25px !important" width="30" >
-                        </button>
+                        @if (app()->getLocale() == 'ar')
+                            <button class=" dropdown-toggle" type="button" style="border: unset; background: unset"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="{{ asset('adminAssets/dist/img/lang/ar.png') }}"
+                                    style="width: 25px !important" width="30">
+                            </button>
                         @else
-                        <button class="dropdown-toggle" type="button" style="border: unset; background: unset" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ asset('adminAssets/dist/img/lang/en.png') }}"style="width: 25px !important"  width="30" >
-                        </button>
-
+                            <button class="dropdown-toggle" type="button" style="border: unset; background: unset"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="{{ asset('adminAssets/dist/img/lang/en.png') }}"style="width: 25px !important"
+                                    width="30">
+                            </button>
                         @endif
 
 
                         <ul class="dropdown-menu">
-                            @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-
-                            <li class="{{ app()->getLocale() == $localeCode ? 'active' : ' ' }}">
-                                <a class="dropdown-item "hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
-                                    {{ $properties['native'] }}
-                                    <img src="{{ asset('adminAssets/dist/img/lang/'.$properties['flag']) }}" style="width: 25px !important" width="25" alt="" class="ml-2">
-                                </a>
-                            </li>
-
-
+                            @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                                <li class="{{ app()->getLocale() == $localeCode ? 'active' : ' ' }}">
+                                    <a class="dropdown-item "hreflang="{{ $localeCode }}"
+                                        href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                                        {{ $properties['native'] }}
+                                        <img src="{{ asset('adminAssets/dist/img/lang/' . $properties['flag']) }}"
+                                            style="width: 25px !important" width="25" alt="" class="ml-2">
+                                    </a>
+                                </li>
                             @endforeach
-
-
-                          </ul>                    </li>
+                        </ul>
+                    </li>
                 </ul>
-                <a href="{{ route('student.login.show') }}"
-                    class="btn btn-brand ms-lg-3">{{ __('admin.Login') }}</a>
+                <a href="{{ route('student.login.show') }}" class="btn btn-brand ms-lg-3">{{ __('admin.Login') }}</a>
             </div>
         </div>
     </nav>
     <!-- SLIDER -->
-    <div id="home" >
+    <div id="home">
 
         <div class="slide slide2">
             <div class="container">
                 <div class="row">
                     <div class="col-12 col-lg-10 offset-lg-1 text-white">
                         <h6 class="text-white text-uppercase">{{ __('admin.University training programme') }}</h6>
-                        <h1 class="display-5 my-4">{{ __('admin.You can login') }}<br />{{ __('admin.or create a new account') }}</h1>
-                        <a href="{{ route('student.login.show') }}" class="btn btn-brand">{{ __('admin.Login') }}</a>
-                        <a href="{{ route('student.subsicribeId') }}" class="btn btn-outline-light ms-3">{{ __('admin.Register') }}</a>
+                        <h1 class="display-5 my-4">
+                            {{ __('admin.You can login') }}<br />{{ __('admin.or create a new account') }}</h1>
+                        <a href="{{ route('student.login.show') }}"
+                            class="btn btn-brand">{{ __('admin.Login') }}</a>
+                        <a href="{{ route('student.subsicribeId') }}"
+                            class="btn btn-outline-light ms-3">{{ __('admin.Register') }}</a>
                     </div>
                 </div>
             </div>
@@ -259,24 +265,26 @@
                 </div>
             </div>
             <div class="row justify-content-center">
-               @foreach ($members as $member )
-               <div class="col-lg-4 col-md-8">
-                <div class="team-member">
-                    <div class="image">
-                        <img src="{{ asset($member->image) }}" style="height: 400px; object-fit: cover;" alt="">
-                        <div class="social-icons">
-                            <a href="{{ $member->facebook }}" target="__blank"><i class='bx bxl-facebook'></i></a>
-                            <a href="{{ $member->github }}"><i class='bx bxl-github'></i></a>
-                            <a href="{{ $member->linkedin }}"><i class='bx bxl-linkedin'></i></a>
-                        </div>
-                        <div class="overlay"></div>
-                    </div>
+                @foreach ($members as $member)
+                    <div class="col-lg-4 col-md-8">
+                        <div class="team-member">
+                            <div class="image">
+                                <img src="{{ asset($member->image) }}" style="height: 400px; object-fit: cover;"
+                                    alt="">
+                                <div class="social-icons">
+                                    <a href="{{ $member->facebook }}" target="__blank"><i
+                                            class='bx bxl-facebook'></i></a>
+                                    <a href="{{ $member->github }}"><i class='bx bxl-github'></i></a>
+                                    <a href="{{ $member->linkedin }}"><i class='bx bxl-linkedin'></i></a>
+                                </div>
+                                <div class="overlay"></div>
+                            </div>
 
-                    <h5>{{ $member->name }}</h5>
-                    <p>{{ $member->specialization }}</p>
-                </div>
-            </div>
-               @endforeach
+                            <h5>{{ $member->name }}</h5>
+                            <p>{{ $member->specialization }}</p>
+                        </div>
+                    </div>
+                @endforeach
 
             </div>
         </div>
@@ -286,23 +294,20 @@
 
         <div class="owl-theme owl-carousel reviews-slider container">
 
-           @forelse ($comments as $comment )
+            @forelse ($comments as $comment)
                 @php
-                        if($comment->student){
-                            $name = $comment->student->name ?? '';
-                            $src = 'https://ui-avatars.com/api/?background=random&name=' . $name;
-                            if ($comment->student->image) {
-                                    $img = $comment->student->image;
-                                    $src = asset($img);
-                            }
-                        }else{
-                            $name = __('admin.Deleted account');
-                            $src = 'https://ui-avatars.com/api/?background=random&name=' . $name;
-
+                    if ($comment->student) {
+                        $name = $comment->student->name ?? '';
+                        $src = 'https://ui-avatars.com/api/?background=random&name=' . $name;
+                        if ($comment->student->image) {
+                            $img = $comment->student->image;
+                            $src = asset($img);
                         }
-
-
-
+                    } else {
+                        $name = __('admin.Deleted account');
+                        $src = 'https://ui-avatars.com/api/?background=random&name=' . $name;
+                    }
+                    
                 @endphp
                 <div class="review">
                     <div class="person">
@@ -319,9 +324,8 @@
                     </div>
                     <i class='bx bxs-quote-alt-left'></i>
                 </div>
-           @empty
-
-           @endforelse
+            @empty
+            @endforelse
         </div>
     </section>
 
@@ -339,7 +343,8 @@
 
             <div class="row justify-content-center">
                 <div class="col-lg-8">
-                    <form class="p-lg-5 col-12 row g-3 contact-form" method="POST" action="{{ route('website.contact_us') }}">
+                    <form class="p-lg-5 col-12 row g-3 contact-form" method="POST"
+                        action="{{ route('website.contact_us') }}">
                         @csrf
 
                         <div class="col-lg-6">
@@ -349,23 +354,23 @@
                         </div>
                         <div class="col-lg-6">
                             <label for="lastName" class="form-label">{{ __('admin.Last name') }}</label>
-                            <input type="text" class="form-control" name="lastname"  id="lastName"
+                            <input type="text" class="form-control" name="lastname" id="lastName"
                                 aria-describedby="emailHelp">
                         </div>
                         <div class="col-12">
                             <label for="email" class="form-label">{{ __('admin.Email') }}</label>
-                            <input type="email" class="form-control"
-                                id="email" name="email" aria-describedby="emailHelp">
+                            <input type="email" class="form-control" id="email" name="email"
+                                aria-describedby="emailHelp">
                         </div>
                         <div class="col-12">
                             <label for="message" class="form-label">{{ __('admin.Message') }}</label>
-                            <textarea name="message"
-                                class="form-control" id="" rows="4"></textarea>
+                            <textarea name="message" class="form-control" id="" rows="4"></textarea>
                         </div>
 
                         <div class="col-12 text-end">
 
-                            <button type="button" class="btn btn-brand btn-contact">{{ __('admin.Send Message') }}</button>
+                            <button type="button"
+                                class="btn btn-brand btn-contact">{{ __('admin.Send Message') }}</button>
                         </div>
                     </form>
                 </div>
@@ -391,14 +396,14 @@
             </div>
         </div>
         <div class="footer-bottom text-center">
-            <p class="mb-0">{{ $data['copy_right']}}</p> {{ __('admin.Distributed By') }} : {{ $data['distributed_by'] }}</a>
+            <p class="mb-0">{{ $data['copy_right'] }}</p> {{ __('admin.Distributed By') }} :
+            {{ $data['distributed_by'] }}</a>
         </div>
     </footer>
 
 
     <script>
-    let lang = "{{ app()->getLocale() }}" ;
-
+        let lang = "{{ app()->getLocale() }}";
     </script>
     <script src="{{ asset('websiteAssets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('websiteAssets/js/bootstrap.bundle.min.js') }}"></script>
@@ -409,38 +414,38 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <script>
-          let btn = $('.btn-contact');
-          let form = $(".contact-form");
+        let btn = $('.btn-contact');
+        let form = $(".contact-form");
 
 
-            form.onsubmit = (e)=> {
-                    e.preventDefault();
+        form.onsubmit = (e) => {
+            e.preventDefault();
 
+        }
+
+        let formData = form.serialize();
+        let url = form.attr("action");
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
+        });
 
-            let formData = form.serialize();
-            let url = form.attr("action");
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+        btn.on("click", function() {
+            btn.attr("disabled", true)
 
-            btn.on("click", function() {
-                btn.attr("disabled", true)
-
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: form.serialize(),
-                    beforeSend: function(data) {
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: form.serialize(),
+                beforeSend: function(data) {
                     btn.html('<i class="fa fa-spin fa-spinner "></i>');
-                         $('.invalid-feedback').remove();
-                        $('input').removeClass('is-invalid');
-                        $('textarea').removeClass('is-invalid');
-                    } ,
-                    success: function(data) {
-                        setTimeout(() => {
+                    $('.invalid-feedback').remove();
+                    $('input').removeClass('is-invalid');
+                    $('textarea').removeClass('is-invalid');
+                },
+                success: function(data) {
+                    setTimeout(() => {
 
                         btn.html('<i class="fas fa-check"></i>');
 
@@ -458,15 +463,16 @@
                             timerProgressBar: false,
                             didOpen: (toast) => {
                                 toast.addEventListener('mouseenter', Swal.stopTimer)
-                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                toast.addEventListener('mouseleave', Swal
+                                    .resumeTimer)
                             }
-                            })
+                        })
 
-                            Toast.fire({
+                        Toast.fire({
                             icon: 'success',
                             title: '{{ __('admin.Message has been send') }}'
-                            })
-                            }, 1500);
+                        })
+                    }, 1500);
 
                     setTimeout(() => {
                         btn.html('{{ __('admin.Send Message') }}');
@@ -474,24 +480,24 @@
                     }, 2000);
 
 
-                    } ,
-                    error: function(data) {
-                        btn.attr("disabled", false)
-                        btn.html('{{ __('admin.Send Message') }}');
-                        $('.invalid-feedback').remove();
-                        $.each(data.responseJSON.errors, function (field, error) {
-                            if(field == 'message') {
-                        $("textarea").addClass('is-invalid').after('<small class="invalid-feedback">' +error+ '</small>');
-                       } else {
-                        $("input[name='" + field + "']").addClass('is-invalid').after('<small class="invalid-feedback">' +error+ '</small>');
-                       }
-                        });
-                    } ,
-                })
+                },
+                error: function(data) {
+                    btn.attr("disabled", false)
+                    btn.html('{{ __('admin.Send Message') }}');
+                    $('.invalid-feedback').remove();
+                    $.each(data.responseJSON.errors, function(field, error) {
+                        if (field == 'message') {
+                            $("textarea").addClass('is-invalid').after(
+                                '<small class="invalid-feedback">' + error + '</small>');
+                        } else {
+                            $("input[name='" + field + "']").addClass('is-invalid').after(
+                                '<small class="invalid-feedback">' + error + '</small>');
+                        }
+                    });
+                },
+            })
 
-            });
-
-
+        });
     </script>
 </body>
 

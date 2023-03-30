@@ -51,9 +51,18 @@
                         </thead>
 
                         <tbody>
+
+                            @php
+                                $count = $categories->count();
+                            @endphp
                             @forelse ($categories as $category)
                                 <tr id="row_{{ $category->slug }}">
-                                    <td>{{ $category->id }}</td>
+                                    <td>
+                                        {{ $count }}
+                                        @php
+                                            $count--;
+                                        @endphp
+                                    </td>
                                     <td>{{ $category->name }}</td>
                                     <td>{{ $category->companies->count() }}</td>
                                     <td>

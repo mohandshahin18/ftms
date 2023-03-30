@@ -58,9 +58,17 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                                $count = $companies->count();
+                            @endphp
                             @forelse ($companies as $company)
                                 <tr id="row_{{ $company->slug }}">
-                                    <td>{{ $company->id }}</td>
+                                    <td>
+                                        {{ $count }}
+                                        @php
+                                            $count--;
+                                        @endphp
+                                    </td>
                                     <td>{{ $company->name }}</td>
                                     <td>{{ $company->categories->count() }}</td>
                                     <td>{{ $company->email }}</td>

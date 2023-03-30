@@ -45,9 +45,17 @@
                         </thead>
 
                         <tbody>
+                            @php
+                                $count = $teachers->count();
+                            @endphp
                             @forelse ($teachers as $teacher)
                                 <tr id="row_{{ $teacher->slug }}">
-                                    <td>{{ $teacher->id }}</td>
+                                    <td>
+                                        {{ $count }}
+                                        @php
+                                            $count--;
+                                        @endphp
+                                    </td>
                                     <td>{{ $teacher->name }}</td>
                                     <td>{{ $teacher->email }}</td>
                                     <td>{{ $teacher->phone }}</td>

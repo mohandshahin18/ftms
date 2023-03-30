@@ -43,7 +43,9 @@
         @endphp
 
         <a href="" style="font-weight: unset" class="chat-circle main-msg" data-slug="{{ $company->slug }}"
-            data-name="{{ $company->name }}">
+            data-name="{{ $company->name }}"
+            data-id="{{ $company->id }}"
+            data-type="company">
             <div class="notification-list ' . $unread . '">
                 <p class="open-msg">open</p>
                 <div class="notification-list_content">
@@ -103,7 +105,9 @@
         @endphp
 
         <a href="" style="font-weight: unset" class="chat-circle main-msg" data-slug="{{ $trainer->slug }}"
-            data-name="{{ $trainer->name }}">
+            data-name="{{ $trainer->name }}"
+            data-id="{{ $trainer->id }}"
+            data-type="trainer">>
             <div class="notification-list ' . $unread . '">
                 <p class="open-msg">open</p>
                 <div class="notification-list_content">
@@ -172,7 +176,9 @@
         @endphp
 
         <a href="" style="font-weight: unset" class="chat-circle main-msg" data-slug="{{ $student->slug }}"
-            data-name="{{ $student->name }}">
+            data-name="{{ $student->name }}"
+            data-id="{{ $teacher->id }}"
+            data-type="teacher">>
             <div class="notification-list ' . $unread . '">
                 <p class="open-msg">open</p>
                 <div class="notification-list_content">

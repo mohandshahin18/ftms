@@ -178,3 +178,7 @@ background-position: top calc(0.375em + 0.1875rem) left calc(0.375em + 0.1875rem
     padding-right: 15px !important;
 
 }
+
+.input-box #clear_input {
+    right: 285px !important;
+}

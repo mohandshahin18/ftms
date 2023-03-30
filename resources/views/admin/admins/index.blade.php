@@ -22,7 +22,7 @@
 
 
                         <div class="btn-website">
-                            <a title="{{ __('admin.Add Admin') }}" href="{{ route('admin.admins.create') }}" class="btn btn-primary"><i
+                            <a title="{{ __('admin.Add Admin') }}" href="{{ route('admin.admins.create') }}" class="btn btn-primary btn-flat"><i
                                     class="fas fa-plus"></i> {{ __('admin.Add Admin') }}</a>
                         </div>
 
@@ -43,9 +43,17 @@
                         </thead>
 
                         <tbody>
+                            @php
+                                $count = $admins->count();
+                            @endphp
                             @forelse ($admins as $admin)
                                 <tr id="row_{{ $admin->slug }}">
-                                    <td>{{ $admin->id }}</td>
+                                    <td>
+                                        {{ $count }}
+                                        @php
+                                            $count--;
+                                        @endphp
+                                    </td>
                                     <td>{{ $admin->name }}</td>
                                     <td>{{ $admin->email }}</td>
                                     <td>{{ $admin->phone }}</td>

@@ -48,9 +48,17 @@
                         </thead>
 
                         <tbody>
+                            @php
+                                $count = $specializations->count();
+                            @endphp
                             @forelse ($specializations as $specialization)
                                 <tr id="row_{{ $specialization->slug }}">
-                                    <td>{{ $specialization->id }}</td>
+                                    <td>
+                                        {{ $count }}
+                                        @php
+                                            $count--;
+                                        @endphp
+                                    </td>
                                     <td>{{ $specialization->name }}</td>
                                     <td>
                                         <a title="{{ __('admin.Edit') }}" href="{{ route('admin.specializations.edit', $specialization->slug) }}" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i> </a>

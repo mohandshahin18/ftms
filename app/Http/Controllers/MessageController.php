@@ -133,6 +133,10 @@ class MessageController extends Controller
             $output .= '<div class="all">
                         <a href="' . route('admin.all.messages.page') . '" class="dropdown-item dropdown-footer text-center">Show All Messages</a>
                     </div>';
+
+            if($number != 0) {
+                $number = '<span class="badge badge-danger navbar-badge" id="messages-num">'.$number.'</span>';
+            }
             $data = [
                 "output" => $output,
                 "number" => $number,
@@ -468,8 +472,8 @@ class MessageController extends Controller
             }
             if($student) {
                 $message = Message::where([
-                    ['sender_type', $role],
-                    ['receiver_type', 'admin'],
+                    ['sender_type', 'student'],
+                    ['receiver_type', $role],
                     ['sender_id', $student->id],
                     ['receiver_id', $auth->id],
                 ])
@@ -477,8 +481,8 @@ class MessageController extends Controller
                 ->first();
             } else {
                 $message = Message::where([
-                    ['sender_type', $role],
-                    ['receiver_type', 'admin'],
+                    ['sender_type', 'admin'],
+                    ['receiver_type', $role],
                     ['sender_id', $admin->id],
                     ['receiver_id', $auth->id],
                 ])
@@ -723,7 +727,8 @@ class MessageController extends Controller
             }
 
             $output .= '<a href="" style="font-weight: unset" class="chat-circle main-msg" data-slug="' . $company->slug . '"
-                data-name="' . $company->name . '">
+            data-id="' . $company->id . '"
+                data-name="' . $company->name . '" data-type="company">
                                 <div class="notification-list ' . $unread . '">
                                     <p class="open-msg">open</p>
                                     <div class="notification-list_content">
@@ -791,7 +796,8 @@ class MessageController extends Controller
             }
 
             $output .= '<a href="#" style="font-weight: unset" class="chat-circle main-msg" data-slug="' . $teacher->slug . '"
-                data-name="' . $teacher->name . '">
+            data-id="' . $teacher->id . '"
+                data-name="' . $teacher->name . '" data-type="teacher">
                                 <div class="notification-list ' . $unread . '">
                                     <p class="open-msg">open</p>
                                     <div class="notification-list_content">

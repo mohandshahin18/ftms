@@ -162,9 +162,19 @@
                         </thead>
 
                         <tbody>
+                            @php
+                                $count = $students->count();
+                            @endphp
                             @forelse ($students as $student)
                                 <tr id="row_{{ $student->slug }}">
-                                    <td>{{ $student->id }}</td>
+                                    <td>
+                                        {{ $count }}
+                                        
+                                        @php
+                                            $count--;
+                                        @endphp
+                                     
+                                    </td>
                                     <td>{{ $student->name }}</td>
                                     <td>{{ $student->phone }}</td>
                                     <td>{{ $student->student_id }}</td>
@@ -194,11 +204,11 @@
                                         <div>
                                             @if ($isEvaluated)
                                                 <a title="{{ __('admin.Evaluation') }}" href="{{ route('admin.show_evaluation', $student->slug) }}"
-                                                    class="btn btn-info btn-sm" data-disabled="true"
+                                                    class="btn btn-info btn-sm btn-flat" data-disabled="true"
                                                     title="show evaluation">{{ __('admin.Evaluation') }}</a>
                                             @else
                                                 <a title="{{ __('admin.Evaluate') }}" href="{{ route('admin.students.show', $student->slug) }}"
-                                                    class="btn btn-sm  btn-outline-secondary" data-disabled="true"
+                                                    class="btn btn-sm btn-flat btn-outline-secondary" data-disabled="true"
                                                     title="evaluate">{{ __('admin.Evaluate') }}</a>
                                             @endif
                                             @if (Auth::guard('company')->check())
@@ -219,7 +229,7 @@
                                                             class="fas fa-trash"></i> </button>
                                                 </form>
                                             @endif
-                                                <a href="{{ route('admin.messages', $student->slug) }}" class="btn btn-sm"><i class="fas fa-paper-plane"></i></a>
+                                                
                                         </div>
                                     </td>
                                 </tr>

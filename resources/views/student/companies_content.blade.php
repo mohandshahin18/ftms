@@ -11,7 +11,7 @@
                         <h5>{{ $company->name }}</h5>
                         <p class="mb-4">{{ Str::words(strip_tags(html_entity_decode($company->description)), 10, '...') }}</p>
 
-                        <a href="{{ route('student.company' ,[$company->slug , $category->name]) }}" class="btn-brand">Learn More</a>
+                        <a href="{{ route('student.company' ,[$company->slug , $category->name]) }}" class="btn-brand">{{ __('admin.Learn More') }}</a>
                         </div>
                   </article>
             </div>

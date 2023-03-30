@@ -161,7 +161,17 @@ class CompanyController extends Controller
     {
         $company = Company::whereSlug($slug)->first();
 
+        $students = $company->students;
+
+        foreach($students as $student) {
+            $student->company_id = null;
+            $student->trainer_id = null;
+            $student->category_id = null;
+            $student->save();
+        }
+
         $company->destroy($company->id);
+
         return $slug;
     }
 

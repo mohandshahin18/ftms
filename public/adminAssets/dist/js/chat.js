@@ -1,22 +1,3 @@
-// get all chats in dropdown once the page reloade
-$(document).ready(function() {
-    $.ajax({
-        type: "get",
-        url: urlOnLoad,
-        data: {slug: slug},
-        success:function(response) {
-          $("#messages-wrapper").empty();
-          $("#messages-wrapper").append(response.output);
-          if(response.number == 0) {
-            $("#messages-num").empty();
-          } else {
-            $("#messages-num").empty();
-            $("#messages-num").append(response.number);
-          }
-        }
-      });
-
-})
 
 const getAllChats = function() {
     $.ajax({
@@ -27,15 +8,21 @@ const getAllChats = function() {
           $("#messages-wrapper").empty();
           $("#messages-wrapper").append(response.output);
           if(response.number == 0) {
-            $("#messages-wrapper #messages-num").empty();
+
           } else {
-            $("#messages-wrapper #messages-num").empty();
-            $("#messages-wrapper #messages-num").append(response.number);
+            $(".messages-dropdown").append(response.number);
           }
+          
           
         }
       });
 }
+
+// get all chats in dropdown once the page reloade
+$(document).ready(function() {
+    getAllChats();
+})
+
 
 // pusher code
 
@@ -48,14 +35,15 @@ const getAllChats = function() {
 
         var channel = pusher.subscribe(`private-Messages.${userId}`);
         channel.bind('new-message', function(data) {
+
             var senderType = $("#type_input").val();
             var senderId = $("#id_input").val();
 
-            if(data.message.receiver_type == user && data.receiver_id == userId) {
+            if(data.message.receiver_type == user && data.message.receiver_id == userId) {
                 getAllChats();
             }
 
-            if(data.message.receiver_type == user && senderType == data.message.sender_type && data.message.sender_id == senderId && data.message.receiver_id == userId) {
+            if((data.message.receiver_type == user && senderType == data.message.sender_type) && (data.message.sender_id == senderId && data.message.receiver_id == userId)) {
                 appendMessage(data.message.message, data.message.id);
                 getAllChats();
             }

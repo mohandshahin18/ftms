@@ -61,9 +61,17 @@
                         </thead>
 
                         <tbody>
+                            @php
+                                $count = $subscribes->count();
+                            @endphp
                             @forelse ($subscribes as $subscribe)
                                 <tr id="row_{{ $subscribe->id }}">
-                                    <td>{{ $subscribe->id }}</td>
+                                    <td>
+                                        {{ $count }}
+                                        @php
+                                            $count--;
+                                        @endphp
+                                    </td>
                                     <td>{{ $subscribe->name }}</td>
                                     <td>{{ $subscribe->student_id }}</td>
                                     <td>{{ $subscribe->university->name }}</td>
