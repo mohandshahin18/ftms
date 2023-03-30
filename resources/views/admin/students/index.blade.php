@@ -199,14 +199,19 @@
                                         <div>
                                            @canAny(['evaluate_student','evaluation_student'])
                                            @if ($isEvaluated)
+                                           @can('evaluation_student')
+
                                            <a title="{{ __('admin.Evaluation') }}" href="{{ route('admin.show_evaluation', $student->slug) }}"
-                                               class="btn btn-info btn-sm" data-disabled="true"
-                                               title="show evaluation">{{ __('admin.Evaluation') }}</a>
-                                       @else
+                                            class="btn btn-info btn-sm" data-disabled="true"
+                                            title="show evaluation">{{ __('admin.Evaluation') }}</a>
+                                            @endcan
+                                            @else
+                                            @can('evaluate_student')
                                            <a title="{{ __('admin.Evaluate') }}" href="{{ route('admin.students.show', $student->slug) }}"
                                                class="btn btn-sm  btn-outline-secondary" data-disabled="true"
                                                title="evaluate">{{ __('admin.Evaluate') }}</a>
-                                       @endif
+                                               @endcan
+                                               @endif
                                            @endcanAny
                                            @can('delete_student')
                                            @if (Auth::guard('company')->check())

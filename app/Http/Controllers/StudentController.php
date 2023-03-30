@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 
 class StudentController extends Controller
 {
@@ -22,6 +23,8 @@ class StudentController extends Controller
      */
     public function index()
     {
+        Gate::authorize('all_students');
+
 
         if(Auth::guard('company')->check()) {
 
@@ -220,6 +223,8 @@ class StudentController extends Controller
      */
     public function show($slug)
     {
+        Gate::authorize('evaluate_student');
+
         $student = Student::whereSlug($slug)->first();
 
         $evaluation = Evaluation::where('evaluation_type', 'student')->first();
@@ -267,6 +272,8 @@ class StudentController extends Controller
      */
     public function destroy($slug)
     {
+        Gate::authorize('delete_student');
+
         $student = Student::whereSlug($slug)->first();
 
         Student::destroy($student->id);
@@ -281,6 +288,8 @@ class StudentController extends Controller
      */
     public function trash()
     {
+        Gate::authorize('recycle_students');
+
         if(request()->has('keyword')){
             $students = Student::onlyTrashed()->where('name' , 'like' , '%' .request()->keyword.'%')
             ->paginate(env('PAGINATION_COUNT'));
@@ -299,6 +308,8 @@ class StudentController extends Controller
      */
     public function restore($slug)
     {
+        Gate::authorize('restore_student');
+
         $students = Student::onlyTrashed()->whereSlug($slug)->first();
 
         $students->restore();
@@ -314,6 +325,8 @@ class StudentController extends Controller
      */
     public function forcedelete($slug)
     {
+        Gate::authorize('forceDelete_student');
+
         $students = Student::onlyTrashed()->whereSlug($slug)->first();
 
 
@@ -341,6 +354,8 @@ class StudentController extends Controller
      */
     public function show_evaluation($slug)
     {
+        Gate::authorize('evaluation_student');
+
         $student = Student::whereHas('applied_evaluation')->whereSlug($slug)->first();
         $evaluation = AppliedEvaluation::where('student_id', $student->id)
         ->where('evaluation_type', 'student')

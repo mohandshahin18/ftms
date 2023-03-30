@@ -357,7 +357,7 @@ html {
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="{{ route('admin.home') }}" class="brand-link text-center">
-                <img id="logo" src="{{ asset($data['logo']) }}" style="opacity: .8 ; width: 100px;">
+                <img id="logo" src="{{ asset($data['logo']) }}" style="opacity: .8 ; width: 130px;">
 
             </a>
 
@@ -720,7 +720,7 @@ html {
                                 @can('add_advert')
                                 <li class="nav-item">
                                     <a href="{{ route('admin.adverts.create') }}"
-                                        class="nav-link @yield('add-subscribe-active')">
+                                        class="nav-link @yield('add-advert-active')">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>{{ __('admin.Add Advert') }}</p>
                                     </a>
@@ -731,14 +731,16 @@ html {
                         @endcanAny
 
 
-                        <li class="nav-item @yield('students-menu-open')">
-                            <a href="{{ route('admin.students.index') }}" class="nav-link @yield('students-active')">
-                                <i class="nav-icon fas fa-users"></i>
-                                <p>
-                                    {{ __('admin.All Students') }}
-                                </p>
-                            </a>
-                        </li>
+                      @can('all_students')
+                      <li class="nav-item @yield('students-menu-open')">
+                        <a href="{{ route('admin.students.index') }}" class="nav-link @yield('students-active')">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>
+                                {{ __('admin.All Students') }}
+                            </p>
+                        </a>
+                    </li>
+                      @endcan
 
                       @canAny(['add_role','all_roles'])
                       <li class="nav-item @yield('roles-menu-open')">
