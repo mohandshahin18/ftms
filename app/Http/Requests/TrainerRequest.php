@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TrainerRequest extends FormRequest
@@ -31,6 +32,11 @@ class TrainerRequest extends FormRequest
         if($this->method() == 'PUT') {
             $rule = 'nullable';
         }
+        if(Auth::guard('admin')->check()){
+                $required = 'required';
+        }else{
+            $required = '';
+        }
 
         return [
             'name' => ['required', 'min:2'],
@@ -38,8 +44,9 @@ class TrainerRequest extends FormRequest
             'password' => ['required'],
             'phone' => ['required', 'min:7'],
             'category_id' => ['required'],
-            'company_id' => ['required'],
+            'company_id' =>  $required,
             'image' => [$rule, 'mimes:png,jpg,jpeg,webp,jfif,svg', 'max:2048'],
+            'role_id' =>  $required,
         ];
     }
 }

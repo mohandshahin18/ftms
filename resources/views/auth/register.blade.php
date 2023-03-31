@@ -57,7 +57,7 @@
                 </div>
                 <div class="signin-form register">
                     <div class="row">
-                        <form method="POST" action="{{ route('student.register', $subsicribe->university_id ) }}">
+                        <form method="POST" action="{{ route('student.register', $subsicribe->student_id ) }}">
                             @csrf
                             <h3 >{{ __('admin.Create a new account') }}</h3>
                             <div class="row">
@@ -71,6 +71,7 @@
 
                                 {{-- Student ID  --}}
                                 <div class="col-md-6">
+
                                     <div class="mb-3 form-group">
                                         <input type="text" class="form-control" value="{{ $subsicribe->student_id }}" placeholder="{{ __('admin.Student ID') }}" disabled>
                                     </div>

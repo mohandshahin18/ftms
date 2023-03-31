@@ -362,4 +362,11 @@ return [
     "edit this after saving" => "edit this after saving",
     "cant" => "can't",
     "Careful" => " Careful:  ",
+    "Role" => "Role",
+    "Select Role" => "Select Role",
+    "We have sent you an activation code, please check your email.","We have sent you an activation code, please check your email.",
+    "The entered university already exists" => "The entered university already exists",
+    "No advertisement has been posted yet" => "No advertisement has been posted yet",
+    "Adverts Number" => "Adverts Number",
+
 ];

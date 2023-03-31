@@ -226,6 +226,7 @@ return [
         "facebook"         => "الفيس بوك",
         "github"         => "القيت هب ",
         "linkedin"         => "لينكد ان",
+        "role_id"         => "الدور",
 
 
     ],

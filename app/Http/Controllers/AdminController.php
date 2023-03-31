@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\Admin;
+use App\Models\Role;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -33,8 +34,9 @@ class AdminController extends Controller
     public function create()
     {
         Gate::authorize('add_admin');
+        $roles =Role::get();
 
-        return view('admin.admins.create');
+        return view('admin.admins.create',compact('roles'));
     }
 
     /**
@@ -50,9 +52,8 @@ class AdminController extends Controller
             'email' => 'required|email|unique:admins,email',
             'password' => 'required|min:8',//|regex:/[0-9]/
             'phone' => 'required|unique:admins,phone',
-            'image' => ['required', 'mimes:png,jpg,jpeg,webp,jfif,svg', 'max:2048']
-        ], [
-            'password.regex' => 'password must contains numbers'
+            'image' => ['required', 'mimes:png,jpg,jpeg,webp,jfif,svg', 'max:2048'],
+            'role_id' => 'required',
         ]);
 
         $slug = Str::slug($request->name);
@@ -69,6 +70,7 @@ class AdminController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
+            'role_id' => $request->role_id,
             'password' => Hash::make($request->password),
             'image' => $path,
             'slug' => $slug,

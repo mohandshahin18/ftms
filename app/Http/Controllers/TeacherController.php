@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use App\Models\Role;
 use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\University;
@@ -39,10 +40,10 @@ class TeacherController extends Controller
     public function create()
     {
         Gate::authorize('add_teacher');
-
+        $roles =Role::get();
         $universities = University::get();
         $specializations = Specialization::get();
-        return view('admin.teachers.create',compact('universities','specializations'));
+        return view('admin.teachers.create',compact('universities','specializations','roles'));
     }
 
     /**
@@ -63,6 +64,7 @@ class TeacherController extends Controller
             $slug = $slug . '-' . $count;
         }
 
+
         $teacher = Teacher::create([
             'name' => $request->name,
             'phone' => $request->phone,
@@ -72,6 +74,7 @@ class TeacherController extends Controller
             'password' => Hash::make($request->password),
             'image' => $path,
             'slug' => $slug,
+            'role_id' => $request->role_id,
         ]);
 
         $students = Student::where('university_id', $teacher->university_id)->where('specialization_id', $request->specialization_id)->get();
@@ -149,5 +152,14 @@ class TeacherController extends Controller
         return $slug;
     }
 
+
+    public function get_specialization($id)
+    {
+        $university = University::with('specializations')->where('id',$id)->first();
+        $specializations = $university->specializations->pluck("name", 'id');
+        return json_encode($specializations);
+
+       
+    }
 
 }

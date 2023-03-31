@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Specialization;
 use App\Imports\ImportUniversityId;
+use App\Models\Student;
 use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -195,12 +196,19 @@ class SubsicribeController extends Controller
          $request->validate([
              'university_id_st' => 'required',
          ]);
-         $subsicribe = Subsicribe::where('student_id',$request->university_id_st)->first();
+
+         $student = Student::where('student_id',$request->university_id_st)->first();
+
+        if(!$student){
+            $subsicribe = Subsicribe::where('student_id',$request->university_id_st)->first();
 
             if($subsicribe){
                  return response()->json([route('student.register-view',$request->university_id_st)],200);
              }else{
                  return response()->json(['title'=>__('admin.The entered university id is not registered with us')],400);
              }
+        }else{
+            return response()->json(['title'=>__('admin.The entered university already exists')],400);
+        }
      }
 }

@@ -39,6 +39,7 @@ class CompanyRequest extends FormRequest
             'password' => [$rule],
             'image' => [$rule,'image','mimes:png,jpg,jpeg,svg,jfif,webp','max:2048'],
             'description' => ['required', new TextLength()],
+            'role_id' => $rule,
         ];
     }
 }

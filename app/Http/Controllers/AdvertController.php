@@ -21,8 +21,16 @@ class AdvertController extends Controller
     public function index()
     {
         Gate::authorize('all_adverts');
+        if(Auth::guard('company')->check()){
+            $adverts = Advert::latest('id')->where('company_id',Auth::user()->id)->paginate(env('PAGINATION_COUNT'));
+        }elseif(Auth::guard('teacher')->check()){
+            $adverts = Advert::latest('id')->where('teacher_id',Auth::user()->id)->paginate(env('PAGINATION_COUNT'));
+        }elseif(Auth::guard('trainer')->check()){
+            $adverts = Advert::latest('id')->where('trainer_id',Auth::user()->id)->paginate(env('PAGINATION_COUNT'));
+        }else{
+            $adverts = Advert::latest('id')->paginate(env('PAGINATION_COUNT'));
 
-        $adverts = Advert::latest('id')->paginate(env('PAGINATION_COUNT'));
+        }
         return view('admin.adverts.index',compact('adverts'));
     }
 

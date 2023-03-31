@@ -365,4 +365,11 @@ return [
     "edit this after saving" => "التعديل بعد الحفظ",
     "cant" => "لا يمكنك",
     "Careful" => " انتبه : ",
+    "Role" => "الدور",
+    "Select Role" => "اختار الدور",
+    "We have sent you an activation code, please check your email.","لقد أرسلنا لك رمز التفعيل ، يرجى التحقق من بريدك الإلكتروني.",
+    "The entered university already exists" => "الرقم الجامعي المدخل مُسجل بالفعل",
+    "No advertisement has been posted yet" => "لم يتم نشر اي اعلان حتى الان",
+    "Adverts Number" => "عدد الإعلانات",
+
 ];

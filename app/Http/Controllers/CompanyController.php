@@ -3,16 +3,17 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use App\Models\Role;
 use App\Models\Company;
 use App\Models\Category;
 use Illuminate\Support\Str;
-use App\Models\CategoryCompany;
 
+use App\Models\CategoryCompany;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Gate;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\CompanyRequest;
 
@@ -46,9 +47,9 @@ class CompanyController extends Controller
     public function create()
     {
         Gate::authorize('add_company');
-
+        $roles =Role::get();
         $categories = Category::get();
-        return view('admin.companies.create', compact('categories'));
+        return view('admin.companies.create', compact('categories','roles'));
     }
 
     /**
@@ -77,6 +78,7 @@ class CompanyController extends Controller
             'password' => Hash::make($request->password),
             'image' => $path,
             'slug' => $slug,
+            'role_id' => $request->role_id,
         ]);
         $company->categories()->attach($request->category_id);
 

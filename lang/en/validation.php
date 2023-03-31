@@ -183,6 +183,7 @@ return [
         "firstname"         => "first name",
         "lastname"         => "last name",
         "body"         => "comment",
+        "role_id"         => "role",
 
 
     ],

@@ -65,11 +65,29 @@ class RegisterController extends Controller
 
     }
 
-    public function createStudent(Request $request , $student_id)
+    public function slug($string, $separator = '-') {
+        if (is_null($string)) {
+            return "";
+        }
+
+        $string = trim($string);
+
+        $string = mb_strtolower($string, "UTF-8");
+
+        $string = preg_replace("/[^a-z0-9_\sءاأإآؤئبتثجحخدذرزسشصضطظعغفقكلمنهويةى]#u/", "", $string);
+
+        $string = preg_replace("/[\s-]+/", " ", $string);
+
+        $string = preg_replace("/[\s_]/", $separator, $string);
+
+        return $string;
+    }
+
+
+    public function createStudent(Request $request,$student_id)
     {
 
-        $subsicribe= Subsicribe::where('university_id',$student_id)->first();
-
+        $subsicribe= Subsicribe::where('student_id',$student_id)->first();
 
         $request->validate([
             'email' => ['required', 'string', 'email', 'unique:students'],
@@ -79,8 +97,9 @@ class RegisterController extends Controller
         ]);
 
 
-        $teacher = Teacher::where('university_id',$request->university_id)->where('specialization_id', $request->specialization_id)->first();
-        $slug = Str::slug($subsicribe->name);
+        $teacher = Teacher::where('university_id',$subsicribe->university_id)->where('specialization_id', $subsicribe->specialization_id)->first();
+
+        $slug = $this->slug($subsicribe->name);
         $slugCount = Student::where('slug' , 'like' , $slug. '%')->count();
         $random =  $slugCount + 1;
 
@@ -117,7 +136,7 @@ class RegisterController extends Controller
 
 
             return redirect()->route('student.login.show')
-                             ->with('msg' ,__('admin.We have sent you an activation code, please check your email.'))
+                             ->with('msg' ,__('admin.We have sent you an activation code to your email, please check your email.'))
                              ->with('type' , 'warning');
 
 

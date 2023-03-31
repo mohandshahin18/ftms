@@ -14,10 +14,12 @@
     @endif
 </head>
 <body style="background: #eee ; font-family: Arial, Helvetica, sans-serif">
-
+    @php
+    $data = json_decode(File::get(storage_path('app/settings.json')), true);
+    @endphp
     <div style="width: 550px ; background: #fff ; padding:20px; border: 2px solid #cfcfcf ; margin: 50px auto;">
         <div style="text-align: center;">
-            <img style="width: 120px;" src="{{ asset('adminAssets/dist/img/logo/logo-11.png') }}" alt="">
+            <img src="{{ asset($data['darkLogo']) }}"  style="width: 170px" alt="">
        </div>
         <h1>{{ __('admin.Hello!') }}</h1>
         <p style="color: #959a9a; line-height: 2; margin-bottom: 30px;">{{ __('admin.You are receiving this email because we have received your confirmation email request .') }}</p>

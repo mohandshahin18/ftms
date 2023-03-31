@@ -37,7 +37,7 @@ class TeacherRequest extends FormRequest
             'university_id' => ['required'],
             'specialization_id' => ['required'],
             'image' => [$rule, 'mimes:png,jpg,jpeg,webp,jfif,svg', 'max:2048'],
-
+            'role_id' => $rule,
         ];
     }
 }
