@@ -31,8 +31,8 @@ class TeacherRequest extends FormRequest
 
         return [
             'name' => ['required','min:3','string'],
-            'email' => ['required' , 'email'],
-            'phone' => ['required' , 'min:10' , 'max:20'],
+            'email' => ['required' , 'email', 'unique:teachers,email'],
+            'phone' => ['required' , 'min:10' , 'max:20', 'unique:teachers,phone'],
             'password' => ['required'],
             'university_id' => ['required'],
             'specialization_id' => ['required'],

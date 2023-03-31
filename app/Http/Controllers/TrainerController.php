@@ -27,7 +27,11 @@ class TrainerController extends Controller
     {
         Gate::authorize('all_trainers');
 
-        $trainers = Trainer::with('company')->latest('id')->paginate(env('PAGINATION_COUNT'));
+        if(Auth::guard('admin')->check()) {
+            $trainers = Trainer::with('company')->latest('id')->paginate(env('PAGINATION_COUNT'));
+        }elseif(Auth::guard('company')->check()) {
+            $trainers = Auth::user()->trainers()->latest('id')->paginate(env('PAGINATION_COUNT'));
+        }
         return view('admin.trainers.index', compact('trainers'));
     }
 
@@ -65,7 +69,7 @@ class TrainerController extends Controller
 
         if(Auth::guard('admin')->check()) {
             $company_id = $request->company_id;
-        } else {
+        }elseif(Auth::guard('company')->check()) {
             $company_id = Auth::user()->id;
         }
 

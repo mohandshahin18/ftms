@@ -26,8 +26,8 @@ class UniversityRequest extends FormRequest
    
         return [
             'name' => ['required','min:3','string'],
-            'email' => ['required'],
-            'phone' => ['required'],
+            'email' => ['required', 'unique:universities,email'],
+            'phone' => ['required', 'unique:universities,phone'],
             'address' => ['required'],
         ];
     }

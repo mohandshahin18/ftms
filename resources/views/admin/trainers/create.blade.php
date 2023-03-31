@@ -101,7 +101,7 @@
                                             @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                                             @endforeach
-                                        @else
+                                        @elseif (Auth::guard('company')->check())
                                             @foreach (Auth::user()->categories as $category)
                                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                                             @endforeach
