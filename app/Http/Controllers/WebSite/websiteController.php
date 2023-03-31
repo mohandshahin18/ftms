@@ -58,6 +58,9 @@ class websiteController extends Controller
         $remaining_hours = floor($remaining_minutes / 60);
         $remaining_days = floor($remaining_hours / 24);
         $remaining_hours = $remaining_hours % 24;
+
+        // dd($applied_task);
+
         return view('student.task',compact('task', 'remaining_days' ,'remaining_hours', 'remaining_minutes', 'applied_task'));
 
     }
@@ -283,7 +286,7 @@ class websiteController extends Controller
 
 
                         return redirect()->back()->with('msg', __('admin.Task submitted'))->with('type', 'success');
-                    } 
+                    }
                 // }else {
                 //     return redirect()->back()->with('msg', __('admin.File size is large'))->with('type', 'danger');
                 // }

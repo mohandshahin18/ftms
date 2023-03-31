@@ -4,6 +4,11 @@
 @section('sub-title', 'Profile')
 
 @section('content')
+<section class="bg-light" id="reviews">
+    <div class="container">
+       
+    </div>
+</section>
     <div class="bg-light">
         <div class="container ">
             <div class="box-all  ">
