@@ -669,7 +669,7 @@ html {
 
                       <li class="nav-item @yield('subscribes-menu-open')">
                         <a href="#" class="nav-link @yield('subscribes-active')">
-                            <i class="fas fa-file-signature nav-icon"></i>
+                            <i class="fas fa-id-card nav-icon"></i>
                             <p>
                                 {{ __('admin.University IDs') }}
                                 <i class="right fas fa-angle-left"></i>

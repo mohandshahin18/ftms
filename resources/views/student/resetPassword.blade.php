@@ -97,7 +97,7 @@
                                     </div>
 
                                     <div class="reset-vector-img">
-                                        <img src="{{ asset('studentAssets/img/reset-password-vector.jpg') }}" class="img-responsive"
+                                        <img src="{{ asset('studentAssets/img/reset-password.webp') }}" class="img-responsive"
                                             alt="">
                                     </div>
                                     <div class="row mt-5 px-2 reset-content-wrapper">

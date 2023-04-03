@@ -365,4 +365,8 @@ return [
     "edit this after saving" => "التعديل بعد الحفظ",
     "cant" => "لا يمكنك",
     "Careful" => " انتبه : ",
+    "There is no tasks yet!" => "ليس هنالك مهام بعد !",
+    "There is no tasks to show" => "ليس هنالك مهام لتُعرض",
+    "There is no adverts yet" => "لا يوجد إعلانات بعد",
+    
 ];

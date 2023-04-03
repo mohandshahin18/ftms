@@ -170,7 +170,7 @@
                     </a>
                 @empty
                     <div class="text-center">
-                        <img src="{{ asset('studentAssets/img/notifications.jpg') }}" class="img-responsive empty-state-img" alt="">
+                        <img src="{{ asset('studentAssets/img/notifications.webp') }}" class="img-responsive empty-state-img" alt="">
                         <h5>{{ __('admin.There is no Notifications.') }}</h5>
                     </div>
                 @endforelse

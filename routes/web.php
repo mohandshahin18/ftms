@@ -226,6 +226,7 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     Route::post('subscribes/import/Excel', [SubsicribeController::class, 'importExcel'])->name('subscribes.importExcel');
     // subsicribes
     Route::resource('subscribes', SubsicribeController::class);
+    Route::get('search/subsicribers', [SubsicribeController::class, 'search_subsicribers'])->name('search.subsicribers');
 
     // adverts
     Route::resource('adverts', AdvertController::class);

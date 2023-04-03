@@ -362,4 +362,7 @@ return [
     "edit this after saving" => "edit this after saving",
     "cant" => "can't",
     "Careful" => " Careful:  ",
+    "There is no tasks yet!" => " There is no tasks yet!",
+    "There is no tasks to show" => " There is no tasks to show",
+    "There is no adverts yet" => " There is no adverts yet",
 ];

@@ -203,4 +203,19 @@ class SubsicribeController extends Controller
                  return response()->json(['title'=>__('admin.The entered university id is not registered with us')],400);
              }
      }
+
+     /**
+      * ensure if university id is already exsitis in database.
+      *
+      * @param  \Illuminate\Http\Request  $request
+      * @return \Illuminate\Http\Response
+      */
+
+     public function search_subsicribers(Request $request)
+     {
+        $keyword = $request->searchValue;
+        $subsicribers = Subsicribe::where('name', 'like', '%'.$keyword.'%')->orWhere('student_id', 'like', '%'.$keyword.'%')->get();
+
+        return view('admin.subscribes.sunsicribers_search_result', compact('subsicribers'));
+     }
 }

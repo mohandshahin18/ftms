@@ -242,3 +242,8 @@ float: left!important;
   i.fas.fa-arrow-circle-right{
     rotate: 180deg;
   }
+
+  /* scroll bar */
+  body::-webkit-scrollbar {
+    direction: rtl;
+  }
