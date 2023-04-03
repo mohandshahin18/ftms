@@ -37,7 +37,9 @@
                                 <th>{{ __('admin.Trainer Name') }}</th>
                                 <th>{{ __('admin.Email') }}</th>
                                 <th>{{ __('admin.Phone') }}</th>
+                                @if(!Auth::guard('company')->check())
                                 <th>{{ __('admin.Company Name') }}</th>
+                                @endif
                                 <th>{{ __('admin.Program') }}</th>
                                 @can('delete_trainer')
                                 <th>{{ __('admin.Actions') }}</th>
@@ -61,7 +63,9 @@
                                     <td>{{ $trainer->name }}</td>
                                     <td>{{ $trainer->email }}</td>
                                     <td>{{ $trainer->phone }}</td>
+                                    @if(!Auth::guard('company')->check())
                                     <td>{{ $trainer->company->name }}</td>
+                                    @endif
                                     <td>{{ $trainer->category->name }}</td>
                                    @can('delete_trainer')
                                    <td>

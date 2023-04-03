@@ -76,23 +76,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 </style>
 
-@if(app()->getLocale()=='ar')
-<style>
-body ,
-html {
-    font-family: event-reg;
-}
-
-
-@font-face {
-    font-family: event-reg;
-    src: url({{ asset('adminAssets/dist/fonts/JF-Flat-regular.ttf') }});
-}
-
-
-
-</style>
-@endif
 
 </head>
 
@@ -159,6 +142,8 @@ html {
                     use App\Models\Student;
                     $auth =Auth::user();
                 @endphp
+            @can('notification')
+
 
                 <!-- Notifications Dropdown Menu -->
                 <li class="nav-item dropdown">
@@ -222,6 +207,7 @@ html {
 
                 </li>
 
+                @endcan
                 <!-- Sidebar user panel (optional) -->
                 <li class="nav-item dropdown">
                     @php

@@ -189,7 +189,6 @@
 
 
                         <div class="col-md-6 mb-3">
-                            <div class="form-group">
                                 <label class="mb-2">{{ __('admin.Programs') }}</label>
                                 <select name="category_id[]" class="form-control select2" multiple>
                                     @foreach ($categories as $category)
@@ -200,7 +199,6 @@
                                             {{ $category->name }}</option>
                                         @endforeach
                                     </select>
-                            </div>
                         </div>
 
 

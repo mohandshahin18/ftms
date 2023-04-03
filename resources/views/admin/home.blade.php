@@ -107,7 +107,7 @@
                   <div class="icon">
                     <i class="fas fa-ad"></i>
                   </div>
-                  <a href="{{ route('admin.categories.index') }}" class="small-box-footer">{{ __('admin.More info') }} <i class="fas fa-arrow-circle-right"></i></a>
+                  <a href="{{ route('admin.adverts.index') }}" class="small-box-footer">{{ __('admin.More info') }} <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             @endif

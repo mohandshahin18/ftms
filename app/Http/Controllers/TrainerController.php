@@ -27,7 +27,12 @@ class TrainerController extends Controller
     public function index()
     {
         Gate::authorize('all_trainers');
-        $trainers = Trainer::with('company')->latest('id')->paginate(env('PAGINATION_COUNT'));
+
+        if(Auth::guard('company')->check()) {
+            $trainers = Auth::user()->trainers()->latest('id')->paginate(env('PAGINATION_COUNT'));
+        }else{
+            $trainers = Trainer::with('company')->latest('id')->paginate(env('PAGINATION_COUNT'));
+        }
         return view('admin.trainers.index', compact('trainers'));
     }
 
@@ -66,7 +71,7 @@ class TrainerController extends Controller
         if(Auth::guard('admin')->check()) {
             $company_id = $request->company_id;
             $role_id = $request->role_id;
-        } else {
+        }elseif(Auth::guard('company')->check()) {
             $company_id = Auth::user()->id;
             $role_id = 5;
         }
@@ -147,15 +152,6 @@ class TrainerController extends Controller
         return $slug;
     }
 
-       /**
-     * return specialization based on university
-     *
-     */
-    // public function get_category($id)
-    // {
-    //     $company = CategoryCompany::where('company_id', $id)->get();
-    //     return json_encode($company);
-    // }
 
 
      /**

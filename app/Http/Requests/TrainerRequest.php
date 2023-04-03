@@ -40,9 +40,9 @@ class TrainerRequest extends FormRequest
 
         return [
             'name' => ['required', 'min:2'],
-            'email' => ['required'],
+            'email' => ['required', 'unique:trainers,email'],
             'password' => ['required'],
-            'phone' => ['required', 'min:7'],
+            'phone' => ['required', 'min:7', 'unique:trainers,phone'],
             'category_id' => ['required'],
             'company_id' =>  $required,
             'image' => [$rule, 'mimes:png,jpg,jpeg,webp,jfif,svg', 'max:2048'],

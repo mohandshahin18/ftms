@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Student;
 use App\Models\Subsicribe;
 use App\Models\University;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Specialization;
+use Illuminate\Support\Facades\DB;
 use App\Imports\ImportUniversityId;
-use App\Models\Student;
 use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -89,9 +90,36 @@ class SubsicribeController extends Controller
      */
     public function importExcel(Request $request)
     {
+        $request->validate([
+            'file'=>'required|mimes:xlsx'
+        ]);
         $file = $request->file('file');
 
-        Excel::import(new ImportUniversityId, $file);
+        // Get an array of university numbers from the Excel file
+            $universityNumbers = Excel::toArray([], $file)[0];
+            $universityNumbers = array_column($universityNumbers, 1);
+            // Get an array of university numbers that already exist in the database
+            $existingUniversityNumbers = DB::table('students')->pluck('student_id')->toArray();
+
+            // Find the university numbers that already exist in the database
+            $duplicateUniversityNumbers = array_intersect($universityNumbers, $existingUniversityNumbers);
+             $newValue = json_encode($duplicateUniversityNumbers);
+            if(count($duplicateUniversityNumbers) == 1){
+                $title = __('admin.The following entered university id already exists');
+            }else{
+                $title = __('admin.The following entered university ids already exist');
+            }
+
+            if(count($duplicateUniversityNumbers) > 0) {
+
+                return redirect()->back()->with('error', " $title  => $newValue")->with('type','danger');
+            }
+            else {
+                // Import the data from the Excel file
+                Excel::import(new ImportUniversityId, $file);
+            }
+
+
 
         return redirect()->route('admin.subscribes.index')->with('msg', __('admin.File imported successfully.'))->with('type','success');
 

@@ -11,8 +11,14 @@
   box-sizing: border-box;
 }
 
+body ,
+input , select , h3 , h2 , h1 , h4 , h5 ,
+.btn{
+    font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
 body {
-  font-family: "Lato Regular";
+    font-weight: 500;
+
   color: var(--secondColor);
   font-size: 14px;
   transition: all 0s ease !important;
@@ -45,6 +51,7 @@ body {
   cursor: pointer;
   height: 0;
   width: 0;
+  font-weight: 500;
 }
 
 /* Create a custom checkbox */

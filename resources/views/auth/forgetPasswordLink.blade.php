@@ -15,12 +15,7 @@
     <link rel="stylesheet" href="{{ asset('adminAssets/loginAssets/assets/css/style.css') }}">
     @if(app()->getLocale() == 'ar')
     <link rel="stylesheet" href="{{ asset('adminAssets/loginAssets/assets/css/style-ar.css') }}">
-        <style>
-                    @font-face {
-                        font-family: event-reg;
-                        src: url({{ asset('adminAssets/dist/fonts/JF-Flat-regular.ttf') }});
-                    }
-            </style>
+
 
     @endif
 

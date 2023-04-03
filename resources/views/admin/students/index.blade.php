@@ -155,7 +155,9 @@
                                 <th>#</th>
                                 <th>{{ __('admin.Student Name') }}</th>
                                 <th>{{ __('admin.Student phone') }}</th>
+                                @if(!(Auth::guard('company')->check() ||Auth::guard('trainer')->check()) )
                                 <th>{{ __('admin.Student ID') }}</th>
+                                @endif
                                 <th>{{ __('admin.University Name') }}</th>
                                 <th>{{ __('admin.Specialization') }}</th>
                                 <th>{{ __('admin.Evaluation Status') }}</th>
@@ -173,15 +175,17 @@
                                 <tr id="row_{{ $student->slug }}">
                                     <td>
                                         {{ $count }}
-                                        
+
                                         @php
                                             $count--;
                                         @endphp
-                                     
+
                                     </td>
                                     <td>{{ $student->name }}</td>
                                     <td>{{ $student->phone }}</td>
+                                    @if(!(Auth::guard('company')->check() ||Auth::guard('trainer')->check()) )
                                     <td>{{ $student->student_id }}</td>
+                                    @endif
                                     <td>{{ $student->university->name }}</td>
                                     <td>{{ $student->specialization->name }}</td>
                                     <td>

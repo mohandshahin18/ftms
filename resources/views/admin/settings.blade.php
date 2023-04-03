@@ -211,7 +211,7 @@
                     </div>
                     <div class="card-footer d-flex justify-content-end">
 
-                            <button type="button" class="btn btn-primary btn-add">
+                            <button type="submit" class="btn btn-primary btn-add">
                                 <i class="fas fa-plus"></i> {{ __('admin.Add') }} </button>
 
                     </div>

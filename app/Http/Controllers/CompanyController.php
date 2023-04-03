@@ -10,9 +10,10 @@ use Illuminate\Support\Str;
 
 use App\Models\CategoryCompany;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\File;
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\CompanyRequest;
@@ -175,11 +176,50 @@ class CompanyController extends Controller
         $students = $company->students;
 
         foreach($students as $student) {
+            $other_notifications = DB::table('notifications')
+            ->where('type', 'App\Notifications\NewTaskNotification')
+            ->where('notifiable_type', 'App\Models\Student')
+            ->where('notifiable_id', $student->id)
+            ->get();
+
+            $acceptApply = DB::table('notifications')
+            ->where('type', 'App\Notifications\AcceptApplyNotification')
+            ->where('notifiable_type', 'App\Models\Student')
+            ->where('notifiable_id', $student->id)
+            ->get();
+
+            $applayNotification = DB::table('notifications')
+            ->where('type', 'App\Notifications\AppliedNotification')
+            ->where('notifiable_type', 'App\Models\Company')
+            ->where('notifiable_id', $company->id)
+            ->get();
+
+        foreach ($other_notifications as $notification) {
+                DB::table('notifications')
+                    ->where('id', $notification->id)
+                    ->delete();
+
+        }
+
+        foreach ($acceptApply as $notification) {
+                DB::table('notifications')
+                    ->where('id', $notification->id)
+                    ->delete();
+        }
+        foreach ($applayNotification as $notification) {
+            DB::table('notifications')
+                ->where('id', $notification->id)
+                ->delete();
+        }
+
             $student->company_id = null;
             $student->trainer_id = null;
             $student->category_id = null;
             $student->save();
         }
+
+
+
 
         $company->destroy($company->id);
 

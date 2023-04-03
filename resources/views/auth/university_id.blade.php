@@ -18,12 +18,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
     @if(app()->getLocale() == 'ar')
     <link rel="stylesheet" href="{{ asset('adminAssets/loginAssets/assets/css/style-ar.css') }}">
-        <style>
-                    @font-face {
-                        font-family: event-reg;
-                        src: url({{ asset('adminAssets/dist/fonts/JF-Flat-regular.ttf') }});
-                    }
-            </style>
+
 
     @endif
     <style>
@@ -98,7 +93,7 @@
 
 
                                 <div class="btn-web mb-5">
-                                    <button type="button" class="btn btn-primary bold check-button  w-100">{{ __('admin.Check') }}</button>
+                                    <button type="submit" class="btn btn-primary bold check-button  w-100">{{ __('admin.Check') }}</button>
 
                                 </div>
 

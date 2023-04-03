@@ -281,7 +281,7 @@ return [
     "Make sure your data is correct, you cannot modify it later"=>" تأكد من صحة بياناتك , لا يمكنك تعديلها فيما بعد" ,
     "Import new university Ids"=>"استيراد أرقام جامعية جديدة" ,
     "Import"=>"استيراد" ,
-    "Only an Excel file must be selected, containing the student's name and their university id only"=>"يجب اختيار ملف من نوع اكسل فقط , يوجد به اسم الطالب ورقمه الجامعي فقط" ,
+    "Only an Excel file must be selected, containing the student's name and their university id"=>"يجب اختيار ملف من نوع اكسل فقط , يوجد به اسم الطالب ورقمه الجامعي " ,
     "Excel File"=>"ملف الإكسل" ,
     "File imported successfully."=>"تم استيراد الملف بنجاح ." ,
     "Active now" => "متصل الآن",
@@ -371,5 +371,10 @@ return [
     "The entered university already exists" => "الرقم الجامعي المدخل مُسجل بالفعل",
     "No advertisement has been posted yet" => "لم يتم نشر اي اعلان حتى الان",
     "Adverts Number" => "عدد الإعلانات",
+    "Contact Information" => "معلومات التواصل",
+    "You can contact us via email or mobile number" => "يمكنك التواصل معنا عبر البريد الإلكتروني أو رقم الجوال ",
+    "Comment" => "التعليق",
+    "The following entered university id already exists" => "الرقم الجامعي المدخل التالي موجود بالفعل",
+    "The following entered university ids already exist" => "الأرقام الجامعية المدخلة التالية موجودة بالفعل",
 
 ];

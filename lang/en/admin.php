@@ -281,7 +281,7 @@ return [
     "Make sure your data is correct, you cannot modify it later"=>" Make sure your data is correct, you cannot modify it later" ,
     "Import new university Ids"=>"Import new university Ids" ,
     "Import"=>"Import" ,
-    "Only an Excel file must be selected, containing the student's name and their university id only"=>"Only an Excel file must be selected, containing the student's name and their university id only" ,
+    "Only an Excel file must be selected, containing the student's name and their university id"=>"Only an Excel file must be selected, containing the student's name and their university id" ,
     "Excel File"=>"Excel File" ,
     "File imported successfully."=>"File imported successfully." ,
     "Active now" => "Active now",
@@ -368,5 +368,10 @@ return [
     "The entered university already exists" => "The entered university already exists",
     "No advertisement has been posted yet" => "No advertisement has been posted yet",
     "Adverts Number" => "Adverts Number",
+    "Contact Information" => "Contact Information",
+    "You can contact us via email or mobile number" => "You can contact us via email or mobile number",
+    "Comment" => "Comment",
+    "The following entered university id already exists" => "The following entered university id already exists",
+    "The following entered university ids already exist" => "الأرقام الجامعية المدخلة التالية موجودة بالفعل",
 
 ];

@@ -13,6 +13,16 @@
         .block {
             display: none;
         }
+        .location h5 ,
+        .location i{
+            color: #ff4d29 ;
+        }
+
+        .location ul li{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
     </style>
 @stop
 
@@ -41,15 +51,13 @@
 
 
 
-    <section class="text-center  location">
-        {!! $company->address !!}
-    </section>
+
 
 
 
 @if(Auth::user()->company_id)
 
-    <section class="bg-light">
+    <section >
         <div class="container">
                 <div class="row justify-content-center text-start">
                     <div class="col-12">
@@ -57,11 +65,29 @@
                             <h3>{{ __('admin.Provide your opinion on the company') }}</h3>
                         </div>
                     </div>
-                    <div class="col-md-8" >
+                    <div class="col-md-10" >
                         <form action="{{ route('student.comment',Auth::user()->slug) }}" method="POST"  class="comment-form">
                             @csrf
+                           <div class="row">
+                            <div class=" col-md-6">
+                                <div class="mb-3">
+                                    <label for="">{{ __('admin.Name') }}</label>
+                                    <input type="text" name="name" class="form-control"
+                                        value="{{ Auth::user()->name }}" readonly>
+                                </div>
+                            </div>
+
+                            <div class=" col-md-6">
+                                <div class="mb-3">
+                                    <label for="">{{ __('admin.Email') }}</label>
+                                    <input type="text" name="name" class="form-control"
+                                        value="{{ Auth::user()->email }}" readonly>
+                                </div>
+                            </div>
+
                                 <div class=" col-md-12">
                                     <div class="mb-3">
+                                        <label for="">{{ __('admin.Comment') }}</label>
                                         <textarea name="body" class="form-control @error('body') is-invalid @enderror" rows="5"></textarea>
                                         @error('body')
                                             <small class="invalid-feedback"> {{ $message }}</small>
@@ -69,6 +95,7 @@
                                         <p><b class="text-danger">* </b> {{ __('admin.Your comment will be displayed on the homepage') }}</p>
                                     </div>
                                 </div>
+                           </div>
                             <div class="text-end apply-div">
                                 <button type="button" class="btn px-5 btn-brand btn-comment" >{{ __('admin.Send') }}</button>
                             </div>
@@ -80,7 +107,7 @@
     </section>
 
 @else
-<section id="services" class="text-center bg-light">
+<section id="services" class="text-center">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12">
@@ -89,7 +116,7 @@
                     <h1>{{ __('admin.Apply To Our Company') }}</h1>
                 </div>
             </div>
-            <div class="col-md-8" id="main_content">
+            <div class="col-md-10" id="main_content">
 
                     @if ($ap)
                         <p>{{ __('admin.Your application under review, we will send a notification when we approved it') }}</p>
@@ -152,7 +179,28 @@
     </div>
 </section>
 
+
 @endif
+<section class="text-center bg-light location">
+    <div class="container w-100">
+        <div class="row">
+            <div class="col-lg-6 p-0">
+                {!! $company->address !!}
+            </div>
+            <div class="col-lg-6">
+               <div class="text-start p-5">
+                    <h3 class="mb-4">{{ __('admin.Contact Us') }}</h3>
+                    <h5 class="mb-4">{{ __('admin.Contact Information') }}</h5>
+                    <p class="mb-5">{{ __('admin.You can contact us via email or mobile number') }}</p>
+                    <ul>
+                        <li class="mb-3"><i class="fas fa-envelope"></i> {{ $company->email }}</li>
+                        <li><i class="fas fa-phone"></i>{{ $company->phone }}</li>
+                    </ul>
+               </div>
+            </div>
+        </div>
+    </div>
+</section>
 @stop
 
 @section('scripts')

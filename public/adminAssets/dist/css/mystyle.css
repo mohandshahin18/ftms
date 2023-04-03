@@ -1,4 +1,11 @@
-    a {
+body ,
+input , select , h3 , h2 , h1 , h4 , h5 ,
+.btn{
+    font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+
+
+a {
     color: #333;
    }
 

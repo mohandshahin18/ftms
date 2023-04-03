@@ -32,8 +32,8 @@ class CompanyRequest extends FormRequest
         }
         return [
             'name' => ['required','min:3','string'],
-            'email' => ['required'],
-            'phone' => ['required'],
+            'email' => ['required', 'unique:companies,email'],
+            'phone' => ['required', 'unique:companies,phone'],
             'address' => ['required'],
             'category_id' => ['required'],
             'password' => [$rule],
