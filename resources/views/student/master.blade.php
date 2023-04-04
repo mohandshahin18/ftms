@@ -156,10 +156,12 @@
             $name = Auth::guard()->user()->name ?? '';
             $src = 'https://ui-avatars.com/api/?background=random&name=' . $name;
 
+
             if (Auth::guard()->user()->image) {
                 $img = Auth::guard()->user()->image;
                 $src = asset($img);
             }
+
 
         @endphp
         <nav class="navbar p-0 ">
@@ -230,12 +232,14 @@
                                                 ->get();
                                         }
 
+
                                     @endphp
                                     @forelse ($myNotifications as $notify)
                                         @php
                                             if ($notify->data['from'] == 'apply') {
                                                 $company = Company::where('id', $notify->data['company_id'])->first();
                                                 $company = $company->image;
+
 
                                                 $name = $notify->data['name'] ?? '';
                                                 $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
@@ -246,6 +250,7 @@
                                             } elseif ($notify->data['from'] == 'task') {
                                                 $trainer = Trainer::where('id', $notify->data['trainer_id'])->first();
                                                 $trainer = $trainer->image;
+
 
                                                 $name = $notify->data['name'] ?? '';
                                                 $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;

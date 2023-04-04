@@ -50,7 +50,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
         align-items: center;
         gap: 2px;
     }
-
+    .alert-danger {
+        color: #721c24 !important;
+        background-color: #f8d7da !important;
+        border-color: #f5c6cb !important;
+        font-size: 16px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 2px;
+    }
 
          #center-text {
             display: flex;
@@ -655,7 +664,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                       <li class="nav-item @yield('subscribes-menu-open')">
                         <a href="#" class="nav-link @yield('subscribes-active')">
-                            <i class="fas fa-file-signature nav-icon"></i>
+                            <i class="fas fa-id-card nav-icon"></i>
                             <p>
                                 {{ __('admin.University IDs') }}
                                 <i class="right fas fa-angle-left"></i>
@@ -729,6 +738,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       @endcan
 
                       @canAny(['add_role','all_roles'])
+                      <div class="divider" style="border-bottom: 1px solid #4b545c;"></div>
                       <li class="nav-item @yield('roles-menu-open')">
                         <a href="#" class="nav-link @yield('roles-active')">
                             <i class="fas fa-user-lock"></i>

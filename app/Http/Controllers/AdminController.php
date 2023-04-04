@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use App\Models\Admin;
 use App\Models\Role;
+use App\Models\Admin;
+use App\Rules\TwoSyllables;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -48,7 +49,7 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|min:2',
+            'name' => ['required', new TwoSyllables()],
             'email' => 'required|email|unique:admins,email',
             'password' => 'required|min:8',//|regex:/[0-9]/
             'phone' => 'required|unique:admins,phone',

@@ -21,7 +21,10 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use App\Notifications\AppliedNotification;
+use App\Models\Users_Verify;
+
 
 class websiteController extends Controller
 {
@@ -226,6 +229,8 @@ class websiteController extends Controller
 
     public function editProfile(Request $request , $slug)
     {
+        if($slug == Auth::user()->slug){
+
 
         $student = Student::whereSlug($slug)->firstOrFail();
 
@@ -242,15 +247,54 @@ class websiteController extends Controller
             'image' => 'nullable'
         ]);
 
+        $is_email_verified = 1;
+        $token = Str::random(64);
 
 
+        if($request->email != Auth::user()->email){
+            $exisitEmail = Student::where('email',$request->email)->get();
+
+            if(is_null($exisitEmail)){
+                    $is_email_verified = 0;
+                    Users_Verify::create([
+                        'student_id' => $student->id,
+                        'token' => $token
+                    ]);
+
+                    Mail::send('emails.virefyEmail', ['token' => $token], function($message) use($request){
+                        $message->to($request->email);
+                        $message->subject('Email Verification Mail');
+                    });
+          }else{
+            return response()->json(['email' => __('admin.The email is already in use'),'filed' => 'email'], 400);
+        }
+
+        }
+
+        $phone = Auth::user()->phone;
+        if($request->phone != $phone){
+            $exisitPhone = Student::where('phone',$request->phone)->get();
+            if(is_null($exisitPhone)){
+
+              $phone = $request->phone;
+
+        }else{
+            return response()->json(['phone'=>__('admin.The mobile number is already in use'),'field'=>'phone'],400);
+        }
+        }
         $student->update([
+            'is_email_verified' =>$is_email_verified,
             'email' => $request->email,
-            'phone' => $request->phone,
+            'phone' => $phone,
             'image' => $path,
         ]);
 
+
         return json_encode(array("name"=>$student->name, "email"=>$student->email, "slug"=>$student->slug, "image" => $student->image));
+    }else{
+
+        return 'Not Allowed';
+    }
 
     }
 

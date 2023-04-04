@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\TwoSyllables;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -39,7 +40,7 @@ class TrainerRequest extends FormRequest
         }
 
         return [
-            'name' => ['required', 'min:2'],
+            'name' => ['required', new TwoSyllables()],
             'email' => ['required', 'unique:trainers,email'],
             'password' => ['required'],
             'phone' => ['required', 'min:7', 'unique:trainers,phone'],

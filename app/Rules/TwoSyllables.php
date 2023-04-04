@@ -29,7 +29,22 @@ class TwoSyllables implements Rule
      */
     public function passes($attribute, $value)
     {
-        return str_word_count(strip_tags($value)) == $this->len;
+        $arabic_word_count = preg_match_all('/\p{Arabic}+/u', $value, $arabic_matches);
+        $english_word_count = preg_match_all('/\b[A-Za-z]+\b/', $value, $english_matches);
+
+
+
+        if (preg_match('/\p{Arabic}/u', $value)) {
+            // The input text is in Arabic
+            return $arabic_word_count == $this->len;
+        } elseif (preg_match('/[A-Za-z]/', $value)) {
+            // The input text is in English
+            return $english_word_count == $this->len;
+        } else {
+            // The input text does not contain any Arabic or English characters
+            return false;
+        }
+
     }
 
     /**

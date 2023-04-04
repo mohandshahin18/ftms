@@ -171,10 +171,22 @@ class SubsicribeController extends Controller
             'specialization_id' =>'required'
         ]);
 
+        $student_id = $subsicribe->student_id;
+        if($request->university_id_st != $student_id){
+            $exisitStudent_id = Subsicribe::where('student_id',$request->university_id_st)->get();
+            if(is_null($exisitStudent_id)){
+
+              $student_id = $request->university_id_st;
+
+        }else{
+            return redirect()->back()->with('exisitStudent_id',__('admin.University id already exists'))->with('type','danger');
+        }
+        }
+
 
         $subsicribe->update([
             'name'=>  $request->name ,
-            'student_id' => $request->university_id_st ,
+            'student_id' => $student_id ,
             'university_id'=> $request->university_id,
             'specialization_id'=> $request->specialization_id ,
         ]);
@@ -238,5 +250,20 @@ class SubsicribeController extends Controller
         }else{
             return response()->json(['title'=>__('admin.The entered university already exists')],400);
         }
+     }
+
+     /**
+      * ensure if university id is already exsitis in database.
+      *
+      * @param  \Illuminate\Http\Request  $request
+      * @return \Illuminate\Http\Response
+      */
+
+     public function search_subsicribers(Request $request)
+     {
+        $keyword = $request->searchValue;
+        $subsicribers = Subsicribe::where('name', 'like', '%'.$keyword.'%')->orWhere('student_id', 'like', '%'.$keyword.'%')->get();
+
+        return view('admin.subscribes.sunsicribers_search_result', compact('subsicribers'));
      }
 }

@@ -1,6 +1,6 @@
 @extends('admin.master')
 
-@section('title',  __('admin.Edit Subscribe') )
+@section('title',  __('admin.Edit University ID') )
 @section('sub-title', __('admin.University IDs'))
 @section('subscribes-active', 'active')
 @section('index-subscribe-active', 'active')
@@ -13,7 +13,7 @@
         <div class="col-md-12">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title" style="float: unset">{{ __('admin.Edit Subscribe') }}</h3>
+                    <h3 class="card-title" style="float: unset">{{ __('admin.Edit University ID') }}</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
@@ -21,6 +21,13 @@
                     @csrf
                     @method('PUT')
                     <div class="card-body">
+                        @if (session('exisitStudent_id'))
+                        <div class="alert alert-{{ session('type') }}">
+                            {{ session('exisitStudent_id') }}
+
+                        </div>
+                    @endif
+
                         <div class="row">
                             {{-- name  --}}
                             <div class=" col-lg-6">

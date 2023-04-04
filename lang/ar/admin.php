@@ -377,4 +377,12 @@ return [
     "The following entered university id already exists" => "الرقم الجامعي المدخل التالي موجود بالفعل",
     "The following entered university ids already exist" => "الأرقام الجامعية المدخلة التالية موجودة بالفعل",
 
+    "There is no tasks yet!" => "ليس هنالك مهام بعد !",
+    "There is no tasks to show" => "ليس هنالك مهام لتُعرض",
+    "There is no adverts yet" => "لا يوجد إعلانات بعد",
+    "The mobile number is already in use" => "رقم الجوال مستخدم بالفعل",
+    "The email is already in use" => "البريد الالكتروني مستخدم بالفعل",
+    "University id already exists" => "الرقم الجامعي موجود بالفعل",
+    "Edit University ID" => "تعديل الرقم الجامعي",
+
 ];

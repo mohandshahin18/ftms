@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Rules\TextLength;
+use App\Rules\TwoSyllables;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CompanyRequest extends FormRequest
@@ -31,7 +32,7 @@ class CompanyRequest extends FormRequest
             $rule = 'nullable';
         }
         return [
-            'name' => ['required','min:3','string'],
+            'name' =>['required', new TwoSyllables()],
             'email' => ['required', 'unique:companies,email'],
             'phone' => ['required', 'unique:companies,phone'],
             'address' => ['required'],

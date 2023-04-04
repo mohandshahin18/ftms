@@ -1,239 +1,248 @@
 @extends('admin.master')
 
 @section('title', Auth::guard()->user()->name)
-@section('sub-title',  __('admin.Profile') )
+@section('sub-title', __('admin.Profile'))
 
 @section('styles')
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 
-<style>
+    <style>
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            color: #333;
+        }
 
-    .select2-container--default
-    .select2-selection--multiple
-    .select2-selection__choice {
-        color: #333;
-    }
+        .info-icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            text-align: center;
+            font-weight: bold;
+            font-size: 12px;
+            line-height: 16px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
 
-    .info-icon {
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-        border: 1px solid #ccc;
-        border-radius: 50%;
-        text-align: center;
-        font-weight: bold;
-        font-size: 12px;
-        line-height: 16px;
-        cursor: pointer;
-        margin-left: 5px;
-    }
+        .status-main {
+            position: relative;
+        }
 
-    .status-main {
-        position: relative;
-    }
+        .tooltip {
+            display: block;
+            /* display: none; */
+            position: absolute;
+            z-index: 1;
+            background-color: #000;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            font-size: 14px;
+            width: 300px;
+            text-align: left;
+        }
 
-    .tooltip {
-        display: block;
-        /* display: none; */
-        position: absolute;
-        z-index: 1;
-        background-color: #000;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        padding: 12px;
-        font-size: 14px;
-        width: 300px;
-        text-align: left;
-    }
-
-    .tooltip::after {
-        content: "";
-        position: absolute;
-        bottom: 100%;
-        left: 50%;
-        margin-left: -5px;
-        border-width: 5px;
-        border-style: solid;
-        border-color: transparent transparent #fff transparent;
-    }
-</style>
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent transparent #fff transparent;
+        }
+    </style>
 @endsection
 
 @section('content')
     <div class="box-all  ">
-        <form action="{{ route('admin.profile_edit' ,Auth::guard()->user()->id ) }}" method="POST"
+        <form action="{{ route('admin.profile_edit', Auth::guard()->user()->id) }}" method="POST"
             enctype="multipart/form-data" class="update_form">
             @csrf
             @method('PUT')
-        <div class="row">
-            <div class="col-md-4 mb-3">
-                <div class="info bg-white shadow  mr-3">
-                    <div class="d-flex flex-column align-items-center text-center p-2 py-2">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <div class="info bg-white shadow  mr-3">
+                        <div class="d-flex flex-column align-items-center text-center p-2 py-2">
 
 
-                        @php
+                            @php
 
-                            if (Auth::guard()->user()->image) {
-                                $img = Auth::guard()->user()->image;
-                                $src = asset($img);
-                            } else {
-                                $src = asset('adminAssets/dist/img/no-image.png');
-                            }
+                                if (Auth::guard()->user()->image) {
+                                    $img = Auth::guard()->user()->image;
+                                    $src = asset($img);
+                                } else {
+                                    $src = asset('adminAssets/dist/img/no-image.png');
+                                }
 
-                        @endphp
+                            @endphp
 
 
                             {{-- <label for="img">Image</label>
                             <input type="file" name="image" id="img"> --}}
 
-                        <div class="kt-avatar kt-avatar--outline kt-avatar--circle" id="kt_user_avatar_3">
-                            <div class="kt-avatar__holder" style="background-image: url({{ $src }})"></div>
-                            <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="Change avatar">
-                                <i class="fas fa-pen"></i>
-                                <input type="file" class="img" name="image" id="image">
-                            </label>
+                            <div class="kt-avatar kt-avatar--outline kt-avatar--circle" id="kt_user_avatar_3">
+                                <div class="kt-avatar__holder" style="background-image: url({{ $src }})"></div>
+                                <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="Change avatar">
+                                    <i class="fas fa-pen"></i>
+                                    <input type="file" class="img" name="image" id="image">
+                                </label>
+                            </div>
+
+
+
+                            <span class="font-weight-bold mt-3" id="name">{{ Auth::guard()->user()->name }}</span>
+                            <span class="text-black-50 mb-3" id="email">{{ Auth::guard()->user()->email }}</span><span>
+                            </span>
+
+                            @if (Auth::guard('company')->check())
+                                <span class="text-black-50 mb-3">{{ __('admin.Students Number') }}: <b
+                                        class="text-dark">{{ $company->students->count() }}</b></span>
+                            @endif
                         </div>
-
-
-
-                        <span class="font-weight-bold mt-3" id="name">{{ Auth::guard()->user()->name }}</span>
-                        <span class="text-black-50 mb-3" id="email">{{ Auth::guard()->user()->email }}</span><span> </span>
-
-                        @if (Auth::guard('company')->check())
-                        <span class="text-black-50 mb-3">{{ __('admin.Students Number') }}: <b class="text-dark">{{ $company->students->count() }}</b></span>
-                        @endif
                     </div>
                 </div>
-            </div>
-            <div class=" col-md-8  ">
-                <div class="p-3 bg-white shadow  mb-4">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-6 mb-3">
-                            <label class="labels">{{ __('admin.Name') }}</label>
-                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="{{ __('admin.Name') }}"
-                                value="{{ Auth::guard()->user()->name }}">
+                <div class=" col-md-8  ">
+                    <div class="p-3 bg-white shadow  mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6 mb-3">
+                                <label class="labels">{{ __('admin.Name') }}</label>
+                                <input type="text" name="name"
+                                    class="form-control @error('name') is-invalid @enderror"
+                                    placeholder="{{ __('admin.Name') }}" value="{{ Auth::guard()->user()->name }}">
                                 @error('name')
-                                        <small class="invalid-feedback"> {{ $message }}</small>
+                                    <small class="invalid-feedback"> {{ $message }}</small>
                                 @enderror
-                        </div>
+                            </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label class="labels">{{ __('admin.Email') }}</label>
-                            <input type="text" name="email" class="form-control @error('name') is-invalid @enderror" value="{{ Auth::guard()->user()->email }}"
-                                placeholder="{{ __('admin.Email') }}">
+                            <div class="col-md-6 mb-3">
+                                <label class="labels">{{ __('admin.Email') }}</label>
+                                <input type="text" name="email"
+                                    class="form-control @error('name') is-invalid @enderror"
+                                    value="{{ Auth::guard()->user()->email }}" placeholder="{{ __('admin.Email') }}">
                                 @error('name')
-                                <small class="invalid-feedback"> {{ $message }}</small>
+                                    <small class="invalid-feedback"> {{ $message }}</small>
                                 @enderror
-                        </div>
+                            </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label class="labels">{{ __('admin.Phone') }}</label>
-                            <input type="text" name="phone" class="form-control @error('name') is-invalid @enderror" placeholder="{{ __('admin.Phone') }}"
-                                value="{{ Auth::guard()->user()->phone }}">
+                            <div class="col-md-6 mb-3">
+                                <label class="labels">{{ __('admin.Phone') }}</label>
+                                <input type="text" name="phone"
+                                    class="form-control @error('name') is-invalid @enderror"
+                                    placeholder="{{ __('admin.Phone') }}" value="{{ Auth::guard()->user()->phone }}">
                                 @error('name')
-                                <small class="invalid-feedback"> {{ $message }}</small>
+                                    <small class="invalid-feedback"> {{ $message }}</small>
                                 @enderror
-                        </div>
+                            </div>
 
 
-                        @if(Auth::guard('teacher')->check())
+                            @if (Auth::guard('teacher')->check())
 
-                        <div class="col-md-6 mb-3">
-                            <label class="labels">{{ __('admin.University') }}</label>
-                            <input type="text" name="" class="form-control " disabled  value="{{ $university }}">
-                        </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="labels">{{ __('admin.University') }}</label>
+                                    <input type="text" name="" class="form-control " disabled
+                                        value="{{ $university }}">
+                                </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label class="labels">{{ __('admin.Specialization') }}</label>
-                            <select name="specialization_id" class="form-control" id="specialization_id">
-                                @foreach ($specializations as $specialization)
-                                <option @selected(Auth::user()->specialization_id == $specialization->id) value="{{ $specialization->id }}">
-                                    {{ $specialization->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        @endif
-                        @if(Auth::guard('trainer')->check())
-                        <div class="col-md-6 mb-3">
-                            <label class="labels">{{ __('admin.Company') }}Company</label>
-                            <input type="text" name="" class="form-control " disabled name=""  value="{{ $company }}">
-                        </div>
-
-                        {{-- Program --}}
-                        <div class="col-md-6 mb-3">
-                            <label class="labels">{{ __('admin.Program') }}</label>
-                            <select name="category_id" class="form-control">
-                                @foreach ($categories as $category)
-                                <option @selected(Auth::user()->category_id == $category->id) value="{{ $category->id }}">
-                                    {{ $category->name }}</option>
-                                @endforeach
-
-                            </select>
-                        </div>
-
-                        @endif
-
-                        @if(Auth::guard('company')->check())
-
-                        <div class="col-md-6 mb-3">
-                            <label class="labels">{{ __('admin.Location') }}</label>
-                            <input type="text" name="address" class="form-control @error('address') is-invalid @enderror" placeholder="{{ __('admin.Location') }}"
-                                value="{{ Auth::guard()->user()->address }}">
-                                @error('address')
-                                <small class="invalid-feedback"> {{ $message }}</small>
-                                @enderror
-                        </div>
-
-
-
-                        <div class="col-md-6 mb-3">
-                                <label class="mb-2">{{ __('admin.Programs') }}</label>
-                                <select name="category_id[]" class="form-control select2" multiple>
-                                    @foreach ($categories as $category)
-
-                                            <option value="{{ $category->id }}" @foreach ($attached_categories as $key => $value)
-                                                {{ ($category->id == $value) ? 'selected' : '' }}
-                                            @endforeach>
-                                            {{ $category->name }}</option>
+                                <div class="col-md-6 mb-3">
+                                    <label class="labels">{{ __('admin.Specialization') }}</label>
+                                    <select name="specialization_id" class="form-control" id="specialization_id">
+                                        @foreach ($specializations as $specialization)
+                                            <option @selected(Auth::user()->specialization_id == $specialization->id) value="{{ $specialization->id }}">
+                                                {{ $specialization->name }}</option>
                                         @endforeach
                                     </select>
+                                </div>
+
+                            @endif
+                            @if (Auth::guard('trainer')->check())
+                                <div class="col-md-6 mb-3">
+                                    <label class="labels">{{ __('admin.Company') }}Company</label>
+                                    <input type="text" name="" class="form-control " disabled name=""
+                                        value="{{ $company }}">
+                                </div>
+
+                                {{-- Program --}}
+                                <div class="col-md-6 mb-3">
+                                    <label class="labels">{{ __('admin.Program') }}</label>
+                                    <select name="category_id" class="form-control">
+                                        @foreach ($categories as $category)
+                                            <option @selected(Auth::user()->category_id == $category->id) value="{{ $category->id }}">
+                                                {{ $category->name }}</option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+
+                            @endif
+
+                            @if (Auth::guard('company')->check())
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="labels">{{ __('admin.Location') }}</label>
+                                    <input type="text" name="address"
+                                        class="form-control @error('address') is-invalid @enderror"
+                                        placeholder="{{ __('admin.Location') }}"
+                                        value="{{ Auth::guard()->user()->address }}">
+                                    @error('address')
+                                        <small class="invalid-feedback"> {{ $message }}</small>
+                                    @enderror
+                                </div>
+
+
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="mb-2">{{ __('admin.Programs') }}</label>
+                                    <select name="category_id[]" class="form-control select2" multiple>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}"
+                                                @foreach ($attached_categories as $key => $value)
+                                                {{ $category->id == $value ? 'selected' : '' }} @endforeach>
+                                                {{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+
+                                <div class="col-md-6 mb-3 status-main">
+                                    <label class="labels">{{ __('admin.Status') }}</label>
+                                    <i class="fas fa-info info-icon" data-toggle="tooltip" data-placement="top"
+                                        title="Tooltip on top"></i>
+                                    <select name="status" class="form-control">
+                                        <option @selected(Auth::guard()->user()->status == 1) value="1"> {{ __('admin.Avilable') }}
+                                        </option>
+                                        <option @selected(Auth::guard()->user()->status == 0) value="0"> {{ __('admin.Unavilable') }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <label for="description"> {{ __('admin.Description') }}</label>
+                                    <textarea name="description" class="@error('description') is-invalid @enderror" id="content">{{ old('description', Auth::guard()->user()->description) }}</textarea>
+                                    @error('description')
+                                        <small class="invalid-feedback">{{ $message }}</small>
+                                    @enderror
+
+                                </div>
+
+
+
+                            @endif
+
                         </div>
 
 
-                        <div class="col-md-6 mb-3 status-main">
-                            <label class="labels">{{ __('admin.Status') }}</label>
-                            <i class="fas fa-info info-icon" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></i>
-                            <select name="status" class="form-control" >
-                                <option @selected(Auth::guard()->user()->status == 1) value="1"> {{ __('admin.Avilable') }}</option>
-                                <option  @selected(Auth::guard()->user()->status == 0) value="0"> {{ __('admin.Unavilable') }} </option>
-                            </select>
+                        <div class="mt-2 wrapper-btn d-flex justify-content-end">
+                            <button class="btn btn-primary profile-button" type="submit">{{ __('admin.Save Edit') }}
+                            </button>
                         </div>
-
-                        <div class="col-md-12 mb-3">
-                            <label for="description"> {{ __('admin.Description') }}</label>
-                            <textarea name="description" class="@error('description') is-invalid @enderror" id="content">{{ old('description', Auth::guard()->user()->description)  }}</textarea>
-                            @error('description')
-                                <small class="invalid-feedback">{{ $message }}</small>
-                            @enderror
-
-                        </div>
-
-
-
-                        @endif
-
-                    </div>
-
-
-                    <div class="mt-2 wrapper-btn d-flex justify-content-end">
-                        <button class="btn btn-primary profile-button" type="button">{{ __('admin.Save Edit') }}  </button>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
     </div>
 
 @stop
@@ -242,40 +251,38 @@
 
 @section('scripts')
 
-{{-- <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    {{-- <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 
 <script>tinymce.init({selector:'textarea'});</script> --}}
 
-@if(Auth::guard('company')->check())
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.3.1/tinymce.min.js" referrerpolicy="no-referrer"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-
-
-<script>
-    $(document).ready(function() {
-            $('.select2').select2();
-            $(function () {
-                $('[data-toggle="tooltip"]').tooltip()
-            })
-        });
-
-        var infoIcon = document.querySelector('.info-icon');
-        var tooltip = document.querySelector('.tooltip');
-
-        infoIcon.addEventListener('mouseenter', function() {
-            tooltip.style.display = 'block';
-        });
-
-        infoIcon.addEventListener('mouseleave', function() {
-            tooltip.style.display = 'none';
-        });
-</script>
-
-@endif
+    @if (Auth::guard('company')->check())
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.3.1/tinymce.min.js" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 
 
-{{-- AJAX Reauest --}}
+        <script>
+            $(document).ready(function() {
+                $('.select2').select2();
+                $(function() {
+                    $('[data-toggle="tooltip"]').tooltip()
+                })
+            });
+
+            var infoIcon = document.querySelector('.info-icon');
+            var tooltip = document.querySelector('.tooltip');
+
+            infoIcon.addEventListener('mouseenter', function() {
+                tooltip.style.display = 'block';
+            });
+
+            infoIcon.addEventListener('mouseleave', function() {
+                tooltip.style.display = 'none';
+            });
+        </script>
+    @endif
+
+
+    {{-- AJAX Reauest --}}
     <script>
         let authEmail = '{{ Auth::user()->email }}';
         let form = $(".update_form")[0];
@@ -283,7 +290,7 @@
         let btn = $(".profile-button");
         let wrapper = $(".wrapper-btn");
         let image;
-        form.onsubmit = (e)=> {
+        form.onsubmit = (e) => {
             e.preventDefault();
         }
 
@@ -306,11 +313,11 @@
             btn.attr('disabled', true);
 
             let formData = new FormData(form);
-            formData.append('image',image);
+            formData.append('image', image);
 
             @if (Auth::guard('company')->check())
-            var content = window.myEditorInstance.getContent();
-            formData.append('description', content);
+                var content = window.myEditorInstance.getContent();
+                formData.append('description', content);
             @endif
 
             let url = form.getAttribute("action");
@@ -326,10 +333,10 @@
                     $('.invalid-feedback').remove();
                     $('input').removeClass('is-invalid');
 
-                } ,
+                },
                 success: function(data) {
 
-                    if(data.email != authEmail ){
+                    if (data.email != authEmail) {
 
                         btn.html('<i class="fas fa-check"></i>');
                         toastr.warning('{{ __('admin.Email must be confirmed') }}');
@@ -338,9 +345,9 @@
                         setTimeout(() => {
 
                             Swal.fire({
-                                    text: '{{ __('admin.We have sent you an activation code to your email, please check your email.') }}',
-                                    icon: 'warning',
-                                    confirmButtonText: '{{ __('admin.OK') }}'
+                                text: '{{ __('admin.We have sent you an activation code to your email, please check your email.') }}',
+                                icon: 'warning',
+                                confirmButtonText: '{{ __('admin.OK') }}'
                             });
                         }, 2000);
 
@@ -349,11 +356,11 @@
                             btn.html('{{ __('admin.Save Edit') }}');
                         }, 2000);
 
-                    }else{
+                    } else {
 
                         setTimeout(() => {
-                        btn.html('<i class="fas fa-check"></i>');
-                        toastr.success('{{ __('admin.Profile Updated successfully') }}');
+                            btn.html('<i class="fas fa-check"></i>');
+                            toastr.success('{{ __('admin.Profile Updated successfully') }}');
 
                         }, 2000);
 
@@ -368,295 +375,46 @@
                         $("#dropdown_name").append(data.name);
                         $("#email").empty();
                         $("#email").append(data.email);
-                        if(data.image){
-                            $("#nav_img").attr("src", "http://127.0.0.1:8000/"+data.image);
-                        $("#dropdown_image").css({
-                            'background-image': 'url('+'http://127.0.0.1:8000/'+data.image+')'
-                        });
+                        if (data.image) {
+                            $("#nav_img").attr("src", host + "/" + data.image);
+                            $("#dropdown_image").css({
+                                'background-image': 'url(' + host + '/' + data.image + ')'
+                            });
 
                         }
                         Toast.fire({
-                        icon: 'success',
-                        title: '{{ __('admin.Profile Updated successfully') }}'
+                            icon: 'success',
+                            title: '{{ __('admin.Profile Updated successfully') }}'
                         })
 
                     }
-                } ,
+                },
                 error: function(data) {
+                    btn.attr("disabled", false)
+                    btn.html('{{ __('admin.Save Edit') }}');
                     $('.invalid-feedback').remove();
-                    $.each(data.responseJSON.errors, function (field, error) {
-                       if(field == 'description') {
-                        $("textarea").addClass('is-invalid').after('<small class="invalid-feedback">' +error+ '</small>');
-                       } else {
-                        $("input[name='" + field + "']").addClass('is-invalid').after('<small class="invalid-feedback">' +error+ '</small>');
-                       }
+
+                    $.each(data.responseJSON.errors, function(field, error) {
+                        if (field == 'description') {
+                            $("textarea").addClass('is-invalid').after(
+                                '<small class="invalid-feedback">' + error + '</small>');
+                        } else {
+                            $("input[name='" + field + "']").addClass('is-invalid').after(
+                                '<small class="invalid-feedback">' + error + '</small>');
+                        }
                         //
                     });
-                } ,
+
+                    $.each(data.responseJSON, function(field, error) {
+                    $("input[name='" + field + "']").addClass('is-invalid').after(
+                        '<small class="invalid-feedback">' + error + '</small>');
+                });
+                },
             })
         })
-
     </script>
 
 
+    <script src="{{ asset('studentAssets/js/profile.js') }}"></script>
 
-    <script>
-        "use strict";
-
-        /**
-         * @class KApp
-         */
-
-        var KTApp = function() {
-            // /** @type {object} colors State colors **/
-            // var colors = {};
-
-
-
-        }();
-
-
-
-
-        // plugin setup
-        var KTAvatar = function(elementId, options) {
-            // Main object
-            var the = this;
-            var init = false;
-
-            // Get element object
-            var element = KTUtil.get(elementId);
-            var body = KTUtil.get('body');
-
-            if (!element) {
-                return;
-            }
-
-            // Default options
-            var defaultOptions = {};
-
-            ////////////////////////////
-            // ** Private Methods  ** //
-            ////////////////////////////
-
-            var Plugin = {
-                /**
-                 * Construct
-                 */
-
-                construct: function(options) {
-                    if (KTUtil.data(element).has('avatar')) {
-                        the = KTUtil.data(element).get('avatar');
-                    } else {
-                        // reset menu
-                        Plugin.init(options);
-
-                        // build menu
-                        Plugin.build();
-
-                        // KTUtil.data(element).set('avatar', the);
-                    }
-
-                    return the;
-                },
-
-                /**
-                 * Init avatar
-                 */
-                init: function(options) {
-                    the.element = element;
-                    the.events = [];
-
-                    the.input = KTUtil.find(element, 'input[type="file"]');
-                    the.holder = KTUtil.find(element, '.kt-avatar__holder');
-                    the.cancel = KTUtil.find(element, '.kt-avatar__cancel');
-                    the.src = KTUtil.css(the.holder, 'backgroundImage');
-
-                    // merge default and user defined options
-                    the.options = KTUtil.deepExtend({}, defaultOptions, options);
-                },
-
-                /**
-                 * Build Form Wizard
-                 */
-                build: function() {
-                    // Handle avatar change
-                    KTUtil.addEvent(the.input, 'change', function(e) {
-                        e.preventDefault();
-
-                        if (the.input && the.input.files && the.input.files[0]) {
-                            var reader = new FileReader();
-                            reader.onload = function(e) {
-                                KTUtil.css(the.holder, 'background-image', 'url(' + e.target
-                                    .result + ')');
-                            }
-                            reader.readAsDataURL(the.input.files[0]);
-
-                            // KTUtil.addClass(the.element, 'kt-avatar--changed');
-                        }
-                    });
-
-
-                },
-
-
-            };
-
-
-
-
-            // Construct plugin
-            Plugin.construct.apply(the, [options]);
-
-        };
-
-
-
-
-
-        var KTUtil = function() {
-            var resizeHandlers = [];
-
-
-
-
-
-            return {
-
-
-
-
-                // Deep extend:  $.extend(true, {}, objA, objB);
-                deepExtend: function(out) {
-                    out = out || {};
-
-                    for (var i = 1; i < arguments.length; i++) {
-                        var obj = arguments[i];
-
-                        if (!obj)
-                            continue;
-
-                        for (var key in obj) {
-                            if (obj.hasOwnProperty(key)) {
-                                if (typeof obj[key] === 'object')
-                                    out[key] = KTUtil.deepExtend(out[key], obj[key]);
-                                else
-                                    out[key] = obj[key];
-                            }
-                        }
-                    }
-
-                    return out;
-                },
-
-
-                get: function(query) {
-                    var el;
-
-                    if (query === document) {
-                        return document;
-                    }
-
-                    if (!!(query && query.nodeType === 1)) {
-                        return query;
-                    }
-
-                    if (el = document.getElementById(query)) {
-                        return el;
-                    } else if (el = document.getElementsByTagName(query), el.length > 0) {
-                        return el[0];
-                    } else if (el = document.getElementsByClassName(query), el.length > 0) {
-                        return el[0];
-                    } else {
-                        return null;
-                    }
-                },
-                find: function(parent, query) {
-                    parent = KTUtil.get(parent);
-                    if (parent) {
-                        return parent.querySelector(query);
-                    }
-                },
-
-
-                data: function(element) {
-
-                    return {
-
-
-
-                        has: function(name) {
-
-
-
-
-                        },
-
-
-                    };
-                },
-
-
-
-
-                css: function(el, styleProp, value) {
-
-
-                    if (value !== undefined) {
-                        el.style[styleProp] = value;
-                    } else {
-                        var defaultView = (el.ownerDocument || document).defaultView;
-
-                    }
-                },
-
-
-                addEvent: function(el, type, handler, one) {
-                    el = KTUtil.get(el);
-
-                    if (typeof el !== 'undefined' && el !== null) {
-                        el.addEventListener(type, handler);
-                    }
-                },
-
-
-
-
-                ready: function(callback) {
-                    if (document.attachEvent ? document.readyState === "complete" : document.readyState !==
-                        "loading") {
-                        callback();
-                    } else {
-                        document.addEventListener('DOMContentLoaded', callback);
-                    }
-                },
-
-
-            }
-        }();
-
-
-
-        // Class definition
-        var KTAvatarDemo = function() {
-            // Private functions
-            var initDemos = function() {
-                var avatar1 = new KTAvatar('kt_user_avatar_1');
-                var avatar2 = new KTAvatar('kt_user_avatar_2');
-                var avatar3 = new KTAvatar('kt_user_avatar_3');
-                var avatar4 = new KTAvatar('kt_user_avatar_4');
-            }
-
-            return {
-                // public functions
-                init: function() {
-                    initDemos();
-                }
-            };
-        }();
-
-        KTUtil.ready(function() {
-            KTAvatarDemo.init();
-        });
-    </script>
 @stop
