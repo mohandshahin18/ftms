@@ -253,7 +253,7 @@
                 btn.html('{{ __('admin.Save Edit') }}');
                 $('.invalid-feedback').remove();
 
-                $.each(data.responseJSON.phone, function(field, error) {
+                $.each(data.responseJSON, function(field, error) {
                     $("input[name='" + field + "']").addClass('is-invalid').after(
                         '<small class="invalid-feedback">' + error + '</small>');
                 });

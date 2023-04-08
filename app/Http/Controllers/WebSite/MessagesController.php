@@ -44,7 +44,9 @@ class MessagesController extends Controller
             $roles = [];
         }
 
-        
+        $allmessages = [];
+
+
        if($roles != []) {
         foreach($roles as $role) {
             $roleActive = '';
@@ -75,8 +77,12 @@ class MessagesController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->first();
 
-            
-            
+            $allmessages[] = $lastMessage;
+            $allmessages[] = $activeMessage;
+
+            // dd($lastMessage);
+
+
             if($lastMessage) {
                 $lastMessageText = Str::words($lastMessage->message, 4, '...');
                 $time = $lastMessage->created_at->diffForHumans();
@@ -183,6 +189,13 @@ class MessagesController extends Controller
                                     </a>
                                 </div>';
        }
+
+    //    $allmessages = collect($allmessages)->sortByDesc('created_at');
+    //    if($allmessages) {
+
+    //    }
+
+    //    dd($allmessages);
 
         $data = [
             "output" => $output,
@@ -347,7 +360,7 @@ class MessagesController extends Controller
                     ['receiver_type', 'student'],
                     ['sender_id', $auth->teacher_id],
                     ['receiver_id', $auth->id],
-                ])  
+                ])
                 ->latest('id')
                 ->first();
         } else {

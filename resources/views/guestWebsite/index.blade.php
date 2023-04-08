@@ -110,7 +110,7 @@
                         @endif
 
 
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" style="min-width: unset !important; width: 110px;">
                             @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                                 <li class="{{ app()->getLocale() == $localeCode ? 'active' : ' ' }}">
                                     <a class="dropdown-item "hreflang="{{ $localeCode }}"
@@ -269,6 +269,8 @@
                         </div>
                         <div class="overlay"></div>
                     </div>
+                    <h5>{{ $member->name }}</h5>
+                    <p>{{ $member->specialization }}</p>
                 </div>
             </div>
                 @endforeach
@@ -312,6 +314,15 @@
                     <i class='bx bxs-quote-alt-left'></i>
                 </div>
             @empty
+            <div class="review">
+                <div class="person">
+                    <img src="{{  'https://ui-avatars.com/api/?background=random&name=' .'No Comment' }}" style="object-fit: cover;" alt="">
+                </div>
+                <h3>{{ __('admin.No comments yet') }}</h3>
+
+                <i class='bx bxs-quote-alt-left'></i>
+            </div>
+
             @endforelse
         </div>
     </section>

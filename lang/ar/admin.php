@@ -384,5 +384,6 @@ return [
     "The email is already in use" => "البريد الالكتروني مستخدم بالفعل",
     "University id already exists" => "الرقم الجامعي موجود بالفعل",
     "Edit University ID" => "تعديل الرقم الجامعي",
+    "No comments yet" => "لا يوجد تعليقات حتى الآن",
 
 ];

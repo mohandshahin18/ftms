@@ -42,7 +42,7 @@ class GuestWebsiteController extends Controller
         $data = $request->except('_token');
 
 
-        Mail::to('sha7in147@gmail.com')->send(new ContactMail($data));
+        Mail::to('ftms.website@gmail.com')->send(new ContactMail($data));
 
         // return ;
      }

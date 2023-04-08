@@ -319,6 +319,7 @@
                             </div> <!-- /.list group -->
                         </div> <!-- /.dropdown-menu -->
                     </div> <!-- /.dropdown -->
+                    @can('messages')
 
                     {{-- Chats --}}
                     <div class="d-inline dropdown mr-3">
@@ -336,6 +337,7 @@
                             </div> <!-- /.list group -->
                         </div> <!-- /.dropdown-menu -->
                     </div> <!-- /.dropdown -->
+                    @endcan
 
 
                     <div class="d-inline dropdown">

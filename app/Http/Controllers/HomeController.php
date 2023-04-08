@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Log;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
@@ -560,6 +561,8 @@ class HomeController extends Controller
 
     public function all_messages_page()
     {
+        Gate::authorize('messages');
+
         $auth = Auth::user();
         return view('admin.messages.messages', compact('auth'));
     }
