@@ -109,8 +109,24 @@
                                 </div>
                             </div>
 
+                              {{-- role --}}
+                              <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="mb-2">{{ __('admin.Role') }}</label>
+                                    <select name="role_id" id="role_id" class="form-control @error('role_id') is-invalid @enderror" id="">
+                                        <option value="">{{ __('admin.Select Role') }}</option>
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('role_id')
+                                        <small class="invalid-feedback"> {{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+
                             {{-- image --}}
-                            <div class="col-lg-12">
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="mb-2">{{ __('admin.Image') }}</label>
                                     <input type="file" class="form-control @error('image') is-invalid @enderror"

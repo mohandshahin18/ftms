@@ -505,7 +505,7 @@
                         @php
                             $category = $company->categories->first();
                         @endphp
-                        <div class="col-md-4">
+                        <div class="col-md-6 col-lg-4">
                             <article class="blog-post">
                                 <img src="{{ asset($company->image) }}" alt="">
 

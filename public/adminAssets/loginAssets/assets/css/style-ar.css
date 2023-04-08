@@ -2,16 +2,6 @@
 body ,
 html {
     direction: rtl;
-
-    font-family: event-reg;
-}
-.btn{
-    font-family: event-reg;
-
-}
-input , select , h3 , h2 , h1 , h4 , h5
-{
-    font-family: event-reg !important;
 }
 
 .signin-form form .form-group svg {

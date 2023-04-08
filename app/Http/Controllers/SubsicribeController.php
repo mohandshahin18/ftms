@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Student;
 use App\Models\Subsicribe;
 use App\Models\University;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Specialization;
+use Illuminate\Support\Facades\DB;
 use App\Imports\ImportUniversityId;
 use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
@@ -88,9 +90,36 @@ class SubsicribeController extends Controller
      */
     public function importExcel(Request $request)
     {
+        $request->validate([
+            'file'=>'required|mimes:xlsx'
+        ]);
         $file = $request->file('file');
 
-        Excel::import(new ImportUniversityId, $file);
+        // Get an array of university numbers from the Excel file
+            $universityNumbers = Excel::toArray([], $file)[0];
+            $universityNumbers = array_column($universityNumbers, 1);
+            // Get an array of university numbers that already exist in the database
+            $existingUniversityNumbers = DB::table('students')->pluck('student_id')->toArray();
+
+            // Find the university numbers that already exist in the database
+            $duplicateUniversityNumbers = array_intersect($universityNumbers, $existingUniversityNumbers);
+             $newValue = json_encode($duplicateUniversityNumbers);
+            if(count($duplicateUniversityNumbers) == 1){
+                $title = __('admin.The following entered university id already exists');
+            }else{
+                $title = __('admin.The following entered university ids already exist');
+            }
+
+            if(count($duplicateUniversityNumbers) > 0) {
+
+                return redirect()->back()->with('error', " $title  => $newValue")->with('type','danger');
+            }
+            else {
+                // Import the data from the Excel file
+                Excel::import(new ImportUniversityId, $file);
+            }
+
+
 
         return redirect()->route('admin.subscribes.index')->with('msg', __('admin.File imported successfully.'))->with('type','success');
 
@@ -142,10 +171,22 @@ class SubsicribeController extends Controller
             'specialization_id' =>'required'
         ]);
 
+        $student_id = $subsicribe->student_id;
+        if($request->university_id_st != $student_id){
+            $exisitStudent_id = Subsicribe::where('student_id',$request->university_id_st)->get();
+            if(is_null($exisitStudent_id)){
+
+              $student_id = $request->university_id_st;
+
+        }else{
+            return redirect()->back()->with('exisitStudent_id',__('admin.University id already exists'))->with('type','danger');
+        }
+        }
+
 
         $subsicribe->update([
             'name'=>  $request->name ,
-            'student_id' => $request->university_id_st ,
+            'student_id' => $student_id ,
             'university_id'=> $request->university_id,
             'specialization_id'=> $request->specialization_id ,
         ]);
@@ -195,13 +236,20 @@ class SubsicribeController extends Controller
          $request->validate([
              'university_id_st' => 'required',
          ]);
-         $subsicribe = Subsicribe::where('student_id',$request->university_id_st)->first();
+
+         $student = Student::where('student_id',$request->university_id_st)->first();
+
+        if(!$student){
+            $subsicribe = Subsicribe::where('student_id',$request->university_id_st)->first();
 
             if($subsicribe){
                  return response()->json([route('student.register-view',$request->university_id_st)],200);
              }else{
                  return response()->json(['title'=>__('admin.The entered university id is not registered with us')],400);
              }
+        }else{
+            return response()->json(['title'=>__('admin.The entered university already exists')],400);
+        }
      }
 
      /**

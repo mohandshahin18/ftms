@@ -56,8 +56,8 @@ Route::group(['namespace' => 'Auth'] ,function() {
 
 // student register
 Route::group(['namespace' => 'Student'] ,function() {
-    Route::get('/student/selsect-id',[SubsicribeController::class,'selectUniversity_id'])->name('student.select-id');
-    Route::post('/student/selsect-id',[SubsicribeController::class,'subsicribeId'])->name('student.subsicribeId');
+    Route::get('/student/select-id',[SubsicribeController::class,'selectUniversity_id'])->name('student.select-id');
+    Route::post('/student/select-id',[SubsicribeController::class,'subsicribeId'])->name('student.subsicribeId');
     Route::get('/student/register/{student_id}',[RegisterController::class,'showStudentRegisterForm'])->name('student.register-view');
     Route::post('/student/submit/{student_id}',[RegisterController::class,'createStudent'])->name('student.register');
     Route::get('/student/get/specialization/{id}', [RegisterController::class, 'get_specialization']);
@@ -181,6 +181,8 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
 
     // teacher
     Route::resource('teachers', TeacherController::class);
+    Route::get('/get/specialization/{id}', [TeacherController::class, 'get_specialization']);
+
 
     // admin
     Route::resource('admins', AdminController::class);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\TwoSyllables;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TeacherRequest extends FormRequest
@@ -30,14 +31,14 @@ class TeacherRequest extends FormRequest
         }
 
         return [
-            'name' => ['required','min:3','string'],
+            'name' => ['required', new TwoSyllables()],
             'email' => ['required' , 'email', 'unique:teachers,email'],
             'phone' => ['required' , 'min:10' , 'max:20', 'unique:teachers,phone'],
             'password' => ['required'],
             'university_id' => ['required'],
             'specialization_id' => ['required'],
             'image' => [$rule, 'mimes:png,jpg,jpeg,webp,jfif,svg', 'max:2048'],
-
+            'role_id' => $rule,
         ];
     }
 }

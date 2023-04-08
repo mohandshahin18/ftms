@@ -10,7 +10,7 @@
 }
 
 body {
-    font-family: "Barlow", sans-serif;
+    font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
     color: var(--body);
     line-height: 1.7;
 }

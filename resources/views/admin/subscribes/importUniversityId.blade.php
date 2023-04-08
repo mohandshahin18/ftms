@@ -5,7 +5,15 @@
 {{-- @section('subscribes-menu-open', 'menu-open') --}}
 @section('subscribes-active', 'active')
 @section('index-subscribes-active', 'active')
-
+@section('styles')
+<style>
+    .alert-danger {
+    color: #721c24 !important;
+    background-color: #f8d7da !important;
+    border-color: #f5c6cb !important;
+}
+</style>
+@stop
 @section('content')
 
     <div class="row">
@@ -19,7 +27,15 @@
                 <form action="{{ route('admin.subscribes.importExcel') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
+                        @if (session('error'))
+                        <div class="alert alert-{{ session('type') }}">
+                            {{ session('error') }}
+                        </div>
+                         @endif
                         <div class="row">
+
+
+
                              {{-- name  --}}
                              <div class="col-md-12">
                                 <div class="form-group">
@@ -29,7 +45,7 @@
                                     @error('file')
                                     <small class="invalid-feedback"> {{ $message }}</small>
                                     @enderror
-                                    <p style="font-size: 12px; font-weight: 600"><span class="text-danger">*</span> {{ __("admin.Only an Excel file must be selected, containing the student's name and their university id only") }}</p>
+                                    <p style="font-size: 12px; font-weight: 600"><span class="text-danger">*</span> {{ __("admin.Only an Excel file must be selected, containing the student's name and their university id") }}</p>
                                 </div>
                             </div>
 

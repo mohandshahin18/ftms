@@ -18,10 +18,12 @@
     @endif
 </head>
 <body style="background: #eee ; font-family: Arial, Helvetica, sans-serif">
-
+    @php
+    $data = json_decode(File::get(storage_path('app/settings.json')), true);
+    @endphp
     <div style="width: 600px ; background: #fff ; padding:20px; border: 2px solid #cfcfcf ; margin: 50px auto;">
         <div style="text-align: center;">
-            <img style="width: 120px;" src="{{ asset('adminAssets/dist/img/logo/logo-11.png') }}" alt="">
+            <img src="{{ asset($data['darkLogo']) }}"  style="width: 170px" alt="">
        </div>
         <h4>{{ __('admin.Dear Admin') }}</h4>
         <p>{{ __('admin.Hope this mail finds you well') }}</p>

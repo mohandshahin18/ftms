@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\TwoSyllables;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TrainerRequest extends FormRequest
@@ -31,15 +33,21 @@ class TrainerRequest extends FormRequest
         if($this->method() == 'PUT') {
             $rule = 'nullable';
         }
+        if(Auth::guard('admin')->check()){
+                $required = 'required';
+        }else{
+            $required = '';
+        }
 
         return [
-            'name' => ['required', 'min:2'],
+            'name' => ['required', new TwoSyllables()],
             'email' => ['required', 'unique:trainers,email'],
             'password' => ['required'],
             'phone' => ['required', 'min:7', 'unique:trainers,phone'],
             'category_id' => ['required'],
-            'company_id' => ['required'],
+            'company_id' =>  $required,
             'image' => [$rule, 'mimes:png,jpg,jpeg,webp,jfif,svg', 'max:2048'],
+            'role_id' =>  $required,
         ];
     }
 }

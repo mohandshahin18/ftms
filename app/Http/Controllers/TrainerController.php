@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use App\Models\Role;
 use App\Models\Company;
 use App\Models\Trainer;
 use App\Models\Category;
@@ -27,10 +28,10 @@ class TrainerController extends Controller
     {
         Gate::authorize('all_trainers');
 
-        if(Auth::guard('admin')->check()) {
-            $trainers = Trainer::with('company')->latest('id')->paginate(env('PAGINATION_COUNT'));
-        }elseif(Auth::guard('company')->check()) {
+        if(Auth::guard('company')->check()) {
             $trainers = Auth::user()->trainers()->latest('id')->paginate(env('PAGINATION_COUNT'));
+        }else{
+            $trainers = Trainer::with('company')->latest('id')->paginate(env('PAGINATION_COUNT'));
         }
         return view('admin.trainers.index', compact('trainers'));
     }
@@ -43,10 +44,10 @@ class TrainerController extends Controller
     public function create()
     {
         Gate::authorize('add_trainer');
-
+        $roles =Role::get();
         $companies = Company::get();
         $categories = Category::get();
-        return view('admin.trainers.create', compact('companies','categories'));
+        return view('admin.trainers.create', compact('companies','categories','roles'));
     }
 
     /**
@@ -69,8 +70,10 @@ class TrainerController extends Controller
 
         if(Auth::guard('admin')->check()) {
             $company_id = $request->company_id;
+            $role_id = $request->role_id;
         }elseif(Auth::guard('company')->check()) {
             $company_id = Auth::user()->id;
+            $role_id = 5;
         }
 
         Trainer::create([
@@ -81,7 +84,8 @@ class TrainerController extends Controller
             'company_id' => $company_id,
             'image' => $path,
             'slug' => $slug,
-            'category_id' => $request->category_id
+            'category_id' => $request->category_id,
+            'role_id' => $role_id,
         ]);
 
         return redirect()
@@ -148,15 +152,6 @@ class TrainerController extends Controller
         return $slug;
     }
 
-       /**
-     * return specialization based on university
-     *
-     */
-    // public function get_category($id)
-    // {
-    //     $company = CategoryCompany::where('company_id', $id)->get();
-    //     return json_encode($company);
-    // }
 
 
      /**

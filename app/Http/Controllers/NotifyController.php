@@ -4,19 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use App\Models\Student;
-use App\Models\Application;
-use App\Models\Category;
 use App\Models\Trainer;
-use App\Notifications\AcceptApplyNotification;
+use App\Models\Category;
+use App\Models\Application;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use App\Notifications\AcceptApplyNotification;
 
 class NotifyController extends Controller
 {
 
     public function read_notify()
     {
+        Gate::authorize('notification');
+
         $auth = Auth::user();
         $application = Application::get();
         return view('admin.notifications' , compact('auth','application'));

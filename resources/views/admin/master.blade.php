@@ -50,7 +50,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
         align-items: center;
         gap: 2px;
     }
-
+    .alert-danger {
+        color: #721c24 !important;
+        background-color: #f8d7da !important;
+        border-color: #f5c6cb !important;
+        font-size: 16px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 2px;
+    }
 
          #center-text {
             display: flex;
@@ -76,23 +85,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 </style>
 
-@if(app()->getLocale()=='ar')
-<style>
-body ,
-html {
-    font-family: event-reg;
-}
-
-
-@font-face {
-    font-family: event-reg;
-    src: url({{ asset('adminAssets/dist/fonts/JF-Flat-regular.ttf') }});
-}
-
-
-
-</style>
-@endif
 
 </head>
 
@@ -159,6 +151,8 @@ html {
                     use App\Models\Student;
                     $auth =Auth::user();
                 @endphp
+            @can('notification')
+
 
                 <!-- Notifications Dropdown Menu -->
                 <li class="nav-item dropdown">
@@ -222,6 +216,7 @@ html {
 
                 </li>
 
+                @endcan
                 <!-- Sidebar user panel (optional) -->
                 <li class="nav-item dropdown">
                     @php
@@ -743,6 +738,7 @@ html {
                       @endcan
 
                       @canAny(['add_role','all_roles'])
+                      <div class="divider" style="border-bottom: 1px solid #4b545c;"></div>
                       <li class="nav-item @yield('roles-menu-open')">
                         <a href="#" class="nav-link @yield('roles-active')">
                             <i class="fas fa-user-lock"></i>

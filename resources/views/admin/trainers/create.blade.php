@@ -88,11 +88,7 @@
                             @endif
 
                              {{-- Program --}}
-                             <div class="@if (Auth::guard('admin')->check())
-                                {{ 'col-lg-6' }}
-                                @else
-                                {{ 'col-lg-12' }}
-                             @endif">
+                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="mb-2">{{ __('admin.Program') }}</label>
                                     <select name="category_id" id="category_id" class="form-control @error('category_id') is-invalid @enderror" id="category_id">
@@ -113,10 +109,26 @@
                                 </div>
                             </div>
 
+                            @if (Auth::guard('admin')->check())
+                             {{-- role --}}
+                             <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="mb-2">{{ __('admin.Role') }}</label>
+                                    <select name="role_id" id="role_id" class="form-control @error('role_id') is-invalid @enderror" id="">
+                                        <option value="">{{ __('admin.Select Role') }}</option>
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('role_id')
+                                        <small class="invalid-feedback"> {{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                            @endif
 
-
-                            {{-- address  --}}
-                            <div class="col-lg-12">
+                            {{-- image  --}}
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="mb-2">{{ __('admin.Image') }}</label>
                                     <input type="file" class="form-control @error('image') is-invalid @enderror" name="image">

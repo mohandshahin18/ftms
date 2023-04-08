@@ -30,20 +30,9 @@
             body {
                 direction: rtl
             }
-
-            body,
-            html {
-                font-family: event-reg;
-            }
-
             .ms-auto {
                 margin-left: unset !important;
                 margin-right: auto !important;
-            }
-
-            @font-face {
-                font-family: event-reg;
-                src: url({{ asset('adminAssets/dist/fonts/JF-Flat-regular.ttf') }});
             }
 
             @media (min-width: 992px) {
@@ -71,7 +60,7 @@
 <body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="70">
     @php
         $data = json_decode(File::get(storage_path('app/settings.json')), true);
-        
+
     @endphp
 
 
@@ -278,10 +267,13 @@
                             <a href="{{ $member->github }}"><i class='bx bxl-github'></i></a>
                             <a href="{{ $member->linkedin }}"><i class='bx bxl-linkedin'></i></a>
                         </div>
+                        <div class="overlay"></div>
                     </div>
+                </div>
+            </div>
                 @endforeach
 
-            </div>
+        </div>
         </div>
     </section>
 
@@ -302,7 +294,7 @@
                         $name = __('admin.Deleted account');
                         $src = 'https://ui-avatars.com/api/?background=random&name=' . $name;
                     }
-                    
+
                 @endphp
                 <div class="review">
                     <div class="person">
