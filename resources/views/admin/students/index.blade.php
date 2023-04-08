@@ -139,7 +139,7 @@
                        @can('recycle_students')
                        <div class="btn-website">
 
-                        <a href="{{ route('admin.students.trash') }}" class="btn btn-outline-secondary"><i
+                        <a href="{{ route('admin.students.trash') }}" class="btn btn-outline-secondary btn-flat"><i
                                 class="fas fa-trash"></i> {{ __('admin.Recycle Bin') }}</a>
                     </div>
 
@@ -212,13 +212,13 @@
                                            @can('evaluation_student')
 
                                            <a title="{{ __('admin.Evaluation') }}" href="{{ route('admin.show_evaluation', $student->slug) }}"
-                                            class="btn btn-info btn-sm" data-disabled="true"
+                                            class="btn btn-info btn-sm btn-flat" data-disabled="true"
                                             title="show evaluation">{{ __('admin.Evaluation') }}</a>
                                             @endcan
                                             @else
                                             @can('evaluate_student')
                                            <a title="{{ __('admin.Evaluate') }}" href="{{ route('admin.students.show', $student->slug) }}"
-                                               class="btn btn-sm btn-flat btn-outline-secondary" data-disabled="true"
+                                               class="btn btn-sm btn-flat btn-outline-secondary btn-flat" data-disabled="true"
                                                title="evaluate">{{ __('admin.Evaluate') }}</a>
                                                @endcan
                                                @endif
@@ -230,7 +230,7 @@
                                                method="POST">
                                                @csrf
                                                @method('delete')
-                                               <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i
+                                               <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete btn-flat"> <i
                                                        class="fas fa-trash"></i> </button>
                                            </form>
                                        @else
@@ -238,7 +238,7 @@
                                                action="{{ route('admin.students.destroy', $student->slug) }}"method="POST">
                                                @csrf
                                                @method('delete')
-                                               <button title="{{ __('admin.Move to recycle bin') }}" class="btn btn-danger btn-sm btn-delete"> <i
+                                               <button title="{{ __('admin.Move to recycle bin') }}" class="btn btn-danger btn-sm btn-delete btn-flat"> <i
                                                        class="fas fa-trash"></i> </button>
                                            </form>
                                        @endif

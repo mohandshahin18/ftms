@@ -26,74 +26,66 @@ class MessagesController extends Controller
         $notifyNum = 0;
         $roles = [];
 
-        if($auth->trainer_id && $auth->teacher_id && $auth->company_id) {
-            $roles = ['trainer', 'teacher', 'company'];
-        } elseif($auth->trainer_id && $auth->company_id) {
-            $roles = ['trainer', 'company'];
-        } elseif($auth->teacher_id && $auth->company_id) {
-            $roles = ['teacher', 'company'];
-        } elseif($auth->teacher_id && $auth->trainer_id) {
-            $roles = ['teacher', 'trainer'];
-        } elseif($auth->trainer_id) {
-            $roles = ['trainer'];
-        } elseif($auth->teacher_id) {
-            $roles = ['teacher'];
-        } elseif($auth->company_id) {
-            $roles = ['company'];
-        } else {
-            $roles = [];
+        if ($auth->trainer_id) {
+            $roles[] = 'trainer';
         }
 
-        
-       if($roles != []) {
-        foreach($roles as $role) {
-            $roleActive = '';
-            $roleObj = $auth->{$role};
+        if ($auth->teacher_id) {
+            $roles[] = 'teacher';
+        }
 
-            $lastMessage = Message::where([
+        if ($auth->company_id) {
+            $roles[] = 'company';
+        }
+
+        sort($roles);
+
+
+        if ($roles != []) {
+            foreach ($roles as $role) {
+                $roleActive = '';
+                $roleObj = $auth->{$role};
+
+                $lastMessage = Message::where([
                     ['sender_type', 'student'],
                     ['receiver_type', $role],
                     ['sender_id', $auth->id],
                     ['receiver_id', $roleObj->id],
                 ])
-                ->orWhere([
-                    ['sender_type', $role],
-                    ['receiver_type', 'student'],
+                    ->orWhere([
+                        ['sender_type', $role],
+                        ['receiver_type', 'student'],
+                        ['sender_id', $roleObj->id],
+                        ['receiver_id', $auth->id],
+                    ])
+                    ->latest('created_at')
+                    ->first();
+
+
+                $activeMessage = Message::where([
                     ['sender_id', $roleObj->id],
                     ['receiver_id', $auth->id],
-                ])
-                ->latest('created_at')
-                ->first();
-
-
-            $activeMessage = Message::where([
-                    ['sender_id', $roleObj->id],
-                    ['receiver_id', $auth->id],
                     ['sender_type', $role],
                     ['receiver_type', 'student'],
                 ])
-                ->orderBy('created_at', 'desc')
-                ->first();
+                    ->orderBy('created_at', 'desc')
+                    ->first();
 
-            
-            
-            if($lastMessage) {
-                $lastMessageText = Str::words($lastMessage->message, 4, '...');
-                $time = $lastMessage->created_at->diffForHumans();
 
-                if($activeMessage && $activeMessage->read_at == null) {
-                    $roleActive = 'active';
-                    $activeMessage[$role] = $activeMessage;
-                    $notifyNum++;
-                }
 
-                if($roleObj->image) {
-                    $src = asset($roleObj->image);
-                } else {
-                    $src = 'https://ui-avatars.com/api/?background=random&name=' . $roleObj->name;
-                }
+                if ($lastMessage) {
+                    $lastMessageText = Str::words($lastMessage->message, 4, '...');
+                    $time = $lastMessage->created_at->diffForHumans();
 
-                $output .= '<div class="media">
+                    if ($activeMessage && $activeMessage->read_at == null) {
+                        $roleActive = 'active';
+                        $activeMessage[$role] = $activeMessage;
+                        $notifyNum++;
+                    }
+
+                    $src = $roleObj->image ? asset($roleObj->image) : 'https://ui-avatars.com/api/?background=random&name=' . $roleObj->name;
+
+                    $output .= '<div class="media">
                                 <a href="#" data-type="' . $role . '"
                                     data-slug="' . $roleObj->slug . '"
                                     data-name="' . $roleObj->name . '"
@@ -101,7 +93,7 @@ class MessagesController extends Controller
                                     class="list-group-item list-group-item-action chat-circle ' . $roleActive . '">
                                     <div class="d-flex" style="gap: 10px">
                                         <div class="msg-img">
-                                            <img src="'. $src . '">
+                                            <img src="' . $src . '">
                                         </div>
                                         <div class="main-info">
 
@@ -126,31 +118,27 @@ class MessagesController extends Controller
 
                                 </a>
                             </div>';
-            } else {
-
-                if($roleObj->image) {
-                    $src = asset($roleObj->image);
                 } else {
-                    $src = 'https://ui-avatars.com/api/?background=random&name=' . $roleObj->name;
-                }
 
-                $output .= '<div class="media">
+                    $src = $roleObj->image ? asset($roleObj->image) : 'https://ui-avatars.com/api/?background=random&name=' . $roleObj->name;
+
+                    $output .= '<div class="media">
                                      <a href="#" data-type="' . $role . '"
-                                         data-slug="'.$roleObj->slug.'"
-                                         data-name="'.$roleObj->name.'"
+                                         data-slug="' . $roleObj->slug . '"
+                                         data-name="' . $roleObj->name . '"
                                          class="list-group-item list-group-item-action chat-circle">
                                          <div class="d-flex" style="gap: 10px">
                                             <div class="msg-img">
-                                                    <img src="'. $src . '">
+                                                    <img src="' . $src . '">
                                                 </div>
                                          <div class="main-info">
 
                                             <div class="msg-body" style="width: 100%;">
                                                 <h3 class="dropdown-item-title text-start">
-                                                    '.$roleObj->name.'
+                                                    ' . $roleObj->name . '
                                                 </h3>
                                                 <p class="text-sm message  m-0 mt-1">
-                                                    '.__('admin.No messages yet!').'
+                                                    ' . __('admin.No messages yet!') . '
 
                                                 </p>
 
@@ -161,10 +149,10 @@ class MessagesController extends Controller
                                         </div>
                                     </a>
                                 </div>';
+                }
             }
-        }
-       } else {
-        $output .= '<div class="media">
+        } else {
+            $output .= '<div class="media">
                                      <a href="#"
                                          class="list-group-item list-group-item-action ">
 
@@ -182,14 +170,13 @@ class MessagesController extends Controller
 
                                     </a>
                                 </div>';
-       }
+        }
 
         $data = [
             "output" => $output,
             "number" => $notifyNum,
         ];
         return $data;
-
     }
 
     // send message
@@ -200,10 +187,10 @@ class MessagesController extends Controller
         $teacher = Teacher::whereSlug($request->slug)->first();
         $company = Company::whereSlug($request->slug)->first();
 
-        if($trainer) {
+        if ($trainer) {
             $role = 'trainer';
             $roleObj = $trainer;
-        } elseif($company) {
+        } elseif ($company) {
             $role = 'company';
             $roleObj = $company;
         } else {
@@ -237,20 +224,20 @@ class MessagesController extends Controller
         $type = $request->type;
         $auth = Auth::user();
 
-        if($type == 'trainer') {
+        if ($type == 'trainer') {
             $role = Trainer::whereSlug($slug)->first();
-        } elseif($type == 'teacher') {
+        } elseif ($type == 'teacher') {
             $role = Teacher::whereSlug($slug)->first();
         } else {
             $role = Company::whereSlug($slug)->first();
         }
 
         $messages = Message::where([
-                ['sender_id', $auth->id],
-                ['sender_type', 'student'],
-                ['receiver_id', $role->id],
-                ['receiver_type', $type],
-            ])
+            ['sender_id', $auth->id],
+            ['sender_type', 'student'],
+            ['receiver_id', $role->id],
+            ['receiver_type', $type],
+        ])
             ->orWhere([
                 ['sender_id', $role->id],
                 ['sender_type', $type],
@@ -261,32 +248,6 @@ class MessagesController extends Controller
             ->limit(10)
             ->get()
             ->reverse();
-
-        // if ($type == 'trainer') {
-        //     $trainer = Trainer::whereSlug($slug)->first();
-        //     $messages = Message::where('student_id', $auth->id)
-        //         ->where('trainer_id', $trainer->id)
-        //         ->orderBy('id', 'desc')
-        //         ->limit(10)
-        //         ->get()
-        //         ->reverse();
-        // } elseif($type == 'teacher') {
-        //     $teacher = Teacher::whereSlug($slug)->first();
-        //     $messages = Message::where('student_id', $auth->id)
-        //         ->where('teacher_id', $teacher->id)
-        //         ->orderBy('id', 'desc')
-        //         ->limit(10)
-        //         ->get()
-        //         ->reverse();
-        // } else {
-        //     $company = Company::whereSlug($slug)->first();
-        //     $messages = Message::where('student_id', $auth->id)
-        //         ->where('company_id', $company->id)
-        //         ->orderBy('id', 'desc')
-        //         ->limit(10)
-        //         ->get()
-        //         ->reverse();
-        // }
 
 
         $output = '';
@@ -320,13 +281,13 @@ class MessagesController extends Controller
     public function read_message(Request $request)
     {
         $auth = Auth::user();
-        if($request->type == 'trainer') {
+        if ($request->type == 'trainer') {
             $message = Message::where([
-                    ['sender_type', 'student'],
-                    ['receiver_type', 'trainer'],
-                    ['sender_id', $auth->id],
-                    ['receiver_id', $auth->trainer_id],
-                ])
+                ['sender_type', 'student'],
+                ['receiver_type', 'trainer'],
+                ['sender_id', $auth->id],
+                ['receiver_id', $auth->trainer_id],
+            ])
                 ->orWhere([
                     ['sender_type', 'trainer'],
                     ['receiver_type', 'student'],
@@ -335,28 +296,28 @@ class MessagesController extends Controller
                 ])
                 ->latest('id')
                 ->first();
-        } elseif($request->type == 'teacher') {
+        } elseif ($request->type == 'teacher') {
             $message = Message::where([
-                    ['sender_type', 'student'],
-                    ['receiver_type', 'teacher'],
-                    ['sender_id', $auth->id],
-                    ['receiver_id', $auth->teacher_id],
-                ])
+                ['sender_type', 'student'],
+                ['receiver_type', 'teacher'],
+                ['sender_id', $auth->id],
+                ['receiver_id', $auth->teacher_id],
+            ])
                 ->orWhere([
                     ['sender_type', 'teacher'],
                     ['receiver_type', 'student'],
                     ['sender_id', $auth->teacher_id],
                     ['receiver_id', $auth->id],
-                ])  
+                ])
                 ->latest('id')
                 ->first();
         } else {
             $message = Message::where([
-                    ['sender_type', 'student'],
-                    ['receiver_type', 'company'],
-                    ['sender_id', $auth->id],
-                    ['receiver_id', $auth->company_id],
-                ])
+                ['sender_type', 'student'],
+                ['receiver_type', 'company'],
+                ['sender_id', $auth->id],
+                ['receiver_id', $auth->company_id],
+            ])
                 ->orWhere([
                     ['sender_type', 'company'],
                     ['receiver_type', 'student'],
@@ -370,6 +331,63 @@ class MessagesController extends Controller
 
         $message->read_at = now();
         $message->save();
+    }
 
+    public function load_more_messages(Request $request)
+    {
+        $auth = Auth::user();
+        $type = $request->type;
+        $slug = $request->slug;
+        $page = $request->page;
+        $offset = $page * 10;
+
+        if ($type == 'trainer') {
+            $role = Trainer::whereSlug($slug)->first();
+        } elseif ($type == 'teacher') {
+            $role = Teacher::whereSlug($slug)->first();
+        } else {
+            $role = Company::whereSlug($slug)->first();
+        }
+
+        $messages = Message::where([
+            ['sender_id', $auth->id],
+            ['sender_type', 'student'],
+            ['receiver_id', $role->id],
+            ['receiver_type', $type],
+        ])
+            ->orWhere([
+                ['sender_id', $role->id],
+                ['sender_type', $type],
+                ['receiver_id', $auth->id],
+                ['receiver_type', 'student'],
+            ])
+            ->orderBy('id', 'desc')
+            ->offset($offset)
+            ->limit(10)
+            ->get()
+            ->reverse();
+
+        $output = '';
+
+        if ($messages) {
+            foreach ($messages as $message) {
+
+                if ($message->sender_id == $auth->id && $message->sender_type == 'student') {
+                    $output .= '<div class="chat outgoing message" data-id="' . $message->id . '">
+                                <div class="details">
+                                    <p>' . $message->message . '</p>
+                                </div>
+                                </div>';
+                } else {
+                    $output .= '<div class="chat incoming message" data-id="' . $message->id . '">
+                                    <div class="details">
+                                        <p>' . $message->message . '</p>
+                                    </div>
+                                </div>';
+                }
+            }
+        }
+
+        return $output;
     }
 }

@@ -42,6 +42,7 @@
             position: relative;
 
         }
+
     </style>
 @stop
 
@@ -68,7 +69,7 @@
                         <div class="divider"></div>
                         <p class="my-3">{{ $task->sub_title }}</p>
                         <div class="desc mb-5 mt-3">
-                                {!! $task->description !!}
+                            {!! $task->description !!}
 
 
                         </div>
@@ -78,10 +79,11 @@
                             download>{{ $task->file }}</a>
                     </div>
                     @if (session('msg'))
-                        <div class="alert alert-{{ session('type') }} alert-dismissible fade show mt-3" id="alert">{{ session('msg') }}
+                        <div class="alert alert-{{ session('type') }} alert-dismissible fade show mt-3" id="alert">
+                            {{ session('msg') }}
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
-                              </button>
+                            </button>
                         </div>
                     @endif
                     <h3 class="my-4">{{ __('admin.Submission status') }}</h3>
@@ -117,7 +119,7 @@
                                     @if (!$applied_task)
                                         @if ($end_date->gt(now()))
                                             @if ($remaining_days > 0)
-                                                {{ $remaining_days . ' ' . __('admin.Days and') .' '. $remaining_hours .' '. __('admin.hours remaining') }}
+                                                {{ $remaining_days . ' ' . __('admin.Days and') . ' ' . $remaining_hours . ' ' . __('admin.hours remaining') }}
                                             @elseif($remaining_hours)
                                                 {{ $remaining_hours . ' ' . __('admin.hours remaining') }}
                                             @else
@@ -135,7 +137,7 @@
                                             </span>
                                         @endif
                                     @else
-                                        {{ $applied_task->updated_at->gt($applied_task->created_at) ? __('admin.Updated') .' '. $applied_task->updated_at->diffForHumans() : __('admin.Submitted') .' '. $applied_task->created_at->diffForHumans() }}
+                                        {{ $applied_task->updated_at->gt($applied_task->created_at) ? __('admin.Updated') . ' ' . $applied_task->updated_at->diffForHumans() : __('admin.Submitted') . ' ' . $applied_task->created_at->diffForHumans() }}
                                         <span class="float-right text-success"><i class="fas fa-check"></i></span>
                                     @endif
                                 </td>
@@ -235,9 +237,10 @@
             // submit form
             $("#form_wrapper").on("click", '#show_form', function() {
                 $('#task_form').removeClass("hidden_form");
+                taskScrollToBottom();
                 $(this).hide();
-
             });
+
             $("#form_wrapper").on("click", '#hide_form', function() {
                 $('#task_form').addClass("hidden_form");
                 $("#show_form").show();
@@ -246,6 +249,7 @@
             // edit form
             $("#form_wrapper").on("click", '#show_edit_form', function() {
                 $('#edit_form').removeClass("hidden_form");
+                taskScrollToBottom();
                 $(this).hide();
             });
             $("#form_wrapper").on("click", '#hide_edit_form', function() {
@@ -253,8 +257,12 @@
                 $("#show_edit_form").show();
             });
 
-        })
+            // task scroll behaviour
+            function taskScrollToBottom() {
+                window.scrollTo(0, document.body.scrollHeight);
+            }
 
+        })
     </script>
 
     {{-- Drop and drag input --}}

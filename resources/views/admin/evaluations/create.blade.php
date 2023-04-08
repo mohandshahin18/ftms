@@ -119,7 +119,7 @@
                <hr>
                 <h4>{{ __('admin.Questions') }}</h4>
 
-                <button id="add_question" class="btn btn-sm btn-success mb-2"><i class="fas fa-plus"></i> {{ __('admin.Add') }}</button>
+                <button id="add_question" class="btn btn-sm btn-success mb-2 btn-flat"><i class="fas fa-plus"></i> {{ __('admin.Add') }}</button>
 
                 <div class="question_wrapper">
 
@@ -131,9 +131,9 @@
 
 
               <div class="card-footer">
-                  <button  class="btn btn-dark" type="button" onclick="history.back()">
+                  <button  class="btn btn-dark btn-flat" type="button" onclick="history.back()">
                       <i class="fas fa-undo-alt"> </i> {{ __('admin.Return Back') }} </button>
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary btn-flat">
                     <i class="fas fa-plus"></i> {{ __('admin.Add') }}</button>
 
               </div>

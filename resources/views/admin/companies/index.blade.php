@@ -88,14 +88,14 @@
                                     <td>
                                         <div style="display: flex; gap: 5px" class="">
                                             @can('edit_company')
-                                            <a title="{{ __('admin.Edit') }}" href="{{ route('admin.companies.edit', $company->slug) }}" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i> </a>
+                                            <a title="{{ __('admin.Edit') }}" href="{{ route('admin.companies.edit', $company->slug) }}" class="btn btn-primary btn-sm btn-edit btn-flat"> <i class="fas fa-edit"></i> </a>
 
                                             @endcan
                                          @can('delete_company')
                                          <form class="delete_form" method="POST" action="{{ route('admin.companies.destroy', $company->slug) }}">
                                             @csrf
                                             @method('delete')
-                                            <button title="{{ __('admin.Move to recycle bin') }}" class="btn btn-danger btn-sm delete_btn"> <i class="fas fa-trash"></i> </button>
+                                            <button title="{{ __('admin.Move to recycle bin') }}" class="btn btn-danger btn-sm delete_btn btn-flat"> <i class="fas fa-trash"></i> </button>
                                           </form>
                                          @endcan
                                         </div>

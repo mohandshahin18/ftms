@@ -18,7 +18,7 @@
             <td>
                 @can('edit_university_id')
                     <a href="{{ route('admin.subscribes.edit', $subscribe->id) }}" title="{{ __('admin.Edit') }}" type="button"
-                        class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i>
+                        class="btn btn-primary btn-sm btn-edit btn-flat"> <i class="fas fa-edit"></i>
                     </a>
                 @endcan
                 @can('delete_university_id')
@@ -26,7 +26,7 @@
                         method="POST">
                         @csrf
                         @method('delete')
-                        <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i
+                        <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete btn-flat"> <i
                                 class="fas fa-trash"></i>
                         </button>
                     </form>

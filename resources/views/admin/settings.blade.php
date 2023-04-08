@@ -118,7 +118,7 @@
 
                         <div class="card-footer d-flex justify-content-end">
 
-                                <button type="button" class="btn btn-primary btn-edit-settings">
+                                <button type="button" class="btn btn-primary btn-edit-settings btn-flat">
                                     <i class="fas fa-pen"></i> {{ __('admin.Update') }} </button>
 
                         </div>
@@ -211,7 +211,7 @@
                     </div>
                     <div class="card-footer d-flex justify-content-end">
 
-                            <button type="button" class="btn btn-primary btn-add">
+                            <button type="button" class="btn btn-primary btn-add btn-flat">
                                 <i class="fas fa-plus"></i> {{ __('admin.Add') }} </button>
 
                     </div>
@@ -239,7 +239,7 @@
                                         <td><img src="{{ asset($member->image) }}" width="100" alt=""></td>
                                         <td>
                                             <div style="display: flex; gap: 5px" class="">
-                                              <a title="{{ __('admin.Edit') }}" href="" class="btn btn-primary btn-sm btn-edit"
+                                              <a title="{{ __('admin.Edit') }}" href="" class="btn btn-primary btn-sm btn-edit btn-flat"
                                               data-toggle="modal"  data-target="#editMember" data-name="{{ $member->name }}"
                                               data-specialization="{{ $member->specialization }}" data-facebook="{{ $member->facebook }}"
                                               data-linkedin="{{ $member->linkedin }}" data-image="{{ $member->image }}" data-github="{{ $member->github }}"
@@ -248,7 +248,7 @@
                                               <form class="delete_form" method="POST" action="{{ route('admin.deleteMember',$member->id) }}">
                                                 @csrf
                                                 @method('delete')
-                                                <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm delete_btn"> <i class="fas fa-trash"></i> </button>
+                                                <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm delete_btn btn-flat"> <i class="fas fa-trash"></i> </button>
                                               </form>
                                             </div>
 
@@ -342,8 +342,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('admin.Close') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('admin.Save Edit') }}</button>
+                        <button type="button" class="btn btn-secondary btn-flat" data-dismiss="modal">{{ __('admin.Close') }}</button>
+                        <button type="submit" class="btn btn-primary btn-flat">{{ __('admin.Save Edit') }}</button>
                     </div>
 
                 </form>

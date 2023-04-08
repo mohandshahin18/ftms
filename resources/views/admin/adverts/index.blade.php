@@ -34,8 +34,8 @@
                 <div class="card-header">
                     <div class="d-flex  justify-content-between">
 
-                        <div class="btn-website ">
-                            <a title="{{ __('admin.Add New Advert') }}" href="{{ route('admin.adverts.create') }}" class="btn btn-primary"><i
+                        <div class="btn-website">
+                            <a title="{{ __('admin.Add New Advert') }}" href="{{ route('admin.adverts.create') }}" class="btn btn-primary btn-flat"><i
                                     class="fas fa-plus"></i> {{ __('admin.Add New Advert') }}</a>
 
                         </div>
@@ -79,7 +79,7 @@
 
                                     <td>
                                         @can('edit_advert')
-                                        <a href="{{ route('admin.adverts.edit',$advert->id) }}" title="{{ __('admin.Edit') }}" type="button" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i>
+                                        <a href="{{ route('admin.adverts.edit',$advert->id) }}" title="{{ __('admin.Edit') }}" type="button" class="btn btn-primary btn-flat btn-sm btn-edit"> <i class="fas fa-edit"></i>
                                         </a>
                                         @endcan
                                        @can('delete_advert')
@@ -88,7 +88,7 @@
                                        method="POST">
                                        @csrf
                                        @method('delete')
-                                       <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i>
+                                       <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-flat btn-sm btn-delete"> <i class="fas fa-trash"></i>
                                        </button>
                                    </form>
                                        @endcan

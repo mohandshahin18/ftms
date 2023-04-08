@@ -26,7 +26,7 @@
                     <div class="d-flex  justify-content-between">
 
                         <div class="btn-website">
-                            <a title="{{ __('admin.Add Evaluation') }}" href="{{ route('admin.evaluations.create') }}" class="btn btn-primary"><i
+                            <a title="{{ __('admin.Add Evaluation') }}" href="{{ route('admin.evaluations.create') }}" class="btn btn-primary btn-flat"><i
                                     class="fas fa-plus"></i> {{ __('admin.Add Evaluation') }}</a>
 
                         </div>
@@ -63,14 +63,14 @@
                                     <td>
                                         <div style="display: flex; gap: 5px">
                                             @can('edit_evaluation')
-                                            <a title="{{ __('admin.Edit') }}" href="{{ route('admin.evaluations.edit', $evaluation->slug) }}" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i> </a>
+                                            <a title="{{ __('admin.Edit') }}" href="{{ route('admin.evaluations.edit', $evaluation->slug) }}" class="btn btn-primary btn-sm btn-edit btn-flat"> <i class="fas fa-edit"></i> </a>
 
                                             @endcan
                                             @can('delete_evaluation')
                                             <form class="d-inline delete_form" action="{{ route('admin.evaluations.destroy', $evaluation->slug) }}" method="POST">
                                                 @csrf
                                                 @method('delete')
-                                                <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i> </button>
+                                                <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete btn-flat"> <i class="fas fa-trash"></i> </button>
                                             </form>
                                             @endcan
                                         </div>

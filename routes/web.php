@@ -130,6 +130,7 @@ Route::prefix('/')->middleware('auth:student','is_verify_email')->name('student.
     Route::post('student/send/message', [MessagesController::class, 'send_message'])->name('send.message');
     Route::get('get/messages', [MessagesController::class, 'get_messages'])->name('get.messages');
     Route::get('chats/read/message', [MessagesController::class, 'read_message'])->name('read.message');
+    Route::get('load/more/messages', [MessagesController::class, 'load_more_messages'])->name('load.more.messages');
 
 });
 

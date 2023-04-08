@@ -230,7 +230,7 @@
 
 
                     <div class="mt-2 wrapper-btn d-flex justify-content-end">
-                        <button class="btn btn-primary profile-button" type="button">{{ __('admin.Save Edit') }}  </button>
+                        <button class="btn btn-primary btn-flat profile-button" type="button">{{ __('admin.Save Edit') }}  </button>
                     </div>
                 </div>
             </div>

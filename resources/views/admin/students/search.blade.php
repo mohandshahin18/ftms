@@ -40,7 +40,7 @@
                            <form action="">
                                 <div class="input-group search" style="width: 280px;">
                                     <input type="text" class="form-control" name="keyword" value="{{ request()->keyword }}" placeholder="Search by Student Name">
-                                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
+                                    <button class="btn btn-outline-secondary btn-flat" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
                                 </div>
                             {{-- <div class="input-group" style="width: 280px;">
                                 <input type="text" name="keyword" value="{{ request()->keyword }}" class="form-control " placeholder="Search by Student Name">
@@ -55,14 +55,14 @@
                                         <option @selected($filter == 'not evaluated')  value="not evaluated">Not Evaluated</option>
                                     </select>
                                 </div>
-                                <button class="btn btn-outline-dark btn-sm">Result</button>
+                                <button class="btn btn-outline-dark btn-sm btn-flat">Result</button>
                            </form>
                         </div>
 
 
                         <div class="btn-website">
                             
-                            <a href="{{ route('admin.students.trash') }}" class="  btn btn-outline-warning text-dark"><i
+                            <a href="{{ route('admin.students.trash') }}" class="  btn btn-outline-warning text-dark btn-flat"><i
                                 class="fas fa-trash"></i> Recycle Bin</a>
                         </div>
 
@@ -111,14 +111,14 @@
                                             @if($evaluated_student)
                                                 @if ($student->id == $evaluated_student->id)
 
-                                                <a href="{{ route('admin.show_evaluation', $student) }}" class="btn btn-info btn-sm" data-disabled="true" title="show evaluation">Evaluation</a>
+                                                <a href="{{ route('admin.show_evaluation', $student) }}" class="btn btn-info btn-sm btn-flat" data-disabled="true" title="show evaluation">Evaluation</a>
                                                 @else
 
-                                                <a href="{{ route('admin.students.show', $student) }}" class="btn btn-outline-secondary" data-disabled="true" title="evaluate">Evaluate</a>
+                                                <a href="{{ route('admin.students.show', $student) }}" class="btn btn-outline-secondary btn-flat" data-disabled="true" title="evaluate">Evaluate</a>
 
                                                 @endif
                                             @else
-                                                <a href="{{ route('admin.students.show', $student) }}" class="btn btn-outline-secondary" data-disabled="true" title="evaluate">Evaluate</a>
+                                                <a href="{{ route('admin.students.show', $student) }}" class="btn btn-outline-secondary btn-flat" data-disabled="true" title="evaluate">Evaluate</a>
 
                                             @endif
 
@@ -126,7 +126,7 @@
                                                 action="{{ route('admin.students.destroy', $student->id) }}" method="POST">
                                                 @csrf
                                                 @method('delete')
-                                                <button class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i> </button>
+                                                <button class="btn btn-danger btn-sm btn-delete btn-flat"> <i class="fas fa-trash"></i> </button>
                                             </form>
                                         </div>
                                     </td>

@@ -47,13 +47,13 @@
                                 @can('add_university_id')
                                     <div class="btn-website">
                                         <a title="{{ __('admin.Add University ID') }}" href="{{ route('admin.subscribes.create') }}"
-                                            class="btn btn-primary"><i class="fas fa-plus"></i>
+                                            class="btn btn-primary btn-flat"><i class="fas fa-plus"></i>
                                             {{ __('admin.Add University ID') }}</a>
                                     </div>
                                 @endcan
                                 @can('import_university_id')
                                     <a title="{{ __('admin.Import') }}" href="{{ route('admin.subscribes.import_view') }}"
-                                        class="btn btn-primary"><i class="fas fa-file-import"></i> {{ __('admin.Import') }} </a>
+                                        class="btn btn-primary btn-flat"><i class="fas fa-file-import"></i> {{ __('admin.Import') }} </a>
                                 @endcan
                             </div>
                         </div>

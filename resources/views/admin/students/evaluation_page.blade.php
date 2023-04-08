@@ -26,7 +26,7 @@
                             <h6>{{ __('admin.Total rate') }}: <b>{{ $average_score }}%</b></h6>
                         </div>
                         <div>
-                            <a href="{{ route('admin.export_pdf', $student) }}" class="btn btn-primary mb-2"><i class="fas fa-pdf"> {{ __('admin.Export as PDF') }}</i></a>
+                            <a href="{{ route('admin.export_pdf', $student) }}" class="btn btn-primary mb-2 btn-flat"><i class="fas fa-pdf"> {{ __('admin.Export as PDF') }}</i></a>
                         </div>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="m-3 text-center">
-                    <button class="btn btn-outline-secondary" onclick="history.back()">
+                    <button class="btn btn-outline-secondary btn-flat" onclick="history.back()">
                         @if (app()->getLocale() == 'ar')
                             <i class="fas fa-arrow-right"></i>
                         @else

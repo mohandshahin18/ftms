@@ -371,7 +371,7 @@
             <div class="chat-box-body">
                 <div class="chat-box-overlay">
                 </div>
-                <div class="chat-logs">
+                <div class="chat-logs" onscroll="loadOlderMessages()" data-page="1">
 
                 </div>
             </div>
@@ -405,7 +405,17 @@
         </div>
     </footer>
 
+    <div class="loader-main">
+        <div class="triple-spinner"></div>
+        <div class="ftms">FTMS</div>
+    </div>
 
+
+    <script>
+        window.onload = ()=> {
+            document.querySelector(".loader-main").style.display = 'none';
+        }
+    </script>
     <script src="{{ asset('studentAssets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('adminAssets/dist/js/moment-with-locales.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
@@ -419,6 +429,7 @@
         const pusherKey = "{{ env('PUSHER_APP_KEY') }}";
         const readAtUrl = "{{ route('student.read.message') }}";
         const noMessage = "{{ __('admin.There is no Messages') }}";
+        const loadMoreMsgsUrl = "{{ route('student.load.more.messages') }}";
     </script>
     <script src="{{ asset('studentAssets/js/chat.js') }}"></script>
     <script>
