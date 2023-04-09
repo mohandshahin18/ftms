@@ -190,3 +190,5 @@ const readAt = function(userSlug) {
 function scrollToBottom() {
     $('.chat-logs').scrollTop($('.chat-logs').prop("scrollHeight"));
 }
+
+

@@ -34,7 +34,7 @@
 
                     <div class="card-tools">
                         @can('add_program')
-                        <a title="{{ __('admin.Add Program') }}" href="{{ route('admin.categories.create') }}" class="btn btn-primary"><i
+                        <a title="{{ __('admin.Add Program') }}" href="{{ route('admin.categories.create') }}" class="btn btn-primary btn-flat"><i
                             class="fas fa-plus"></i> {{ __('admin.Add Program') }}</a>
                         @endcan
                     </div>
@@ -43,7 +43,7 @@
 
                     <div class="btn-website">
 
-                        <a title="{{ __('admin.Recycle Bin') }}" href="{{ route('admin.categories.trash') }}" class="btn btn-outline-secondary"><i
+                        <a title="{{ __('admin.Recycle Bin') }}" href="{{ route('admin.categories.trash') }}" class="btn btn-outline-secondary btn-flat"><i
                                 class="fas fa-trash"></i> {{ __('admin.Recycle Bin') }}</a>
                     </div>
 
@@ -84,7 +84,7 @@
                                     @canAny(['edit_program','delete_program'])
                                     <td>
                                        @can('edit_program')
-                                       <button title="{{ __('admin.Edit') }}" type="button" class="btn btn-primary btn-sm btn-edit" data-toggle="modal"
+                                       <button title="{{ __('admin.Edit') }}" type="button" class="btn btn-primary btn-sm btn-edit btn-flat" data-toggle="modal"
                                        data-target="#editCategory" data-name="{{ $category->name }}"
                                        data-url="{{ route('admin.categories.update', $category->slug) }}"> <i
                                            class="fas fa-edit"></i> </button>
@@ -94,7 +94,7 @@
                                         action="{{ route('admin.categories.destroy', $category->slug) }}" method="POST">
                                         @csrf
                                         @method('delete')
-                                        <button title="{{ __('admin.Move to recycle bin') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"
+                                        <button title="{{ __('admin.Move to recycle bin') }}" class="btn btn-danger btn-sm btn-delete btn-flat"> <i class="fas fa-trash"
                                                 data-totalPost="{{ $categories->total() }}"></i> </button>
                                     </form>
                                         @endcan
@@ -155,8 +155,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('admin.Close') }}</button>
-                        <button type="submit" class="btn btn-primary btn-save">{{ __('admin.Save Edit') }}</button>
+                        <button type="button" class="btn btn-secondary btn-flat" data-dismiss="modal">{{ __('admin.Close') }}</button>
+                        <button type="submit" class="btn btn-primary btn-save btn-flat">{{ __('admin.Save Edit') }}</button>
                     </div>
 
                 </form>

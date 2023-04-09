@@ -54,7 +54,7 @@
 
 
                     <div class="mt-3 d-flex justify-content-end">
-                        <button class="btn btn-primary profile-button"  type="submit"> {{ __('admin.Save Edit') }} </button>
+                        <button class="btn btn-primary profile-button btn-flat"  type="submit"> {{ __('admin.Save Edit') }} </button>
                     </div>
                 </div>
             </div>

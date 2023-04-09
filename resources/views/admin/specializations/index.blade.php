@@ -26,7 +26,7 @@
                     <div class="d-flex  justify-content-between">
 
                         <div class="btn-website">
-                            <a title="{{ __('admin.Add Specialization') }}" href="{{ route('admin.specializations.create') }}" class="btn btn-primary"><i
+                            <a title="{{ __('admin.Add Specialization') }}" href="{{ route('admin.specializations.create') }}" class="btn btn-primary btn-flat"><i
                                     class="fas fa-plus"></i> {{ __('admin.Add Specialization') }}</a>
 
                         </div>
@@ -64,7 +64,7 @@
                                     @canAny(['delete_specialization','edit_specialization'])
                                     <td>
                                         @can('edit_specialization')
-                                        <a title="{{ __('admin.Edit') }}" href="{{ route('admin.specializations.edit', $specialization->slug) }}" class="btn btn-primary btn-sm btn-edit"> <i class="fas fa-edit"></i> </a>
+                                        <a title="{{ __('admin.Edit') }}" href="{{ route('admin.specializations.edit', $specialization->slug) }}" class="btn btn-primary btn-sm btn-edit btn-flat"> <i class="fas fa-edit"></i> </a>
 
                                         @endcan
                                         @can('delete_specialization')
@@ -72,7 +72,7 @@
                                         action="{{ route('admin.specializations.destroy', $specialization->slug) }}" method="POST">
                                         @csrf
                                         @method('delete')
-                                        <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"
+                                        <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete btn-flat"> <i class="fas fa-trash"
                                                ></i> </button>
                                     </form>
                                         @endcan

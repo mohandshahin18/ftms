@@ -18,7 +18,7 @@
 
 
                         <div class="btn-website">
-                            <a href="{{ route('admin.categories.index') }}" class="btn btn-primary"> {{ __('admin.All Programs') }}</a>
+                            <a href="{{ route('admin.categories.index') }}" class="btn btn-primary btn-flat"> {{ __('admin.All Programs') }}</a>
                         </div>
 
 
@@ -48,14 +48,14 @@
                                             @can('restore_program')
                                             <form action="{{ route('admin.categories.restore', $category->slug) }}" method="POST" class="restor_form">
                                                 @csrf
-                                                <button title="{{ __('admin.Restore') }}" class="btn btn-warning btn-sm btn_restore"><i class="fas fa-trash-restore"></i></button>
+                                                <button title="{{ __('admin.Restore') }}" class="btn btn-warning btn-sm btn_restore btn-flat"><i class="fas fa-trash-restore"></i></button>
                                               </form>
                                             @endcan
                                             @can('forceDelete_program')
                                             <form action="{{ route('admin.categories.forcedelete', $category->slug) }}" method="POST" class="delete_form">
                                                 @csrf
                                                 @method('delete')
-                                                <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm delete_btn"> <i class="fas fa-times"></i> </button>
+                                                <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm delete_btn btn-flat"> <i class="fas fa-times"></i> </button>
                                               </form>
                                             @endcan
                                           </div>

@@ -77,8 +77,8 @@
                                     {{ 'you' }}
                                 @endif
                             <span class="text-danger">{{ __('admin.cant') }}</span> {{ __('admin.edit this after saving') }}</i></p>
-                            <button type="submit" class="btn btn-success text-center" style="width: 200px;"><i class="fas fa-save"></i> {{ __('admin.Save') }}</button>
-                            <a href="{{ route('admin.students.index') }}" class="btn btn-danger" ><i class="fas fa-times"></i> {{ __('admin.Cancel') }}</a>
+                            <button type="submit" class="btn btn-success text-center btn-flat" style="width: 200px;"><i class="fas fa-save"></i> {{ __('admin.Save') }}</button>
+                            <a href="{{ route('admin.students.index') }}" class="btn btn-danger btn-flat" ><i class="fas fa-times"></i> {{ __('admin.Cancel') }}</a>
                         </div>
                     </form>
                 </div>

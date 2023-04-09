@@ -28,18 +28,14 @@
             if ($message) {
                 $lastMessage = $message->message;
                 $time = $message->created_at->diffForHumans();
-                $time = '<small><i class="far fa-clock mr-1"></i>' . $time . '</small>';
-            
+                // $time = '<small><i class="far fa-clock mr-1"></i>' . $time . '</small>';
                 if ($message->read_at == null) {
                     $unread = 'notification-list--unread';
                 }
             }
             
-            if ($company->image) {
-                $src = asset($company->image);
-            } else {
-                $src = 'https://ui-avatars.com/api/?background=random&name=' . $company->name;
-            }
+            $src = $company->image ? asset($company->image) : 'https://ui-avatars.com/api/?background=random&name=' . $company->name;
+
         @endphp
 
         <a href="" style="font-weight: unset" class="chat-circle main-msg" data-slug="{{ $company->slug }}"
@@ -58,7 +54,7 @@
                             <p><b>{{ $company->name }}</b>
                                 <br>{{ $lastMessage }}
                             </p>
-                            <p class="text-muted">{{ $time }}</p>
+                            <p class="text-muted"><small class="{{ $time == null ? 'd-none' : '' }}"><i class="far fa-clock mr-1"></i>{{ $time }}</small></p>
                         </div>
                     </div>
                 </div>
@@ -90,7 +86,6 @@
             if ($message) {
                 $lastMessage = $message->message;
                 $time = $message->created_at->diffForHumans();
-                $time = '<small><i class="far fa-clock mr-1"></i>' . $time . '</small>';
             
                 if ($message->read_at == null) {
                     $unread = 'notification-list--unread';
@@ -120,7 +115,7 @@
                             <p><b>{{ $trainer->name }}</b>
                                 <br>{{ $lastMessage }}
                             </p>
-                            <p class="text-muted">{{ $time }}</p>
+                            <p class="text-muted"><small class="{{ $time == null ? 'd-none' : '' }}"><i class="far fa-clock mr-1"></i>{{ $time }}</small></p>
                         </div>
                     </div>
                 </div>
@@ -161,7 +156,6 @@
             if ($message) {
                 $lastMessage = $message->message;
                 $time = $message->created_at->diffForHumans();
-                $time = '<small><i class="far fa-clock mr-1"></i>' . $time . '</small>';
             
                 if ($message->read_at == null) {
                     $unread = 'notification-list--unread';
@@ -191,7 +185,7 @@
                             <p><b>{{ $student->name }}</b>
                                 <br>{{ $lastMessage }}
                             </p>
-                            <p class="text-muted">{{ $time }}</p>
+                            <p class="text-muted"><small class="{{ $time == null ? 'd-none' : '' }}"><i class="far fa-clock mr-1"></i>{{ $time }}</small></p>
                         </div>
                     </div>
                 </div>

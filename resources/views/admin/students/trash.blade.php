@@ -27,7 +27,7 @@
 
 
                         <div class="btn-website">
-                            <a href="{{ route('admin.students.index') }}" class="btn btn-primary">{{ __('admin.All Students') }}</a>
+                            <a href="{{ route('admin.students.index') }}" class="btn btn-primary btn-flat">{{ __('admin.All Students') }}</a>
                         </div>
 
 
@@ -67,14 +67,14 @@
                                             @can('restore_student')
                                             <form action="{{ route('admin.students.restore', $student->slug) }}" method="POST" class="restor_form">
                                                 @csrf
-                                                <button class="btn btn-warning btn-sm btn_restore" title="Restore"><i class="fas fa-trash-restore"></i></button>
+                                                <button class="btn btn-warning btn-sm btn_restore btn-flat" title="Restore"><i class="fas fa-trash-restore"></i></button>
                                               </form>
                                             @endcan
                                             @can('forceDelete_student')
                                             <form action="{{ route('admin.students.forcedelete', $student->slug) }}" method="POST" class="delete_form">
                                                 @csrf
                                                 @method('delete')
-                                                <button class="btn btn-danger btn-sm delete_btn" title="Delete"> <i class="fas fa-times"></i> </button>
+                                                <button class="btn btn-danger btn-sm delete_btn btn-flat" title="Delete"> <i class="fas fa-times"></i> </button>
                                               </form>
                                             @endcan
 

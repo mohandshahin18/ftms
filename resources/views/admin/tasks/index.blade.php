@@ -16,7 +16,7 @@
                <div class="card-header">
                 <div class="d-flex  justify-content-between">
                     <div class="btn-website">
-                        <a title="{{ __('admin.Add Task') }}" href="{{ route('admin.tasks.create') }}" class="btn btn-primary"><i
+                        <a title="{{ __('admin.Add Task') }}" href="{{ route('admin.tasks.create') }}" class="btn btn-primary btn-flat"><i
                                 class="fas fa-plus"></i> {{ __('admin.Add Task') }}</a>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
 
                                     <td>
                                         @can('edit_task')
-                                        <a  title="{{ __('admin.Edit') }}" href="{{ route('admin.task.edit', $task->slug) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                        <a  title="{{ __('admin.Edit') }}" href="{{ route('admin.task.edit', $task->slug) }}" class="btn btn-primary btn-sm btn-flat"><i class="fas fa-edit"></i></a>
 
                                         @endcan
                                         @can('delete_task')
@@ -61,7 +61,7 @@
                                         method="POST">
                                         @csrf
                                         @method('delete')
-                                        <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i>
+                                        <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete btn-flat"> <i class="fas fa-trash"></i>
                                         </button>
                                     </form>
                                         @endcan

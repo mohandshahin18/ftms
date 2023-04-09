@@ -26,7 +26,7 @@
                 <div class="d-flex  justify-content-between">
 
                     <div class="btn-website">
-                        <a title="{{ __('admin.Add University') }}" href="{{ route('admin.universities.create') }}" class="btn btn-primary"><i
+                        <a title="{{ __('admin.Add University') }}" href="{{ route('admin.universities.create') }}" class="btn btn-primary btn-flat"><i
                                 class="fas fa-plus"></i> {{ __('admin.Add University') }}</a>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                                      @canAny(['delete_university','edit_university'])
                                     <td>
                                         @can('edit_university')
-                                        <a href="{{ route('admin.universities.edit', $university) }}" title="{{ __('admin.Edit') }}" type="button" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i>
+                                        <a href="{{ route('admin.universities.edit', $university) }}" title="{{ __('admin.Edit') }}" type="button" class="btn btn-primary btn-sm btn-flat"><i class="fas fa-edit"></i>
                                         </a>
                                         @endcan
                                        @can('delete_university')
@@ -74,7 +74,7 @@
                                        method="POST">
                                        @csrf
                                        @method('delete')
-                                       <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete"> <i class="fas fa-trash"></i>
+                                       <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm btn-delete btn-flat"> <i class="fas fa-trash"></i>
                                        </button>
                                    </form>
                                        @endcan

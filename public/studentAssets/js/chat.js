@@ -175,3 +175,33 @@ const getAllChats = function() {
             }
         })
     }
+
+    function loadOlderMessages() {
+        const chatLogs = document.querySelector('.chat-logs');
+        const chatBoxBody = document.querySelector('.chat-box-body');
+        var page = $('.chat-logs').data('page');
+
+        if(chatLogs.scrollTop === 0) {
+            
+            var loadMoreSlug = $("#slug_input").val();
+            var loadMoreType = $("#type_input").val();
+            $.ajax({
+                type: "get",
+                url: loadMoreMsgsUrl,
+                data: {
+                    page: page,
+                    slug: loadMoreSlug,
+                    type: loadMoreType
+                },
+                
+                beforeSend: function() {
+                    $('.chat-logs').prepend('<div class="spinner-div d-flex align-items-center justify-content-center" style="width: 100%; position: absolute; width: 100%;height: 10%;z-index:10000; top: 0; right: 0;"><i class="fa fa-spin fa-spinner" style="margin-right: 5px;"></i>Loading...</div>');
+                },
+                success:function(response) {
+                    $('.chat-logs .spinner-div').remove();
+                    $('.chat-logs').prepend(response);
+                    page = page+1;
+                }
+            })
+        }
+    }

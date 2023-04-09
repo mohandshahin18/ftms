@@ -28,7 +28,7 @@
             @endphp
             @if ($companies->count() > 2)
                 <div class="text-center mt-3" id="load_more_com_div">
-                    <button class="btn btn-primary" id="load_more_companies" data-page="1">{{ __('admin.Load More') }}</button>
+                    <button class="btn btn-primary btn-flat" id="load_more_companies" data-page="1">{{ __('admin.Load More') }}</button>
                 </div>
             @endif
             
@@ -63,7 +63,7 @@
             @endphp
             @if ($teachers->count() > 2)
                 <div class="text-center mt-3" id="load_more_tea_div">
-                    <button class="btn btn-primary" id="load_more_teachers" data-page="1">{{ __('admin.Load More') }}</button>
+                    <button class="btn btn-primary btn-flat" id="load_more_teachers" data-page="1">{{ __('admin.Load More') }}</button>
                 </div>
             @endif
             @endif
@@ -74,7 +74,7 @@
        @if (!Auth::guard('admin')->check())
             @if ($auth->students()->count() > 6)
                 <div class="text-center" id="load_more_stu_div">
-                    <button id="load_more_students" class="btn btn-brand">Load more students</button>
+                    <button id="load_more_students" class="btn btn-primary btn-flat">Load more students</button>
                 </div>
             @endif
        @endif

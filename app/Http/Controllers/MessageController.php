@@ -41,7 +41,7 @@ class MessageController extends Controller
                 $type = 'teacher';
             } else {
                 $type = 'company';
-            }            
+            }
 
             $output = '';
             $number = 0;
@@ -65,11 +65,11 @@ class MessageController extends Controller
                     ->first();
 
                 $activelastMessage = Message::where([
-                        ['sender_id', $student->id],
-                        ['receiver_id', $auth->id],
-                        ['sender_type', 'student'],
-                        ['receiver_type', $type]
-                    ])
+                    ['sender_id', $student->id],
+                    ['receiver_id', $auth->id],
+                    ['sender_type', 'student'],
+                    ['receiver_type', $type]
+                ])
                     ->latest('created_at')
                     ->first();
 
@@ -82,36 +82,36 @@ class MessageController extends Controller
                         ['receiver_id', $auth->id],
                         ['sender_id', $student->id]
                     ])
-                    ->first();
+                        ->first();
 
-                if ($studentMessage) {
+                    if ($studentMessage) {
 
-                    $activelastMessage = Message::where([
+                        $activelastMessage = Message::where([
                             ['receiver_id', $auth->id],
                             ['receiver_type', $type],
                         ])
-                        ->where([
-                            ['sender_id', $student->id],
-                            ['sender_type', 'student']
-                        ])
-                        ->latest('created_at')
-                        ->first();
+                            ->where([
+                                ['sender_id', $student->id],
+                                ['sender_type', 'student']
+                            ])
+                            ->latest('created_at')
+                            ->first();
 
-                    if ($activelastMessage->read_at == null) {
-                        $number++;
-                        $active = 'active';
+                        if ($activelastMessage->read_at == null) {
+                            $number++;
+                            $active = 'active';
+                        }
                     }
-                }
 
-                if($student->image) {
-                    $src = asset($student->image);
-                } else {
-                    $src = 'https://ui-avatars.com/api/?background=random&name=' . $student->name;
-                }
+                    if ($student->image) {
+                        $src = asset($student->image);
+                    } else {
+                        $src = 'https://ui-avatars.com/api/?background=random&name=' . $student->name;
+                    }
 
-                $output .= '<a href="#" class="dropdown-item chat-circle ' . $active . '" data-slug="' . $student->slug . '" data-name="' . $student->name . '" data-name="' . $student->name . '" data-id="'.$student->id.'" data-type="student">
+                    $output .= '<a href="#" class="dropdown-item chat-circle ' . $active . '" data-slug="' . $student->slug . '" data-name="' . $student->name . '" data-name="' . $student->name . '" data-id="' . $student->id . '" data-type="student">
                             <div class="media">
-                                <img src="'. $src . '" alt="User Avatar"
+                                <img src="' . $src . '" alt="User Avatar"
                                     class="mr-3 img-circle" style="    width: 47px;
                                     height: 47px;
                                     object-fit: cover;">
@@ -126,16 +126,14 @@ class MessageController extends Controller
                             </div>
                         </a>
                         <div class="dropdown-divider"></div>';
-                } 
-
-                
+                }
             }
             $output .= '<div class="all">
                         <a href="' . route('admin.all.messages.page') . '" class="dropdown-item dropdown-footer text-center">Show All Messages</a>
                     </div>';
 
-            if($number != 0) {
-                $number = '<span class="badge badge-danger navbar-badge" id="messages-num">'.$number.'</span>';
+            if ($number != 0) {
+                $number = '<span class="badge badge-danger navbar-badge" id="messages-num">' . $number . '</span>';
             }
             $data = [
                 "output" => $output,
@@ -159,15 +157,15 @@ class MessageController extends Controller
                 $type = 'teacher';
             } else {
                 $type = 'company';
-            }  
+            }
 
             if ($student) {
                 $messages = Message::where([
-                        ['receiver_type', $type],
-                        ['receiver_id', $auth->id],
-                        ['sender_type', 'student'],
-                        ['sender_id', $student->id],
-                    ])
+                    ['receiver_type', $type],
+                    ['receiver_id', $auth->id],
+                    ['sender_type', 'student'],
+                    ['sender_id', $student->id],
+                ])
 
                     ->orWhere([
                         ['sender_type', $type],
@@ -181,16 +179,16 @@ class MessageController extends Controller
                     ->reverse();
             } else {
                 $messages = Message::where([
-                        ['receiver_type', $type],
-                        ['receiver_id', $auth->id],
-                        ['sender_type', 'admin'],
-                        ['sender_id', $admin->id],   
-                    ])
+                    ['receiver_type', $type],
+                    ['receiver_id', $auth->id],
+                    ['sender_type', 'admin'],
+                    ['sender_id', $admin->id],
+                ])
                     ->orWhere([
                         ['sender_type', $type],
                         ['sender_id', $auth->id],
                         ['receiver_type', 'admin'],
-                        ['receiver_id', $admin->id], 
+                        ['receiver_id', $admin->id],
                     ])
                     ->latest('id')
                     ->limit(10)
@@ -201,7 +199,7 @@ class MessageController extends Controller
             $sender_type = 'teacher';
             if (Auth::guard('trainer')->check()) {
                 $sender_type = 'trainer';
-            } elseif(Auth::guard('company')->check()) {
+            } elseif (Auth::guard('company')->check()) {
                 $sender_type = 'company';
             }
 
@@ -229,13 +227,13 @@ class MessageController extends Controller
             $teacher = Teacher::whereSlug($request->slug)->first();
 
 
-            if($company) {
+            if ($company) {
                 $messages = Message::where([
-                        ['sender_id', $auth->id],
-                        ['sender_type', 'admin'],
-                        ['receiver_id', $company->id],
-                        ['receiver_type', 'company'],
-                    ])
+                    ['sender_id', $auth->id],
+                    ['sender_type', 'admin'],
+                    ['receiver_id', $company->id],
+                    ['receiver_type', 'company'],
+                ])
                     ->orWhere([
                         ['sender_id', $company->id],
                         ['sender_type', 'company'],
@@ -246,23 +244,23 @@ class MessageController extends Controller
                     ->limit(10)
                     ->get()
                     ->reverse();
-            } elseif($trainer) {
+            } elseif ($trainer) {
                 $messages = Message::where([
                     ['sender_id', $auth->id],
                     ['sender_type', 'admin'],
                     ['receiver_id', $trainer->id],
                     ['receiver_type', 'trainer'],
                 ])
-                ->orWhere([
-                    ['sender_id', $trainer->id],
-                    ['sender_type', 'trainer'],
-                    ['receiver_id', $auth->id],
-                    ['receiver_type', 'admin'],
-                ])
-                ->latest('created_at')
-                ->limit(10)
-                ->get()
-                ->reverse();
+                    ->orWhere([
+                        ['sender_id', $trainer->id],
+                        ['sender_type', 'trainer'],
+                        ['receiver_id', $auth->id],
+                        ['receiver_type', 'admin'],
+                    ])
+                    ->latest('created_at')
+                    ->limit(10)
+                    ->get()
+                    ->reverse();
             } else {
                 $messages = Message::where([
                     ['sender_id', $auth->id],
@@ -270,16 +268,16 @@ class MessageController extends Controller
                     ['receiver_id', $teacher->id],
                     ['receiver_type', 'teacher'],
                 ])
-                ->orWhere([
-                    ['sender_id', $teacher->id],
-                    ['sender_type', 'teacher'],
-                    ['receiver_id', $auth->id],
-                    ['receiver_type', 'admin'],
-                ])
-                ->latest('created_at')
-                ->limit(10)
-                ->get()
-                ->reverse();
+                    ->orWhere([
+                        ['sender_id', $teacher->id],
+                        ['sender_type', 'teacher'],
+                        ['receiver_id', $auth->id],
+                        ['receiver_type', 'admin'],
+                    ])
+                    ->latest('created_at')
+                    ->limit(10)
+                    ->get()
+                    ->reverse();
             }
 
             $output = '';
@@ -300,8 +298,6 @@ class MessageController extends Controller
                     }
                 }
             }
-
-
         }
 
         return $output;
@@ -320,7 +316,7 @@ class MessageController extends Controller
         $teacher = Teacher::whereSlug($request->slug)->first();
 
         if (Auth::guard('trainer')->check()) {
-            if($student) {
+            if ($student) {
                 $message = Message::create([
                     'message' => $request->message,
                     'sender_id' => $auth->id,
@@ -337,8 +333,8 @@ class MessageController extends Controller
                     'receiver_type' => 'admin'
                 ]);
             }
-        } elseif(Auth::guard('teacher')->check()) {
-            if($student) {
+        } elseif (Auth::guard('teacher')->check()) {
+            if ($student) {
                 $message = Message::create([
                     'message' => $request->message,
                     'sender_id' => $auth->id,
@@ -355,8 +351,8 @@ class MessageController extends Controller
                     'receiver_type' => 'admin'
                 ]);
             }
-        } elseif(Auth::guard('company')->check()) {
-            if($student) {
+        } elseif (Auth::guard('company')->check()) {
+            if ($student) {
                 $message = Message::create([
                     'message' => $request->message,
                     'sender_id' => $auth->id,
@@ -364,7 +360,6 @@ class MessageController extends Controller
                     'sender_type' => 'company',
                     'receiver_type' => 'student'
                 ]);
-
             } else {
                 $message = Message::create([
                     'message' => $request->message,
@@ -374,9 +369,8 @@ class MessageController extends Controller
                     'receiver_type' => 'admin'
                 ]);
             }
-
         } else {
-            if($company) {
+            if ($company) {
                 $message = Message::create([
                     'message' => $request->message,
                     'sender_id' => $auth->id,
@@ -384,7 +378,7 @@ class MessageController extends Controller
                     'sender_type' => 'admin',
                     'receiver_type' => 'company'
                 ]);
-            } elseif($trainer) {
+            } elseif ($trainer) {
                 $message = Message::create([
                     'message' => $request->message,
                     'sender_id' => $auth->id,
@@ -419,27 +413,27 @@ class MessageController extends Controller
         $auth = Auth::user();
         $slug = $request->slug;
 
-        if(Auth::guard('admin')->check()) {
+        if (Auth::guard('admin')->check()) {
             $trainer = Trainer::whereSlug($slug)->first();
             $company = Company::whereSlug($slug)->first();
             $teacher = Teacher::whereSlug($slug)->first();
 
-            if($company) {
+            if ($company) {
                 $message = Message::where([
-                        ['sender_type', 'company'],
-                        ['receiver_type', 'admin'],
-                        ['sender_id', $company->id],
-                        ['receiver_id', $auth->id],
-                    ])  
+                    ['sender_type', 'company'],
+                    ['receiver_type', 'admin'],
+                    ['sender_id', $company->id],
+                    ['receiver_id', $auth->id],
+                ])
                     ->latest('created_at')
                     ->first();
-            } elseif($trainer) {
+            } elseif ($trainer) {
                 $message = Message::where([
-                        ['sender_type', 'trainer'],
-                        ['receiver_type', 'admin'],
-                        ['sender_id', $trainer->id],
-                        ['receiver_id', $auth->id],
-                    ])
+                    ['sender_type', 'trainer'],
+                    ['receiver_type', 'admin'],
+                    ['sender_id', $trainer->id],
+                    ['receiver_id', $auth->id],
+                ])
                     ->latest('created_at')
                     ->first();
             } else {
@@ -453,32 +447,30 @@ class MessageController extends Controller
                     ->first();
             }
 
-            if($message) {
+            if ($message) {
                 $message->read_at = now();
                 $message->save();
             }
-
         } else {
             $student = Student::whereSlug($slug)->first();
             $admin = Admin::whereSlug($slug)->first();
 
-            if(Auth::guard('trainer')->check()) {
+            if (Auth::guard('trainer')->check()) {
                 $role = 'trainer';
-            } elseif(Auth::guard('teacher')->check()) {
+            } elseif (Auth::guard('teacher')->check()) {
                 $role = 'teacher';
-            
             } else {
                 $role = 'company';
             }
-            if($student) {
+            if ($student) {
                 $message = Message::where([
                     ['sender_type', 'student'],
                     ['receiver_type', $role],
                     ['sender_id', $student->id],
                     ['receiver_id', $auth->id],
                 ])
-                ->latest('created_at')
-                ->first();
+                    ->latest('created_at')
+                    ->first();
             } else {
                 $message = Message::where([
                     ['sender_type', 'admin'],
@@ -486,8 +478,8 @@ class MessageController extends Controller
                     ['sender_id', $admin->id],
                     ['receiver_id', $auth->id],
                 ])
-                ->latest('created_at')
-                ->first();
+                    ->latest('created_at')
+                    ->first();
             }
 
             if ($message) {
@@ -498,6 +490,96 @@ class MessageController extends Controller
     }
 
     // all messages page
+    // public function all_messages_request()
+    // {
+    //     $output = '';
+    //     $auth = Auth::user();
+
+    //     if (Auth::guard('admin')->check()) {
+    //     } else {
+    //         if ($auth->students) {
+    //             if(Auth::guard('trainer')->check()) {
+    //                 $role = 'trainer';
+    //             } elseif(Auth::guard('company')->check()) {
+    //                 $role = 'company';
+    //             } else {
+    //                 $role = 'teacher';
+    //             }
+    //             foreach ($auth->students as $student) {
+    //                 $message = Message::where([
+    //                         ['sender_type', 'student'],
+    //                         ['receiver_type', $role],
+    //                         ['sender_id', $student->id],
+    //                         ['receiver_id', $auth->id],
+    //                     ])
+    //                     ->orWhere([
+    //                         ['sender_type', $role],
+    //                         ['receiver_type', 'student'],
+    //                         ['sender_id', $auth->id],
+    //                         ['receiver_id', $student->id],
+    //                     ])
+    //                     ->orderByDesc('created_at')
+    //                     ->first();
+    //                 $Lastmessage = __('admin.No messages yet!');
+    //                 $time = '';
+    //                 $unread = '';
+
+    //                 if ($message) {
+    //                     $Lastmessage = $message->message;
+    //                     $time = $message->created_at->diffForHumans();
+    //                     $time = '<small><i
+    //                     class="far fa-clock mr-1"></i>' . $time . '</small>';
+
+    //                     if ($message->read_at == null) {
+    //                         $unread = 'notification-list--unread';
+    //                     }
+    //                 }
+
+    //                 if($student->image) {
+    //                     $src = asset($student->image);
+    //                 } else {
+    //                     $src = 'https://ui-avatars.com/api/?background=random&name=' . $student->name;
+    //                 }
+
+
+    //                 $output .= '<a href="#" style="font-weight: unset" class="chat-circle main-msg" data-slug="' . $student->slug . '"
+    //                 data-name="' . $student->name . '"
+    //                 data-type="student"
+    //                 data-id="' . $student->id . '">
+    //                                 <div class="messages-list ' . $unread . '">
+    //                                     <div class="notification-list_content">
+    //                                         <div class="notification-list_img">
+    //                                             <img src="' . $src . '" width="60" height="60" alt="user"
+    //                                                 style="object-fit: cover; border-radius: 50%">
+    //                                         </div>
+    //                                         <div style="width: 100%">
+    //                                             <div class="message-list_detail">
+    //                                                 <p><b>' . $student->name . '</b>
+    //                                                     <br>' . $Lastmessage . '
+    //                                                 </p>
+    //                                                 <p class="text-muted">' . $time . '</p>
+    //                                             </div>
+
+
+
+
+    //                                         </div>
+    //                                     </div>
+    //                                 </div>
+    //                             </a>';
+    //             }
+    //         } else {
+    //             $output .= '<div class="text-center">
+    //                             <img src="' . asset('adminAssets/dist/img/folder.png') . '" alt="" width="300">
+    //                             <br>
+    //                             <p class=" mt-3 mb-5 text-center">There is no students yet</p>
+    //                         </div>';
+    //         }
+    //     }
+
+    //     return $output;
+    // }
+
     public function all_messages_request()
     {
         $output = '';
@@ -506,28 +588,29 @@ class MessageController extends Controller
         if (Auth::guard('admin')->check()) {
         } else {
             if ($auth->students) {
-                if(Auth::guard('trainer')->check()) {
+                if (Auth::guard('trainer')->check()) {
                     $role = 'trainer';
-                } elseif(Auth::guard('company')->check()) {
+                } elseif (Auth::guard('company')->check()) {
                     $role = 'company';
                 } else {
                     $role = 'teacher';
                 }
                 foreach ($auth->students as $student) {
                     $message = Message::where([
-                            ['sender_type', 'student'],
-                            ['receiver_type', $role],
-                            ['sender_id', $student->id],
-                            ['receiver_id', $auth->id],
-                        ])
+                        ['sender_type', 'student'],
+                        ['receiver_type', $role],
+                        ['sender_id', $student->id],
+                        ['receiver_id', $auth->id],
+                    ])
                         ->orWhere([
                             ['sender_type', $role],
                             ['receiver_type', 'student'],
                             ['sender_id', $auth->id],
                             ['receiver_id', $student->id],
                         ])
-                        ->latest('created_at')
+                        ->orderByDesc('created_at')
                         ->first();
+
                     $Lastmessage = __('admin.No messages yet!');
                     $time = '';
                     $unread = '';
@@ -536,53 +619,47 @@ class MessageController extends Controller
                         $Lastmessage = $message->message;
                         $time = $message->created_at->diffForHumans();
                         $time = '<small><i
-                        class="far fa-clock mr-1"></i>' . $time . '</small>';
+                    class="far fa-clock mr-1"></i>' . $time . '</small>';
 
                         if ($message->read_at == null) {
                             $unread = 'notification-list--unread';
                         }
                     }
 
-                    if($student->image) {
-                        $src = asset($student->image);
-                    } else {
-                        $src = 'https://ui-avatars.com/api/?background=random&name=' . $student->name;
-                    }
-
+                    $src = $student->image ? asset($student->image) : 'https://ui-avatars.com/api/?background=random&name=' . $student->name;
 
                     $output .= '<a href="#" style="font-weight: unset" class="chat-circle main-msg" data-slug="' . $student->slug . '"
-                    data-name="' . $student->name . '"
-                    data-type="student"
-                    data-id="' . $student->id . '">
-                                    <div class="messages-list ' . $unread . '">
-                                        <p class="open-msg">open</p>
-                                        <div class="notification-list_content">
-                                            <div class="notification-list_img">
-                                                <img src="' . $src . '" width="60" height="60" alt="user"
-                                                    style="object-fit: cover; border-radius: 50%">
+                data-name="' . $student->name . '"
+                data-type="student"
+                data-id="' . $student->id . '">
+                                <div class="messages-list ' . $unread . '">
+                                    <div class="notification-list_content">
+                                        <div class="notification-list_img">
+                                            <img src="' . $src . '" width="60" height="60" alt="user"
+                                                style="object-fit: cover; border-radius: 50%">
+                                        </div>
+                                        <div style="width: 100%">
+                                            <div class="message-list_detail">
+                                                <p><b>' . $student->name . '</b>
+                                                    <br>' . $Lastmessage . '
+                                                </p>
+                                                <p class="text-muted">' . $time . '</p>
                                             </div>
-                                            <div style="width: 100%">
-                                                <div class="message-list_detail">
-                                                    <p><b>' . $student->name . '</b>
-                                                        <br>' . $Lastmessage . '
-                                                    </p>
-                                                    <p class="text-muted">' . $time . '</p>
-                                                </div>
 
 
 
 
-                                            </div>
                                         </div>
                                     </div>
-                                </a>';
+                                </div>
+                            </a>';
                 }
             } else {
                 $output .= '<div class="text-center">
-                                <img src="' . asset('adminAssets/dist/img/folder.png') . '" alt="" width="300">
-                                <br>
-                                <p class=" mt-3 mb-5 text-center">There is no students yet</p>
-                            </div>';
+                            <img src="' . asset('adminAssets/dist/img/folder.png') . '" alt="" width="300">
+                            <br>
+                            <p class=" mt-3 mb-5 text-center">There is no students yet</p>
+                        </div>';
             }
         }
 
@@ -597,19 +674,19 @@ class MessageController extends Controller
         $auth = Auth::user();
 
         if (Auth::guard('admin')->check()) {
-        } elseif(Auth::guard('company')->check() || Auth::guard('teacher')->check()) {
+        } elseif (Auth::guard('company')->check() || Auth::guard('teacher')->check()) {
             foreach ($admins as $admin) {
-                if(Auth::guard('company')->check()) {
+                if (Auth::guard('company')->check()) {
                     $role = 'company';
                 } else {
                     $role = 'teacher';
                 }
                 $message = Message::where([
-                        ['sender_id', $auth->id],
-                        ['sender_type', $role],
-                        ['receiver_id', $admin->id],
-                        ['receiver_type', 'admin']
-                    ])
+                    ['sender_id', $auth->id],
+                    ['sender_type', $role],
+                    ['receiver_id', $admin->id],
+                    ['receiver_type', 'admin']
+                ])
                     ->orWhere([
                         ['sender_id', $admin->id],
                         ['sender_type', 'admin'],
@@ -634,7 +711,7 @@ class MessageController extends Controller
                     }
                 }
 
-                if($admin->image) {
+                if ($admin->image) {
                     $src = asset($admin->image);
                 } else {
                     $src = 'https://ui-avatars.com/api/?background=random&name=' . $admin->name;
@@ -696,11 +773,11 @@ class MessageController extends Controller
             $unread = '';
 
             $message = Message::where([
-                    ['sender_type', 'admin'],
-                    ['sender_id', $auth->id],
-                    ['receiver_type', 'company'],
-                    ['receiver_id', $company->id],
-                ])
+                ['sender_type', 'admin'],
+                ['sender_id', $auth->id],
+                ['receiver_type', 'company'],
+                ['receiver_id', $company->id],
+            ])
                 ->orWhere([
                     ['sender_type', 'company'],
                     ['sender_id', $company->id],
@@ -720,11 +797,8 @@ class MessageController extends Controller
                 }
             }
 
-            if($company->image) {
-                $src = asset($company->image);
-            } else {
-                $src = 'https://ui-avatars.com/api/?background=random&name=' . $company->name;
-            }
+
+            $src = $company->image ? asset($company->image) : 'https://ui-avatars.com/api/?background=random&name=' . $company->name;
 
             $output .= '<a href="" style="font-weight: unset" class="chat-circle main-msg" data-slug="' . $company->slug . '"
             data-id="' . $company->id . '"
@@ -765,11 +839,11 @@ class MessageController extends Controller
             $unread = '';
 
             $message = Message::where([
-                    ['sender_id', $auth->id],
-                    ['sender_type', 'admin'],
-                    ['receiver_id', $teacher->id],
-                    ['receiver_type', 'teacher'],
-                ])
+                ['sender_id', $auth->id],
+                ['sender_type', 'admin'],
+                ['receiver_id', $teacher->id],
+                ['receiver_type', 'teacher'],
+            ])
                 ->orWhere([
                     ['sender_id', $teacher->id],
                     ['sender_type', 'teacher'],
@@ -789,11 +863,7 @@ class MessageController extends Controller
                 }
             }
 
-            if($teacher->image) {
-                $src = asset($teacher->image);
-            } else {
-                $src = 'https://ui-avatars.com/api/?background=random&name=' . $teacher->name;
-            }
+            $src = $teacher->image ? asset($teacher->image) : 'https://ui-avatars.com/api/?background=random&name=' . $teacher->name;
 
             $output .= '<a href="#" style="font-weight: unset" class="chat-circle main-msg" data-slug="' . $teacher->slug . '"
             data-id="' . $teacher->id . '"

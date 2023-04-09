@@ -384,5 +384,8 @@ class MessagesController extends Controller
         $message->read_at = now();
         $message->save();
 
+
+
+        // return $output;
     }
 }

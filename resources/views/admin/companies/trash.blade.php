@@ -23,7 +23,7 @@
 
 
                         <div class="btn-website">
-                            <a title="{{ __('admin.Companies Page') }}" href="{{ route('admin.companies.index') }}" class="btn btn-primary"> {{ __('admin.All Companies') }}</a>
+                            <a title="{{ __('admin.Companies Page') }}" href="{{ route('admin.companies.index') }}" class="btn btn-primary btn-flat"> {{ __('admin.All Companies') }}</a>
                         </div>
 
 
@@ -60,14 +60,14 @@
                                        @can('restore_company')
                                        <form action="{{ route('admin.companies.restore', $company->slug) }}" method="POST" class="restor_form">
                                         @csrf
-                                        <button title="{{ __('admin.Restore') }}" class="btn btn-primary btn-sm btn_restore"><i class="fas fa-trash-restore"></i></button>
+                                        <button title="{{ __('admin.Restore') }}" class="btn btn-primary btn-sm btn_restore btn-flat"><i class="fas fa-trash-restore"></i></button>
                                       </form>
                                        @endcan
                                        @can('forceDelete_company')
                                        <form action="{{ route('admin.companies.forcedelete', $company->slug) }}" method="POST" class="delete_form">
                                         @csrf
                                         @method('delete')
-                                        <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm delete_btn"> <i class="fas fa-times"></i> </button>
+                                        <button title="{{ __('admin.Delete') }}" class="btn btn-danger btn-sm delete_btn btn-flat"> <i class="fas fa-times"></i> </button>
                                       </form>
                                        @endcan
                                       </div>

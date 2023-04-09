@@ -235,10 +235,9 @@
                         </div>
 
 
-                        <div class="mt-2 wrapper-btn d-flex justify-content-end">
-                            <button class="btn btn-primary profile-button" type="submit">{{ __('admin.Save Edit') }}
-                            </button>
-                        </div>
+                    <div class="mt-2 wrapper-btn d-flex justify-content-end">
+                        <button class="btn btn-primary btn-flat profile-button" type="button">{{ __('admin.Save Edit') }}  </button>
+                    </div>
                     </div>
                 </div>
             </div>

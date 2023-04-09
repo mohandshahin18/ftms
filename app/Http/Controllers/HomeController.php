@@ -93,13 +93,17 @@ class HomeController extends Controller
             'darkLogo' => [$rule, 'mimes:png,jpg,jpeg,svg,jfif', 'max:2048'],
         ]);
 
+
+
         $logo = settings()->get('logo');
+
         if ($request->has('logo')) {
             $logo = $request->file('logo')->store('uploads/settings/logo', 'custom');
             settings()->set('logo', $logo);
         }
 
         $darkLogo = settings()->get('darkLogo');
+
         if ($request->has('darkLogo')) {
             $darkLogo = $request->file('darkLogo')->store('uploads/settings/logo', 'custom');
             settings()->set('darkLogo', $darkLogo);
