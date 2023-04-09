@@ -77,6 +77,7 @@ class RolesDataSeeder extends Seeder
        'settings' => 'Settings',
        'notification' => 'Notifications',
        'messages' => 'Messages',
+       'attendance' => 'Attendances',
 
     ];
     public function run()

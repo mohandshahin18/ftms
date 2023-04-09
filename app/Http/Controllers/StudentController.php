@@ -392,6 +392,7 @@ class StudentController extends Controller
     public function export_pdf($id)
     {
         $student = Student::findOrFail($id);
+        $name =$student->name;
         $applied_evaluation = AppliedEvaluation::with('evaluation')->where('student_id', $id)->first();
         $questions = json_decode($applied_evaluation->data, true);
         $scores = [

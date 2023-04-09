@@ -1,4 +1,10 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@600&display=swap');
+
+body ,
+input , select , h3 , h2 , h1 , h4 , h5 ,
+.btn{
+    font-family: 'Cairo', sans-serif;
+}
 
 :root {
     /* #2A3166 , #01345B, #252669*/

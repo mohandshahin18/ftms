@@ -210,7 +210,7 @@
                                 <div class="col-md-6 mb-3 status-main">
                                     <label class="labels">{{ __('admin.Status') }}</label>
                                     <i class="fas fa-info info-icon" data-toggle="tooltip" data-placement="top"
-                                        title="Tooltip on top"></i>
+                                        title="{{ __('admin.Status: through which students can see the company and submit requests to join the company') }}"></i>
                                     <select name="status" class="form-control">
                                         <option @selected(Auth::guard()->user()->status == 1) value="1"> {{ __('admin.Avilable') }}
                                         </option>
@@ -270,13 +270,15 @@
             var infoIcon = document.querySelector('.info-icon');
             var tooltip = document.querySelector('.tooltip');
 
-            infoIcon.addEventListener('mouseenter', function() {
-                tooltip.style.display = 'block';
-            });
+            // infoIcon.addEventListener('mouseenter', function() {
+            //     tooltip.style.display = 'block';
+            // });
 
-            infoIcon.addEventListener('mouseleave', function() {
-                tooltip.style.display = 'none';
-            });
+            // infoIcon.addEventListener('mouseleave', function() {
+            //     tooltip.style.display = 'none';
+            // });
+            tooltip.style.display = 'block';
+
         </script>
     @endif
 

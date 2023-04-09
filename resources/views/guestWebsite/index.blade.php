@@ -387,7 +387,7 @@
                         <p>{{ $data['footer_text'] }}</p>
 
                         <div class="col-auto conditions-section">
-                            <a href="mailto:{{ $data['email'] }}">Techincle Support</i></a>
+                            <a href="mailto:{{ $data['email'] }}">{{ __('admin.Techincle Support') }}</i></a>
                         </div>
                     </div>
                 </div>

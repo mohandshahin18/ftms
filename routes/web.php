@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdvertController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\NotifyController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\StudentController;
@@ -246,6 +247,9 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
 
       // roles
       Route::resource('roles', RoleController::class);
+
+      //Attendances
+      Route::resource('attendances',AttendanceController::class);
 
 
     // verify email

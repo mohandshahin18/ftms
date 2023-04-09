@@ -122,7 +122,7 @@
             @endif
       </div>
 
-      @if(! Auth::guard('admin')->check())
+      @if(!Auth::guard('admin')->check())
             <div class="row">
                 <div class="col-lg-6">
                     <div class="card">
@@ -136,9 +136,16 @@
 
                         </div>
                         </div>
+                        @if ($lastAdvert)
                         <div class="card-body" style="display: block;">
-                        {{$sub_title }}
+                                 {{$lastAdvert->sub_title }}
                         </div>
+                        @else
+                        <div class="text-center card-body" style="display: block;">
+                            <img src="{{ asset('adminAssets/dist/img/no-adverts.webp') }}" class="img-responsive no-adverts-vector" alt="">
+                            <h6 class="text-center">{{ __('admin.There is no adverts yet') }}</h6>
+                        </div>
+                      @endif
                         <!-- /.card-body -->
 
                     </div>

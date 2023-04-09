@@ -3,7 +3,6 @@
 
 <head>
 
-    <?php $name = $student->name; ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -35,10 +34,10 @@
 <body>
 
 
-
+{{-- @dump( $->name ) --}}
     <div>
         <div class="row">
-            <div class="col-12 header mt-4 d-flex justify-content-space-between align-items-center>"
+            <div class="col-12 header mt-4 d-flex justify-content-space-between align-items-center">
                 <div>
                   <h3>Student Evaluation</h3>
                   <h5>Student Name: {{ $student->name }}</h5>

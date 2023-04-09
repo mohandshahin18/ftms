@@ -53,15 +53,14 @@ class HomeController extends Controller
         $categories = Category::count();
         $sub_title = '';
         $adverts = '';
-
+        $lastAdvert = '';
         if (!Auth::guard('admin')->check()) {
             $lastAdvert = Auth::user()->adverts()->latest('id')->limit(1)->first();
-            $sub_title = $lastAdvert ? $lastAdvert->sub_title : __('admin.No advertisement has been posted yet');
             $students = Auth::user()->students()->count();
             $adverts = Auth::user()->adverts()->count();
         }
 
-        return view('admin.home', compact('students', 'companies', 'specializations', 'categories', 'sub_title', 'adverts'));
+        return view('admin.home', compact('students', 'companies', 'specializations', 'categories', 'lastAdvert', 'adverts'));
     }
 
     /**

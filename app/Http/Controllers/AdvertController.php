@@ -67,7 +67,7 @@ class AdvertController extends Controller
             $path = $request->file('image')->store('/uploads/advert', 'custom');
         }else{
             $random= rand(0,9);
-            $path = 'uploads/advert/default'.$random.'.jpg';
+            $path = 'uploads/advert/default'.$random.'.png';
         }
         if(Auth::guard('trainer')->check()){
             Advert::create([

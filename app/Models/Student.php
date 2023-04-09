@@ -70,8 +70,14 @@ class Student extends Authenticatable
         return $this->hasMany(Comment::class);
     }
     // with role
-public function role()
-{
-    return $this->belongsTo(Role::class)->withDefault();
-}
+    public function role()
+    {
+        return $this->belongsTo(Role::class)->withDefault();
+    }
+
+        // with attendance
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
+    }
 }
