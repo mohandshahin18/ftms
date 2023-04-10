@@ -97,7 +97,7 @@
                                 </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">
-                                    <img src="{{ asset('adminAssets/dist/img/folder.png') }}" alt="" width="300" >
+                                    <img src="{{ asset('adminAssets/dist/img/folder.png') }}" width="300" >
                                     <br>
                                     <h4>{{ __('admin.NO Data Selected') }}</h4>
                                 </td>

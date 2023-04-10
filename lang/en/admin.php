@@ -381,6 +381,10 @@ return [
     "The email is already in use" => "The email is already in use",
     "University id already exists" => "University id already exists",
     "Edit University ID" => "Edit University ID",
+    "more about" => "more about",
+    "Student" => "Student",
+    "Student Information" => "Student Information",
+    "Applied Tasks" => "Applied Tasks",
     "No comments yet" => "No comments yet",
     "The task will appear to the student on the start date specified by you" => "The task will appear to the student on the start date specified by you",
     "Status: through which students can see the company and submit requests to join the company" => "Status: through which students can see the company and submit requests to join the company",
@@ -404,5 +408,7 @@ return [
     "Member has been updated successfully" => "Member has been updated successfully",
     "Email is already taken" => "Email is already taken",
     "Check out the different companies and check out their internship opportunities." => "Check out the different companies and check out their internship opportunities.",
+    "Student attendence" => "Student attendence",
+    "Date" => "Date",
 
 ];

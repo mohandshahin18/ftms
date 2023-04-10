@@ -6,13 +6,13 @@ use Exception;
 use App\Models\Student;
 use App\Models\Evaluation;
 use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\AppliedEvaluation;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
+use PDF;
 
 class StudentController extends Controller
 {
@@ -26,62 +26,58 @@ class StudentController extends Controller
         Gate::authorize('all_students');
 
 
-        if(Auth::guard('company')->check()) {
+        if (Auth::guard('company')->check()) {
 
-            if(request()->has('keyword')){
+            if (request()->has('keyword')) {
                 $students = Student::with('specialization', 'university')
-                ->where('company_id', Auth::user()->id)
-                ->where('name' , 'like' , '%' .request()->keyword.'%')
-                ->latest('id')
-                ->paginate(env('PAGINATION_COUNT'));
-            }else{
+                    ->where('company_id', Auth::user()->id)
+                    ->where('name', 'like', '%' . request()->keyword . '%')
+                    ->latest('id')
+                    ->paginate(env('PAGINATION_COUNT'));
+            } else {
                 $students = Student::with('specialization', 'university')
-                ->where('company_id', Auth::user()->id)
-                ->latest('id')
-                ->paginate(env('PAGINATION_COUNT'));
+                    ->where('company_id', Auth::user()->id)
+                    ->latest('id')
+                    ->paginate(env('PAGINATION_COUNT'));
             }
+        } elseif (Auth::guard('teacher')->check()) {
 
-
-        }elseif(Auth::guard('teacher')->check()){
-
-            if(request()->has('keyword')){
+            if (request()->has('keyword')) {
                 $students = Student::with('specialization', 'university')
-                ->where('teacher_id', Auth::user()->id)
-                ->where('name' , 'like' , '%' .request()->keyword.'%')
-                ->latest('id')
-                ->paginate(env('PAGINATION_COUNT'));
-            }else{
+                    ->where('teacher_id', Auth::user()->id)
+                    ->where('name', 'like', '%' . request()->keyword . '%')
+                    ->latest('id')
+                    ->paginate(env('PAGINATION_COUNT'));
+            } else {
                 $students = Student::with('specialization', 'university')
-                ->where('teacher_id', Auth::user()->id)
-                ->latest('id')
-                ->paginate(env('PAGINATION_COUNT'));
+                    ->where('teacher_id', Auth::user()->id)
+                    ->latest('id')
+                    ->paginate(env('PAGINATION_COUNT'));
             }
+        } elseif (Auth::guard('trainer')->check()) {
 
-        }elseif(Auth::guard('trainer')->check()){
-
-            if(request()->has('keyword')){
+            if (request()->has('keyword')) {
                 $students = Student::with('specialization', 'university')
-                ->where('trainer_id', Auth::user()->id)
-                ->where('name' , 'like' , '%' .request()->keyword.'%')
-                ->latest('id')
-                ->paginate(env('PAGINATION_COUNT'));
-            }else{
+                    ->where('trainer_id', Auth::user()->id)
+                    ->where('name', 'like', '%' . request()->keyword . '%')
+                    ->latest('id')
+                    ->paginate(env('PAGINATION_COUNT'));
+            } else {
                 $students = Student::with('specialization', 'university')
-                ->where('trainer_id', Auth::user()->id)
-                ->latest('id')
-                ->paginate(env('PAGINATION_COUNT'));
+                    ->where('trainer_id', Auth::user()->id)
+                    ->latest('id')
+                    ->paginate(env('PAGINATION_COUNT'));
             }
-
-        }else{
-            if(request()->has('keyword')){
+        } else {
+            if (request()->has('keyword')) {
                 $students = Student::with('specialization', 'university')
-                ->where('name' , 'like' , '%' .request()->keyword.'%')
-                ->latest('id')
-                ->paginate(env('PAGINATION_COUNT'));
-            }else{
+                    ->where('name', 'like', '%' . request()->keyword . '%')
+                    ->latest('id')
+                    ->paginate(env('PAGINATION_COUNT'));
+            } else {
                 $students = Student::with('specialization', 'university')
-                ->latest('id')
-                ->paginate(env('PAGINATION_COUNT'));
+                    ->latest('id')
+                    ->paginate(env('PAGINATION_COUNT'));
             }
         }
 
@@ -95,43 +91,40 @@ class StudentController extends Controller
     {
         $search = $request->search;
 
-        if($search != null) {
-            if(Auth::guard('company')->check()) {
+        if ($search != null) {
+            if (Auth::guard('company')->check()) {
                 $students = Student::where('company_id', Auth::user()->id)
-                ->where(function($query) use ($search) {
-                    $query->where('name', 'like', '%'.$search.'%')
-                          ->orWhere('student_id', 'like', '%'.$search.'%');
-                })
-                ->pluck('name');
-
-            } elseif(Auth::guard('trainer')->check()) {
+                    ->where(function ($query) use ($search) {
+                        $query->where('name', 'like', '%' . $search . '%')
+                            ->orWhere('student_id', 'like', '%' . $search . '%');
+                    })
+                    ->pluck('name');
+            } elseif (Auth::guard('trainer')->check()) {
                 $students = Student::where('trainer_id', Auth::user()->id)
-                ->where(function($query) use ($search) {
-                    $query->where('name', 'like', '%'.$search.'%')
-                          ->orWhere('student_id', 'like', '%'.$search.'%');
-                })
-                ->pluck('name');
-
-            } elseif(Auth::guard('teacher')->check()) {
+                    ->where(function ($query) use ($search) {
+                        $query->where('name', 'like', '%' . $search . '%')
+                            ->orWhere('student_id', 'like', '%' . $search . '%');
+                    })
+                    ->pluck('name');
+            } elseif (Auth::guard('teacher')->check()) {
                 $students = Student::where('teacher_id', Auth::user()->id)
-                ->where(function($query) use ($search) {
-                    $query->where('name', 'like', '%'.$search.'%')
-                          ->orWhere('student_id', 'like', '%'.$search.'%');
-                })
-                ->pluck('name');
-
+                    ->where(function ($query) use ($search) {
+                        $query->where('name', 'like', '%' . $search . '%')
+                            ->orWhere('student_id', 'like', '%' . $search . '%');
+                    })
+                    ->pluck('name');
             } else {
-                $students = Student::where(function($query) use ($search) {
-                    $query->where('name', 'like', '%'.$search.'%')
-                          ->orWhere('student_id', 'like', '%'.$search.'%');
+                $students = Student::where(function ($query) use ($search) {
+                    $query->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('student_id', 'like', '%' . $search . '%');
                 })
-                ->pluck('name');
+                    ->pluck('name');
             }
 
-            if($students) {
+            if ($students) {
                 return response()->json(["students" => $students]);
             } else {
-                return response()->json(["message"=> "meg"]);
+                return response()->json(["message" => "meg"]);
             }
         }
     }
@@ -142,55 +135,55 @@ class StudentController extends Controller
 
 
         $applyNotifications = DB::table('notifications')
-                    ->where('type','App\Notifications\AppliedNotification')
-                    ->where('notifiable_type','App\Models\Company')
-                    ->where('notifiable_id',$student->company_id)
-                    ->get();
+            ->where('type', 'App\Notifications\AppliedNotification')
+            ->where('notifiable_type', 'App\Models\Company')
+            ->where('notifiable_id', $student->company_id)
+            ->get();
 
-        if($applyNotifications) {
-            foreach($applyNotifications as $notification) {
+        if ($applyNotifications) {
+            foreach ($applyNotifications as $notification) {
 
                 $data = json_decode($notification->data, true);
-                if(($data['student_id'] == $student->id)&&
+                if (($data['student_id'] == $student->id) &&
                     ($data['category_id'] == $student->category_id) &&
-                    ($data['company_id'] == $student->company_id))
-                    {
-                        DB::table('notifications')
-                            ->where('id', $notification->id)
-                            ->delete();
-                    }
+                    ($data['company_id'] == $student->company_id)
+                ) {
+                    DB::table('notifications')
+                        ->where('id', $notification->id)
+                        ->delete();
+                }
             }
         }
 
         $acceptApplyNotifications = DB::table('notifications')
-        ->where('type','App\Notifications\AcceptApplyNotification')
-        ->where('notifiable_type','App\Models\Student')
-        ->where('notifiable_id',$student->id)
-        ->get();
+            ->where('type', 'App\Notifications\AcceptApplyNotification')
+            ->where('notifiable_type', 'App\Models\Student')
+            ->where('notifiable_id', $student->id)
+            ->get();
 
-        if($acceptApplyNotifications) {
-            foreach($acceptApplyNotifications as $notification) {
+        if ($acceptApplyNotifications) {
+            foreach ($acceptApplyNotifications as $notification) {
 
                 $data = json_decode($notification->data, true);
-                if(($data['studentId'] == $student->id)&&
-                    ($data['company_id'] == $student->company_id))
-                    {
-                        DB::table('notifications')
-                            ->where('id', $notification->id)
-                            ->delete();
-                    }
+                if (($data['studentId'] == $student->id) &&
+                    ($data['company_id'] == $student->company_id)
+                ) {
+                    DB::table('notifications')
+                        ->where('id', $notification->id)
+                        ->delete();
+                }
             }
         }
 
 
 
         $student->update([
-            'company_id'=> null ,
-            'category_id'=> null ,
-            'trainer_id'=> null ,
+            'company_id' => null,
+            'category_id' => null,
+            'trainer_id' => null,
         ]);
 
-        return $slug ;
+        return $slug;
     }
 
 
@@ -229,25 +222,27 @@ class StudentController extends Controller
 
         $evaluation = Evaluation::where('evaluation_type', 'student')->first();
 
-        if($evaluation) {
+        if ($evaluation) {
             return view('admin.students.evaluate', compact('evaluation', 'student'));
-
         } else {
             return redirect()->back()
-            ->with('msg', 'Please Add Evaluation First')
-            ->with('type', 'info');
+                ->with('msg', 'Please Add Evaluation First')
+                ->with('type', 'info');
         }
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show more informations about the student.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function show_more_informations($slug)
     {
-        //
+        Gate::authorize('more_about_student');
+        $student = Student::whereSlug($slug)->first();
+        $applied_evaluation = AppliedEvaluation::where('student_id', $student->id)->first();
+        return view('admin.students.informations', compact('student', 'applied_evaluation'));
     }
 
     /**
@@ -290,12 +285,11 @@ class StudentController extends Controller
     {
         Gate::authorize('recycle_students');
 
-        if(request()->has('keyword')){
-            $students = Student::onlyTrashed()->where('name' , 'like' , '%' .request()->keyword.'%')
-            ->paginate(env('PAGINATION_COUNT'));
-        }else{
+        if (request()->has('keyword')) {
+            $students = Student::onlyTrashed()->where('name', 'like', '%' . request()->keyword . '%')
+                ->paginate(env('PAGINATION_COUNT'));
+        } else {
             $students = Student::onlyTrashed()->latest('id')->paginate(env('PAGINATION_COUNT'));
-
         }
         return view('admin.students.trash', compact('students'));
     }
@@ -330,19 +324,15 @@ class StudentController extends Controller
         $students = Student::onlyTrashed()->whereSlug($slug)->first();
 
 
-        if(public_path($students->image)) {
+        if (public_path($students->image)) {
             try {
                 File::delete(public_path($students->image));
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 Log::error($e->getMessage());
             }
         }
         $students->forcedelete();
         return $slug;
-
-
-
-
     }
 
 
@@ -358,8 +348,8 @@ class StudentController extends Controller
 
         $student = Student::whereHas('applied_evaluation')->whereSlug($slug)->first();
         $evaluation = AppliedEvaluation::where('student_id', $student->id)
-        ->where('evaluation_type', 'student')
-        ->first();
+            ->where('evaluation_type', 'student')
+            ->first();
         $data = json_decode($evaluation->data, true);
         $scores = [
             'bad' => 20,
@@ -392,7 +382,7 @@ class StudentController extends Controller
     public function export_pdf($id)
     {
         $student = Student::findOrFail($id);
-        $name =$student->name;
+        $name = $student->name;
         $applied_evaluation = AppliedEvaluation::with('evaluation')->where('student_id', $id)->first();
         $questions = json_decode($applied_evaluation->data, true);
         $scores = [
@@ -419,10 +409,45 @@ class StudentController extends Controller
             'total_rate' => $average_score,
         ];
 
-        $name_of_pdf = str_replace(' ', '-', $student->name).'-'.$student->student_id;
+        $name_of_pdf = str_replace(' ', '-', $student->name) . '-' . $student->student_id;
 
-        $pdf = Pdf::loadView('admin.students.pdf', $data);
-        return $pdf->download($name_of_pdf.'.pdf');
+        if(app()->getLocale() == 'en') {
+            $pdf = PDF::loadView('admin.students.pdf', $data);
+        }else {
+            $pdf = PDF::loadView('admin.students.pdf-ar', $data);
+        }
+        return $pdf->download($name_of_pdf . '.pdf');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show_attendece_calender($slug)
+    {
+        Gate::authorize('student_attendence');
+
+       $student = Student::whereSlug($slug)->first();
+       return view('admin.students.attendace_page', compact('student'));
+    }
+
+
+     /**
+     * Export student attendance as PDF.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function export_attendance_pdf($slug)
+    {
+        $student = Student::whereSlug($slug)->first();
+
+        $name_of_pdf = str_replace(' ', '-', $student->name) . '-' . $student->student_id;
+        $data = ['student' => $student];
+        $pdf = Pdf::loadView('admin.students.attendance-pdf', $data);
+        return $pdf->download($name_of_pdf . '.pdf');
     }
 
 

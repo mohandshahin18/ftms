@@ -6,7 +6,6 @@ input , select , h3 , h2 , h1 , h4 , h5 ,
     font-family: 'Cairo', sans-serif;
 }
 
-
 a {
     color: #333;
 }
@@ -849,7 +848,7 @@ i.far.fa-comments {
 
 /* responsive */
 
-.evaluation-check {
+/* .evaluation-check {
     display: none;
 }
 
@@ -861,7 +860,7 @@ i.far.fa-comments {
     .og-evaluation {
         display: none;
     }
-}
+} */
 
 /* messages page */
 .section-50 {
@@ -916,7 +915,6 @@ i.far.fa-comments {
     align-items: center;
     justify-content: space-between;
 }
-
 
 .main-msg {
     position: relative;
@@ -1283,4 +1281,8 @@ body::-webkit-scrollbar-thumb {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     background-color: #afabab;
+}
+
+.task-file-icon {
+    margin-left: 4px;
 }

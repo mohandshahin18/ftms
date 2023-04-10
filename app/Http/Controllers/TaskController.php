@@ -10,6 +10,7 @@ use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Requests\TaskRequest;
+use App\Models\AppliedTasks;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -134,14 +135,16 @@ class TaskController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the students who applied this task .
      *
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function show(Task $task)
+    public function show($slug)
     {
-        //
+        $task = Task::whereSlug($slug)->first();
+        $applied_tasks = $task->applied_tasks()->paginate(env('PAGINATION_COUNT'));
+        return view('admin.tasks.student_applied', compact('applied_tasks'));
     }
 
     /**

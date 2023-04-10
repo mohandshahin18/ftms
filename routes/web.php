@@ -194,13 +194,18 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     Route::post('students/{id}/restore', [StudentController::class, 'restore'])->name('students.restore');
     Route::delete('students/{slug}/delete/company', [StudentController::class, 'delete_company_student'])->name('students.delete.from.company');
     Route::resource('students', StudentController::class);
+    Route::get('{slug}/informations', [StudentController::class, 'show_more_informations'])->name('student.informations');
+    Route::get('{slug}/attendence', [StudentController::class, 'show_attendece_calender'])->name('student.attendence');
+    // Route::get('pdf/{slug}', [StudentController::class, 'indexPdf'])->name('student.indexPdf');
     Route::get('search/students', [StudentController::class, 'search']);
 
 
     // show evaluation
     Route::get('show/evaluation/{id}', [StudentController::class, 'show_evaluation'])->name('show_evaluation');
     // export evaluation as pdf
-    Route::get('export/pdf/{id}', [StudentController::class, 'export_pdf'])->name('export_pdf');
+    Route::get('export/evaluation/pdf/{id}', [StudentController::class, 'export_pdf'])->name('export_pdf');
+    // export attendance as pdf
+    Route::get('export/attendance/pdf/{slug}', [StudentController::class, 'export_attendance_pdf'])->name('export_attendance_pdf');
 
     // evaluations
     Route::post('apply_evaluation/{id}', [EvaluationController::class, 'apply_evaluation'])->name('apply_evaluation');

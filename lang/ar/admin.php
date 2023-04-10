@@ -384,6 +384,9 @@ return [
     "The email is already in use" => "البريد الالكتروني مستخدم بالفعل",
     "University id already exists" => "الرقم الجامعي موجود بالفعل",
     "Edit University ID" => "تعديل الرقم الجامعي",
+    "more about" => "المزيد عن",
+    "Student Information" => "معلومات الطالب",
+    "Applied Tasks" => "الملفات المُسلّمة",
     "No comments yet" => "لا يوجد تعليقات حتى الآن",
     "The task will appear to the student on the start date specified by you" => "المهمة ستظهر للطالب في تاريخ البداية المحدد من قبلك",
     "Status: through which students can see the company and submit requests to join the company" => "الحالة : من خلالها يستطيع الطلاب رؤية الشركة وتقديم طلبات انضمام الى الشركة",
@@ -407,4 +410,6 @@ return [
     "Email is already taken" => "البريد الإلكتروني مستخدم بالفعل",
     "Check out the different companies and check out their internship opportunities." => "اطّلع على الشركات المختلفة وتحقق من فرص التدريب المتاحة لديها.",
 
+    "Student attendence" => "سجل حضور الطالب",
+    "Date" => "التاريخ",
 ];
