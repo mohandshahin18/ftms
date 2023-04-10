@@ -12,10 +12,12 @@
             color: #000;
             text-decoration: none !important;
         }
+
         a:hover {
             color: #000;
             text-decoration: none !important;
         }
+
         .search-wrapper {
             position: relative;
         }
@@ -91,6 +93,7 @@
             box-shadow: 0 19px 25px 3px rgba(0, 0, 0, 0.2);
             border-radius: 5px;
         }
+
         #students_names li {
             height: 30px;
             transition: all 0.1s ease-in-out;
@@ -125,7 +128,8 @@
                             <form action="" id="search_form">
                                 <div class="input-group input-group" style="width: 280px;">
                                     <input type="text" name="keyword" id="search_input" value="{{ request()->keyword }}"
-                                        class="form-control " placeholder="{{ __('admin.Search by Student Name') }}" autocomplete="off">
+                                        class="form-control " placeholder="{{ __('admin.Search by Student Name') }}"
+                                        autocomplete="off">
                                     <ul id="students_names">
 
                                     </ul>
@@ -136,14 +140,13 @@
                         </div>
 
 
-                       @can('recycle_students')
-                       <div class="btn-website">
+                        @can('recycle_students')
+                            <div class="btn-website">
 
-                        <a href="{{ route('admin.students.trash') }}" class="btn btn-outline-secondary btn-flat"><i
-                                class="fas fa-trash"></i> {{ __('admin.Recycle Bin') }}</a>
-                    </div>
-
-                       @endcan
+                                <a href="{{ route('admin.students.trash') }}" class="btn btn-outline-secondary btn-flat"><i
+                                        class="fas fa-trash"></i> {{ __('admin.Recycle Bin') }}</a>
+                            </div>
+                        @endcan
 
                     </div>
                 </div>
@@ -154,15 +157,15 @@
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>#</th>
                                 <th>{{ __('admin.Student Name') }}</th>
-                                <th>{{ __('admin.Student phone') }}</th>
-                                @if(!(Auth::guard('company')->check() ||Auth::guard('trainer')->check()) )
-                                <th>{{ __('admin.Student ID') }}</th>
-                                @endif
+                                {{-- <th>{{ __('admin.Student phone') }}</th> --}}
                                 <th>{{ __('admin.University Name') }}</th>
-                                <th>{{ __('admin.Specialization') }}</th>
-                                <th>{{ __('admin.Evaluation Status') }}</th>
-                                @canAny(['evaluate_student','evaluation_student','delete_student'])
-                                <th>{{ __('admin.Actions') }}</th>
+                                @if (!(Auth::guard('company')->check() || Auth::guard('trainer')->check()))
+                                    <th>{{ __('admin.Student ID') }}</th>
+                                @endif
+                                {{-- <th>{{ __('admin.Specialization') }}</th> --}}
+                                {{-- <th>{{ __('admin.Evaluation Status') }}</th> --}}
+                                @canAny(['evaluate_student', 'evaluation_student', 'delete_student'])
+                                    <th>{{ __('admin.Actions') }}</th>
                                 @endcanAny
                             </tr>
                         </thead>
@@ -182,13 +185,13 @@
 
                                     </td>
                                     <td>{{ $student->name }}</td>
-                                    <td>{{ $student->phone }}</td>
-                                    @if(!(Auth::guard('company')->check() ||Auth::guard('trainer')->check()) )
-                                    <td>{{ $student->student_id }}</td>
-                                    @endif
+                                    {{-- <td>{{ $student->phone }}</td> --}}
                                     <td>{{ $student->university->name }}</td>
-                                    <td>{{ $student->specialization->name }}</td>
-                                    <td>
+                                    @if (!(Auth::guard('company')->check() || Auth::guard('trainer')->check()))
+                                        <td>{{ $student->student_id }}</td>
+                                    @endif
+                                    {{-- <td>{{ $student->specialization->name }}</td> --}}
+                                    {{-- <td>
                                         @php
                                             $isEvaluated = false;
                                         @endphp
@@ -207,11 +210,11 @@
                                             <span class="text-danger evaluation-check"><i class="fas fa-times"></i></span>
 
                                         @endif
-                                    </td>
-                                    @canAny(['evaluate_student','evaluation_student','delete_student'])
-                                    <td>
+                                    </td> --}}
+                                    {{-- @canAny(['evaluate_student', 'evaluation_student', 'delete_student']) --}}
+                                    {{-- <td>
                                         <div>
-                                           @canAny(['evaluate_student','evaluation_student'])
+                                           @canAny(['evaluate_student', 'evaluation_student'])
                                            @if ($isEvaluated)
                                            @can('evaluation_student')
 
@@ -248,12 +251,39 @@
                                        @endif
                                            @endcan
                                         </div>
-                                    </td>
-                                    @endcanAny
-                                </tr>
+                                    </td> --}}
+                                {{-- @endcanAny --}}
+
+                                <td>
+                                    @can('delete_student')
+                                        @if (Auth::guard('company')->check())
+                                            <form class="d-inline delete_form"
+                                                action="{{ route('admin.students.delete.from.company', $student->slug) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('delete')
+                                                <button title="{{ __('admin.Delete') }}"
+                                                    class="btn btn-danger btn-sm btn-delete btn-flat"> <i
+                                                        class="fas fa-trash"></i> </button>
+                                            </form>
+                                        @else
+                                            <form class="d-inline delete_form"
+                                                action="{{ route('admin.students.destroy', $student->slug) }}"method="POST">
+                                                @csrf
+                                                @method('delete')
+                                                <button title="{{ __('admin.Move to recycle bin') }}"
+                                                    class="btn btn-danger btn-sm btn-delete btn-flat"> <i
+                                                        class="fas fa-trash"></i> </button>
+                                            </form>
+                                        @endif
+                                    @endcan
+                                    <a href="{{ route('admin.student.informations', $student->slug) }}" title="{{ __('admin.more about') }} {{ $student->name }}" class="btn btn-sm btn-primary btn-flat"><i class="fas fa-info"></i></a>
+                                </td>
+                            </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">
-                                    <img src="{{ asset('adminAssets/dist/img/folder.png') }}" alt="" width="300" >
+                                    <img src="{{ asset('adminAssets/dist/img/folder.png') }}" alt=""
+                                        width="300">
                                     <br>
                                     <h4>{{ __('admin.NO Data Selected') }}</h4>
                                 </td>
@@ -283,7 +313,6 @@
 
 
     <script>
-
         $(document).ready(function() {
             let input = $("#search_input");
             $("#students_names").hide();
@@ -293,17 +322,21 @@
                 $.ajax({
                     type: "get",
                     url: 'search/students',
-                    data: {search: search},
-                    success:function(response) {
-                        if(response.message) {
+                    data: {
+                        search: search
+                    },
+                    success: function(response) {
+                        if (response.message) {
                             $("#students_names").show();
                             $("#students_names").empty();
-                            let msg = `<p style="padding: 10px;">there is no result for<b><i>${search}</i></b></p>`;
+                            let msg =
+                                `<p style="padding: 10px;">there is no result for<b><i>${search}</i></b></p>`;
                             $("#students_names").append(msg);
                         } else {
                             $("#students_names").empty();
-                            $.each(response.students, function(key, student){
-                                let row = `<li><a href="#" id="dropdown_item" data-name="${student}">${student}</a></li>`
+                            $.each(response.students, function(key, student) {
+                                let row =
+                                    `<li><a href="#" id="dropdown_item" data-name="${student}">${student}</a></li>`
                                 $("#students_names").show();
                                 $("#students_names").append(row);
                             });

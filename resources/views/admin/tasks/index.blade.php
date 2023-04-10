@@ -39,9 +39,17 @@
                         </thead>
 
                         <tbody>
+                            @php
+                                $count = $tasks->count();
+                            @endphp
                             @forelse ($tasks as $task)
                                 <tr id="row_{{ $task->slug }}">
-                                    <td>{{ $task->id }}</td>
+                                    <td>
+                                        {{ $count }}
+                                        @php
+                                            $count--;
+                                        @endphp
+                                    </td>
                                     <td>{{Str::words(strip_tags(html_entity_decode($task->sub_title)), 4, '...')  }}</td>
                                     <td>{{ $task->category->name }}</td>
 
@@ -65,6 +73,8 @@
                                         </button>
                                     </form>
                                         @endcan
+
+                                        <a href="{{ route('admin.tasks.show', $task->slug) }}" class="btn btn-sm btn-dark btn-flat"><i class="fas fa-info"></i></a>
                                     </td>
                                     @endcan
                                 </tr>

@@ -52,6 +52,7 @@ class HomeController extends Controller
         $categories = Category::count();
         $sub_title = '';
         $adverts = '';
+        $lastAdvert = '';
 
         if (!Auth::guard('admin')->check()) {
             $lastAdvert = Auth::user()->adverts()->latest('id')->limit(1)->first();
@@ -60,7 +61,7 @@ class HomeController extends Controller
             $adverts = Auth::user()->adverts()->count();
         }
 
-        return view('admin.home', compact('students', 'companies', 'specializations', 'categories', 'sub_title', 'adverts'));
+        return view('admin.home', compact('students', 'companies', 'specializations', 'categories', 'lastAdvert', 'adverts'));
     }
 
     /**
@@ -244,18 +245,17 @@ class HomeController extends Controller
                 $exisitEmail = Admin::where('email', $request->email)->get();
 
                 if (is_null($exisitEmail)) {
-                $actor = 'admin';
-                $is_email_verified = 0;
+                    $actor = 'admin';
+                    $is_email_verified = 0;
 
-                Mail::send('emails.virefyEmailAdmins', ['actor' => $actor, 'slug' => $admin->slug], function ($message) use ($request) {
-                    $message->to($request->email);
-                    $message->subject('Email Verification Mail');
-                });
-
-            } else {
-                return response()->json(['email' => __('admin.The email is already in use'),'filed' => 'email'], 400);
+                    Mail::send('emails.virefyEmailAdmins', ['actor' => $actor, 'slug' => $admin->slug], function ($message) use ($request) {
+                        $message->to($request->email);
+                        $message->subject('Email Verification Mail');
+                    });
+                } else {
+                    return response()->json(['email' => __('admin.The email is already in use'), 'filed' => 'email'], 400);
+                }
             }
-        }
 
 
 
@@ -323,7 +323,7 @@ class HomeController extends Controller
                         $message->subject('Email Verification Mail');
                     });
                 } else {
-                    return response()->json(['email' => __('admin.The email is already in use'),'filed' => 'email'], 400);
+                    return response()->json(['email' => __('admin.The email is already in use'), 'filed' => 'email'], 400);
                 }
             }
             $phone = Auth::user()->phone;
@@ -381,17 +381,16 @@ class HomeController extends Controller
 
                 if (is_null($exisitEmail)) {
 
-                $actor = 'trainer';
-                $is_email_verified = 0;
+                    $actor = 'trainer';
+                    $is_email_verified = 0;
 
-                Mail::send('emails.virefyEmailAdmins', ['actor' => $actor, 'slug' => $trainer->slug], function ($message) use ($request) {
-                    $message->to($request->email);
-                    $message->subject('Email Verification Mail');
-                });
-            } else {
-                return response()->json(['email' => __('admin.The email is already in use'),'filed' => 'email'], 400);
-            }
-
+                    Mail::send('emails.virefyEmailAdmins', ['actor' => $actor, 'slug' => $trainer->slug], function ($message) use ($request) {
+                        $message->to($request->email);
+                        $message->subject('Email Verification Mail');
+                    });
+                } else {
+                    return response()->json(['email' => __('admin.The email is already in use'), 'filed' => 'email'], 400);
+                }
             }
 
             $phone = Auth::user()->phone;
@@ -439,18 +438,17 @@ class HomeController extends Controller
 
                 if (is_null($exisitEmail)) {
 
-                $actor = 'company';
+                    $actor = 'company';
 
-                $is_email_verified = 0;
+                    $is_email_verified = 0;
 
-                Mail::send('emails.virefyEmailAdmins', ['actor' => $actor, 'slug' => $company->slug], function ($message) use ($request) {
-                    $message->to($request->email);
-                    $message->subject('Email Verification Mail');
-                });
-            } else {
-                return response()->json(['email' => __('admin.The email is already in use'),'filed' => 'email'], 400);
-            }
-
+                    Mail::send('emails.virefyEmailAdmins', ['actor' => $actor, 'slug' => $company->slug], function ($message) use ($request) {
+                        $message->to($request->email);
+                        $message->subject('Email Verification Mail');
+                    });
+                } else {
+                    return response()->json(['email' => __('admin.The email is already in use'), 'filed' => 'email'], 400);
+                }
             }
 
             $phone = Auth::user()->phone;

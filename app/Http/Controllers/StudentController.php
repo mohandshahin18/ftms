@@ -240,14 +240,16 @@ class StudentController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show more informations about the student.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function show_more_informations($slug)
     {
-        //
+        $student = Student::whereSlug($slug)->first();
+        $applied_evaluation = AppliedEvaluation::where('student_id', $student->id)->first();
+        return view('admin.students.informations', compact('student', 'applied_evaluation'));
     }
 
     /**

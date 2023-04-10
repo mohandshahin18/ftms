@@ -381,4 +381,8 @@ return [
     "The email is already in use" => "The email is already in use",
     "University id already exists" => "University id already exists",
     "Edit University ID" => "Edit University ID",
+    "more about" => "more about",
+    "Student" => "Student",
+    "Student Information" => "Student Information",
+    "Applied Tasks" => "Applied Tasks",
 ];

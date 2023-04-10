@@ -193,6 +193,7 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     Route::post('students/{id}/restore', [StudentController::class, 'restore'])->name('students.restore');
     Route::delete('students/{slug}/delete/company', [StudentController::class, 'delete_company_student'])->name('students.delete.from.company');
     Route::resource('students', StudentController::class);
+    Route::get('{slug}/informations', [StudentController::class, 'show_more_informations'])->name('student.informations');
     Route::get('search/students', [StudentController::class, 'search']);
 
 
