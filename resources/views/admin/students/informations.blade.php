@@ -36,16 +36,14 @@
                                 <th>{{ __('admin.University Name') }}</th>
                                 <td>{{ $student->university->name }}</td>
                             </tr>
-                            @if (!Auth::guard('admin')->check())
-                                <tr>
-                                    <th>{{ __('admin.Company Name') }}</th>
-                                    @if ($student->company_id)
-                                        <td>{{ $student->company->name }}</td>
-                                    @else
-                                        <td>No company yet</td>
-                                    @endif
-                                </tr>
-                            @endif
+                            <tr>
+                                <th>{{ __('admin.Company Name') }}</th>
+                                @if ($student->company_id)
+                                    <td>{{ $student->company->name }}</td>
+                                @else
+                                    <td>No company yet</td>
+                                @endif
+                            </tr>
                             <tr>
                                 @if (Auth::guard('admin')->check())
                                     <th>{{ __('admin.Teacher Name') }}</th>
@@ -64,26 +62,29 @@
                                 <th>{{ __('admin.Specialization') }}</th>
                                 <td>{{ $student->specialization->name }}</td>
                             </tr>
-                            <tr>
-                                <th>{{ __('admin.Evaluation Status') }}</th>
-                                <td>
-                                    @php
-                                        $isEvaluated = false;
-                                    @endphp
-                                    @if ($applied_evaluation)
+                            @can('evaluation_student')
+                                <tr>
+                                    <th>{{ __('admin.Evaluation Status') }}</th>
+                                    <td>
                                         @php
-                                            $isEvaluated = true;
+                                            $isEvaluated = false;
                                         @endphp
-                                    @endif
-                                    @if ($isEvaluated)
-                                        <span class="text-success og-evaluation">{{ __('admin.Evaluated') }}</span>
-                                        <span class="text-success evaluation-check"><i class="fas fa-check"></i></span>
-                                    @else
-                                        <span class="text-danger og-evaluation">{{ __('admin.Not Evaluated yet') }}</span>
-                                        <span class="text-danger evaluation-check"><i class="fas fa-times"></i></span>
-                                    @endif
-                                </td>
-                            </tr>
+                                        @if ($applied_evaluation)
+                                            @php
+                                                $isEvaluated = true;
+                                            @endphp
+                                        @endif
+                                        @if ($isEvaluated)
+                                            <span class="text-success og-evaluation">{{ __('admin.Evaluated') }}</span>
+                                            <span class="text-success evaluation-check"><i class="fas fa-check"></i></span>
+                                        @else
+                                            <span class="text-danger og-evaluation">{{ __('admin.Not Evaluated yet') }}</span>
+                                            <span class="text-danger evaluation-check"><i class="fas fa-times"></i></span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endcan
+
                             @if (!Auth::guard('admin')->check())
                                 @canAny(['evaluate_student', 'evaluation_student', 'delete_student'])
                                     <tr>
@@ -126,7 +127,7 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="m-3 text-center">
-                    <button class="btn btn-outline-secondary btn-flat" onclick="history.back()">
+                    <button class="btn btn-outline-dark btn-flat" onclick="history.back()">
                         @if (app()->getLocale() == 'ar')
                             <i class="fas fa-arrow-right"></i>
                         @else

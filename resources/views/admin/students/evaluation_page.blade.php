@@ -54,7 +54,7 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="m-3 text-center">
-                    <button class="btn btn-outline-secondary btn-flat" onclick="history.back()">
+                    <button class="btn btn-outline-dark btn-flat" onclick="history.back()">
                         @if (app()->getLocale() == 'ar')
                             <i class="fas fa-arrow-right"></i>
                         @else
