@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Log;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
@@ -56,7 +57,6 @@ class HomeController extends Controller
 
         if (!Auth::guard('admin')->check()) {
             $lastAdvert = Auth::user()->adverts()->latest('id')->limit(1)->first();
-            $sub_title = $lastAdvert ? $lastAdvert->sub_title : __('admin.No advertisement has been posted yet');
             $students = Auth::user()->students()->count();
             $adverts = Auth::user()->adverts()->count();
         }
@@ -93,13 +93,17 @@ class HomeController extends Controller
             'darkLogo' => [$rule, 'mimes:png,jpg,jpeg,svg,jfif', 'max:2048'],
         ]);
 
+
+
         $logo = settings()->get('logo');
+
         if ($request->has('logo')) {
             $logo = $request->file('logo')->store('uploads/settings/logo', 'custom');
             settings()->set('logo', $logo);
         }
 
         $darkLogo = settings()->get('darkLogo');
+
         if ($request->has('darkLogo')) {
             $darkLogo = $request->file('darkLogo')->store('uploads/settings/logo', 'custom');
             settings()->set('darkLogo', $darkLogo);
@@ -558,6 +562,8 @@ class HomeController extends Controller
 
     public function all_messages_page()
     {
+        Gate::authorize('messages');
+
         $auth = Auth::user();
         return view('admin.messages.messages', compact('auth'));
     }

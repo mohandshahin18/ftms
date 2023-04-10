@@ -135,7 +135,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </div>
     </li>
 
-                <!-- Messages Dropdown Menu -->
+              @can('messages')
+                    <!-- Messages Dropdown Menu -->
                 <li class="nav-item dropdown">
                     <a class="nav-link messages-dropdown" data-toggle="dropdown" href="#">
                         <i class="far fa-comments"></i>
@@ -147,6 +148,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                     </div>
                 </li>
+              @endcan
                 @php
                     use App\Models\Student;
                     $auth =Auth::user();
@@ -725,6 +727,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </li>
                         @endcanAny
 
+                       @can('attendance')
+                       <li class="nav-item @yield('attendances-menu-open')">
+                        <a href="{{ route('admin.attendances.index') }}" class="nav-link @yield('attendances-active')">
+                            <i class="nav-icon far fa-calendar-alt"></i>
+                            <p>
+                                {{ __('admin.Attendance') }}
+                            </p>
+                        </a>
+                    </li>
+
+                       @endcan
 
                       @can('all_students')
                       <li class="nav-item @yield('students-menu-open')">

@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@600&display=swap');
+
 
 :root {
     --brand: #ff4d29;
@@ -10,7 +12,7 @@
 }
 
 body {
-    font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    font-family: 'Cairo', sans-serif;
     color: var(--body);
     line-height: 1.7;
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdvertController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\NotifyController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\StudentController;
@@ -194,13 +195,17 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     Route::delete('students/{slug}/delete/company', [StudentController::class, 'delete_company_student'])->name('students.delete.from.company');
     Route::resource('students', StudentController::class);
     Route::get('{slug}/informations', [StudentController::class, 'show_more_informations'])->name('student.informations');
+    Route::get('{slug}/attendence', [StudentController::class, 'show_attendece_calender'])->name('student.attendence');
+    // Route::get('pdf/{slug}', [StudentController::class, 'indexPdf'])->name('student.indexPdf');
     Route::get('search/students', [StudentController::class, 'search']);
 
 
     // show evaluation
     Route::get('show/evaluation/{id}', [StudentController::class, 'show_evaluation'])->name('show_evaluation');
     // export evaluation as pdf
-    Route::get('export/pdf/{id}', [StudentController::class, 'export_pdf'])->name('export_pdf');
+    Route::get('export/evaluation/pdf/{id}', [StudentController::class, 'export_pdf'])->name('export_pdf');
+    // export attendance as pdf
+    Route::get('export/attendance/pdf/{slug}', [StudentController::class, 'export_attendance_pdf'])->name('export_attendance_pdf');
 
     // evaluations
     Route::post('apply_evaluation/{id}', [EvaluationController::class, 'apply_evaluation'])->name('apply_evaluation');
@@ -247,6 +252,9 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
 
       // roles
       Route::resource('roles', RoleController::class);
+
+      //Attendances
+      Route::resource('attendances',AttendanceController::class);
 
 
     // verify email

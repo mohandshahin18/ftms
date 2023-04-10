@@ -109,7 +109,12 @@
                                                         @endif
                                                     @endcanAny
 
+                                                    <a href="{{ route('admin.student.attendence', $student->slug) }}"
+                                                        title="{{ __('admin.Student attendence') }}"
+                                                        class="btn btn-sm btn-outline-dark"><i
+                                                            class="far fa-calendar-check"></i></a>
                                                 </div>
+
                                             </td>
                                         @endcanAny
                                     </tr>
@@ -120,7 +125,16 @@
                     </table>
                 </div>
                 <!-- /.card-body -->
-
+                <div class="m-3 text-center">
+                    <button class="btn btn-outline-secondary btn-flat" onclick="history.back()">
+                        @if (app()->getLocale() == 'ar')
+                            <i class="fas fa-arrow-right"></i>
+                        @else
+                            <i class="fas fa-arrow-left"></i>
+                        @endif
+                        {{ __('admin.Return Back') }}
+                    </button>
+                </div>
             </div>
         </div>
         <!-- /.card -->

@@ -9,12 +9,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="{{ asset('adminAssets/dist/img/selection/favicon.ico') }}">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@600&display=swap');
 
         body {
             height: 100vh;
             background: url('{{ asset('adminAssets/dist/img/selection/bg.png') }}') no-repeat center center;
-            font-family: "Barlow", sans-serif;
+            font-family: 'Cairo', sans-serif;
             background-size: cover !important;
             backdrop-filter: blur(5px);
             padding-bottom: 40px;

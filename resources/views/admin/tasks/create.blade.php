@@ -126,4 +126,15 @@
             selector: '#my-desc'
         });
     </script>
+
+@if(Auth::user()->tasks()->count() == 0)
+<script>
+    Swal.fire({
+
+            text:'{{ __('admin.The task will appear to the student on the start date specified by you') }}',
+            icon: 'warning',
+            confirmButtonText: '{{ __('admin.OK') }}'
+            })
+</script>
+@endif
 @stop

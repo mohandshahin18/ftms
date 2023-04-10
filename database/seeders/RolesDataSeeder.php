@@ -76,6 +76,8 @@ class RolesDataSeeder extends Seeder
        'delete_role' => 'Delete Role',
        'settings' => 'Settings',
        'notification' => 'Notifications',
+       'messages' => 'Messages',
+       'attendance' => 'Attendances',
 
     ];
     public function run()

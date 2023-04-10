@@ -6,9 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Evaluation</title>
-
-    {{-- <link rel="stylesheet" href="{{ asset('pdfassets/style.css') }}"> --}}
+    <title>Attendance</title>
     <style>
         table {
             border-collapse: collapse;
@@ -36,15 +34,8 @@
     <div>
         <div class="row">
             <div>
-                <div
-                    style="display: flex;
-                justify-content: space-between;
-                align-items: center;">
-                    <h3>Student Evaluation</h3>
-                    <h5>Student Name: {{ $student->name }}</h5>
-                </div>
                 <div>
-                    <p>Total rate: {{ $total_rate }}%</p>
+                    <h5>Student Name: {{ $student->name }}</h5>
                 </div>
 
             </div>
@@ -52,15 +43,21 @@
                 <table border="1">
                     <thead>
                         <tr>
-                            <th style="width: 80%">Question</th>
-                            <th>Answer</th>
+                            <th style="width: 60%">Date</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($questions as $id => $answer)
+                        @foreach ($student->attendances as $attendance)
                             <tr>
-                                <td>{{ get_question_name($id) }}</td>
-                                <td>{{ $answer }}</td>
+                                <td>{{ $attendance->attendance_date }}</td>
+                                <td>
+                                    @if ($attendance->attendance_status == 1)
+                                        <span style="color: #4CAF50">{{ __('admin.Presence') }}</span>
+                                    @else
+                                        <span style="color: #FF5252">{{ __('admin.Absence') }}</span>
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

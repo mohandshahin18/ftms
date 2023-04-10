@@ -385,4 +385,17 @@ return [
     "Student" => "Student",
     "Student Information" => "Student Information",
     "Applied Tasks" => "Applied Tasks",
+    "No comments yet" => "No comments yet",
+    "The task will appear to the student on the start date specified by you" => "The task will appear to the student on the start date specified by you",
+    "Status: through which students can see the company and submit requests to join the company" => "Status: through which students can see the company and submit requests to join the company",
+    "Attendance" => "Attendance",
+    "Today's date :" => "Today's date :",
+    "Presence" => "Presence",
+    "Absence" => "Absence",
+    "Enter" => "Enter",
+    "Attendance has been entered successfully" => "Attendance has been entered successfully",
+    "Techincle Support" => "Techincle Support",
+    "Student attendence" => "Student attendence",
+    "Date" => "Date",
+
 ];
