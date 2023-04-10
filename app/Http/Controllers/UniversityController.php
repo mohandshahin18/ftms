@@ -119,9 +119,32 @@ class UniversityController extends Controller
             $universities->slug = $slug;
         }
 
+        $email = $universities->email;
+        if($request->email != $email){
+            $exisitStudent_id = University::where('email',$request->email)->get();
+            if(is_null($exisitStudent_id)){
+
+              $email = $request->email;
+
+        }else{
+            return redirect()->back()->with('customError',__('admin.Email is already taken'))->with('type','danger');
+        }
+        }
+
+        $phone = $universities->phone;
+            if ($request->phone != $phone) {
+                $exisitPhone = University::where('phone', $request->phone)->get();
+                if (is_null($exisitPhone)) {
+                    $phone = $request->phone;
+                } else {
+                    return redirect()->back()->with('customError',__('admin.The mobile number is already in use'))->with('type','danger');
+                }
+            }
+
+
         $universities->update([
             'name' => $request->name,
-            'email' => $request->email,
+            'email' => $email,
             'phone' => $request->phone,
             'address' => $request->address,
         ]);

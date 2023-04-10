@@ -69,7 +69,7 @@ class NewTaskNotification extends Notification implements ShouldQueue
             'name' => $this->name ,
             'from' => 'task',
             'trainer_id' => $this->trainer_id ,
-            'msg' => __('admin.A new task has been assigned to you'),
+            'msg' => ' تم تعيين مهمة جديدة لك ',
             'slug'=> $this->slug ,
             'url' => url('/task/'.$this->slug),
             'image'=> $this->image ,

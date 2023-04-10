@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Student;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
@@ -19,9 +20,29 @@ class AttendanceController extends Controller
     {
         Gate::authorize('attendance');
 
+        $today = Carbon::today();
+        $dayName = $today->format('l');
+        if(app()->getLocale()== 'ar'){
+            if ($dayName == 'Monday') {
+                $dayName = 'الاثنين';
+            }elseif($dayName == 'Tuesday'){
+                $dayName = 'الثلاثاء';
+            }elseif($dayName == 'Wednesday'){
+                $dayName = 'الأربعاء';
+            }elseif($dayName == 'Thursday'){
+                $dayName = 'الخميس';
+            }elseif($dayName == 'Friday'){
+                $dayName = 'الجمعة';
+            }elseif($dayName == 'Sunday'){
+                $dayName = 'السبت';
+            }elseif($dayName == 'Saturday'){
+                $dayName = 'الأحد';
+            }
+        }
+
         $students = Student::with('attendances')
                     ->where('trainer_id',Auth::user()->id)->paginate(env('PAGINATION_COUNT'));
-        return view('admin.attendances.index',compact('students'));
+        return view('admin.attendances.index',compact('students','dayName'));
     }
 
     /**
@@ -53,9 +74,27 @@ class AttendanceController extends Controller
                     $attendance_status = false;
                 }
 
+                // $DayName = $request->dayName ;
+                if ($request->dayName == 'Monday') {
+                    $DayName = 'الاثنين';
+                }elseif($request->dayName == 'Tuesday'){
+                    $DayName = 'الثلاثاء';
+                }elseif($request->dayName == 'Wednesday'){
+                    $DayName = 'الأربعاء';
+                }elseif($request->dayName == 'Thursday'){
+                    $DayName = 'الخميس';
+                }elseif($request->dayName == 'Friday'){
+                    $DayName = 'الجمعة';
+                }elseif($request->dayName == 'Sunday'){
+                    $DayName = 'السبت';
+                }elseif($request->dayName == 'Saturday'){
+                    $DayName = 'الأحد';
+                }
+
                 Attendance::create([
                     'student_id'=> $studentid,
                     'attendance_date'=> date('Y-m-d'),
+                    'dayName'=> $DayName,
                     'attendance_status'=> $attendance_status
                 ]);
 

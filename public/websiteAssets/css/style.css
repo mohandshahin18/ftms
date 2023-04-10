@@ -269,6 +269,7 @@ text-align: center;}
     padding: 32px;
     background-color: #fff;
     box-shadow: var(--shadow);
+    min-height: 288px !important;
 }
 
 .service h5 {
@@ -279,6 +280,7 @@ text-align: center;}
 .service img {
     width: 90px;
 }
+
 
 
 .project {

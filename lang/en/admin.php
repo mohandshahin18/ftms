@@ -391,5 +391,18 @@ return [
     "Enter" => "Enter",
     "Attendance has been entered successfully" => "Attendance has been entered successfully",
     "Techincle Support" => "Techincle Support",
+    "What do we offer?" => "What do we offer?",
+    "Find a training company" => "Find a training company",
+    "Facilitate the search for a suitable company to train the student in the field he wants" => "Facilitate the search for a suitable company to train the student in the field he wants",
+    "Student training tracking" => "Student training tracking",
+    "Ensuring student benefit and commitment to field training" => "Ensuring student benefit and commitment to field training",
+    "Safer" => "Safer",
+    "Increased security in the case of the end of the field training and obtaining the final report" => "Increased security in the case of the end of the field training and obtaining the final report",
+    "Looking for a reliable, high-quality training company can be challenging. For this reason, we offer you our services in finding the best training companies in the field of programming, which are of high quality." => "Looking for a reliable, high-quality training company can be challenging. For this reason, we offer you our services in finding the best training companies in the field of programming, which are of high quality.",
+    "Designing and launching our website would not have been possible without a strong and qualified team. We pride ourselves on our outstanding team." => "Designing and launching our website would not have been possible without a strong and qualified team. We pride ourselves on our outstanding team.",
+    "We are pleased to receive your inquiries and comments. You can contact us via the contact form below." => "We are pleased to receive your inquiries and comments. You can contact us via the contact form below.",
+    "Member has been updated successfully" => "Member has been updated successfully",
+    "Email is already taken" => "Email is already taken",
+    "Check out the different companies and check out their internship opportunities." => "Check out the different companies and check out their internship opportunities.",
 
 ];

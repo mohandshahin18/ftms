@@ -394,4 +394,17 @@ return [
     "Enter" => "إدخال",
     "Attendance has been entered successfully" => "تم إدخال الحضور بنجاح",
     "Techincle Support" => "الدعم الفني",
+    "What do we offer?" => "ماذا نقدم ؟",
+    "Find a training company" => "البحث عن شركة تدريب",
+    "Facilitate the search for a suitable company to train the student in the field he wants" => "تسهيل البحث عن شركة مناسبة لتدريب الطالب في المجال الذي يريده",
+    "Student training tracking" => "تتبع تدريب الطالب",
+    "Ensuring student benefit and commitment to field training" => "ضمان استفادة الطالب والالتزام بالتدريب الميداني",
+    "Safer" => "أكثر أمان",
+    "Increased security in the case of the end of the field training and obtaining the final report" => "زيادة الأمان في قضية نهاية التدريب الميداني والحصول على التقرير النهائي",
+    "Looking for a reliable, high-quality training company can be challenging. For this reason, we offer you our services in finding the best training companies in the field of programming, which are of high quality." => "قد يكون البحث عن شركة تدريب موثوقة وعالية الجودة أمرًا صعبًا. لهذا السبب نقدم لكم خدماتنا في إيجاد أفضل شركات التدريب في مجال البرمجة والتي تتميز بجودة عالية.",
+    "Designing and launching our website would not have been possible without a strong and qualified team. We pride ourselves on our outstanding team." => "إن تصميم وإطلاق موقعنا لم يكن ممكنًا دون فريق عمل قوي ومؤهل. نحن نفخر بأنفسنا على فريقنا المتميز .",
+    "We are pleased to receive your inquiries and comments. You can contact us via the contact form below." => "يسعدنا استقبال استفساراتكم وملاحظاتكم. يمكنك الاتصال بنا عبر نموذج الاتصال أدناه.",
+    "Email is already taken" => "البريد الإلكتروني مستخدم بالفعل",
+    "Check out the different companies and check out their internship opportunities." => "اطّلع على الشركات المختلفة وتحقق من فرص التدريب المتاحة لديها.",
+
 ];

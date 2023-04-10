@@ -23,7 +23,7 @@ if(from == 'student'){
                 let image = notification.image;
                 src = host+'/'+image;
               }
-            $('#dropNotification').prepend(`             <div class="media">
+            $('#dropNotification').prepend(`<div class="media">
             <a href="${host}/${lang}/mark-student-read/${notification.id}"
                 class="list-group-item list-group-item-action active"
                 style="font-weight: unset">
@@ -35,14 +35,13 @@ if(from == 'student'){
                     </div>
                 <div>
                     <div class="main-info">
-                        <div class="d-flex align-items-center"
-                            style="gap:8px !important;">
+                        <div class="d-flex "style="gap:8px !important;">
                                     <h3 class="dropdown-item-title">${notification.name}</h3>
                             </h3>
                         </div>
 
                     </div>
-                    <div class="media-body mt-1">
+                    <div class="media-body mt-1 text-start">
 
                         <p class="text-sm">${notification.msg}</p>
 

@@ -84,7 +84,7 @@ class HomeController extends Controller
         }
 
         $request->validate([
-            'footer_text' => ['required', new TextLength()],
+            'footer_text' => ['required',new TextLength()],
             'email' => ['required', 'email'],
             'copy_right' => ['required'],
             'distributed_by' => ['required'],
