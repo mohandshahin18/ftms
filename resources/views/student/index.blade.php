@@ -4,9 +4,11 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('studentAssets/css/owl.carousel.min.css') }}">
-
-
 @stop
+
+@php
+    use App\Models\Task;
+@endphp
 @section('content')
     {{-- @dump(Auth::guard()) --}}
     <!-- SLIDER -->
@@ -41,7 +43,16 @@
             background-position: center;
             background-repeat: no-repeat;">
                 <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 mx-auto text-center text-white advert-box">
+                            <h6 class="text-white text-uppercase"
+                                style="font-size: 28px !important; width: 75%; margin: auto;">{{ __('admin.Adverts board') }}</h6>
+                            <h1 class="display-3 my-4 sub-title"
+                                style="font-size: 17px !important; line-height: 2 ;width: 80%; margin: auto;">
+                               </h1>
 
+                        </div>
+                    </div>
                 </div>
             </div>
         @endforelse
@@ -63,41 +74,54 @@
                         <div class="container page-todo bootstrap snippets bootdeys">
                             <div class="col-sm-12 tasks row">
                                 <div class="task-list">
+                                    @php
+                                        $tasksNum = 0;
+                                    @endphp
 
-                                    @forelse ($tasks as $task)
-                                        @if (now() >= $task->start_date && now() <= $task->end_date)
-                                            <a href="{{ route('student.task', [$task->slug]) }}" style="font-weight: unset"
-                                                class="task-box">
-                                                <div class="task high">
-                                                    <div class="desc">
-                                                        <div class="title"><b>{{ $task->main_title }}</b></div>
-                                                        <div>
-                                                            <p>{{ Str::words(strip_tags(html_entity_decode($task->sub_title)), 6, '...') }}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="time">
-                                                        <div class="date">
-                                                            {{-- @if ($task->applied_tasks->count() > 0)
-                                                      <p class="done_btn">Done <i class="fas fa-check text-success"></i></p>
-                                                  @else --}}
-                                                            Due
-                                                            {{ Carbon::parse($task->end_date)->locale(config('app.locale'))->format('j F') }}
-                                                            {{-- @endif --}}
-                                                        </div>
-                                                        <div> {{ $task->created_at->diffForHumans() }}</div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        @else
-                                            <div class="text-center"><img src="{{ asset('studentAssets/img/no-task.webp') }}" alt="" class="img-responsive empty-task">
-                                            <h5>{{ __('admin.There is no tasks to show') }}</h5></div>
+                                    @foreach ($tasks as $task)
+                                        @if ($task->end_date > now())
+                                            @php
+                                                $tasksNum++;
+                                            @endphp
                                         @endif
-                                    @empty
-                                            <div class="text-center"><img src="{{ asset('studentAssets/img/no-task.webp') }}" alt="" class="img-responsive empty-task">
-                                            <h5>{{ __('admin.There is no tasks yet!') }}</h5></div>
+                                    @endforeach
+                                    @if ($tasksNum == 0)
+                                        <div class="text-center"><img src="{{ asset('studentAssets/img/no-task.webp') }}"
+                                                alt="" class="img-responsive empty-task">
+                                            <h5>{{ __('admin.There is no tasks to show') }}</h5>
+                                        </div>
+                                    @else
+                                        @forelse ($tasks as $task)
+                                            @if ($task->start_date <= now() && $task->end_date >= now())
+                                                <a href="{{ route('student.task', [$task->slug]) }}"
+                                                    style="font-weight: unset" class="task-box">
+                                                    <div class="task high">
+                                                        <div class="desc">
+                                                            <div class="title"><b>{{ $task->main_title }}</b></div>
+                                                            <div>
+                                                                <p>{{ Str::words(strip_tags(html_entity_decode($task->sub_title)), 6, '...') }}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="time">
+                                                            <div class="date">
+                                                                Due
+                                                                {{ Carbon::parse($task->end_date)->locale(config('app.locale'))->format('j F') }}
+                                                            </div>
+                                                            <div> {{ $task->created_at->diffForHumans() }}</div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            @endif
+                                        @empty
+                                            <div class="text-center"><img
+                                                    src="{{ asset('studentAssets/img/no-task.webp') }}" alt=""
+                                                    class="img-responsive empty-task">
+                                                <h5>{{ __('admin.There is no tasks yet!') }}</h5>
+                                            </div>
+                                        @endforelse
+                                    @endif
 
-                                    @endforelse
                                 </div>
                             </div>
                         </div>
@@ -115,7 +139,9 @@
                         <div class="intro">
                             <h6>{{ __('admin.Companies') }}</h6>
                             <h1>{{ __('admin.Avilable Companies') }}</h1>
-                            <p class="mx-auto">{{ __('admin.Check out the different companies and check out their internship opportunities.') }}</p>
+                            <p class="mx-auto">
+                                {{ __('admin.Check out the different companies and check out their internship opportunities.') }}
+                            </p>
                         </div>
                     </div>
                 </div>

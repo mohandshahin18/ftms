@@ -30,7 +30,8 @@
                 <table class="table table-striped  table-hover ">
                     <thead>
                         <tr style="background-color: #1e272f; color: #fff;">
-                            <th style="width: 60%;">{{ __('admin.Date') }}</th>
+                            <th >{{ __('admin.Day') }}</th>
+                            <th >{{ __('admin.Date') }}</th>
                             <th>{{ __('admin.Attendance') }}</th>
 
                         </tr>
@@ -39,6 +40,7 @@
                     <tbody>
                         @forelse($student->attendances as $attendance)
                             <tr>
+                                <td>{{ $attendance->dayName }}</td>
                                 <td>{{ $attendance->attendance_date }}</td>
                                 <td>
                                     @if ($attendance->attendance_status == 1)
@@ -60,7 +62,7 @@
             </div>
             <!-- /.card-body -->
             <div class="m-3 text-center">
-                <button class="btn btn-outline-secondary btn-flat" onclick="history.back()">
+                <button class="btn btn-outline-dark btn-flat" onclick="history.back()">
                     @if (app()->getLocale() == 'ar')
                         <i class="fas fa-arrow-right"></i>
                     @else

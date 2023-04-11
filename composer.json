@@ -7,7 +7,6 @@
     "require": {
         "php": "^8.0.2",
         "arcanedev/laravel-settings": "^9.0",
-        "carlos-meneses/laravel-mpdf": "^2.1",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
@@ -16,7 +15,8 @@
         "maatwebsite/excel": "^3.1",
         "mcamara/laravel-localization": "^1.8",
         "mpdf/mpdf": "^8.1",
-        "pusher/pusher-php-server": "^7.2"
+        "pusher/pusher-php-server": "^7.2",
+        "zanysoft/laravel-pdf": "^2.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",

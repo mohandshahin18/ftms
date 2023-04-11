@@ -411,5 +411,10 @@ return [
     "Student attendence" => "Student attendence",
     "Date" => "Date",
     "At least one student attendance must be entered" => "At least one student attendance must be entered",
+    "Day" => "Day",
+    "Hour" => "Hour",
+    "Since" => "Since",
+    "Minute" => "Minute",
+    "Adverts board" => "Adverts board",
 
 ];

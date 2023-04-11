@@ -412,4 +412,9 @@ return [
     "Student attendence" => "سجل حضور الطالب",
     "Date" => "التاريخ",
     "At least one student attendance must be entered" => "يجب إدخال حضور واحد من الطلاب على الأقل",
+    "Day" => "اليوم",
+    "Hour" => "ساعة",
+    "Since" => "منذ",
+    "Minute" => "دقيقة",
+    "Adverts board" => "لوحة إعلانات",
 ];

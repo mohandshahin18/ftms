@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "01c4a2412e8463471bc4f4167e03096c",
+    "content-hash": "53698515cdf18decf3eff4cf69f670ec",
     "packages": [
         {
             "name": "arcanedev/laravel-settings",
@@ -202,62 +202,6 @@
                 }
             ],
             "time": "2022-08-10T22:54:19+00:00"
-        },
-        {
-            "name": "carlos-meneses/laravel-mpdf",
-            "version": "2.1.11",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mccarlosen/laravel-mpdf.git",
-                "reference": "cb52e5c17df9caa340eaed8566cfb1e3c7b37c33"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mccarlosen/laravel-mpdf/zipball/cb52e5c17df9caa340eaed8566cfb1e3c7b37c33",
-                "reference": "cb52e5c17df9caa340eaed8566cfb1e3c7b37c33",
-                "shasum": ""
-            },
-            "require": {
-                "mpdf/mpdf": "^8.0",
-                "php": "^5.6|^7.0|^8.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Mccarlosen\\LaravelMpdf\\LaravelMpdfServiceProvider"
-                    ],
-                    "aliases": {
-                        "PDF": "Mccarlosen\\LaravelMpdf\\Facades\\LaravelMpdf"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Mccarlosen\\LaravelMpdf\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Laravel Mpdf: Using Mpdf in Laravel to generate Pdfs.",
-            "keywords": [
-                "laravel",
-                "mpdf",
-                "pdf"
-            ],
-            "support": {
-                "issues": "https://github.com/mccarlosen/laravel-mpdf/issues",
-                "source": "https://github.com/mccarlosen/laravel-mpdf/tree/2.1.11"
-            },
-            "funding": [
-                {
-                    "url": "https://www.paypal.me/mccarlosen",
-                    "type": "custom"
-                }
-            ],
-            "time": "2022-12-28T02:20:09+00:00"
         },
         {
             "name": "composer/semver",
@@ -3618,21 +3562,21 @@
         },
         {
             "name": "psr/http-client",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/http-client.git",
-                "reference": "2dfb5f6c5eff0e91e20e913f8c5452ed95b86621"
+                "reference": "0955afe48220520692d2d09f7ab7e0f93ffd6a31"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-client/zipball/2dfb5f6c5eff0e91e20e913f8c5452ed95b86621",
-                "reference": "2dfb5f6c5eff0e91e20e913f8c5452ed95b86621",
+                "url": "https://api.github.com/repos/php-fig/http-client/zipball/0955afe48220520692d2d09f7ab7e0f93ffd6a31",
+                "reference": "0955afe48220520692d2d09f7ab7e0f93ffd6a31",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.0 || ^8.0",
-                "psr/http-message": "^1.0"
+                "psr/http-message": "^1.0 || ^2.0"
             },
             "type": "library",
             "extra": {
@@ -3652,7 +3596,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "homepage": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common interface for HTTP clients",
@@ -3664,27 +3608,27 @@
                 "psr-18"
             ],
             "support": {
-                "source": "https://github.com/php-fig/http-client/tree/master"
+                "source": "https://github.com/php-fig/http-client/tree/1.0.2"
             },
-            "time": "2020-06-29T06:28:15+00:00"
+            "time": "2023-04-10T20:12:12+00:00"
         },
         {
             "name": "psr/http-factory",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/http-factory.git",
-                "reference": "12ac7fcd07e5b077433f5f2bee95b3a771bf61be"
+                "reference": "e616d01114759c4c489f93b099585439f795fe35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-factory/zipball/12ac7fcd07e5b077433f5f2bee95b3a771bf61be",
-                "reference": "12ac7fcd07e5b077433f5f2bee95b3a771bf61be",
+                "url": "https://api.github.com/repos/php-fig/http-factory/zipball/e616d01114759c4c489f93b099585439f795fe35",
+                "reference": "e616d01114759c4c489f93b099585439f795fe35",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.0.0",
-                "psr/http-message": "^1.0"
+                "psr/http-message": "^1.0 || ^2.0"
             },
             "type": "library",
             "extra": {
@@ -3704,7 +3648,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "homepage": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common interfaces for PSR-7 HTTP message factories",
@@ -3719,9 +3663,9 @@
                 "response"
             ],
             "support": {
-                "source": "https://github.com/php-fig/http-factory/tree/master"
+                "source": "https://github.com/php-fig/http-factory/tree/1.0.2"
             },
-            "time": "2019-04-30T12:38:16+00:00"
+            "time": "2023-04-10T20:10:41+00:00"
         },
         {
             "name": "psr/http-message",
@@ -6774,6 +6718,68 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
+        },
+        {
+            "name": "zanysoft/laravel-pdf",
+            "version": "v2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zanysoft/laravel-pdf.git",
+                "reference": "9d1a2bbb345007cfe82f6ff05c93d1070679e109"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zanysoft/laravel-pdf/zipball/9d1a2bbb345007cfe82f6ff05c93d1070679e109",
+                "reference": "9d1a2bbb345007cfe82f6ff05c93d1070679e109",
+                "shasum": ""
+            },
+            "require": {
+                "mpdf/mpdf": "^8.0.10",
+                "php": "^7.1 || ^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ZanySoft\\LaravelPDF\\PdfServiceProvider"
+                    ],
+                    "aliases": {
+                        "PDF": "ZanySoft\\LaravelPDF\\Facades\\PDF"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ZanySoft\\LaravelPDF\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Zany Soft",
+                    "email": "info@zanysoft.net"
+                }
+            ],
+            "description": "Laravel PDF - for generating pdf invoice or documents with mPDF wrapper.",
+            "keywords": [
+                "adobe",
+                "documents",
+                "invoice",
+                "laravel",
+                "laravel-pdf",
+                "mpdf",
+                "pdf",
+                "pdf-documents",
+                "pdf-invoice"
+            ],
+            "support": {
+                "issues": "https://github.com/zanysoft/laravel-pdf/issues",
+                "source": "https://github.com/zanysoft/laravel-pdf/tree/v2.0.2"
+            },
+            "time": "2023-01-13T10:08:43+00:00"
         }
     ],
     "packages-dev": [

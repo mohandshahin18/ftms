@@ -411,12 +411,13 @@ class StudentController extends Controller
 
         $name_of_pdf = str_replace(' ', '-', $student->name) . '-' . $student->student_id;
 
+        $pdf = PDF::make();
         if(app()->getLocale() == 'en') {
-            $pdf = PDF::loadView('admin.students.pdf', $data);
+            $pdf->loadView('admin.students.pdf', $data);
         }else {
-            $pdf = PDF::loadView('admin.students.pdf-ar', $data);
+            $pdf->loadView('admin.students.pdf-ar', $data);
         }
-        return $pdf->download($name_of_pdf . '.pdf');
+        return $pdf->download($name_of_pdf . '-evaluation.pdf');
     }
 
     /**
@@ -446,9 +447,19 @@ class StudentController extends Controller
 
         $name_of_pdf = str_replace(' ', '-', $student->name) . '-' . $student->student_id;
         $data = ['student' => $student];
-        $pdf = Pdf::loadView('admin.students.attendance-pdf', $data);
-        return $pdf->download($name_of_pdf . '.pdf');
+        $pdf = PDF::make();
+        if(app()->getLocale() == 'en') {
+            $pdf->loadView('admin.students.attendance-pdf', $data);
+        }else {
+            $pdf->loadView('admin.students.attendance-pdf-ar', $data);
+        }
+        return $pdf->download($name_of_pdf . '-attendance.pdf');
     }
 
 
+    // public function indexPdf($slug)
+    // {
+    //     $student = Student::whereSlug($slug)->first();
+    //     return view('admin.students.attendance-pdf', compact('student'));
+    // }
 }

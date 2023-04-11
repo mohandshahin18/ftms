@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 
 <head>
 
@@ -15,7 +15,7 @@
 
         td,
         th {
-            text-align: left;
+            text-align: right;
             padding: 15px;
         }
 
@@ -23,11 +23,25 @@
             background-color: #090441;
             color: #fff;
         }
+
+        .info {
+            display: flex;
+            display: -webkit-flex;
+            -webkit-align-self: center;
+            align-self: center;
+            webkit-justify-content: space-between;
+            justify-content: space-between;
+            direction: rtl;
+        }
+
+        * {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
     </style>
 
 </head>
 
-<body style="font-family: Arial, Helvetica, sans-serif;">
+<body>
 
 
     <div style="text-align: center; margin-bottom: 10px; margin-top: 50px;">
@@ -36,21 +50,21 @@
     <div>
         <div class="row">
             <div>
-                <div>
-                    <h1 style="text-align: center; font-size: 30px;">Attendance and absence record</h1>
-                    <h3>Student Name: {{ $student->name }}</h3>
-                    <p>Student ID: {{ $student->student_id }}</p>
-                    <p style="margin-bottom: 10px;">Training Company: {{ $student->company->name }}</p>
+                <div class="info">
+                    <h1 style="text-align: center; font-size: 30px; margin-bottom: 25px;">سجل الحضور و الغياب</h1>
+                    <h5>اسم الطالب: {{ $student->name }}</h5>
+                    <p style="margin-bottom: 10px;">الرقم الجامعي: {{ $student->student_id }}</p>
+                    <p style="margin-bottom: 10px;">شركة التدريب: {{ $student->company->name }}</p>
                 </div>
 
             </div>
             <div class="table mt-4">
-                <table border="1">
+                <table border="1" style="direction: rtl;">
                     <thead>
                         <tr>
-                            <th>Day</th>
-                            <th>Date</th>
-                            <th>Status</th>
+                            <th>اليوم</th>
+                            <th>التاريخ</th>
+                            <th>حالة الحضور</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -60,9 +74,9 @@
                                 <td>{{ $attendance->attendance_date }}</td>
                                 <td>
                                     @if ($attendance->attendance_status == 1)
-                                        <span style="color: #4CAF50">Presence</span>
+                                        <span style="color: #4CAF50">حضور</span>
                                     @else
-                                        <span style="color: #FF5252">Absence</span>
+                                        <span style="color: #FF5252">غياب</span>
                                     @endif
                                 </td>
                             </tr>
