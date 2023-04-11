@@ -145,24 +145,12 @@
                             {{ $lastAdvert->sub_title }}
                         @else
                             <div class="text-center"><img src="{{ asset('adminAssets/dist/img/no-adverts.webp') }}"
-                                    class="img-responsive no-adverts-vector" alt=""></div>
+                                    class="img-responsive no-adverts-vector" alt="" width="300"></div>
                             <h6 class="text-center">{{ __('admin.There is no adverts yet') }}</h6>
                         @endif
                     </div>
                     <!-- /.card-body -->
-                    <div class="card-footer" style="display: block;">
-                        @if ($lastAdvert)
-                        @if ($lastAdvert->company_id)
-                        {{ $lastAdvert->company->name }}
-                        @elseif($lastAdvert->teacher_id)
-                        {{ $lastAdvert->teacher->name }}
-                        @else
-                        {{ $lastAdvert->trainer->name }}
-                        @endif
-                        @else
-                        @endif
-                        
-                    </div>
+                 
                 </div>
             </div>
         </div>

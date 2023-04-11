@@ -71,7 +71,7 @@ class AppliedNotification extends Notification
     {
         return [
             'name' => $this->name ,
-            'msg' => __('admin.Submit an application to the company'),
+            'msg' => ' أرسل طلب إلى الشركة ',
             'reason' => $this->reason,
             'category' => $this->category,
             'url' => url('/admin/read-notify'),

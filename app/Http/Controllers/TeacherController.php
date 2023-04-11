@@ -46,6 +46,24 @@ class TeacherController extends Controller
         return view('admin.teachers.create',compact('universities','specializations','roles'));
     }
 
+    public function slug($string, $separator = '-') {
+        if (is_null($string)) {
+            return "";
+        }
+
+        $string = trim($string);
+
+        $string = mb_strtolower($string, "UTF-8");
+
+        $string = preg_replace("/[^a-z0-9_\sءاأإآؤئبتثجحخدذرزسشصضطظعغفقكلمنهويةى]#u/", "", $string);
+
+        $string = preg_replace("/[\s-]+/", " ", $string);
+
+        $string = preg_replace("/[\s_]/", $separator, $string);
+
+        return $string;
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -56,7 +74,7 @@ class TeacherController extends Controller
     {
         $path = $request->file('image')->store('/uploads/teacher', 'custom');
 
-        $slug = Str::slug($request->name);
+        $slug = $this->slug($request->name);
         $slugCount = Teacher::where('slug' , 'like' , $slug. '%')->count();
         $count =  $slugCount + 1;
 
@@ -159,7 +177,7 @@ class TeacherController extends Controller
         $specializations = $university->specializations->pluck("name", 'id');
         return json_encode($specializations);
 
-       
+
     }
 
 }

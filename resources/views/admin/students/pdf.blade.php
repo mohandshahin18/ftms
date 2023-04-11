@@ -32,15 +32,14 @@
 <body style="font-family: Arial, Helvetica, sans-serif;">
 
 
-    {{-- @dump( $->name ) --}}
+    <div style="text-align: center; margin-bottom: 10px; margin-top: 50px;">
+        <img src="{{ public_path('adminAssets/dist/img/logo/logo.png') }}" width="180" alt="">
+    </div>
     <div>
         <div class="row">
             <div>
-                <div
-                    style="display: flex;
-                justify-content: space-between;
-                align-items: center;">
-                    <h3>Student Evaluation</h3>
+                <div>
+                    <h1 style="text-align: center; font-size: 30px;">Student Evaluation</h1>
                     <h5>Student Name: {{ $student->name }}</h5>
                 </div>
                 <div>

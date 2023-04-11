@@ -195,6 +195,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        ZanySoft\LaravelPDF\PdfServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -224,6 +225,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Carbon' => 'Carbon\Carbon',
+        'PDF' => ZanySoft\LaravelPDF\Facades\PDF::class,
     ])->toArray(),
 
 ];

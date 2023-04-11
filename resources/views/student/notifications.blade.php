@@ -126,27 +126,42 @@
                             <div class="notification-list_content">
                                 <div class="notification-list_img">
                                     @php
-                                        if ($notify->data['from'] == 'apply') {
-                                            $company = Company::where('id', $notify->data['company_id'])->first();
-                                            $company = $company->image;
+                                        if ($notify->data['from'] == 'apply' || $notify->data['from'] == 'CompanyAdvert') {
+                                                $company = Company::where('id', $notify->data['company_id'])->first();
+                                                $company = $company->image;
 
-                                            $name = $notify->data['name'] ?? '';
-                                            $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
-                                            if ($company) {
-                                                $img = $company;
-                                                $notifySrc = asset($img);
-                                            }
-                                        } elseif ($notify->data['from'] == 'task') {
-                                            $trainer = Trainer::where('id', $notify->data['trainer_id'])->first();
-                                            $trainer = $trainer->image;
 
-                                            $name = $notify->data['name'] ?? '';
-                                            $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
-                                            if ($trainer) {
-                                                $img = $trainer;
-                                                $notifySrc = asset($img);
+                                                $name = $notify->data['name'] ?? '';
+                                                $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
+                                                if ($company) {
+                                                    $img = $company;
+                                                    $notifySrc = asset($img);
+                                                }
+                                            } elseif ($notify->data['from'] == 'task' || $notify->data['from'] == 'TrainerAdvert') {
+                                                $trainer = Trainer::where('id', $notify->data['trainer_id'])->first();
+                                                $trainer = $trainer->image;
+
+
+                                                $name = $notify->data['name'] ?? '';
+                                                $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
+                                                if ($trainer) {
+                                                    $img = $trainer;
+                                                    $notifySrc = asset($img);
+                                                }
                                             }
-                                        }
+                                            elseif ($notify->data['from'] == 'TeacherAdvert') {
+                                                $teacher = Trainer::where('id', $notify->data['teacher_id'])->first();
+                                                $teacher = $teacher->image;
+
+
+                                                $name = $notify->data['name'] ?? '';
+                                                $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
+                                                if ($teacher) {
+                                                    $img = $teacher;
+                                                    $notifySrc = asset($img);
+                                                }
+                                            }
+
                                     @endphp
                                     <img src="{{ $notifySrc }}" alt="user">
                                 </div>

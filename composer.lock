@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "01c4a2412e8463471bc4f4167e03096c",
+    "content-hash": "53698515cdf18decf3eff4cf69f670ec",
     "packages": [
         {
             "name": "arcanedev/laravel-settings",
@@ -202,62 +202,6 @@
                 }
             ],
             "time": "2022-08-10T22:54:19+00:00"
-        },
-        {
-            "name": "carlos-meneses/laravel-mpdf",
-            "version": "2.1.11",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mccarlosen/laravel-mpdf.git",
-                "reference": "cb52e5c17df9caa340eaed8566cfb1e3c7b37c33"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mccarlosen/laravel-mpdf/zipball/cb52e5c17df9caa340eaed8566cfb1e3c7b37c33",
-                "reference": "cb52e5c17df9caa340eaed8566cfb1e3c7b37c33",
-                "shasum": ""
-            },
-            "require": {
-                "mpdf/mpdf": "^8.0",
-                "php": "^5.6|^7.0|^8.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Mccarlosen\\LaravelMpdf\\LaravelMpdfServiceProvider"
-                    ],
-                    "aliases": {
-                        "PDF": "Mccarlosen\\LaravelMpdf\\Facades\\LaravelMpdf"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Mccarlosen\\LaravelMpdf\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Laravel Mpdf: Using Mpdf in Laravel to generate Pdfs.",
-            "keywords": [
-                "laravel",
-                "mpdf",
-                "pdf"
-            ],
-            "support": {
-                "issues": "https://github.com/mccarlosen/laravel-mpdf/issues",
-                "source": "https://github.com/mccarlosen/laravel-mpdf/tree/2.1.11"
-            },
-            "funding": [
-                {
-                    "url": "https://www.paypal.me/mccarlosen",
-                    "type": "custom"
-                }
-            ],
-            "time": "2022-12-28T02:20:09+00:00"
         },
         {
             "name": "composer/semver",
@@ -6774,6 +6718,68 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
+        },
+        {
+            "name": "zanysoft/laravel-pdf",
+            "version": "v2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zanysoft/laravel-pdf.git",
+                "reference": "9d1a2bbb345007cfe82f6ff05c93d1070679e109"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zanysoft/laravel-pdf/zipball/9d1a2bbb345007cfe82f6ff05c93d1070679e109",
+                "reference": "9d1a2bbb345007cfe82f6ff05c93d1070679e109",
+                "shasum": ""
+            },
+            "require": {
+                "mpdf/mpdf": "^8.0.10",
+                "php": "^7.1 || ^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ZanySoft\\LaravelPDF\\PdfServiceProvider"
+                    ],
+                    "aliases": {
+                        "PDF": "ZanySoft\\LaravelPDF\\Facades\\PDF"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ZanySoft\\LaravelPDF\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Zany Soft",
+                    "email": "info@zanysoft.net"
+                }
+            ],
+            "description": "Laravel PDF - for generating pdf invoice or documents with mPDF wrapper.",
+            "keywords": [
+                "adobe",
+                "documents",
+                "invoice",
+                "laravel",
+                "laravel-pdf",
+                "mpdf",
+                "pdf",
+                "pdf-documents",
+                "pdf-invoice"
+            ],
+            "support": {
+                "issues": "https://github.com/zanysoft/laravel-pdf/issues",
+                "source": "https://github.com/zanysoft/laravel-pdf/tree/v2.0.2"
+            },
+            "time": "2023-01-13T10:08:43+00:00"
         }
     ],
     "packages-dev": [

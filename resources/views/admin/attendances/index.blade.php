@@ -19,7 +19,8 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex  justify-content-between">
-                        <h5 style="font-family: 'Cairo', sans-serif;color: red">{{ __("admin.Today's date :") }} {{ date('Y-m-d') }}</h5>
+
+                        <h5 style="font-family: 'Cairo', sans-serif;color: red">{{ __("admin.Today's date :") }} {{  $dayName }} - {{ date('Y-m-d') }} </h5>
 
 
                     </div>
@@ -86,6 +87,7 @@
                                         @endif
 
                                         <input type="hidden" name="student_id[]" value="{{ $student->id }}">
+                                        <input type="hidden" name="dayName" value="{{ $dayName }}">
 
                                     </td>
 

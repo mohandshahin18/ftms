@@ -40,6 +40,23 @@ class UniversityController extends Controller
         return view('admin.universities.create', compact('specializations'));
     }
 
+    public function slug($string, $separator = '-') {
+        if (is_null($string)) {
+            return "";
+        }
+
+        $string = trim($string);
+
+        $string = mb_strtolower($string, "UTF-8");
+
+        $string = preg_replace("/[^a-z0-9_\sءاأإآؤئبتثجحخدذرزسشصضطظعغفقكلمنهويةى]#u/", "", $string);
+
+        $string = preg_replace("/[\s-]+/", " ", $string);
+
+        $string = preg_replace("/[\s_]/", $separator, $string);
+
+        return $string;
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -49,7 +66,7 @@ class UniversityController extends Controller
     public function store(UniversityRequest $request)
     {
 
-        $slug = Str::slug($request->name);
+        $slug = $this->slug($request->name);
         $slugCount = University::where('slug' , 'like' , $slug. '%')->count();
         $count =  $slugCount + 1;
 
@@ -109,19 +126,33 @@ class UniversityController extends Controller
     public function update(UniversityRequest $request, $slug)
     {
         $universities= University::whereSlug($slug)->first();
-        $slug = Str::slug($request->name);
-        $slugCount = University::where('slug' , 'like' , $slug. '%')->count();
-        $count =  $slugCount + 1;
 
+        $email = $universities->email;
+        if($request->email != $email){
+            $exisitStudent_id = University::where('email',$request->email)->get();
+            if(is_null($exisitStudent_id)){
 
-        if($slugCount > 1){
-            $slug = $slug . '-' . $count;
-            $universities->slug = $slug;
+              $email = $request->email;
+
+        }else{
+            return redirect()->back()->with('customError',__('admin.Email is already taken'))->with('type','danger');
         }
+        }
+
+        $phone = $universities->phone;
+            if ($request->phone != $phone) {
+                $exisitPhone = University::where('phone', $request->phone)->get();
+                if (is_null($exisitPhone)) {
+                    $phone = $request->phone;
+                } else {
+                    return redirect()->back()->with('customError',__('admin.The mobile number is already in use'))->with('type','danger');
+                }
+            }
+
 
         $universities->update([
             'name' => $request->name,
-            'email' => $request->email,
+            'email' => $email,
             'phone' => $request->phone,
             'address' => $request->address,
         ]);

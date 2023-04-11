@@ -30,12 +30,17 @@
 <body style="font-family: Arial, Helvetica, sans-serif;">
 
 
-    {{-- @dump( $->name ) --}}
+    <div style="text-align: center; margin-bottom: 10px; margin-top: 50px;">
+        <img src="{{ public_path('adminAssets/dist/img/logo/logo.png') }}" width="180" alt="">
+    </div>
     <div>
         <div class="row">
             <div>
                 <div>
-                    <h5>Student Name: {{ $student->name }}</h5>
+                    <h1 style="text-align: center; font-size: 30px;">Attendance and absence record</h1>
+                    <h3>Student Name: {{ $student->name }}</h3>
+                    <p>Student ID: {{ $student->student_id }}</p>
+                    <p style="margin-bottom: 10px;">Training Company: {{ $student->company->name }}</p>
                 </div>
 
             </div>
@@ -43,19 +48,21 @@
                 <table border="1">
                     <thead>
                         <tr>
-                            <th style="width: 60%">Date</th>
+                            <th>Day</th>
+                            <th>Date</th>
                             <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($student->attendances as $attendance)
                             <tr>
+                                <td>{{ $attendance->dayName }}</td>
                                 <td>{{ $attendance->attendance_date }}</td>
                                 <td>
                                     @if ($attendance->attendance_status == 1)
-                                        <span style="color: #4CAF50">{{ __('admin.Presence') }}</span>
+                                        <span style="color: #4CAF50">Presence</span>
                                     @else
-                                        <span style="color: #FF5252">{{ __('admin.Absence') }}</span>
+                                        <span style="color: #FF5252">Absence</span>
                                     @endif
                                 </td>
                             </tr>

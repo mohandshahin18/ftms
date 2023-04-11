@@ -236,7 +236,7 @@
                                     @endphp
                                     @forelse ($myNotifications as $notify)
                                         @php
-                                            if ($notify->data['from'] == 'apply') {
+                                            if ($notify->data['from'] == 'apply' || $notify->data['from'] == 'CompanyAdvert') {
                                                 $company = Company::where('id', $notify->data['company_id'])->first();
                                                 $company = $company->image;
 
@@ -247,7 +247,7 @@
                                                     $img = $company;
                                                     $notifySrc = asset($img);
                                                 }
-                                            } elseif ($notify->data['from'] == 'task') {
+                                            } elseif ($notify->data['from'] == 'task' || $notify->data['from'] == 'TrainerAdvert') {
                                                 $trainer = Trainer::where('id', $notify->data['trainer_id'])->first();
                                                 $trainer = $trainer->image;
 
@@ -256,6 +256,18 @@
                                                 $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
                                                 if ($trainer) {
                                                     $img = $trainer;
+                                                    $notifySrc = asset($img);
+                                                }
+                                            }
+                                            elseif ($notify->data['from'] == 'TeacherAdvert') {
+                                                $teacher = Trainer::where('id', $notify->data['teacher_id'])->first();
+                                                $teacher = $teacher->image;
+
+
+                                                $name = $notify->data['name'] ?? '';
+                                                $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
+                                                if ($teacher) {
+                                                    $img = $teacher;
                                                     $notifySrc = asset($img);
                                                 }
                                             }
@@ -276,14 +288,13 @@
                                                         <div class="main-info">
                                                             <div class="d-flex align-items-center"
                                                                 style="gap:8px !important;">
-                                                                <h3 class="dropdown-item-title"
-                                                                    style="font-family: Arial, Helvetica, sans-serif">
+                                                                <h3 class="dropdown-item-title">
                                                                     {{ $notify->data['name'] }}
                                                                 </h3>
                                                             </div>
 
                                                         </div>
-                                                        <div class="media-body mt-1">
+                                                        <div class="media-body mt-1 text-start">
 
                                                             <p class="text-sm">{{ $notify->data['msg'] }}</p>
 

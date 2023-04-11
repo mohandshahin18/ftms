@@ -30,7 +30,7 @@ trait AuthTrait
             $request->type == 'trainer' ||
             $request->type == 'admin' ||
             $request->type == 'company' ){
-            return redirect()->intended(RouteServiceProvider::HOME);
+            return redirect()->intended(app()->getLocale().'/'.RouteServiceProvider::HOME);
         }
 
     }

@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\Advert;
+use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
+use App\Notifications\NewAdvertNotification;
 
 
 class AdvertController extends Controller
@@ -76,6 +79,11 @@ class AdvertController extends Controller
                 'image' => $path,
                 'trainer_id' => $auth->id,
             ]);
+            $students = Student::where('trainer_id', Auth::user()->id)->get();
+            $trainer_id = Auth::user()->id;
+            $teacher_id = '';
+            $company_id = '';
+            $from = 'TrainerAdvert';
 
         }elseif(Auth::guard('teacher')->check()){
             Advert::create([
@@ -84,7 +92,11 @@ class AdvertController extends Controller
                 'image' => $path,
                 'teacher_id' => $auth->id,
             ]);
-
+            $students = Student::where('teacher_id', Auth::user()->id)->get();
+            $trainer_id = '';
+            $teacher_id = Auth::user()->id;
+            $company_id = '';
+            $from = 'TeacherAdvert';
         }elseif(Auth::guard('company')->check()){
             Advert::create([
                 'main_title' => $request->main_title,
@@ -92,7 +104,11 @@ class AdvertController extends Controller
                 'image' => $path,
                 'company_id' => $auth->id,
             ]);
-
+            $students = Student::where('company_id', Auth::user()->id)->get();
+            $trainer_id = '';
+            $teacher_id = '';
+            $company_id = Auth::user()->id;
+            $from = 'CompanyAdvert';
         }else{
             Advert::create([
                 'main_title' => $request->main_title,
@@ -100,6 +116,10 @@ class AdvertController extends Controller
                 'image' => $path,
             ]);
 
+        }
+
+        foreach ($students as $student) {
+            $student->notify((new NewAdvertNotification(Auth::user()->name,$trainer_id,$teacher_id,$company_id,$from,Auth::user()->image)));
         }
 
         return redirect()->route('admin.adverts.index')->with('msg',__('admin.Advert has been added successfully'))->with('type', 'success');
@@ -199,9 +219,58 @@ class AdvertController extends Controller
     {
         Gate::authorize('delete_advert');
 
-        $member = Advert::where('id',$id)->first();
-        if(!strpos($member->image, 'default')){
-        $path = public_path($member->image);
+
+        $advert = Advert::where('id',$id)->first();
+
+
+        if(Auth::guard('teacher')->check()){
+            $students = Student::where('teacher_id', Auth::user()->id)
+            ->get();
+        }elseif(Auth::guard('company')->check()){
+            $students = Student::where('company_id', Auth::user()->id)
+            ->get();
+        }elseif(Auth::guard('trainer')->check()){
+            $students = Student::where('trainer_id', Auth::user()->id)
+            ->get();
+        }
+
+        foreach ($students as $student) {
+            $notifications = DB::table('notifications')
+                ->where('type', 'App\Notifications\NewAdvertNotification')
+                ->where('notifiable_type', 'App\Models\Student')
+                ->where('notifiable_id', $student->id)
+                ->get();
+
+            foreach ($notifications as $notification) {
+                $data = json_decode($notification->data, true);
+
+                if(Auth::guard('teacher')->check()){
+                    if (($data['teacher_id'] == $advert->teacher_id && $data['from'] == 'TeacherAdvert')) {
+                        DB::table('notifications')
+                            ->where('id', $notification->id)
+                            ->delete();
+                    }
+                }elseif(Auth::guard('company')->check() & $data['from'] == 'CompanyAdvert' ){
+                    if (($data['company_id'] == $advert->company_id)) {
+                        DB::table('notifications')
+                            ->where('id', $notification->id)
+                            ->delete();
+                    }
+                }elseif(Auth::guard('trainer')->check() & $data['from'] == 'TrainerAdvert'){
+                    if (($data['trainer_id'] == $advert->trainer_id)) {
+                        DB::table('notifications')
+                            ->where('id', $notification->id)
+                            ->delete();
+                    }
+                }
+
+
+
+            }
+        }
+
+        if(!strpos($advert->image, 'default')){
+        $path = public_path($advert->image);
             if($path) {
                         try {
                             File::delete($path);
@@ -209,10 +278,10 @@ class AdvertController extends Controller
                             Log::error($e->getMessage());
                         }
                     }
-                    $member->delete();
+                    $advert->delete();
                     return $id;
         }else{
-                $member->delete();
+                $advert->delete();
                 return $id;
         }
     }

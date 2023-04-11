@@ -23,11 +23,19 @@ class UniversityRequest extends FormRequest
      */
     public function rules()
     {
-   
+
+        $Eamilrule = 'unique:universities,email';
+        $Phonerule = 'unique:universities,phone';
+
+        if($this->method() == 'PUT') {
+            $Eamilrule = '';
+            $Phonerule = '';
+        }
+
         return [
             'name' => ['required','min:3','string'],
-            'email' => ['required', 'unique:universities,email'],
-            'phone' => ['required', 'unique:universities,phone'],
+            'email' => ['required', $Eamilrule],
+            'phone' => ['required', $Phonerule],
             'address' => ['required'],
         ];
     }

@@ -58,6 +58,8 @@ class RolesDataSeeder extends Seeder
        'delete_student' => 'Delete Student',
        'evaluate_student' => 'Evaluate Student',
        'evaluation_student' => 'Evaluation Student',
+       'more_about_student' => 'More About Student',
+       'student_attendence' => 'Student Attendence',
        'recycle_students' => 'Recycle Bin Student',
        'restore_student' => 'Restore Student',
        'forceDelete_student' => 'Force Delete Student',

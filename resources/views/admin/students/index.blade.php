@@ -164,7 +164,7 @@
                                 @endif
                                 {{-- <th>{{ __('admin.Specialization') }}</th> --}}
                                 {{-- <th>{{ __('admin.Evaluation Status') }}</th> --}}
-                                @canAny(['evaluate_student', 'evaluation_student', 'delete_student'])
+                                @canAny(['more_about_student','delete_student'])
                                     <th>{{ __('admin.Actions') }}</th>
                                 @endcanAny
                             </tr>
@@ -253,6 +253,7 @@
                                         </div>
                                     </td> --}}
                                 {{-- @endcanAny --}}
+                                @canAny(['more_about_student','delete_student'])
 
                                 <td>
                                     @can('delete_student')
@@ -277,8 +278,11 @@
                                             </form>
                                         @endif
                                     @endcan
+                                    @can('more_about_student')
                                     <a href="{{ route('admin.student.informations', $student->slug) }}" title="{{ __('admin.more about') }} {{ $student->name }}" class="btn btn-sm btn-primary btn-flat"><i class="fas fa-info"></i></a>
+                                    @endcan
                                 </td>
+                                @endcanAny
                             </tr>
                             @empty
                                 <td colspan="12" style="text-align: center">

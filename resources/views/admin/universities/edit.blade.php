@@ -2,7 +2,6 @@
 
 @section('title',  __('admin.Edit University') )
 @section('sub-title', __('admin.Universities'))
-@section('universities-menu-open', 'menu-open')
 @section('universities-active', 'active')
 @section('index-university-active', 'active')
 
@@ -36,7 +35,15 @@
                     enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
+
+
                     <div class="card-body">
+                        @if (session('customError'))
+                        <div class="alert alert-{{ session('type') }}">
+                            {{ session('customError') }}
+
+                        </div>
+                    @endif
                         <div class="row">
                             {{-- name  --}}
                             <div class=" col-lg-6">
@@ -68,7 +75,7 @@
                                 <div class="form-group">
                                     <label class="mb-2">{{ __('admin.Phone') }}</label>
                                     <input type="text" class="form-control @error('phone') is-invalid @enderror"
-                                        name="phone" placeholder="university phone"
+                                        name="phone" placeholder="{{ __('admin.Phone') }}"
                                         value="{{ old('phone', $university->phone) }}">
                                     @error('phone')
                                         <small class="invalid-feedback"> {{ $message }}</small>

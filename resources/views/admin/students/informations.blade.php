@@ -20,6 +20,7 @@
                         <thead>
                             <tr style="background-color: #1e272f; color: #fff;">
                                 <th>{{ __('admin.Student Information') }}</th>
+                                <th></th>
                             </tr>
                         </thead>
 
@@ -89,7 +90,7 @@
                                 @canAny(['evaluate_student', 'evaluation_student', 'delete_student'])
                                     <tr>
                                         <th>{{ __('admin.Actions') }}</th>
-                                        @canAny(['evaluate_student', 'evaluation_student', 'delete_student'])
+                                        @canAny(['evaluate_student', 'evaluation_student', 'student_attendence'])
                                             <td>
                                                 <div>
                                                     @canAny(['evaluate_student', 'evaluation_student'])
@@ -110,10 +111,12 @@
                                                         @endif
                                                     @endcanAny
 
-                                                    <a href="{{ route('admin.student.attendence', $student->slug) }}"
-                                                        title="{{ __('admin.Student attendence') }}"
-                                                        class="btn btn-sm btn-outline-dark"><i
-                                                            class="far fa-calendar-check"></i></a>
+                                                    @can('student_attendence')
+                                                        <a href="{{ route('admin.student.attendence', $student->slug) }}"
+                                                            title="{{ __('admin.Student attendence') }}"
+                                                            class="btn btn-sm btn-outline-dark"><i
+                                                                class="far fa-calendar-check"></i></a>
+                                                    @endcan
                                                 </div>
 
                                             </td>
@@ -121,7 +124,6 @@
                                     </tr>
                                 @endcanAny
                             @endif
-
                         </tbody>
                     </table>
                 </div>

@@ -30,15 +30,17 @@
                 <table class="table table-striped  table-hover ">
                     <thead>
                         <tr style="background-color: #1e272f; color: #fff;">
-                            <th style="width: 60%;">{{ __('admin.Date') }}</th>
+                            <th >{{ __('admin.Day') }}</th>
+                            <th >{{ __('admin.Date') }}</th>
                             <th>{{ __('admin.Attendance') }}</th>
 
                         </tr>
                     </thead>
 
                     <tbody>
-                        @foreach ($student->attendances as $attendance)
+                        @forelse($student->attendances as $attendance)
                             <tr>
+                                <td>{{ $attendance->dayName }}</td>
                                 <td>{{ $attendance->attendance_date }}</td>
                                 <td>
                                     @if ($attendance->attendance_status == 1)
@@ -48,7 +50,13 @@
                                     @endif
                                 </td>
                             </tr>
-                        @endforeach
+                            @empty
+                            <td colspan="12" style="text-align: center">
+                                <img src="{{ asset('adminAssets/dist/img/folder.png') }}" width="300" >
+                                <br>
+                                <h4>{{ __('admin.NO Data Selected') }}</h4>
+                            </td>
+                        @endforelse
                     </tbody>
                 </table>
             </div>

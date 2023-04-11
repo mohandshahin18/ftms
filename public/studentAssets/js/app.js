@@ -24,7 +24,7 @@ $(document).ready(function () {
         })
     } else {
         $('.hero-slider').owlCarousel({
-            loop: false,
+            loop: true,
             margin: 0,
             items: 1,
             dots: false,

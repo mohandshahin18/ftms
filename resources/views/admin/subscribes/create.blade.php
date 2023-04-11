@@ -99,23 +99,23 @@
     {{-- Ajax Request --}}
     <script>
         $(document).ready(function() {
-            $("#university_id").on("change", function() {
-                var uni_id = $(this).val();
-                if (uni_id) {
-                    $.ajax({
-                        url: "/admin/get/specialization/" + uni_id,
-                        type: "GET",
-                        dataType: "json",
-                        success: function(data) {
-                            $("#specialization_id").empty();
-                            $.each(data, function(key, value) {
-                                $("#specialization_id").append('<option value="' + value.id +
-                                    '">' + value.name + '</option>');
-                            });
-                        },
-                    });
-                }
-            });
-        });
-    </script>
+           $("#university_id").on("change", function() {
+               var uni_id = $(this).val();
+               if (uni_id) {
+                   $.ajax({
+                       url: "/admin/get/specialization/" + uni_id,
+                       type: "GET",
+                       dataType: "json",
+                       success: function(data) {
+                           $("#specialization_id").empty();
+                           $.each(data, function(key, value) {
+                               $("#specialization_id").append('<option value="' + key +
+                                   '">' + value + '</option>');
+                           });
+                       },
+                   });
+               }
+           });
+       });
+   </script>
 @stop

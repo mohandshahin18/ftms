@@ -32,13 +32,17 @@
 </head>
 
 <body style="font-family: Arial, Helvetica, sans-serif !important;">
+
+    <div style="text-align: center; margin-bottom: 10px; margin-top: 50px;">
+        <img src="{{ public_path('adminAssets/dist/img/logo/logo.png') }}" width="180" alt="">
+    </div>
+    
     <div>
         <div class="row">
-            <div style="display: flex !important;
-            justify-content: space-between !important;
-            align-items: center !important;">
-                <div style="direction: rtl;">
-                    <h3>تقييم الطالب</h3>
+            <div
+                style="direction: rtl;">
+                <div>
+                    <h1 style="text-align: center; font-size: 30px;">تقييم الطالب</h1>
                     <h5>اسم الطالب: {{ $student->name }}</h5>
                 </div>
                 <div>
