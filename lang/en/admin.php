@@ -411,5 +411,8 @@ return [
     "Student attendence" => "Student attendence",
     "Date" => "Date",
     "Day" => "Day",
-
+    "Hour" => "Hour",
+    "Since" => "Since",
+    "Minute" => "Minute",
+    
 ];

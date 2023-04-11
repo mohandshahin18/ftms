@@ -49,7 +49,7 @@ class websiteController extends Controller
         $task = Task::with('applied_tasks')->whereSlug($slug)->firstOrFail();
         $applied_task = null;
         foreach ($task->applied_tasks as $applied) {
-            $applied_task = $applied->where('student_id', Auth::user()->id)->first();
+            $applied_task = $applied->where('student_id', Auth::user()->id)->where('task_id', $task->id)->first();
         }
         $end_date = Carbon::parse($task->end_date);
         $remaining_seconds = $end_date->diffInSeconds(now());

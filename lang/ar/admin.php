@@ -413,4 +413,7 @@ return [
     "Student attendence" => "سجل حضور الطالب",
     "Date" => "التاريخ",
     "Day" => "اليوم",
+    "Hour" => "ساعة",
+    "Since" => "منذ",
+    "Minute" => "دقيقة",
 ];

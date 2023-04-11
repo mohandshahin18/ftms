@@ -42,7 +42,6 @@
             position: relative;
 
         }
-
     </style>
 @stop
 
@@ -73,7 +72,6 @@
 
 
                         </div>
-                        {{-- <a href="{{ asset('files/example.pdf') }}" download>Download Example PDF</a> --}}
 
                         <a target="_blank" href="{{ asset('uploads/tasks-files/' . $task->file) }}"
                             download>{{ $task->file }}</a>
@@ -130,17 +128,16 @@
                                                 @if ($time_passed_days && $time_passed_hours)
                                                     {{ $time_passed_days == 1 ? $time_passed_days . ' ' . __('admin.Day ago') : $time_passed_days . ' ' . __('admin.Days ago') }}
                                                 @elseif ($time_passed_hours)
-                                                    @if(app()->getLocale() == 'en')
-                                                    {{ $time_passed_hours . ' ' . __('admin.hours ago') }}
-                                                  @else
-                                                  {{ 'منذ' . ' '.  $time_passed_hours . ' ' . 'ساعة' }}
+                                                    @if (app()->getLocale() == 'en')
+                                                        {{ $time_passed_hours . ' ' . __('admin.hours ago') }}
+                                                    @else
+                                                        {{ __('admin.Since') . ' ' . $time_passed_hours . ' ' . __('admin.Hour') }}
                                                     @endif
-
                                                 @else
-                                                  @if(app()->getLocale() == 'en')
-                                                    {{ $time_passed_minutes . ' ' . __('admin.minutes ago') }}
-                                                  @else
-                                                  {{ 'منذ' . ' '.  $time_passed_minutes . ' ' . 'دقيقة' }}
+                                                    @if (app()->getLocale() == 'en')
+                                                        {{ $time_passed_minutes . ' ' . __('admin.minutes ago') }}
+                                                    @else
+                                                        {{ __('admin.Since') . ' ' . $time_passed_minutes . ' ' . __('admin.Minute') }}
                                                     @endif
                                                 @endif
                                             </span>
