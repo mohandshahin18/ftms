@@ -193,11 +193,11 @@
             </div>
 
 
-            @if ($auth->notifications->count() > 5)
+            {{-- @if ($auth->notifications->count() > 5)
                 <div class="text-center">
                     <button type="button" class="btn-brand ">Load more activity</button>
                 </div>
-            @endif
+            @endif --}}
 
         </section>
 

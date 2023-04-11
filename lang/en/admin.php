@@ -410,5 +410,6 @@ return [
     "Check out the different companies and check out their internship opportunities." => "Check out the different companies and check out their internship opportunities.",
     "Student attendence" => "Student attendence",
     "Date" => "Date",
+    "At least one student attendance must be entered" => "At least one student attendance must be entered",
 
 ];

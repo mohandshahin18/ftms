@@ -1,6 +1,6 @@
 @extends('student.master')
 
-@section('title', 'Home')
+@section('title', __('admin.Home'))
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('studentAssets/css/owl.carousel.min.css') }}">
