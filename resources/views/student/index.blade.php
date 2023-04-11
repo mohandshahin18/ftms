@@ -66,16 +66,24 @@
                             <div class="col-sm-12 tasks row">
                                 <div class="task-list">
                                     @php
-                                        $last_task = Task::where('trainer_id', Auth::user()->trainer_id)->latest('created_at')->first();
+                                        $tasksNum = 0;
                                     @endphp
-                                    @if ($last_task->end_date < now())
+
+                                    @foreach ($tasks as $task)
+                                        @if ($task->end_date > now())
+                                            @php
+                                                $tasksNum++;
+                                            @endphp
+                                        @endif
+                                    @endforeach
+                                    @if ($tasksNum == 0)
                                         <div class="text-center"><img src="{{ asset('studentAssets/img/no-task.webp') }}"
                                                 alt="" class="img-responsive empty-task">
                                             <h5>{{ __('admin.There is no tasks to show') }}</h5>
                                         </div>
                                     @else
                                         @forelse ($tasks as $task)
-                                            @if (now() >= $task->start_date && now() <= $task->end_date)
+                                            @if ($task->start_date <= now() && $task->end_date >= now())
                                                 <a href="{{ route('student.task', [$task->slug]) }}"
                                                     style="font-weight: unset" class="task-box">
                                                     <div class="task high">
