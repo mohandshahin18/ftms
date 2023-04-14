@@ -70,7 +70,6 @@
                             <h1>{{ __('admin.Tasks') }}</h1>
 
                         </div>
-
                         <div class="container page-todo bootstrap snippets bootdeys">
                             <div class="col-sm-12 tasks row">
                                 <div class="task-list">

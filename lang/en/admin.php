@@ -415,11 +415,7 @@ return [
     "Hour" => "Hour",
     "Since" => "Since",
     "Minute" => "Minute",
-<<<<<<< HEAD
     "Users" => "Applied Students",
-    
-=======
     "Adverts board" => "Adverts board",
 
->>>>>>> 4cf8873657bd5941162434623b4c459c37ae8e4a
 ];
