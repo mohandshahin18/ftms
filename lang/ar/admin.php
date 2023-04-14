@@ -409,12 +409,16 @@ return [
     "We are pleased to receive your inquiries and comments. You can contact us via the contact form below." => "يسعدنا استقبال استفساراتكم وملاحظاتكم. يمكنك الاتصال بنا عبر نموذج الاتصال أدناه.",
     "Email is already taken" => "البريد الإلكتروني مستخدم بالفعل",
     "Check out the different companies and check out their internship opportunities." => "اطّلع على الشركات المختلفة وتحقق من فرص التدريب المتاحة لديها.",
-
     "Student attendence" => "سجل حضور الطالب",
     "Date" => "التاريخ",
+    "At least one student attendance must be entered" => "يجب إدخال حضور واحد من الطلاب على الأقل",
     "Day" => "اليوم",
     "Hour" => "ساعة",
     "Since" => "منذ",
     "Minute" => "دقيقة",
+<<<<<<< HEAD
     "Users" => "الطلاب المقدمون",
+=======
+    "Adverts board" => "لوحة إعلانات",
+>>>>>>> 4cf8873657bd5941162434623b4c459c37ae8e4a
 ];

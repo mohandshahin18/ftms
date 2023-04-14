@@ -410,10 +410,16 @@ return [
     "Check out the different companies and check out their internship opportunities." => "Check out the different companies and check out their internship opportunities.",
     "Student attendence" => "Student attendence",
     "Date" => "Date",
+    "At least one student attendance must be entered" => "At least one student attendance must be entered",
     "Day" => "Day",
     "Hour" => "Hour",
     "Since" => "Since",
     "Minute" => "Minute",
+<<<<<<< HEAD
     "Users" => "Applied Students",
     
+=======
+    "Adverts board" => "Adverts board",
+
+>>>>>>> 4cf8873657bd5941162434623b4c459c37ae8e4a
 ];

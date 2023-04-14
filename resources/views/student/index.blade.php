@@ -1,6 +1,6 @@
 @extends('student.master')
 
-@section('title', 'Home')
+@section('title', __('admin.Home'))
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('studentAssets/css/owl.carousel.min.css') }}">
@@ -43,7 +43,16 @@
             background-position: center;
             background-repeat: no-repeat;">
                 <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 mx-auto text-center text-white advert-box">
+                            <h6 class="text-white text-uppercase"
+                                style="font-size: 28px !important; width: 75%; margin: auto;">{{ __('admin.Adverts board') }}</h6>
+                            <h1 class="display-3 my-4 sub-title"
+                                style="font-size: 17px !important; line-height: 2 ;width: 80%; margin: auto;">
+                               </h1>
 
+                        </div>
+                    </div>
                 </div>
             </div>
         @endforelse

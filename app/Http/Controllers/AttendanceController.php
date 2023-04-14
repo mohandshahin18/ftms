@@ -64,9 +64,10 @@ class AttendanceController extends Controller
     public function store(Request $request)
     {
         try {
+           if($request->attendances){
+
 
             foreach ($request->attendances as $studentid => $attendance) {
-                // dd($attendance);
 
                 if( $attendance == 'presence' ) {
                     $attendance_status = true;
@@ -74,7 +75,6 @@ class AttendanceController extends Controller
                     $attendance_status = false;
                 }
 
-                // $DayName = $request->dayName ;
                 if ($request->dayName == 'Monday') {
                     $DayName = 'الاثنين';
                 }elseif($request->dayName == 'Tuesday'){
@@ -105,7 +105,11 @@ class AttendanceController extends Controller
 
 
 
+        }else{
+            return redirect()->route('admin.attendances.index')
+            ->with('error',__('admin.At least one student attendance must be entered'));
         }
+    }
 
         catch (\Exception $e){
             return redirect()->back()->with('error' , $e->getMessage());
