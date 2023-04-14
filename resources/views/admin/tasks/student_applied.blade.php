@@ -1,7 +1,7 @@
 @extends('admin.master')
 
-@section('title', __('admin.Applied Tasks'))
-@section('sub-title', __('admin.Applied Tasks'))
+@section('title', __('admin.Users'))
+@section('sub-title', __('admin.Users'))
 @section('tasks-menu-open', 'menu-open')
 @section('tasks-active', 'active')
 @section('index-task-active', 'active')

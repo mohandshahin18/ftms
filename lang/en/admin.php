@@ -414,5 +414,6 @@ return [
     "Hour" => "Hour",
     "Since" => "Since",
     "Minute" => "Minute",
+    "Users" => "Applied Students",
     
 ];

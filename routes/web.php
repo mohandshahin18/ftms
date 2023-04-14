@@ -196,7 +196,6 @@ Route::prefix('admin')->middleware('auth:admin,teacher,trainer,company')->name('
     Route::resource('students', StudentController::class);
     Route::get('{slug}/informations', [StudentController::class, 'show_more_informations'])->name('student.informations');
     Route::get('{slug}/attendence', [StudentController::class, 'show_attendece_calender'])->name('student.attendence');
-    // Route::get('pdf/{slug}', [StudentController::class, 'indexPdf'])->name('student.indexPdf');
     Route::get('search/students', [StudentController::class, 'search']);
 
 
