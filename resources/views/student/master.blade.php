@@ -50,8 +50,6 @@
                 left: unset !important;
                 right: -270px !important;
             }
-
-
         </style>
     @endif
 
@@ -67,7 +65,7 @@
             transition: all 0.3s ease-in-out;
         }
 
-        .overall-overlay{
+        .overall-overlay {
             position: absolute;
             width: 100%;
             height: 100%;
@@ -76,6 +74,7 @@
         .overall-overlay.showOverlay {
             display: none;
         }
+
         .main-overlay {
             position: fixed;
             content: '';
@@ -121,8 +120,8 @@
             font-size: 13px !important;
         }
 
-        @media(max-width:767px){
-            .navbar-brand{
+        @media(max-width:767px) {
+            .navbar-brand {
                 display: none !important;
             }
         }
@@ -142,27 +141,25 @@
         use App\Models\Category;
         use App\Models\Trainer;
         $auth = Auth::user();
-
+        
         $data = json_decode(File::get(storage_path('app/settings.json')), true);
     @endphp
 
-<div class="overall-overlay showOverlay">
-    <div class="main-overlay"></div>
-</div>
+    <div class="overall-overlay showOverlay">
+        <div class="main-overlay"></div>
+    </div>
     <div data-component="navbar">
 
 
         @php
             $name = Auth::guard()->user()->name ?? '';
             $src = 'https://ui-avatars.com/api/?background=random&name=' . $name;
-
-
+            
             if (Auth::guard()->user()->image) {
                 $img = Auth::guard()->user()->image;
                 $src = asset($img);
             }
-
-
+            
         @endphp
         <nav class="navbar p-0 ">
             <button class="navbar-toggler navbar-toggler-left rounded-0 border-0" id="button_navbar" type="button"
@@ -231,16 +228,14 @@
                                                 ->limit(5)
                                                 ->get();
                                         }
-
-
+                                        
                                     @endphp
                                     @forelse ($myNotifications as $notify)
                                         @php
                                             if ($notify->data['from'] == 'apply' || $notify->data['from'] == 'CompanyAdvert') {
                                                 $company = Company::where('id', $notify->data['company_id'])->first();
                                                 $company = $company->image;
-
-
+                                            
                                                 $name = $notify->data['name'] ?? '';
                                                 $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
                                                 if ($company) {
@@ -250,20 +245,17 @@
                                             } elseif ($notify->data['from'] == 'task' || $notify->data['from'] == 'TrainerAdvert') {
                                                 $trainer = Trainer::where('id', $notify->data['trainer_id'])->first();
                                                 $trainer = $trainer->image;
-
-
+                                            
                                                 $name = $notify->data['name'] ?? '';
                                                 $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
                                                 if ($trainer) {
                                                     $img = $trainer;
                                                     $notifySrc = asset($img);
                                                 }
-                                            }
-                                            elseif ($notify->data['from'] == 'TeacherAdvert') {
+                                            } elseif ($notify->data['from'] == 'TeacherAdvert') {
                                                 $teacher = Trainer::where('id', $notify->data['teacher_id'])->first();
                                                 $teacher = $teacher->image;
-
-
+                                            
                                                 $name = $notify->data['name'] ?? '';
                                                 $notifySrc = 'https://ui-avatars.com/api/?background=random&name=' . $name;
                                                 if ($teacher) {
@@ -271,7 +263,7 @@
                                                     $notifySrc = asset($img);
                                                 }
                                             }
-
+                                            
                                         @endphp
 
                                         <div class="media">
@@ -331,23 +323,22 @@
                         </div> <!-- /.dropdown-menu -->
                     </div> <!-- /.dropdown -->
                     @can('messages')
+                        {{-- Chats --}}
+                        <div class="d-inline dropdown mr-3">
+                            <a class="dropdown-toggle" id="messages" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" href="#"><i class="far fa-envelope"></i>
+                                <span class="messages-notify"></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right pt-0" aria-labelledby="messages">
+                                <!-- <a class="dropdown-item">There are no new messages</a> -->
+                                <div class="list-group">
+                                    <div class="lg" id="messages-wrapper">
 
-                    {{-- Chats --}}
-                    <div class="d-inline dropdown mr-3">
-                        <a class="dropdown-toggle" id="messages" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false" href="#"><i class="far fa-envelope"></i>
-                            <span class="messages-notify"></span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right pt-0" aria-labelledby="messages">
-                            <!-- <a class="dropdown-item">There are no new messages</a> -->
-                            <div class="list-group">
-                                <div class="lg" id="messages-wrapper">
 
-
-                                </div> <!-- /.lg -->
-                            </div> <!-- /.list group -->
-                        </div> <!-- /.dropdown-menu -->
-                    </div> <!-- /.dropdown -->
+                                    </div> <!-- /.lg -->
+                                </div> <!-- /.list group -->
+                            </div> <!-- /.dropdown-menu -->
+                        </div> <!-- /.dropdown -->
                     @endcan
 
 
@@ -406,15 +397,13 @@
     <div class="asside closeAsside ">
 
         <a class="assideBrand" href="{{ route('student.home') }}">
-            <img src="{{ asset($data['darkLogo']) }}" class="d-inline-block"
-                style=" margin-top: 10px !important;">
+            <img src="{{ asset($data['darkLogo']) }}" class="d-inline-block" style=" margin-top: 10px !important;">
         </a>
 
-        <a class="links d-flex align-items-center " style="gap: 4px"
-        href="{{ route('student.home') }}">
-        <i class="fas fa-home"></i>
-        {{ __('admin.Home') }}
-    </a>
+        <a class="links d-flex align-items-center " style="gap: 4px" href="{{ route('student.home') }}">
+            <i class="fas fa-home"></i>
+            {{ __('admin.Home') }}
+        </a>
 
         @if (Auth::user()->company_id)
             <a class="links d-flex align-items-center " style="gap: 4px"
@@ -463,10 +452,6 @@
         </div>
     </div>
     </div>
-
-
-
-
     </div>
 
 
@@ -479,15 +464,18 @@
         </div>
     </footer>
 
-    <div class="loader-main">
-        <div class="triple-spinner"></div>
+    {{-- Loader --}}
+    <div class="loader">
+        <div class="b b1"></div>
+        <div class="b b2"></div>
+        <div class="b b3"></div>
+        <div class="b b4"></div>
         <div class="ftms">FTMS</div>
     </div>
 
-
     <script>
         window.onload = ()=> {
-            document.querySelector(".loader-main").style.display = 'none';
+            document.querySelector(".loader").style.display = 'none';
         }
     </script>
     <script src="{{ asset('studentAssets/js/jquery.min.js') }}"></script>
@@ -533,8 +521,6 @@
     @vite(['resources/js/app.js'])
 
     <script>
-
-
         $(document).ready(function() {
             $('#button_navbar').on('click', function(event) {
                 event.stopPropagation(); // Prevent click event from propagating up the DOM tree
@@ -551,8 +537,6 @@
                 }
             });
         });
-
-
     </script>
     @yield('scripts')
 </body>

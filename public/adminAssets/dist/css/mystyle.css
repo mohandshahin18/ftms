@@ -1,9 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@600&display=swap");
 
-body ,
-input , select , h3 , h2 , h1 , h4 , h5 ,
-.btn{
-    font-family: 'Cairo', sans-serif;
+body,
+input,
+select,
+h3,
+h2,
+h1,
+h4,
+h5,
+.btn {
+    font-family: "Cairo", sans-serif;
 }
 
 a {
@@ -419,16 +425,16 @@ i.far.fa-comments {
 }
 /* Loader */
 
-        .loader {
-          width: 100%;
-          height: 100%;
-          position: fixed;
-          top: 0;
-          left: 0;
-          overflow: hidden;
-          background-color: #fff;
-          z-index: 1056;
-        }
+.loader {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    background-color: #fff;
+    z-index: 1056;
+}
 
 .loader .b {
     border-radius: 50%;
