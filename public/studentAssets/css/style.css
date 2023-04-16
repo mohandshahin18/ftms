@@ -2180,7 +2180,7 @@ body .dribbble img {
     animation: spin 1.75s linear infinite;
 }
 
-.loader-main {
+/* .loader-main {
     position: fixed;
     top: 0;
     right: 0;
@@ -2192,7 +2192,7 @@ body .dribbble img {
     align-items: center;
     justify-content: center;
     overflow: hidden;
-}
+} */
 
 /* .ftms {
     position: absolute;

@@ -58,9 +58,12 @@ class websiteController extends Controller
         $remaining_days = floor($remaining_hours / 24);
         $remaining_hours = $remaining_hours % 24;
 
-        // dd($applied_task);
+        if ($task->start_date > now()) {
+            abort(404);
+        } else {
 
-        return view('student.task', compact('task', 'remaining_days', 'remaining_hours', 'remaining_minutes', 'applied_task'));
+            return view('student.task', compact('task', 'remaining_days', 'remaining_hours', 'remaining_minutes', 'applied_task'));
+        }
     }
 
 
